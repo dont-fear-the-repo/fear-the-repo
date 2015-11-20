@@ -21,7 +21,7 @@ export class ResumeView extends React.Component {
     return (
       <div className='container'>
         <h1>is this thing on?</h1>
-        <RaisedButton secondary={true} label='This button does nothing' onClick={this.props.actions.goHome} />
+        <RaisedButton label='This button does nothing' onClick={this.props.actions.goHome} />
         <br/>
         <br/>
         <Link to='/'>but this link will take you back to the counter</Link>
