@@ -7,7 +7,7 @@ export default createReducer(initialState, {
   [SAVE_TEXT] : (state, payload) => {
     console.log(state)
     return state + 'fooo'
-  }
+      }
 });
 
 /*
