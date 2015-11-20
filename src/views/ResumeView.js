@@ -2,7 +2,7 @@ import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
-import goHomeActions          from 'actions/goHome';
+import * as ActionCreators from 'actions/goHome';
 import RaisedButton           from 'material-ui/lib/raised-button';
 
 const mapStateToProps = (state) => ({
@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
   routerState : state.router
 });
 const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(goHomeActions, dispatch)
+  actions : bindActionCreators(ActionCreators, dispatch)
 });
 export class ResumeView extends React.Component {
   static propTypes = {
