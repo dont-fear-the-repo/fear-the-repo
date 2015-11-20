@@ -35,7 +35,7 @@ export class EditTextView extends React.Component {
       <br />
         <h1>is this thing on?</h1>
         <TextField key="resumeText" hintText="check out the saveText state in dev tools!" hintStyle={{color: 'gray'}} /><br />
-        <RaisedButton label='Save this awesome resume' onClick={this.props.actions.saveText.bind(this)} />
+        <RaisedButton label='Save this awesome resume' onChange={this.props.actions.saveText} />
         <br/>
         <br/>
         <Link to='/'>but this link will take you back to the counter</Link>

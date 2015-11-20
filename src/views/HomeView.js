@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
 import counterActions         from 'actions/counter';
-import goHomeActions          from 'actions/goHome';
 import RaisedButton           from 'material-ui/lib/raised-button';
 
 // We define mapStateToProps and mapDispatchToProps where we'd normally use

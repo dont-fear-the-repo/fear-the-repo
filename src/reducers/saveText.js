@@ -1,31 +1,13 @@
 import { createReducer }     from '../utils';
 import { SAVE_TEXT } from 'constants/saveText';
 
-const initialState = 'Test';
+const initialState = {firstName: 'Foo', lastName: 'Bar'};
 export default createReducer(initialState, {
-  // so this isn't incrementing the counter; it's changing the state?
   [SAVE_TEXT] : (state, payload) => {
-    console.log(state)
-    return state + 'fooo'
+    console.log(payload)
+    state.firstName = "I CHANGED MY FIRST NAME!";
+    state.position= "the boss";
+
+    return state;
   }
 });
-
-/*
-function createReducer (initialState, fnMap) {
-  return (state = initialState, { type, payload }) => {
-    const handler = fnMap[type];
-
-    return handler ? handler(state, payload) : state;
-  };
-}
-
-(state, { type, payload }) => {
-    const handler = SAVE_TEXT;
-
-    return  handler(state, payload);
-  };
-}
-
-
-
-*/
