@@ -1,6 +1,7 @@
 import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
+import { Link }               from 'react-router';
 import counterActions         from 'actions/counter';
 import RaisedButton           from 'material-ui/lib/raised-button';
 
@@ -28,6 +29,9 @@ export class HomeView extends React.Component {
         <h1>Welcome to the React Redux Starter Kit</h1>
         <h2>Sample Counter: {this.props.counter}</h2>
         <RaisedButton label='Increment' onClick={this.props.actions.increment} />
+        <br/>
+        <br/>
+        <Link to='/resume'>Go to resume view</Link>
       </div>
     );
   }
