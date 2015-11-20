@@ -32,6 +32,7 @@ export class HomeView extends React.Component {
         <br/>
         <br/>
         <Link to='/resume'>Go to resume view</Link>
+
       </div>
     );
   }
