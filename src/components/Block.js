@@ -1,41 +1,75 @@
-import React from 'react';
-import Card from 'material-ui/lib/card/card';
-import CardHeader from 'material-ui/lib/card/card-header';
-import { DragSource } from 'react-dnd';
+import React, { PropTypes }       from 'react';
+import Card                       from 'material-ui/lib/card/card';
+import CardTitle                  from 'material-ui/lib/card/card-title';
+import { DragSource, DropTarget } from 'react-dnd';
 
 // implements the drag source contract
-
 const blockSource = {
-  beginDrag(props) {
+  beginDrag (props) {
     return {
-      text: props.text
+      id: props.id,
+      originalIndex: props.findBlock(props.id).index
     };
+  },
+
+  endDrag (props, monitor) {
+    const { id: droppedId, originalIndex } = monitor.getItem();
+    const didDrop = monitor.didDrop();
+
+    if (!didDrop) {
+      props.moveBlock(droppedId, originalIndex);
+    }
   }
 };
 
+const blockTarget = {
+  canDrop () {
+    return false;
+  },
+
+  hover (props, monitor) {
+    const { id: draggedId } = monitor.getItem();
+    const { id: overId } = props;
+
+    if (draggedId !== overId) {
+      const { index: overIndex } = props.findBlock(overId);
+      props.moveBlock(draggedId, overIndex);
+    }
+  }
+};
+
+@DropTarget('block', blockTarget, connect => ({
+  connectDropTarget: connect.dropTarget()
+}))
 @DragSource('block', blockSource, (connect, monitor) => ({
-  connectDragSource : connect.dragSource(),
-  isDragging : monitor.isDragging()
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
 }))
 
-export default class Block {
+export default class Block extends React.Component {
   static propTypes = {
-    text : React.PropTypes.string.isRequired,
     // injected by react dnd
-    connectDragSource : React.PropTypes.func.isRequired,
-    isDragging : React.PropTypes.bool.isRequired,
+    connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    id: PropTypes.any.isRequired,
+    moveBlock: PropTypes.func.isRequired,
+    indBlock: PropTypes.func.isRequired,
+    // coming from ResumeView.js (parent component) thru props
+    companyName: PropTypes.string.isRequired,
+    jobTitle: PropTypes.string.isRequired
   };
 
-  render() {
-    const { isDragging, connectDragSource, text } = this.props;
-    return connectDragSource(
-      <div style={{ opacity : isDragging ? 0 : 1 }}>
-        <Card>
-          <CardHeader
-            title='this will be a draggable block'
-            subtitle={text} />
+  render () {
+    // not sure why these need to be assigned, but not companyName and jobTitle
+    const { isDragging, connectDragSource, connectDropTarget } = this.props;
+
+    return connectDragSource(connectDropTarget(
+      <div style={{ opacity: isDragging ? 0 : 1, cursor: 'move' }}>
+        <Card style={{ backgroundColor: '#CFD8DC' }}>
+          <CardTitle title={this.props.companyName} subtitle={this.props.jobTitle} />
         </Card>
       </div>
-    );
+    ));
   }
 }
