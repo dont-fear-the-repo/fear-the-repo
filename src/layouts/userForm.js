@@ -1,7 +1,7 @@
 import React from 'react';
 import 'styles/core.scss';
 
-export default class EditTextLayout extends React.Component {
+export default class UserFormLayout extends React.Component {
   static propTypes = {
     children : React.PropTypes.element
   }
