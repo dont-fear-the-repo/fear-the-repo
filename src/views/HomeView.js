@@ -12,7 +12,8 @@ import RaisedButton           from 'material-ui/lib/raised-button';
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 const mapStateToProps = (state) => ({
   counter : state.counter,
-  routerState : state.router
+  routerState : state.router,
+  resumeTitle: state.title
 });
 const mapDispatchToProps = (dispatch) => ({
   actions : bindActionCreators(counterActions, dispatch)
@@ -21,7 +22,7 @@ export class HomeView extends React.Component {
   static propTypes = {
     actions  : React.PropTypes.object,
     counter  : React.PropTypes.number
-  }
+ }
 
   render () {
     return (
@@ -32,6 +33,10 @@ export class HomeView extends React.Component {
         <br/>
         <br/>
         <Link to='/resume'>Go to resume view</Link>
+        <br/>
+        <br/>
+        <Link to='/editText'>[ Edit some text? ]</Link>
+
 
       </div>
     );
