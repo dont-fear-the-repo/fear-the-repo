@@ -12,4 +12,9 @@ const node = (
         debugExternal={__DEBUG_NW__} />
 );
 
+  // Turn this on to watch the store constantly update.
+  // store.subscribe(() =>
+  // console.log(store.getState())
+  // )
+
 ReactDOM.render(node, target);
