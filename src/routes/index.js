@@ -4,8 +4,8 @@ import CoreLayout            from 'layouts/CoreLayout';
 import HomeView              from 'views/HomeView';
 import ResumeView            from 'views/ResumeView';
 import ResumeLayout          from 'layouts/ResumeLayout';
-import EditTextView          from 'views/editText';
-import EditTextLayout        from 'layouts/editText';
+import UserFormView          from 'views/userForm';
+import UserFormLayout        from 'layouts/userForm';
 
 export default (
   <Route path='/' component={CoreLayout}>
@@ -13,8 +13,8 @@ export default (
     <Route path='/resume' component={ResumeLayout}>
       <IndexRoute component={ResumeView} />
     </Route>
-     <Route path='/editText' component={EditTextLayout}>
-      <IndexRoute component={EditTextView} />
+     <Route path='/userForm' component={UserFormLayout}>
+      <IndexRoute component={UserFormView} />
     </Route>
   </Route>
 );
