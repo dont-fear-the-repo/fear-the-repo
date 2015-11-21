@@ -4,7 +4,7 @@ import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
 import * as ActionCreators from 'actions/goHome';
 import RaisedButton           from 'material-ui/lib/raised-button';
-
+import TextField from 'material-ui/lib/text-field';
 const mapStateToProps = (state) => ({
   goHome : state.goHome,
   routerState : state.router
@@ -20,10 +20,13 @@ export class LoginView extends React.Component {
   render () {
     return (
       <div className='container'>
-        <h1>REACT IS FUN</h1>
+        <h1>LOGIN</h1>
         <br/>
+        Full Name: <TextField hintText='Full Name' />
         <br/>
-        <Link to='/'>but this link will take you back to the counter</Link>
+        Password: <TextField hintText='Password' />
+      <br/>
+      <RaisedButton label='Submit' />
       </div>
     );
   }
