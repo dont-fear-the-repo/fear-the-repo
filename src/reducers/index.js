@@ -2,11 +2,11 @@ import { combineReducers }    from 'redux';
 import { routerStateReducer } from 'redux-router';
 import counter                from './counter';
 import goHome                 from './goHome';
-import saveTextFoo               from './saveText';
+import userForm               from './userForm';
 
 export default combineReducers({
   counter,
   goHome,
-  saveTextFoo,
+  userForm,
   router: routerStateReducer
 });

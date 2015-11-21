@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
   // so they may be invoked directly. http://rackt.org/redux/docs/api/bindActionCreators.html
 
 
-export class UserFormView extends React.Component {
+export class EditTextView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object
   }
@@ -121,4 +121,4 @@ export class UserFormView extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserFormView);
+export default connect(mapStateToProps, mapDispatchToProps)(EditTextView);

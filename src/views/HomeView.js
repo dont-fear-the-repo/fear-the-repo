@@ -58,7 +58,9 @@ export class HomeView extends React.Component {
         <Link to='/resume'>Go to resume view</Link>
         <br/>
         <br/>
-        <Link to='/editText'>[ Edit some text? ]</Link>
+        <Link to='/userForm'>
+          Enter Your Info
+        </Link>
 
 
       </div>

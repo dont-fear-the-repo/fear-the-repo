@@ -84,7 +84,7 @@ export class ResumeView extends React.Component {
       index: blocks.indexOf(block)
     };
   }
-
+  authorize() {}
   render () {
     const { connectDropTarget } = this.props;
     const { blocks } = this.state;
