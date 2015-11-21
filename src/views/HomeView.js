@@ -17,7 +17,8 @@ import RaisedButton           from 'material-ui/lib/raised-button';
 }*/
 const mapStateToProps = (state) => ({
   counter : state.counter,
-  routerState : state.router
+  routerState : state.router,
+  resumeTitle: state.title
 });
 
 /* var mapDispatchToProps = function(dispatch) {
@@ -44,7 +45,7 @@ export class HomeView extends React.Component {
   static propTypes = {
     actions  : React.PropTypes.object,
     counter  : React.PropTypes.number
-  }
+ }
 
   render () {
     return (
@@ -55,6 +56,10 @@ export class HomeView extends React.Component {
         <br/>
         <br/>
         <Link to='/resume'>Go to resume view</Link>
+        <br/>
+        <br/>
+        <Link to='/editText'>[ Edit some text? ]</Link>
+
 
       </div>
     );
