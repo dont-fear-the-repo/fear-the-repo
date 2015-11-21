@@ -18,7 +18,7 @@ export class ResumeView extends React.Component {
   }
   authorize() {}
   render () {
-    const linkedin = require('./Sign-in-Large---Default.png');
+    // const linkedin = require('./Sign-in-Large---Default.png');
     return (
       <div className='container'>
         <h1>is this thing on?</h1>
