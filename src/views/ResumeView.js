@@ -16,11 +16,13 @@ export class ResumeView extends React.Component {
   static propTypes = {
     actions : React.PropTypes.object
   }
-
+  authorize() {}
   render () {
+    const linkedin = require('./Sign-in-Large---Default.png');
     return (
       <div className='container'>
         <h1>is this thing on?</h1>
+        <img src={linkedin} onClick={this.authorize}/>
         <RaisedButton label='This button does nothing' onClick={this.props.actions.goHome} />
         <br/>
         <br/>
