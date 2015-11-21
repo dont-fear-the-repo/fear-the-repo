@@ -2,8 +2,12 @@ import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
-import * as ActionCreators from 'actions/goHome';
+import * as ActionCreators    from 'actions/goHome';
 import RaisedButton           from 'material-ui/lib/raised-button';
+import Card                   from 'material-ui/lib/card/card';
+import CardHeader             from 'material-ui/lib/card/card-header';
+import Block                  from 'components/Block';
+
 
 const mapStateToProps = (state) => ({
   goHome : state.goHome,
@@ -17,14 +21,28 @@ export class ResumeView extends React.Component {
     actions : React.PropTypes.object
   }
 
+  // what do we want to render? this is just the VIEW
+    // big container for overall resume
+      // blocks to drag and drop
+        // bullets
+
   render () {
     return (
-      <div className='container'>
-        <h1>is this thing on?</h1>
-        <RaisedButton label='This button does nothing' onClick={this.props.actions.goHome} />
+      <div className='container text-center'>
+        <h1>Resume Builder</h1> <br/><br/>
+
+        <Card>
+          // make this bad boy a non-draggable drop target
+          <CardHeader
+            title='This will be a resume'
+            subtitle='all the jobs' />
+        </Card>
+
+        <Block/>
+
         <br/>
         <br/>
-        <Link to='/'>but this link will take you back to the counter</Link>
+        <Link to='/'>this link will take you back to the counter</Link>
       </div>
     );
   }
