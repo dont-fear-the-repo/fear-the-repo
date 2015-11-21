@@ -2,17 +2,20 @@ import { createReducer }     from '../utils';
 import { SAVE_TEXT } from 'constants/saveText';
 
 const initialState = {
-  someProp: 'fucking',
-  anotherProp: 'React'
+  name: '',
+  email: '',
+  phone: 0,
+  address: ''
 };
 export default createReducer(initialState, {
   // so this isn't incrementing the counter; it's changing the state?
   [SAVE_TEXT] : (state, payload) => {
-
-    console.log('the fucking payload:', payload)
+    console.log('payload:', payload)
     return Object.assign({}, state, {
-      someProp: payload,
-      lastProp: 'and Redux'
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone,
+      address: payload.address
     });
   }
 });
