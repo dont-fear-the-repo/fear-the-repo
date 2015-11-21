@@ -5,7 +5,7 @@ var ContactForm = React.createClass({
     inputValue: ''
   }
 
-  render: function() {
+  render () {
     return (
         <input
           type = 'text'

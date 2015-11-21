@@ -32,7 +32,7 @@ export class ResumeView extends React.Component {
     connectDropTarget: React.PropTypes.func.isRequired
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.moveBlock = this.moveBlock.bind(this);
     this.findBlock = this.findBlock.bind(this);
@@ -60,8 +60,8 @@ export class ResumeView extends React.Component {
         year: '2012',
         location: 'New York, NY'
       }]
-    }
-  };
+    };
+  }
 
   moveBlock (id, atIndex) {
     const { block, index } = this.findBlock(id);
@@ -84,7 +84,7 @@ export class ResumeView extends React.Component {
       index: blocks.indexOf(block)
     };
   }
-  authorize() {}
+  authorize () {}
   render () {
     const { connectDropTarget } = this.props;
     const { blocks } = this.state;
