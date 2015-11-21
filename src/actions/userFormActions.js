@@ -1,4 +1,4 @@
-import { SAVE_FORM } from 'constants/userForm';
+import { SAVE_FORM } from 'constants/userFormConstants';
 
 export function saveForm (payload) {
   return {
