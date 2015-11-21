@@ -4,7 +4,6 @@ import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
 import counterActions         from 'actions/counter';
 import RaisedButton           from 'material-ui/lib/raised-button';
-
 // We define mapStateToProps and mapDispatchToProps where we'd normally use
 // the @connect decorator so the data requirements are clear upfront, but then
 // export the decorated component after the main class definition so

@@ -5,6 +5,7 @@ import { Link }               from 'react-router';
 import * as ActionCreators from 'actions/goHome';
 import RaisedButton           from 'material-ui/lib/raised-button';
 
+
 const mapStateToProps = (state) => ({
   goHome : state.goHome,
   routerState : state.router
