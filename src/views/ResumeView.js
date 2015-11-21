@@ -19,6 +19,7 @@ export class ResumeView extends React.Component {
   }
   authorize() {}
   render () {
+
     return (
       <div className='container'>
         <h1>is this thing on?</h1>
