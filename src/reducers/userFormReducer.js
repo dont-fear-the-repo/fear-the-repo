@@ -7,7 +7,7 @@ const initialState = {
 export default createReducer(initialState, {
 
   [SAVE_FORM]: (state, payload) => {
-    console.log('payload:', payload)
+    console.log('payload:', payload);
     return Object.assign({}, state, {
       name: payload.name,
       email: payload.email,
