@@ -6,6 +6,8 @@ import ResumeView            from 'views/ResumeView';
 import ResumeLayout          from 'layouts/ResumeLayout';
 import UserFormView          from 'views/userForm';
 import UserFormLayout        from 'layouts/userForm';
+import LoginView  			 from 'views/LoginView';
+import LoginLayout 			 from 'layouts/LoginLayout';
 
 export default (
   <Route path='/' component={CoreLayout}>
@@ -16,5 +18,8 @@ export default (
      <Route path='/userForm' component={UserFormLayout}>
       <IndexRoute component={UserFormView} />
     </Route>
+    <Route path='/login' component={LoginLayout}>
+    	<IndexRoute component={LoginView} />
+    </Route>	
   </Route>
 );
