@@ -2,11 +2,10 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { saveForm } from 'actions/userFormActions'
+import { saveForm } from 'actions/userFormActions';
 import { goHome } from 'actions/goHome';
 
-import RaisedButton from 'material-ui/lib/raised-button';
-import TextField from 'material-ui/lib/text-field';
+import { RaisedButton, TextField } from 'material-ui/lib';
 
 
 const ActionCreators = {
@@ -32,7 +31,7 @@ export class EditTextView extends React.Component {
     actions: React.PropTypes.object
   }
 
-  handleSubmit (e) {
+  handleSubmit () {
     const userInput = {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue(),
@@ -89,28 +88,27 @@ export class EditTextView extends React.Component {
     this.refs.twitterUrl.clearValue();
     this.refs.otherUrls.clearValue();
     // temp links below
-    this.refs.project1Name.clearValue(),
-    this.refs.project1Url.clearValue(),
-    this.refs.project1Role.clearValue(),
-    this.refs.project1Description.clearValue(),
-    this.refs.project2Name.clearValue(),
-    this.refs.project2Url.clearValue(),
-    this.refs.project2Role.clearValue(),
-    this.refs.project2Description.clearValue(),
-    this.refs.job1Name.clearValue(),
-    this.refs.job1Location.clearValue(),
-    this.refs.job1Years.clearValue(),
-    this.refs.job1Title.clearValue(),
-    this.refs.job1Description.clearValue(),
-    this.refs.job2Name.clearValue(),
-    this.refs.job2Location.clearValue(),
-    this.refs.job2Years.clearValue(),
-    this.refs.job2Title.clearValue(),
-    this.refs.job2Description.clearValue()
+    this.refs.project1Name.clearValue();
+    this.refs.project1Url.clearValue();
+    this.refs.project1Role.clearValue();
+    this.refs.project1Description.clearValue();
+    this.refs.project2Name.clearValue();
+    this.refs.project2Url.clearValue();
+    this.refs.project2Role.clearValue();
+    this.refs.project2Description.clearValue();
+    this.refs.job1Name.clearValue();
+    this.refs.job1Location.clearValue();
+    this.refs.job1Years.clearValue();
+    this.refs.job1Title.clearValue();
+    this.refs.job1Description.clearValue();
+    this.refs.job2Name.clearValue();
+    this.refs.job2Location.clearValue();
+    this.refs.job2Years.clearValue();
+    this.refs.job2Title.clearValue();
+    this.refs.job2Description.clearValue();
   }
 
   render () {
-
     return (
       <div className='container'>
       <br />

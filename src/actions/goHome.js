@@ -1,4 +1,4 @@
-import {  GO_HOME } from 'constants/goHome';
+import { GO_HOME } from 'constants/goHome';
 
 export function goHome () {
   return {

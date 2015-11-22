@@ -9,7 +9,7 @@ import UserFormView from 'views/userFormView';
 export default (
   <Route path='/' component={CoreLayout}>
     <IndexRoute component={HomeView} />
-    <Route path='/userForm' component={UserFormView} />
+    <Route path='/userform' component={UserFormView} />
     <Route path='/resume' component={ResumeView} />
   </Route>
 );
