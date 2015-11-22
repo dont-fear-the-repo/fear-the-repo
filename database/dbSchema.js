@@ -35,9 +35,6 @@ const User = db.define('User', {
   summary: Sequelize.TEXT,
 });
 
-
-
-
 const Resume = db.define('Resume', {
   theme: Sequelize.TEXT
 });
@@ -83,12 +80,6 @@ Block.belongsToMany(Resume, {
   through: 'resume_to_block'
 });
 
-
-
-
-
-
-
 /////////////////////////////////////////////////////////////////
 //                                                             //
 //   Database methods that will be imported into other files   //
@@ -107,31 +98,52 @@ Block.belongsToMany(Resume, {
  Try calling this function from anywhere!
  It is currently being called only in /bin/webpack-dev-server.js
 */
+
 export function buildATestUser() {
   db.sync({
     force: true
   }).then(function() {
     return User.create({
-      userName: 'You can do the thing!',
+      userName: 'MJ',
       password: 'It is gonna be okay',
       email: 'react@redux.tryhard',
       firstName: 'Optimism Kitten',
       lastName: 'Courage Wolf',
       headline: '#twoboosters'
     }).then(function(testUser) {
+    return Resume.create({
+      theme: 'test resume'
+      }).then(function(resume) {
+    return testUser.addResume(resume)})
       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
-      console.log(testUser.get({
-        plain: true
-      }));
+      console.log(testUser.get({ plain: true }));
     });
   });
   return {
-    User: User
+    User: User,
+    Resume: Resume
   }
-}
-
-//
+};
 
 console.log('database/dbSchema.js was run.')
 
-
+export function getBulletsForUser(){
+  console.log('in getBulletsForUser()');
+  Bullets.findAll({
+    include: [{
+      model: Block,
+      include: [{
+        model: Resume,
+        include: [{
+          model: User,
+          where: {
+            id: '1'//**TODO** GET USER_ID FROM FRONT END
+          }
+        }]
+      }]
+    }]
+  }).then(function(bullets){
+     console.log('bullets for users: ', bullets)
+     //**TODO** SEND BULLETS BACK AS A RESPONSE TO FRONT END
+  });
+};
