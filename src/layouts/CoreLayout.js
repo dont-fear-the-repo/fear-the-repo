@@ -1,7 +1,9 @@
 import React from 'react';
-import {Header} from 'components/header';
+import { Header } from 'components/header';
+import { Footer } from 'components/footer';
 import 'styles/core.scss';
-console.log(Header);
+
+
 export default class CoreLayout extends React.Component {
   static propTypes = {
     children : React.PropTypes.element
@@ -14,6 +16,7 @@ export default class CoreLayout extends React.Component {
         <div className='view-container'>
           {this.props.children}
         </div>
+        <Footer />
       </div>
     );
   }
