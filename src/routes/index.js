@@ -10,7 +10,7 @@ import LoginView  from 'views/LoginView';
 export default (
   <Route path='/' component={CoreLayout}>
     <IndexRoute component={HomeView} />
-    <Route path='/userForm' component={UserFormView} />
+    <Route path='/userform' component={UserFormView} />
     <Route path='/resume' component={ResumeView} />
      <Route path='/login' component={LoginView} />
   </Route>

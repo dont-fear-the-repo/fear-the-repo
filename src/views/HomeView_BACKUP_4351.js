@@ -1,10 +1,18 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
+<<<<<<< HEAD
+import { connect }            from 'react-redux';
+import { Link }               from 'react-router';
+import counterActions         from 'actions/counter';
+import RaisedButton           from 'material-ui/lib/raised-button';
+=======
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import counterActions from 'actions/counter';
-import {RaisedButton} from 'material-ui/lib';
 
+import RaisedButton from 'material-ui/lib';
+
+>>>>>>> 7ca61fe131e557b9184a2750d7a364d16ac88a75
 // We define mapStateToProps and mapDispatchToProps where we'd normally use
 // the @connect decorator so the data requirements are clear upfront, but then
 // export the decorated component after the main class definition so
