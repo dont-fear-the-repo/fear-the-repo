@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import counterActions from 'actions/counter';
 
-import RaisedButton from 'material-ui/lib';
+import { RaisedButton } from 'material-ui/lib';
 
 // We define mapStateToProps and mapDispatchToProps where we'd normally use
 // the @connect decorator so the data requirements are clear upfront, but then
@@ -37,7 +37,6 @@ export class HomeView extends React.Component {
         <br/>
         <br/>
         <Link to='/userForm'>Enter Your Info</Link>
-
 
       </div>
     );
