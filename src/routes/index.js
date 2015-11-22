@@ -12,7 +12,7 @@ export default (
     <IndexRoute component={HomeView} />
     <Route path='/userForm' component={UserFormView} />
     <Route path='/resume' component={ResumeView} />
-        <Route path='/login' component={LoginView}>
+     <Route path='/login' component={LoginView} />
   </Route>
 );
 

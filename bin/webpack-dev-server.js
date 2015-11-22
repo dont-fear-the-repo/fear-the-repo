@@ -9,10 +9,11 @@ const host = config.get('webpack_host');
 const port = config.get('webpack_port');
 const parser = require('body-parser');
 
-devServer.use(parser.json());
 
-devServer.post('/login',function(req,res){
-	console.log(req.body);
+console.log(devServer);
+devServer.app.use(parser.json());
+
+devServer.app.post('/login',function(req,res){
 })
 
 /*
@@ -27,7 +28,7 @@ devServer.post('/login',function(req,res){
  It is currently being called only in this file..
 */
 
-dbSchema.buildATestUser();
+// dbSchema.buildATestUser();
 
 
 devServer.listen(port, host, function () {
