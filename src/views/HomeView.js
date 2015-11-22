@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import counterActions from 'actions/counter';
-import {RaisedButton} from 'material-ui/lib';
+
+import { RaisedButton } from 'material-ui/lib';
 
 // We define mapStateToProps and mapDispatchToProps where we'd normally use
 // the @connect decorator so the data requirements are clear upfront, but then
@@ -26,7 +27,7 @@ export class HomeView extends React.Component {
 
   render () {
     return (
-      <div className='container text-center'> 
+      <div className='container text-center'>
         <Link to='/login'><RaisedButton label='Login' /></Link>
         <Link to='/userForm'><RaisedButton label = 'Signup'/></Link>
         <h1>Welcome to the React Redux Starter Kit</h1>
@@ -38,7 +39,6 @@ export class HomeView extends React.Component {
         <br/>
         <br/>
         <Link to='/userForm'>Enter Your Info</Link>
-
 
       </div>
     );
