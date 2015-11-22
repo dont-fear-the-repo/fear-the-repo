@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { FlatButton, RaisedButton } from 'material-ui/lib'
+import { FlatButton, RaisedButton } from 'material-ui/lib';
 
 export class Header extends React.Component {
 
@@ -10,18 +10,17 @@ export class Header extends React.Component {
       <div>
         <div className='header'>
           <Link to='/' style={{marginLeft: '30px'}}>Fear the Repo</Link>
-          <FlatButton label='User Info'>
-            <Link to='/userinfo' />
-          </FlatButton>
-          <FlatButton label='Edit Resume'>
-            <Link to='/resume' />
-          </FlatButton>
-          <FlatButton label='export'>
-          </FlatButton>
+          <Link to='/userform'>
+            <FlatButton label='User Info' />
+          </Link>
+          <Link to='/resume'>
+            <FlatButton label='Edit Resume' />
+          </Link>
+          <FlatButton label='export' />
 
 
-          <RaisedButton style={{float: 'right', marginRight: '30px'}} label='Login'>
-          </RaisedButton>
+
+          <RaisedButton style={{float: 'right', marginRight: '30px'}} label='Login' />
         </div>
       </div>
     );
