@@ -2,14 +2,19 @@ require('babel/register');
 
 // connect to database.
 const dbSchema = require('../database/dbSchema.js');
-
 const chalk     = require('chalk');
 const devServer = require('../build/webpack-dev-server');
 const config    = require('../config');
-
 const host = config.get('webpack_host');
 const port = config.get('webpack_port');
+const parser = require('body-parser');
 
+
+console.log(devServer);
+devServer.app.use(parser.json());
+
+devServer.app.post('/login',function(req,res){
+})
 
 /*
 'buildATestUser' below is a test function which:
