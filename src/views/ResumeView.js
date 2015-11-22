@@ -15,6 +15,7 @@ const blockTarget = {
   }
 };
 
+
 const mapStateToProps = (state) => ({
   goHome : state.goHome,
   routerState : state.router
