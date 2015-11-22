@@ -1,9 +1,9 @@
-import React                  from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
-import { connect }            from 'react-redux';
-import { Link }               from 'react-router';
-import counterActions         from 'actions/counter';
-import RaisedButton           from 'material-ui/lib/raised-button';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import counterActions from 'actions/counter';
+import {RaisedButton} from 'material-ui/lib';
 
 // We define mapStateToProps and mapDispatchToProps where we'd normally use
 // the @connect decorator so the data requirements are clear upfront, but then
@@ -11,22 +11,24 @@ import RaisedButton           from 'material-ui/lib/raised-button';
 // the component can be tested w/ and w/o being connected.
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 const mapStateToProps = (state) => ({
-  counter : state.counter,
-  routerState : state.router,
+  counter: state.counter,
+  routerState: state.router,
   resumeTitle: state.title
 });
 const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(counterActions, dispatch)
+  actions: bindActionCreators(counterActions, dispatch)
 });
 export class HomeView extends React.Component {
   static propTypes = {
-    actions  : React.PropTypes.object,
-    counter  : React.PropTypes.number
- }
+    actions: React.PropTypes.object,
+    counter: React.PropTypes.number
+  }
 
   render () {
     return (
-      <div className='container text-center'>
+      <div className='container text-center'> 
+        <Link to='/login'><RaisedButton label='Login' /></Link>
+        <Link to='/userForm'><RaisedButton label = 'Signup'/></Link>
         <h1>Welcome to the React Redux Starter Kit</h1>
         <h2>Sample Counter: {this.props.counter}</h2>
         <RaisedButton label='Increment' onClick={this.props.actions.increment} />
@@ -35,9 +37,7 @@ export class HomeView extends React.Component {
         <Link to='/resume'>Go to resume view</Link>
         <br/>
         <br/>
-        <Link to='/userForm'>
-          Enter Your Info
-        </Link>
+        <Link to='/userForm'>Enter Your Info</Link>
 
 
       </div>
