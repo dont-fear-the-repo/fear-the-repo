@@ -106,12 +106,14 @@ export class Header extends React.Component {
           <Link to='/secretpage'>
             <FlatButton label = 'Secret Page' />
           </Link>  
+          <FlatButton labe='export' />
           <FlatButton style={{float: 'right', marginRight: '30px'}}
                       label='Login'
                       onClick={this.showLoginPopover.bind(this, 'pop')} />
           <FlatButton style={{float: 'right', marginRight: '10px'}}
                       label='Signup'
                       onClick={this.showSignupPopover.bind(this, 'pop')} />
+          </div>
         <Popover className='signup-popover'
                  open={this.state.activePopover === 'pop'}
                  anchorEl={this.state.anchorEl}
