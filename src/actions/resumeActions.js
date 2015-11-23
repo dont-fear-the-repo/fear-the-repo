@@ -11,7 +11,7 @@ export function saveResumeRequest (payload) {
 export function saveResumeDb(payload){
   return dispatch => {
     dispatch(saveResumeRequest(payload));
-      return console.log('in dbSaveResume');
+      return console.log('in saveResumeDb');
     }
   //   return request
   //     .post()
@@ -20,18 +20,18 @@ export function saveResumeDb(payload){
   //       payload: payload
   //     })
   //     .end((err,res={}) => {
-  //       err ? dispatch(dbSaveResumeError(err))
-  //       : dispatch(dbSaveResumeSucess());
+  //       err ? dispatch(saveResumeError(err))
+  //       : dispatch(saveResumeSuccess());
   //     });
   //   };
 }
 
 
-export function dbSaveResumeSucess(){
+export function saveResumeSuccess(){
   return console.log("woo you saved to the database!");
 }
 
-export function dbSaveResumeError(err){
+export function saveResumeError(err){
   return console.log("there is an error saving resume to db", err);
 }
 
