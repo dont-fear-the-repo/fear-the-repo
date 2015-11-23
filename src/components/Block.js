@@ -1,7 +1,10 @@
 import React, { PropTypes }       from 'react';
-import Card                       from 'material-ui/lib/card/card';
-import CardTitle                  from 'material-ui/lib/card/card-title';
+import Paper                      from 'material-ui/lib/paper';
 import { DragSource, DropTarget } from 'react-dnd';
+
+const Types = {
+  BLOCK: 'block'
+};
 
 // implements the drag source contract
 const blockSource = {
@@ -38,10 +41,10 @@ const blockTarget = {
   }
 };
 
-@DropTarget('block', blockTarget, connect => ({
+@DropTarget(Types.BLOCK, blockTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
-@DragSource('block', blockSource, (connect, monitor) => ({
+@DragSource(Types.BLOCK, blockSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
 }))
@@ -54,7 +57,7 @@ export default class Block extends React.Component {
     isDragging: PropTypes.bool.isRequired,
     id: PropTypes.any.isRequired,
     moveBlock: PropTypes.func.isRequired,
-    indBlock: PropTypes.func.isRequired,
+    findBlock: PropTypes.func.isRequired,
     // coming from ResumeView.js (parent component) thru props
     companyName: PropTypes.string.isRequired,
     jobTitle: PropTypes.string.isRequired
@@ -66,9 +69,9 @@ export default class Block extends React.Component {
 
     return connectDragSource(connectDropTarget(
       <div style={{ opacity: isDragging ? 0 : 1, cursor: 'move' }}>
-        <Card style={{ backgroundColor: '#CFD8DC' }}>
-          <CardTitle title={this.props.companyName} subtitle={this.props.jobTitle} />
-        </Card>
+        <Paper>
+          <h1>{this.props.companyName}</h1><h2>{this.props.jobTitle} </h2>
+        </Paper>
       </div>
     ));
   }
