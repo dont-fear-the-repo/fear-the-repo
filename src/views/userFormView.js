@@ -22,7 +22,6 @@ export class UserFormView extends React.Component {
   }
 
   handleSubmit () {
-    console.log(this.props)
     const userInput = {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue(),

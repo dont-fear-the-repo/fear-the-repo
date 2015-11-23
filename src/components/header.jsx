@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loginUser, signupUser } from 'actions/titleBarActions';
 
+import $ from 'jQuery';
+
 import { FlatButton, Popover, TextField } from 'material-ui/lib';
 
 
@@ -13,9 +15,7 @@ const ActionCreators = {
 };
 
 const mapStateToProps = (state) => ({
-  userLoginInfo: state.username,
-  activePopover: state.activePopover,
-  anchorEl: state.anchorEl
+  userLoginInfo: state.username
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -34,8 +34,22 @@ export class Header extends React.Component {
       username: this.refs.username.getValue(),
       password: this.refs.password.getValue()
     };
+
+    // jQuery defeat...not "the Redux Way"?
+    $.ajax({  // TODO: eliminate jQuery!
+      url: '/login',
+      type: 'POST',
+      data: JSON.stringify(userLoginInfo),
+      contentType: 'application/json',
+      success: function(data) {
+        }.bind(this),
+      error: function(xhr,status,err) {
+          console.log("error")
+        }.bind(this)
+    });
+
     console.log('Logging in: ', userLoginInfo);
-    this.props.actions.loginUser(userLoginInfo);
+    // this.props.actions.loginUser(userLoginInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
 
@@ -44,8 +58,11 @@ export class Header extends React.Component {
       username: this.refs.username.getValue(),
       password: this.refs.password.getValue()
     };
+
+    // jQuery defeat...not "the Redux Way"?
+
     console.log('Signing up: ', userSignupInfo);
-    this.props.actions.signupUser(userSignupInfo);
+    this.props.actions.signupUser(userSignupInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
 
