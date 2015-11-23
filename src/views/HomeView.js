@@ -5,7 +5,6 @@ import counterActions from 'actions/counter';
 
 import { RaisedButton } from 'material-ui/lib';
 
-
 const mapStateToProps = (state) => ({
   counter: state.counter,
   routerState: state.router
