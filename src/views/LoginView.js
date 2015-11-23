@@ -2,17 +2,18 @@ import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
-import * as ActionCreators from 'actions/goHome';
 import RaisedButton           from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import $                      from 'jQuery';
+
+
 const mapStateToProps = (state) => ({
-  goHome : state.goHome,
   routerState : state.router
 });
-const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(ActionCreators, dispatch)
-});
+// TODO: when Actions are needed on this view: uncomment this, add ActionCreators above, and add mapDispatchToProps to the Connect statement below
+// const mapDispatchToProps = (dispatch) => ({
+//   actions : bindActionCreators(ActionCreators, dispatch)
+// });
 export class LoginView extends React.Component {
   static propTypes = {
     actions : React.PropTypes.object
@@ -51,4 +52,4 @@ export class LoginView extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
+export default connect(mapStateToProps)(LoginView);
