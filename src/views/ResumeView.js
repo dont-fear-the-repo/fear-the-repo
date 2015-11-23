@@ -2,14 +2,11 @@ import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
-import Card                   from 'material-ui/lib/card/card';
-import CardHeader             from 'material-ui/lib/card/card-header';
 import Paper                  from 'material-ui/lib/paper';
 import { RaisedButton }       from 'material-ui/lib';
 import Block                  from 'components/Block';
 import { DropTarget }         from 'react-dnd';
 import update                 from 'react/lib/update';
-import { moveBlock }          from 'actions/blockActions';
 import { saveResume }         from 'actions/resumeActions';
 
 const blockTarget = {
@@ -22,7 +19,6 @@ const Types = {
 }
 
 const ActionCreators = {
-  moveBlock: moveBlock,
   saveResume: saveResume
 }
 
@@ -110,27 +106,20 @@ export class ResumeView extends React.Component {
           {blocks.map(block => {
             return (
               <Block key={block.id}
-                      id={block.id}
-                      companyName={block.companyName}
-                      jobTitle={block.jobTitle}
-                      year={block.year}
-                      location={block.location}
-                      moveBlock={this.moveBlock}
-                      findBlock={this.findBlock} />
+                     id={block.id}
+                     companyName={block.companyName}
+                     jobTitle={block.jobTitle}
+                     year={block.year}
+                     location={block.location}
+                     moveBlock={this.moveBlock}
+                     findBlock={this.findBlock} />
             );
           })}
-
-          <Card>
-            <CardHeader
-              title='This will be a resume'
-              subtitle='all the jobs' />
-          </Card> <br/><br/>
         </Paper>
-        <Link to='/'>this link will take you back to the counter</Link>
         <RaisedButton label='Save Resume' onClick={e => this.handleSubmit(e)} />
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(ResumeView);
+export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
