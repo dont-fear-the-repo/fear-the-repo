@@ -133,4 +133,4 @@ export class ResumeView extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
+export default connect(mapStateToProps)(ResumeView);

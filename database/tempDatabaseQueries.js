@@ -1,5 +1,7 @@
 //Retrieve Information
 
+///NOTE : THESE QUERIES DO NOT WORK
+
 app.get("/api/bullets"//this needs to be filled in with proper route
   , function(req, res) {
   User.findOne({

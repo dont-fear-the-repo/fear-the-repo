@@ -1,20 +1,13 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import counterActions from 'actions/counter';
 
 import { RaisedButton } from 'material-ui/lib';
 
-// We define mapStateToProps and mapDispatchToProps where we'd normally use
-// the @connect decorator so the data requirements are clear upfront, but then
-// export the decorated component after the main class definition so
-// the component can be tested w/ and w/o being connected.
-// See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 const mapStateToProps = (state) => ({
   counter: state.counter,
-  routerState: state.router,
-  resumeTitle: state.title
+  routerState: state.router
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(counterActions, dispatch)
@@ -27,17 +20,28 @@ export class HomeView extends React.Component {
 
   render () {
     return (
-      <div className='container text-center'>
-        <h1>Welcome to the React Redux Starter Kit</h1>
-        <h2>Sample Counter: {this.props.counter}</h2>
-        <RaisedButton label='Increment' onClick={this.props.actions.increment} />
-        <br/>
-        <br/>
-        <Link to='/resume'>Go to resume view</Link>
-        <br/>
-        <br/>
-        <Link to='/userForm'>Enter Your Info</Link>
+      <div className='landing main-body' style={{textAlign: 'center'}}>
+        <img src={require('styles/assets/writing-resume.jpg')} style={{width: '100%'}} />
+        <h1 className='main-title'>FEAR THE REPO</h1>
 
+        <h3 className='main-tagline'>
+          Resume Version Control and Templating
+        </h3>
+
+        <div className='main-copy'>
+          All other resume tools suck. Ours is the best.
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div>For no reason, a counter: {this.props.counter}</div>
+        <RaisedButton label='Increment' onClick={this.props.actions.increment} />
 
       </div>
     );
