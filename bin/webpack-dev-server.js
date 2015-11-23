@@ -11,20 +11,20 @@ const parser = require('body-parser');
 const session = require('express-session');
 const utils = require('./lib/utils');
 
+
+
 devServer.app.use(parser.json());
 
 
 devServer.app.use(session({
 	secret: "Backend if fun because I don't have to deal with react"
 	}));
-
-devServer.app.post('/authentication',function(req,res){
-	console.log("I've been hit")
-})
+ 
+devServer.app.post('/authentication',utils.checkUser);
 
 
 	
-devServer.app.post('/loginUser',function(req,res){
+devServer.app.post('/login',function(req,res){
 	dbSchema.User.findOne({
 		where: 
 			{
@@ -41,23 +41,6 @@ devServer.app.post('/loginUser',function(req,res){
 	})
 })
 
-
-// 	'/secretpage',utils.checkUser,function(req,res){
-// });
-
-/*
-'buildATestUser' below is a test function which:
- * builds the Sequelize models
- * builds/clears the database tables
- * and builds our first and only user.
- * It also imports and uses Sequlize and the DB connection.
- ! It will not work without a localPWD.js in the root of your repo.
-
- Try calling this function from anywhere!
- It is currently being called only in this file..
-*/
-
-//dbSchema.buildATestUser();
 
 
 devServer.listen(port, host, function () {

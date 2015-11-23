@@ -23,7 +23,6 @@ export class LoginView extends React.Component {
       username:this.refs.username.getValue(),
       password:this.refs.password.getValue()
     };
-    console.log(comment);
     $.ajax({
       url: '/login',
       type: 'POST',

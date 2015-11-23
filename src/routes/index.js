@@ -10,19 +10,21 @@ import AboutView from 'views/AboutView';
 import SecretView from 'views/SecretView';
 import $		 from  'jQuery'; 
 
-function requireAuth(){
-	console.log("I'm hit");
+function requireAuth(nextState,replaceState){
+  //Note will change url address when deployed
 	$.ajax({
-      url: '/authentication',
+      url: 'http://localhost:3000/authentication',
+      async: false,
       type: 'POST',
       contentType: 'application/json',
       success: function(data){
-      	console.log("this is the data")
-      	console.log("I'm a success")
+        if(data.Auth === false){
+         replaceState({ nextPathname: nextState.location.pathname }, '/login')
+        }
       },
       error: function(xhr,status,err){
         console.log("I'm a failure")
-      }.bind(this)
+      }
     });
 }
 

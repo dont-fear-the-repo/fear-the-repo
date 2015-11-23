@@ -3,13 +3,10 @@ var isLoggedIn = function(req) {
 };
 
 exports.checkUser = function(req, res, next){
-	console.log("I've been called?")
   if (!isLoggedIn(req)) {
-  	console.log("I'm hit")
-    res.redirect('/login');
+    res.send({Auth: false});
   } else {
-  	console.log("The secret failed")
-    next();
+    res.send({Auth: true})
   }
 };
 
