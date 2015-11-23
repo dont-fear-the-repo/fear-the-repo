@@ -4,7 +4,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 
 const Types = {
   BLOCK: 'block'
-}
+};
 
 // implements the drag source contract
 const blockSource = {

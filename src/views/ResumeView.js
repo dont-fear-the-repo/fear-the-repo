@@ -1,7 +1,6 @@
 import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
-import { Link }               from 'react-router';
 import Paper                  from 'material-ui/lib/paper';
 import { RaisedButton }       from 'material-ui/lib';
 import Block                  from 'components/Block';
@@ -16,11 +15,11 @@ const blockTarget = {
 
 const Types = {
   BLOCK: 'block'
-}
+};
 
 const ActionCreators = {
   saveResume: saveResume
-}
+};
 
 const mapStateToProps = (state) => ({
   routerState: state.router
@@ -38,9 +37,6 @@ export class ResumeView extends React.Component {
     connectDropTarget: React.PropTypes.func.isRequired
   }
 
-  handleSubmit () {
-    this.props.actions.saveResume(this.state.blocks);
-  }
 
   constructor (props) {
     super(props);
@@ -70,6 +66,10 @@ export class ResumeView extends React.Component {
         location: 'New York, NY'
       }]
     };
+  }
+
+  handleSubmit () {
+    this.props.actions.saveResume(this.state.blocks);
   }
 
   moveBlock (id, atIndex) {
