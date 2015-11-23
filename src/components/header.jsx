@@ -17,8 +17,9 @@ export class Header extends React.Component {
             <FlatButton label='Edit Resume' />
           </Link>
           <FlatButton label='export' />
-
-
+          <Link to='/secretpage'>
+            <FlatButton label = 'Secret Page' />
+          </Link>  
           <Link to='/login'>
             <FlatButton style={{float: 'right', marginRight: '30px'}} label='Login' />
           </Link>

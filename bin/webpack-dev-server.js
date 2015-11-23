@@ -12,12 +12,19 @@ const session = require('express-session');
 const utils = require('./lib/utils');
 
 devServer.app.use(parser.json());
+
+
 devServer.app.use(session({
 	secret: "Backend if fun because I don't have to deal with react"
 	}));
+
+devServer.app.post('/authentication',function(req,res){
+	console.log("I've been hit")
+})
+
+
 	
-devServer.app.post('/login',function(req,res){
-	console.log("this is the password", req.body.password)
+devServer.app.post('/loginUser',function(req,res){
 	dbSchema.User.findOne({
 		where: 
 			{
@@ -33,6 +40,10 @@ devServer.app.post('/login',function(req,res){
  		}
 	})
 })
+
+
+// 	'/secretpage',utils.checkUser,function(req,res){
+// });
 
 /*
 'buildATestUser' below is a test function which:

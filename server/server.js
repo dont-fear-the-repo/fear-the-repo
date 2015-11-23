@@ -8,20 +8,26 @@
 // var dbSchema = require('../database/dbSchema.js'); // set up database schema
 
 
-// var express = require('express');
-// var app = express();
+var express = require('express');
+var app = express();
 
 
-// app.use(express.static(__dirname.slice(0, -6) + 'dist'));
+ app.use(express.static(__dirname.slice(0, -6) + 'dist'));
+
 
 // console.log(__dirname + '../dist')
 
-// var server = app.listen(3000, function () {
-//   var host = server.address().address;
-//   var port = server.address().port;
+var server = app.listen(3000, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+ app.use(function(req,res){
+ 	console.log("I'm hit")
+ })
 
-//   console.log('Example app listening at http://%s:%s', host, port);
-// });
+
+
+  console.log('Example app listening at http://%s:%s', host, port);
+});
 
 
 // /*
