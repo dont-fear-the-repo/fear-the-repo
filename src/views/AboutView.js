@@ -50,3 +50,5 @@ export class AboutView extends React.Component {
 }
 
 export default connect(mapStateToProps)(AboutView);
+
+// TODO: this seems like bad style, to declare and update the state on this view. Should this be refactored to use Actions?
