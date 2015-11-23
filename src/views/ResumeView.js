@@ -2,28 +2,38 @@ import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
-import * as ActionCreators    from 'actions/goHome';
 import Card                   from 'material-ui/lib/card/card';
 import CardHeader             from 'material-ui/lib/card/card-header';
+import Paper                  from 'material-ui/lib/paper';
+import { RaisedButton }       from 'material-ui/lib';
 import Block                  from 'components/Block';
 import { DropTarget }         from 'react-dnd';
 import update                 from 'react/lib/update';
-
+import { moveBlock }          from 'actions/blockActions';
+import { saveResume }         from 'actions/resumeActions';
 
 const blockTarget = {
   drop () {
   }
 };
 
+const Types = {
+  BLOCK: 'block'
+}
+
+const ActionCreators = {
+  moveBlock: moveBlock,
+  saveResume: saveResume
+}
+
 const mapStateToProps = (state) => ({
-  goHome : state.goHome,
-  routerState : state.router
+  routerState: state.router
 });
 const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(ActionCreators, dispatch)
+  actions: bindActionCreators(ActionCreators, dispatch)
 });
 
-@DropTarget('block', blockTarget, connect => ({
+@DropTarget(Types.BLOCK, blockTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 export class ResumeView extends React.Component {
@@ -32,12 +42,15 @@ export class ResumeView extends React.Component {
     connectDropTarget: React.PropTypes.func.isRequired
   }
 
+  handleSubmit () {
+    this.props.actions.saveResume(this.state.blocks);
+  }
+
   constructor (props) {
     super(props);
     this.moveBlock = this.moveBlock.bind(this);
     this.findBlock = this.findBlock.bind(this);
 
-    // manually messing with state which is BAD
     this.state = {
       blocks: [{
         id: 1,
@@ -84,7 +97,7 @@ export class ResumeView extends React.Component {
       index: blocks.indexOf(block)
     };
   }
-  authorize () {}
+
   render () {
     const { connectDropTarget } = this.props;
     const { blocks } = this.state;
@@ -92,7 +105,8 @@ export class ResumeView extends React.Component {
     return connectDropTarget(
       <div className='container'>
         <h1 className='text-center'>Resume Builder</h1> <br/><br/>
-        <div className='resumeContainer'>
+
+        <Paper className='resumeContainer'>
           {blocks.map(block => {
             return (
               <Block key={block.id}
@@ -111,8 +125,9 @@ export class ResumeView extends React.Component {
               title='This will be a resume'
               subtitle='all the jobs' />
           </Card> <br/><br/>
-        </div>
+        </Paper>
         <Link to='/'>this link will take you back to the counter</Link>
+        <RaisedButton label='Save Resume' onClick={e => this.handleSubmit(e)} />
       </div>
     );
   }

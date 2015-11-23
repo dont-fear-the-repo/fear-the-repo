@@ -1,7 +1,7 @@
 import React from 'react';
 import {Header} from 'components/header';
 import 'styles/core.scss';
-console.log(Header);
+
 export default class CoreLayout extends React.Component {
   static propTypes = {
     children : React.PropTypes.element
