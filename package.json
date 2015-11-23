@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-starter-kit",
-  "version": "0.17.0",
-  "description": "Get started with React, Redux, and React-Router!",
+  "name": "fear-the-repo",
+  "version": "0.0.1",
+  "description": "Drag-and-drop resume version control tool",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
@@ -18,9 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
+    "url": "git+https://github.com/dont-fear-the-repo/fear-the-repo.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": [
+    "Andrew Huang <andrew.huang12@gmail.com> (http://github.com/AndrewTHuang)",
+    "Melody Lu <melodylu@gmail.com> (http://github.com/melodylu)",
+    "Michael Ericson <ericson.michael.j@gmail.com> (http://github.com/ericsonmichaelj)",
+    "Ryan James <ryanwilsonjames@gmail.com> (http://github.com/dangerismycat)",
+    "Sujay Patel <sujay.sanjay.patel@gmail.com> (http://github.com/sujaypatel16)"
+  ],
   "license": "MIT",
   "dependencies": {
     "babel": "^5.8.23",
