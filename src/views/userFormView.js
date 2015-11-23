@@ -1,7 +1,6 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { saveForm } from 'actions/userFormActions';
 
 import { RaisedButton, TextField } from 'material-ui/lib';
@@ -17,7 +16,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions : bindActionCreators(ActionCreators, dispatch)
 });
-export class EditTextView extends React.Component {
+export class UserFormView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object
   }
@@ -190,4 +189,4 @@ export class EditTextView extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTextView);
+export default connect(mapStateToProps, mapDispatchToProps)(UserFormView);
