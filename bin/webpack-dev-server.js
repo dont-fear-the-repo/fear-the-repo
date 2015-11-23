@@ -8,12 +8,30 @@ const config    = require('../config');
 const host = config.get('webpack_host');
 const port = config.get('webpack_port');
 const parser = require('body-parser');
+const session = require('express-session');
+const utils = require('./lib/utils');
 
-
-console.log(devServer);
 devServer.app.use(parser.json());
-
+devServer.app.use(session({
+	secret: "Backend if fun because I don't have to deal with react"
+	}));
+	
 devServer.app.post('/login',function(req,res){
+	console.log("this is the password", req.body.password)
+	dbSchema.User.findOne({
+		where: 
+			{
+				userName: req.body.username,
+				password: req.body.password
+			}
+		})
+ 	.then(function(results){
+ 		if(results){
+ 			utils.createSession(req,res,results);
+ 		}else{
+ 			res.redirect('/login')
+ 		}
+	})
 })
 
 /*
@@ -28,7 +46,7 @@ devServer.app.post('/login',function(req,res){
  It is currently being called only in this file..
 */
 
-dbSchema.buildATestUser();
+//dbSchema.buildATestUser();
 
 
 devServer.listen(port, host, function () {
