@@ -1,12 +1,14 @@
 import { createReducer } from '../utils';
 import { SAVE_FORM } from 'constants/userFormConstants';
 
-const initialState = {
-};
+
+const initialState = {};
 
 export default createReducer(initialState, {
 
   [SAVE_FORM]: (state, payload) => {
+    // TODO: send data to database!
+    console.log('payload:', payload);
     return Object.assign({}, state, {
       name: payload.name,
       email: payload.email,
