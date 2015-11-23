@@ -11,11 +11,11 @@ export default class CoreLayout extends React.Component {
   render () {
     return (
       <div className='page-container'>
-        <Header />
         <div className='view-container'>
+        <Header />
           {this.props.children}
-        </div>
         <Footer />
+        </div>
       </div>
     );
   }
