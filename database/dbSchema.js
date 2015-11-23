@@ -112,7 +112,7 @@ export function buildATestUser() {
       headline: '#twoboosters'
     }).then(function(testUser) {
     return Resume.create({
-      theme: 'test resume'
+      theme: 'awesomeblossom'
       }).then(function(resume) {
     return testUser.addResume(resume)})
       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
