@@ -3,29 +3,20 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { saveForm } from 'actions/userFormActions';
-import { goHome } from 'actions/goHome';
 
 import { RaisedButton, TextField } from 'material-ui/lib';
 
 
 const ActionCreators = {
-  goHome: goHome,
   saveForm: saveForm
 };
 
 const mapStateToProps = (state) => ({
-  goHome : state.goHome,
   routerState : state.router
 });
-
 const mapDispatchToProps = (dispatch) => ({
   actions : bindActionCreators(ActionCreators, dispatch)
 });
-  // ^ bindActionCreators turns an object whose values are action creators, into an object
-  // with the same keys, but with every action creator wrapped into a dispatch call
-  // so they may be invoked directly. http://rackt.org/redux/docs/api/bindActionCreators.html
-
-
 export class EditTextView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object
@@ -111,7 +102,6 @@ export class EditTextView extends React.Component {
   render () {
     return (
       <div className='container'>
-      <br />
         <h1 className='userinfo-header'>
           Your Information
         </h1>
@@ -195,11 +185,6 @@ export class EditTextView extends React.Component {
 
           <RaisedButton label='Save' onClick={e => this.handleSubmit(e)} />
         </div>
-
-        <br/>
-        <Link to='/'>
-          Back to the homepage
-        </Link>
       </div>
     );
   }

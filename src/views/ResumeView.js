@@ -2,7 +2,6 @@ import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { Link }               from 'react-router';
-import * as ActionCreators    from 'actions/goHome';
 import Card                   from 'material-ui/lib/card/card';
 import CardHeader             from 'material-ui/lib/card/card-header';
 import Block                  from 'components/Block';
@@ -16,12 +15,12 @@ const blockTarget = {
 };
 
 const mapStateToProps = (state) => ({
-  goHome : state.goHome,
   routerState : state.router
 });
-const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(ActionCreators, dispatch)
-});
+// TODO: when Actions are needed on this view: uncomment this, add ActionCreators above, and add mapDispatchToProps to the Connect statement below
+// const mapDispatchToProps = (dispatch) => ({
+//   actions : bindActionCreators(ActionCreators, dispatch)
+// });
 
 @DropTarget('block', blockTarget, connect => ({
   connectDropTarget: connect.dropTarget()
@@ -118,4 +117,4 @@ export class ResumeView extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
+export default connect(mapStateToProps)(ResumeView);
