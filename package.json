@@ -34,6 +34,8 @@
     "chalk": "^1.1.1",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
+    "formsy-material-ui": "^0.3.2",
+    "formsy-react": "^0.17.0",
     "history": "^1.9.0",
     "jquery": "^2.1.4",
     "material-ui": "^0.13.3",
