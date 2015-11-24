@@ -1,28 +1,33 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import { saveForm } from 'actions/userFormActions';
+import { saveForm, enableSubmit, disableSubmit } from 'actions/userFormActions';
 
 import { RaisedButton, TextField } from 'material-ui/lib';
 
 
 const ActionCreators = {
-  saveForm: saveForm
+  saveForm: saveForm,
+  enableSubmit: enableSubmit,
+  disableSubmit: disableSubmit
 };
 
 const mapStateToProps = (state) => ({
-  routerState : state.router
+  routerState: state.router,
+  canSubmit: state.canSubmit
 });
 const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(ActionCreators, dispatch)
+  actions: bindActionCreators(ActionCreators, dispatch)
 });
+
 export class UserFormView extends React.Component {
+
   static propTypes = {
-    actions: React.PropTypes.object
+    actions: React.PropTypes.object,
+    canSubmit: React.PropTypes.bool
   }
 
-  handleSubmit () {
+  handleSubmit() {
     const userInput = {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue(),
@@ -64,7 +69,7 @@ export class UserFormView extends React.Component {
     this.clearInfo();
   }
 
-  clearInfo () {
+  clearInfo() {
     this.refs.name.clearValue();
     this.refs.email.clearValue();
     this.refs.phone.clearValue();
@@ -99,7 +104,15 @@ export class UserFormView extends React.Component {
     this.refs.job2Description.clearValue();
   }
 
-  render () {
+  enableButton() {
+    this.props.actions.enableSubmit();
+  }
+
+  disableButton() {
+    this.props.actions.disableSubmit();
+  }
+
+  render() {
     return (
       <div className='container'>
         <h1 className='userinfo-header'>
@@ -126,7 +139,7 @@ export class UserFormView extends React.Component {
           </ul>
         </div>
 
-        <div className='userinfo-textfields'>
+        <div className='userinfo-form'>
           <div>
             <TextField ref='name' hintText='Full Name' />
             <TextField ref='email' hintText='Email' />
@@ -183,7 +196,9 @@ export class UserFormView extends React.Component {
             <TextField ref='personal' hintText='Personal interests, hobbies, etc' />
           </div>
 
-          <RaisedButton label='Save' onClick={e => this.handleSubmit(e)} />
+          <RaisedButton label='Save'
+                        disabled={this.props.canSubmit}
+                        onClick={e => this.handleSubmit(e)} />
         </div>
       </div>
     );
@@ -191,3 +206,5 @@ export class UserFormView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserFormView);
+
+// onClick={e => this.handleSubmit(e)}

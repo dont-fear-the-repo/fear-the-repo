@@ -1,5 +1,6 @@
 import { createConstants } from '../utils';
 
 export default createConstants(
-  'TEXT_SUBMIT'
+  'LOGIN_USER',
+  'SIGNUP_USER'
 );
