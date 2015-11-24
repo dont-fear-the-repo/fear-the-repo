@@ -3,7 +3,8 @@ import Paper                      from 'material-ui/lib/paper';
 import { DragSource, DropTarget } from 'react-dnd';
 
 const Types = {
-  BULLET: 'bullet'
+  BULLET: 'bullet',
+  BLOCK: 'block'
 };
 
 // This is our specification object, which will be passed into DropSource below. It describes how the drag source reacts to the drag and drop events
@@ -53,7 +54,7 @@ const bulletTarget = {
   }
 };
 
-@DropTarget(Types.BULLET, bulletTarget, connect => ({
+@DropTarget([Types.BULLET, Types.BLOCK], bulletTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 // DragSource takes 3 parameters:
