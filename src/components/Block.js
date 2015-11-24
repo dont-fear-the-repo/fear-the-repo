@@ -1,5 +1,5 @@
-import React, { PropTypes }       from 'react';
-import Paper                      from 'material-ui/lib/paper';
+import React, { PropTypes } from 'react';
+import Paper from 'material-ui/lib/paper';
 import { DragSource, DropTarget } from 'react-dnd';
 
 const Types = {
@@ -8,14 +8,14 @@ const Types = {
 
 // implements the drag source contract
 const blockSource = {
-  beginDrag (props) {
+  beginDrag(props) {
     return {
       id: props.id,
       originalIndex: props.findBlock(props.id).index
     };
   },
 
-  endDrag (props, monitor) {
+  endDrag(props, monitor) {
     const { id: droppedId, originalIndex } = monitor.getItem();
     const didDrop = monitor.didDrop();
 
@@ -26,11 +26,11 @@ const blockSource = {
 };
 
 const blockTarget = {
-  canDrop () {
+  canDrop() {
     return false;
   },
 
-  hover (props, monitor) {
+  hover(props, monitor) {
     const { id: draggedId } = monitor.getItem();
     const { id: overId } = props;
 
@@ -60,17 +60,36 @@ export default class Block extends React.Component {
     findBlock: PropTypes.func.isRequired,
     // coming from ResumeView.js (parent component) thru props
     companyName: PropTypes.string.isRequired,
-    jobTitle: PropTypes.string.isRequired
+    jobTitle: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired
   };
 
-  render () {
+  render() {
     // not sure why these need to be assigned, but not companyName and jobTitle
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
 
     return connectDragSource(connectDropTarget(
-      <div style={{ opacity: isDragging ? 0 : 1, cursor: 'move' }}>
-        <Paper>
-          <h1>{this.props.companyName}</h1><h2>{this.props.jobTitle} </h2>
+      <div style={{ opacity: isDragging ? 0 : 1, cursor: 'move', margin: '0px' }}>
+        <Paper zDepth={1} >
+          <div style={{display: 'inline', margin: '10px', fontWeight: '700'}} >
+            {this.props.jobTitle}
+          </div>
+          <div style={{display: 'inline', margin: '5px'}} >
+            |
+          </div>
+          <div style={{display: 'inline', margin: '10px', fontWeight: '500'}} >
+            {this.props.companyName}
+          </div>
+          <div style={{display: 'inline', margin: '5px'}} >
+            |
+          </div>
+          <div style={{display: 'inline', margin: '10px'}} >
+            {this.props.location}
+          </div>
+          <div style={{display: 'inline', float: 'right', marginRight: '10px'}} >
+            {this.props.year}
+          </div>
         </Paper>
       </div>
     ));
