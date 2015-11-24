@@ -1,15 +1,15 @@
-import React                  from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
-import { connect }            from 'react-redux';
-import Paper                  from 'material-ui/lib/paper';
-import { RaisedButton }       from 'material-ui/lib';
-import Block                  from 'components/Block';
-import { DropTarget }         from 'react-dnd';
-import update                 from 'react/lib/update';
-import { saveResume }         from 'actions/resumeActions';
+import { connect } from 'react-redux';
+import Block from 'components/Block';
+import { DropTarget } from 'react-dnd';
+import update from 'react/lib/update';
+import { saveResume } from 'actions/resumeActions';
+
+import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const blockTarget = {
-  drop () {
+  drop() {
   }
 };
 
@@ -28,7 +28,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
 
-@DropTarget(Types.BLOCK, blockTarget, connect => ({
+@DropTarget(Types.BLOCK, blockTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 export class ResumeView extends React.Component {
@@ -36,7 +36,6 @@ export class ResumeView extends React.Component {
     actions: React.PropTypes.object,
     connectDropTarget: React.PropTypes.func.isRequired
   }
-
 
   constructor (props) {
     super(props);
@@ -47,32 +46,35 @@ export class ResumeView extends React.Component {
       blocks: [{
         id: 1,
         companyName: 'My Company',
-        jobTitle: 'My Job Title',
+        jobTitle: 'Senior Señor',
         year: '2015',
         location: 'San Francisco, CA'
       },
       {
         id: 2,
         companyName: 'Company 2',
-        jobTitle: 'Job 2',
+        jobTitle: 'Mister Manager',
         year: '2014',
         location: 'Chicago, IL'
       },
       {
         id: 3,
         companyName: 'Company 3',
-        jobTitle: 'Job 3',
+        jobTitle: 'Lowly Peon',
         year: '2012',
         location: 'New York, NY'
       }]
     };
   }
 
-  handleSubmit () {
-    this.props.actions.saveResume(this.state.blocks);
+  handleSubmit() {
+    this.props.actions.saveResume({
+      blocks: this.state.blocks,
+      resumeTitle: this.refs.resumeTitle.getValue()
+    });
   }
 
-  moveBlock (id, atIndex) {
+  moveBlock(id, atIndex) {
     const { block, index } = this.findBlock(id);
     this.setState(update(this.state, {
       blocks: {
@@ -84,7 +86,7 @@ export class ResumeView extends React.Component {
     }));
   }
 
-  findBlock (id) {
+  findBlock(id) {
     const { blocks } = this.state;
     const block = blocks.filter(b => b.id === id)[0];
 
@@ -94,29 +96,47 @@ export class ResumeView extends React.Component {
     };
   }
 
-  render () {
+  render() {
     const { connectDropTarget } = this.props;
     const { blocks } = this.state;
 
     return connectDropTarget(
-      <div className='container'>
-        <h1 className='text-center'>Resume Builder</h1> <br/><br/>
+      <div className='container'
+           style={{backgroundColor: 'lightgray', height: '1000px'}}>
+        <div className='resume-title'
+             style={{textAlign: 'center'}}>
+          <TextField className='text-center'
+                     style={{margin: '20px', backgroundColor: 'white'}}
+                     hintStyle={{paddingLeft: '8px'}}
+                     hintText='Your Resume Title'
+                     ref='resumeTitle' />
 
-        <Paper className='resumeContainer'>
-          {blocks.map(block => {
-            return (
-              <Block key={block.id}
-                     id={block.id}
-                     companyName={block.companyName}
-                     jobTitle={block.jobTitle}
-                     year={block.year}
-                     location={block.location}
-                     moveBlock={this.moveBlock}
-                     findBlock={this.findBlock} />
-            );
-          })}
+          <RaisedButton label='Save Resume'
+                        onClick={e => this.handleSubmit(e)} />
+        </div>
+
+        <Paper style={{height: '800px', width: '95%', marginLeft: 'auto', marginRight: 'auto'}}>
+          <div className='margin-top'
+               style={{height: '20px'}} />
+
+          <Paper className='resumeContainer'
+                 style={{marginLeft: '20px', marginRight: '20px'}} >
+            {blocks.map(block => {
+              return (
+                <Block key={block.id}
+                       id={block.id}
+                       companyName={block.companyName}
+                       jobTitle={block.jobTitle}
+                       year={block.year}
+                       location={block.location}
+                       moveBlock={this.moveBlock}
+                       findBlock={this.findBlock} />
+              );
+            })}
+          </Paper>
+          <div className='margin-bottom'
+               style={{height: '20px'}} />
         </Paper>
-        <RaisedButton label='Save Resume' onClick={e => this.handleSubmit(e)} />
       </div>
     );
   }
