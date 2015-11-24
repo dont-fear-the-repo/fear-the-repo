@@ -3,6 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 
 import CoreLayout from 'layouts/CoreLayout';
 import HomeView from 'views/HomeView';
+import LoginView from 'views/LoginView';
 import ResumeView from 'views/ResumeView';
 import UserFormView from 'views/UserFormView';
 import AboutView from 'views/AboutView';
@@ -36,6 +37,7 @@ export default (
     <Route path='/userform' component={UserFormView} />
     <Route path='/resume' component={ResumeView} />
     <Route path='/about' component={AboutView} />
+    <Route path='/login' compontent={LoginView}/>
     <Route path = '/secretpage' component={SecretView} onEnter={requireAuth} />
   </Route>
 );

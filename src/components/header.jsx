@@ -106,7 +106,6 @@ export class Header extends React.Component {
           <Link to='/secretpage'>
             <FlatButton label = 'Secret Page' />
           </Link>  
-          <FlatButton labe='export' />
           <FlatButton style={{float: 'right', marginRight: '30px'}}
                       label='Login'
                       onClick={this.showLoginPopover.bind(this, 'pop')} />
@@ -122,7 +121,7 @@ export class Header extends React.Component {
                  canAutoPosition={true}
                  onRequestClose={this.closePopover.bind(this, 'pop')} >
           <div style={{padding: 20}}>
-            <TextField hintText='Username' ref='username' />
+            <TextField hintText='Username' type="password" ref='username' />
             <TextField hintText='Password' ref='password' />
             <FlatButton label='Submit'
                         onClick={this.state.loginOrSignup === 'login' ?
