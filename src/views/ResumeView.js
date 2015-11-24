@@ -100,14 +100,47 @@ export class ResumeView extends React.Component {
     const { connectDropTarget } = this.props;
     const { blocks } = this.state;
 
+    const styles = {
+      container: {
+        backgroundColor: 'lightgray',
+        height: '1000px'
+      },
+      resumeTitle: {
+        textAlign: 'center'
+      },
+      textCenter: {
+        margin: '20px',
+        backgroundColor: 'white'
+      },
+      hintStyle: {
+        paddingLeft: '8px'
+      },
+      marginTop: {
+        height: '20px'
+      },
+      resumeContainer: {
+        marginLeft: '20px',
+        marginRight: '20px'
+      },
+      marginBottom: {
+        height: '20px'
+      },
+      resumePaper: {
+        height: '800px',
+        width: '95%',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+      }
+    };
+
     return connectDropTarget(
       <div className='container'
-           style={{backgroundColor: 'lightgray', height: '1000px'}}>
-        <div className='resume-title'
-             style={{textAlign: 'center'}}>
-          <TextField className='text-center'
-                     style={{margin: '20px', backgroundColor: 'white'}}
-                     hintStyle={{paddingLeft: '8px'}}
+           style={styles.container}>
+        <div className='resumeTitle'
+             style={styles.resumeTitle}>
+          <TextField className='textCenter'
+                     style={styles.textCenter}
+                     hintStyle={styles.hintStyle}
                      hintText='Your Resume Title'
                      ref='resumeTitle' />
 
@@ -115,12 +148,12 @@ export class ResumeView extends React.Component {
                         onClick={e => this.handleSubmit(e)} />
         </div>
 
-        <Paper style={{height: '800px', width: '95%', marginLeft: 'auto', marginRight: 'auto'}}>
-          <div className='margin-top'
-               style={{height: '20px'}} />
+        <Paper style={styles.resumePaper}>
+          <div className='marginTop'
+               style={styles.marginTop} />
 
           <Paper className='resumeContainer'
-                 style={{marginLeft: '20px', marginRight: '20px'}} >
+                 style={styles.resumeContainer} >
             {blocks.map(block => {
               return (
                 <Block key={block.id}
@@ -134,8 +167,8 @@ export class ResumeView extends React.Component {
               );
             })}
           </Paper>
-          <div className='margin-bottom'
-               style={{height: '20px'}} />
+          <div className='marginBottom'
+               style={styles.marginBottom} />
         </Paper>
       </div>
     );
