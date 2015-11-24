@@ -1,7 +1,6 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { saveForm } from 'actions/userFormActions';
 
 import { RaisedButton, TextField } from 'material-ui/lib';
@@ -12,10 +11,10 @@ const ActionCreators = {
 };
 
 const mapStateToProps = (state) => ({
-  routerState : state.router
+  routerState: state.router
 });
 const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(ActionCreators, dispatch)
+  actions: bindActionCreators(ActionCreators, dispatch)
 });
 export class UserFormView extends React.Component {
   static propTypes = {
