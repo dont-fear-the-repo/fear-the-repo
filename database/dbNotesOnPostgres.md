@@ -24,7 +24,12 @@ Please do NOT let localPWD.js get uploaded to github! It has API keys.
 
 
 ### Misc postgres commands ###
-* For removing all tables 
+* Insert a new user:
+  `INSERT INTO "Users" ("id","userName","password","email","firstName","lastName","headline","updatedAt","createdAt") VALUES (DEFAULT,'q','q','q@q.q','alalala','lalala','lalala','2015-11-24 04:24:22.914 +00:00','2015-11-24 04:24:22.914 +00:00') RETURNING *;`
+
+* Show me the users, pretty view
+  `select id,"userName","password","email","firstName" from "Users";`
+* For removing all tables
  1. `drop schema public cascade;`
  2. `create schema public;`
 
