@@ -103,16 +103,16 @@ export class Header extends React.Component {
             <FlatButton label='Edit Resume' />
           </Link>
           <FlatButton label='export' />
-
-
+          <Link to='/secretpage'>
+            <FlatButton label = 'Secret Page' />
+          </Link>  
           <FlatButton style={{float: 'right', marginRight: '30px'}}
                       label='Login'
                       onClick={this.showLoginPopover.bind(this, 'pop')} />
           <FlatButton style={{float: 'right', marginRight: '10px'}}
                       label='Signup'
                       onClick={this.showSignupPopover.bind(this, 'pop')} />
-        </div>
-
+          </div>
         <Popover className='signup-popover'
                  open={this.state.activePopover === 'pop'}
                  anchorEl={this.state.anchorEl}
@@ -121,7 +121,7 @@ export class Header extends React.Component {
                  canAutoPosition={true}
                  onRequestClose={this.closePopover.bind(this, 'pop')} >
           <div style={{padding: 20}}>
-            <TextField hintText='Username' ref='username' />
+            <TextField hintText='Username' type="password" ref='username' />
             <TextField hintText='Password' ref='password' />
             <FlatButton label='Submit'
                         onClick={this.state.loginOrSignup === 'login' ?
@@ -140,8 +140,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
 /***************************************************
 *******     Useful code for the future      ********
-
-
 // TO CREATE A POP-UP DIALOG (for Auth maybe?)
 let customActions = [
   <FlatButton
@@ -153,7 +151,6 @@ let customActions = [
     primary={true}
     onTouchTap={this._handleCustomDialogSubmit} />
 ];
-
 <Dialog
   title="Dialog With Custom Actions"
   actions={customActions}
@@ -161,15 +158,11 @@ let customActions = [
   onRequestClose={this._handleRequestClose}>
   The actions in this window were passed in as an array of react objects.
 </Dialog>
-
-
 // FOR RESPONSIVE DESIGN FOR MOBILE
   // replace the header with a Toolbar from Material-ui
-
 // POTENTIALLY ALSO USEFUL:
   // Dropdown Menu
   // Popover (maybe instead of the dialog for auth?)
   // Refresh Indicator
   // Tabs?
-
   */
