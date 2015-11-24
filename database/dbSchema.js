@@ -7,7 +7,6 @@ import db from './dbConfig.js'; // connect to database
 //   see 'import Sequelize' and 'import db' at top.   //
 ////////////////////////////////////////////////////////
 
-
 const User = db.define('User', {
   userName: Sequelize.STRING,
   password: Sequelize.STRING,
@@ -107,30 +106,33 @@ Block.belongsToMany(Resume, {
  Try calling this function from anywhere!
  It is currently being called only in /bin/webpack-dev-server.js
 */
-export function buildATestUser() {
-  db.sync({
-    force: true
-  }).then(function() {
-    return User.create({
-      userName: 'You can do the thing!',
-      password: 'It is gonna be okay',
-      email: 'react@redux.tryhard',
-      firstName: 'Optimism Kitten',
-      lastName: 'Courage Wolf',
-      headline: '#twoboosters'
-    }).then(function(testUser) {
-      console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
-      console.log(testUser.get({
-        plain: true
-      }));
-    });
-  });
-  return {
-    User: User
-  }
-}
+// export function buildATestUser() {
+//   db.sync({
+//     force: true
+//   }).then(function() {
+//     return User.create({
+//       userName: 'You can do the thing!',
+//       password: 'It is gonna be okay',
+//       email: 'react@redux.tryhard',
+//       firstName: 'Optimism Kitten',
+//       lastName: 'Courage Wolf',
+//       headline: '#twoboosters'
+//     }).then(function(testUser) {
+//       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
+//       console.log(testUser.get({
+//         plain: true
+//       }));
+//     });
+//   });
+//   return {
+//     User: User
+//   }
+// }
 
-//
+User.sync();
+exports.User = User;
+
+exports.User = User;
 
 console.log('database/dbSchema.js was run.')
 
