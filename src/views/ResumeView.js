@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Block from 'components/Block';
+import Bullet from 'components/Bullet';
 import { DropTarget } from 'react-dnd';
 import update from 'react/lib/update';
 import { saveResume } from 'actions/resumeActions';
@@ -9,12 +10,13 @@ import { saveResume } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const blockTarget = {
-  drop() {
-  }
+  // drop() {
+  // }
 };
 
 const Types = {
-  BLOCK: 'block'
+  BLOCK: 'block',
+  BULLET: 'bullet'
 };
 
 const ActionCreators = {
@@ -28,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
 
-@DropTarget(Types.BLOCK, blockTarget, (connect) => ({
+@DropTarget([Types.BLOCK, Types.BULLET], blockTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 export class ResumeView extends React.Component {
@@ -41,6 +43,8 @@ export class ResumeView extends React.Component {
     super(props);
     this.moveBlock = this.moveBlock.bind(this);
     this.findBlock = this.findBlock.bind(this);
+    this.moveBullet = this.moveBullet.bind(this);
+    this.findBullet = this.findBullet.bind(this);
 
     this.state = {
       blocks: [{
@@ -63,6 +67,14 @@ export class ResumeView extends React.Component {
         jobTitle: 'Lowly Peon',
         year: '2012',
         location: 'New York, NY'
+      }],
+      bullets: [{
+        id: 1,
+        text: 'I kicked ass at this job'
+      },
+      {
+        id: 2,
+        text: 'Just hire me now'
       }]
     };
   }
@@ -96,9 +108,31 @@ export class ResumeView extends React.Component {
     };
   }
 
+  moveBullet(id, atIndex) {
+    const { bullet, index } = this.findBullet(id);
+    this.setState(update(this.state, {
+      bullets: {
+        $splice: [
+          [index, 1],
+          [atIndex, 0, bullet]
+        ]
+      }
+    }));
+  }
+
+  findBullet(id) {
+    const { bullets } = this.state;
+    const bullet = bullets.filter(bu => bu.id === id)[0];
+
+    return {
+      bullet,
+      index: bullets.indexOf(bullet)
+    };
+  }
+
   render() {
     const { connectDropTarget } = this.props;
-    const { blocks } = this.state;
+    const { blocks, bullets } = this.state;
 
     const styles = {
       container: {
@@ -154,6 +188,7 @@ export class ResumeView extends React.Component {
 
           <Paper className='resumeContainer'
                  style={styles.resumeContainer} >
+
             {blocks.map(block => {
               return (
                 <Block key={block.id}
@@ -166,7 +201,19 @@ export class ResumeView extends React.Component {
                        findBlock={this.findBlock} />
               );
             })}
+
+            {bullets.map(bullet => {
+              return (
+                <Bullet key={bullet.id}
+                        id={bullet.id}
+                        text={bullet.text}
+                        moveBullet={this.moveBullet}
+                        findBullet={this.findBullet} />
+              );
+            })}
+
           </Paper>
+
           <div className='marginBottom'
                style={styles.marginBottom} />
         </Paper>

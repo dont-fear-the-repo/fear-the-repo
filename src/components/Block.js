@@ -69,25 +69,56 @@ export default class Block extends React.Component {
     // not sure why these need to be assigned, but not companyName and jobTitle
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
 
+    const styles = {
+      blockDrag: {
+        opacity: isDragging ? 0 : 1,
+        cursor: 'move',
+        margin: '0px'
+      },
+      jobTitle: {
+        display: 'inline',
+        margin: '10px',
+        fontWeight: '700'
+      },
+      pipe: {
+        display: 'inline',
+        margin: '5px'
+      },
+      companyName: {
+        display: 'inline',
+        margin: '10px',
+        fontWeight: '500'
+      },
+      location: {
+        display: 'inline',
+        margin: '10px'
+      },
+      year: {
+        display: 'inline',
+        float: 'right',
+        marginRight: '10px'
+      }
+    };
+
     return connectDragSource(connectDropTarget(
-      <div style={{ opacity: isDragging ? 0 : 1, cursor: 'move', margin: '0px' }}>
+      <div style={styles.blockDrag}>
         <Paper zDepth={1} >
-          <div style={{display: 'inline', margin: '10px', fontWeight: '700'}} >
+          <div style={styles.jobTitle}>
             {this.props.jobTitle}
           </div>
-          <div style={{display: 'inline', margin: '5px'}} >
+          <div style={styles.pipe}>
             |
           </div>
-          <div style={{display: 'inline', margin: '10px', fontWeight: '500'}} >
+          <div style={styles.companyName}>
             {this.props.companyName}
           </div>
-          <div style={{display: 'inline', margin: '5px'}} >
+          <div style={styles.pipe}>
             |
           </div>
-          <div style={{display: 'inline', margin: '10px'}} >
+          <div style={styles.location}>
             {this.props.location}
           </div>
-          <div style={{display: 'inline', float: 'right', marginRight: '10px'}} >
+          <div style={styles.year}>
             {this.props.year}
           </div>
         </Paper>
