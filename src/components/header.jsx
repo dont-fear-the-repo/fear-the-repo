@@ -48,7 +48,7 @@ export class Header extends React.Component {
         }.bind(this)
     });
 
-    console.log('Logging in: ', userLoginInfo);
+
     // this.props.actions.loginUser(userLoginInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
@@ -61,7 +61,6 @@ export class Header extends React.Component {
 
     // jQuery defeat...not "the Redux Way"?
 
-    console.log('Signing up: ', userSignupInfo);
     this.props.actions.signupUser(userSignupInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
@@ -121,8 +120,8 @@ export class Header extends React.Component {
                  canAutoPosition={true}
                  onRequestClose={this.closePopover.bind(this, 'pop')} >
           <div style={{padding: 20}}>
-            <TextField hintText='Username' type="password" ref='username' />
-            <TextField hintText='Password' ref='password' />
+            <TextField hintText='Username' ref='username' />
+            <TextField hintText='Password' type="password"  ref='password' />
             <FlatButton label='Submit'
                         onClick={this.state.loginOrSignup === 'login' ?
                           e => this.handleLogin(e) :

@@ -23,7 +23,6 @@ export class LoginView extends React.Component {
       username:this.refs.username.getValue(),
       password:this.refs.password.getValue()
     };
-    console.log(comment);
     $.ajax({
       url: '/login',
       type: 'POST',
@@ -44,7 +43,7 @@ export class LoginView extends React.Component {
         <br/>
         Username: <TextField hintText='Username' ref='username'/>
         <br/>
-        Password: <TextField hintText='Password' ref='password'/>
+        Password: <TextField hintText='Password'  type="password"  ref='password'/>
       <br/>
       <RaisedButton label='Submit' onClick={e =>this.handleSubmit(e)}/>
       </div>
