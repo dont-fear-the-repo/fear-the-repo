@@ -3,9 +3,26 @@ import { LOGIN_USER, SIGNUP_USER } from 'constants/titleBarConstants';
 
 import $ from 'jQuery';
 
+function isLoggedIn(){
+    let ca = document.cookie.split(';'); 
+    let loggedin = false
+    for(var i of ca) {
+      console.log(i);
+       if(i.slice(0,11) === "connect.sid" || i.slice(1,12) === "connect.sid"){
+         loggedin = true;
+         break;
+       }
+    }
+    return loggedin;
+};
+
+
+
+
 const initialState = {
   activePopover: '',
-  anchorEl: ''
+  anchorEl: '',
+  Loggedin: isLoggedIn()
 };
 
 export default createReducer(initialState, {
