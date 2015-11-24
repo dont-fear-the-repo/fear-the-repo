@@ -8,7 +8,8 @@ export default createReducer(initialState, {
 
   [SAVE_RESUME]: (state, payload) => {
     return Object.assign({}, state, {
-      order: payload.map(item => item.companyName)
+      order: payload.blocks.map(item => item.companyName),
+      resumeTitle: payload.resumeTitle
     });
   }
 });
