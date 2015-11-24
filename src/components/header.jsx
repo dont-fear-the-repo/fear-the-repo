@@ -121,8 +121,8 @@ export class Header extends React.Component {
                  canAutoPosition={true}
                  onRequestClose={this.closePopover.bind(this, 'pop')} >
           <div style={{padding: 20}}>
-            <TextField hintText='Username' type="password" ref='username' />
-            <TextField hintText='Password' ref='password' />
+            <TextField hintText='Username' ref='username' />
+            <TextField hintText='Password' type="password"  ref='password' />
             <FlatButton label='Submit'
                         onClick={this.state.loginOrSignup === 'login' ?
                           e => this.handleLogin(e) :

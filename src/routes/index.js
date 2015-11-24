@@ -37,7 +37,7 @@ export default (
     <Route path='/userform' component={UserFormView} />
     <Route path='/resume' component={ResumeView} />
     <Route path='/about' component={AboutView} />
-    <Route path='/login' compontent={LoginView}/>
+    <Route path='/login' component={LoginView}/>
     <Route path = '/secretpage' component={SecretView} onEnter={requireAuth} />
   </Route>
 );

@@ -9,7 +9,6 @@ export default class CoreLayout extends React.Component {
   }
 
   render () {
-    console.log(this.props)
     return (
       <div className='page-container'>
         <div className='view-container'>
