@@ -28,10 +28,19 @@ const blockSource = {
 const blockTarget = {
   drop(props, monitor) {
     // TODO: allow for bullet to be dropped into block
+      // this drop() function will be invoked when an item is dropped
+      // DropTarget() [line 61] first argument authorizes bullets to interact with blocks
       // create a body property on Block
-      // set this.props.body to be a <ul> container
+        // see ResumeView line 49 (maybe?)
+      // set props.body to be a <ul> container
       // add bullet to Block's text prop as a <li> when dropped on block
-  }
+
+
+    // const { type: draggedType } = monitor.getItemType();
+    // if (draggedType === 'block') {
+
+    // }
+  },
 
   hover(props, monitor) {
     const { id: draggedId } = monitor.getItem();
@@ -42,15 +51,18 @@ const blockTarget = {
     const { id: overId } = props;
 
     // This is responsible for reordering the blocks when a block is dragged around the list of blocks
-    if (draggedType === 'block') {
+
+    // TODO: figure out why this if conditional doesn't work
+      // what's wrong with draggedType?
+      // don't have time now, but should be able to console.log it to see what's up
+    // if (draggedType === 'block') {
       if (draggedId !== overId) {
         const { index: overIndex } = props.findBlock(overId);
         props.moveBlock(draggedId, overIndex);
       }
-    } else if (draggedType === 'bullet') {
-      console.log('You just dragged a bullet over a block') // not logging currently
-
-    }
+    // } else if (draggedType === 'bullet') {
+    //   console.log('You just dragged a bullet over a block') // not logging currently
+    // }
   }
 };
 
@@ -75,8 +87,7 @@ export default class Block extends React.Component {
     companyName: PropTypes.string.isRequired,
     jobTitle: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
-    body: PropTypes.any.isRequired
+    year: PropTypes.string.isRequired
   };
 
   render() {
