@@ -40,12 +40,15 @@ const Resume = db.define('Resume', {
 
 const Block = db.define('Block', {
   jobTitle: Sequelize.STRING,
+  blockPosition: Sequelize.INTEGER,
   startDate: Sequelize.DATE,
   endDate: Sequelize.DATE
 });
 
 const Bullet = db.define('Bullet', {
-  archived: Sequelize.STRING.BINARY
+  bullet: Sequelize.STRING,
+  bulletPosition: Sequelize.INTEGER,
+  archived: {type : Sequelize.STRING.BINARY, defaultValue: 'N'}
 });
 
 const Employer = db.define('Employer', {
@@ -125,24 +128,3 @@ export function buildATestUser() {
 exports.User = User;
 
 console.log('database/dbSchema.js was run.')
-
-export function getBulletsForUser(){
-  console.log('in getBulletsForUser()');
-  Bullets.findAll({
-    include: [{
-      model: Block,
-      include: [{
-        model: Resume,
-        include: [{
-          model: User,
-          where: {
-            id: '1'//**TODO** GET USER_ID FROM FRONT END
-          }
-        }]
-      }]
-    }]
-  }).then(function(bullets){
-     console.log('bullets for users: ', bullets)
-     //**TODO** SEND BULLETS BACK AS A RESPONSE TO FRONT END
-  });
-};

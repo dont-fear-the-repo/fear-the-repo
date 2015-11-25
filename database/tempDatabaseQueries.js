@@ -1,81 +1,153 @@
-//Retrieve Information
+////Insert Query 1 : Insert User Info
 
-///NOTE : THESE QUERIES DO NOT WORK
-
-app.get("/api/bullets"//this needs to be filled in with proper route
-  , function(req, res) {
-  User.findOne({
-    where: {
-      user_name: req.session.user.user_name
-    }
-  }).then(function(user) {
-    user.getResumes().then(function(resumes) {
-      resumes = _.map(collections, function(item) {
-        return item.collection;
-      });
-      res.send(collections);
-    });
+app.post('/api/userinfo', function(req, res) {
+  User.create(
+    userName: req.body.userName,
+    password: req.body.password,
+    email: req.body.email,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    headline: req.body.headline,
+    industry: req.body.industry,
+    country: req.body.country,
+    city: req.body.city,
+    zipCode: req.body.zipCode,
+    phoneNumber: req.body.phoneNumber,
+    facebookURL: req.body.facebookURL,
+    linkedInURL: req.body.linkedInURL,
+    homepageURL: req.body.homepageURL,
+    blogURL: req.body.blogURL,
+    githubURL: req.body.githubURL,
+    behanceURL: req.body.behanceURL,
+    web1Title: req.body.web1Title,
+    web1URL: req.body.web1URL,
+    web2Title: req.body.web2Title,
+    web2URL: req.body.web2URL,
+    pictureUrl: req.body.pictureUrl,
+    positions: req.body.positions,
+    summary: req.body.summary
+  }).then(function(userinfo){
+    res.status(201).send('successfully added userinfo');
   });
 
+////Insert Query 2 : Insert resume theme into Resumes table
+app.post('/api/resume', function(req, res){
+  Resume.create({
+    theme: req.body.theme
+  }).then(function(resume){
+      User.findOne({
+        where: {
+          userName: req.body.userName
+        }
+      }).then(function(user){
+        user.addResume(resume);
+        res.status(201).send('successfully added resume"';
+        })
+    })
+});
 
-////Insert Information
+//Insert Query 3 : Insert block
 
-app.post("/api/collection", function(req, res) {
-  User.findOne({
-    where: {
-      user_name: req.session.user.user_name
-    }
-  }).then(function(user) {
-    var user_id = user.id;
-    Collection.findOne({
+app.post('/api/block', function(req, res){
+  Block.create({
+    jobTitle: req.body.jobTitle,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate
+  }).then(function(block){
+    User.findOne({
       where: {
-        collection: req.body.collection,
-        user_id: user_id
+        userName: req.body.userName
       }
-    }).then(function(collection) {
-      Book.create(req.body.book)
-        .then(function(book) {
-          collection.addBook(book);
-          res.status(201).send("succesfully added book");
-        });
+    }).then(function(user){
+      Resume.findOne({
+        where: {
+          theme: req.body.theme
+        }
+      }).then(function(resume){
+        resume.addBlock(block);
+        res.status(201).send('successfully added block');
+      });
     });
   });
 });
 
+//Insert Query 4 : Insert bullets into Bullets table
 
-//Detele Information
+app.post('/api/bullets', function(req, res) {
+  Bullet.create({
+    bullet: req.body.bullet
+  }).then(function(bullet) {
+      User.findOne({
+        where: {
+          userName: req.body.userName
+        }
+    }).then(function(user) {
+        Resume.findOne({
+          where: {
+            theme: req.body.theme
+          }
+      }).then(function(resume) {
+          Block.findOne({
+              where: {
+                jobTitle: req.body.theme
+              }
+            }
+          }).then(function(block) {
+          block.addBullet(bullet);
+          res.status(201).send('successfully added bullet');
+        });
+      });
+    });
+  });
+});
 
-app.post("/api/collection/delete", function(req, res) {
-  // NY Times bestsellers arent stored in the database, theyre an
-  // an API call (not stored in the DB). If you try to delete a book
-  // from the bestsellers collection, the server will crash. This
-  // if statement prevents that from happening.
-  if (req.body.collection === "bestsellers") {
-    console.log("Cant delete from bestsellers");
-    return;
-  }
+//Retrieve Query 5 : Retrieve a Users bullets
+
+app.post('/api/bullets/get', function(req, res){
+  Bullets.findAll({
+    include: [{
+      model: Block,
+      include: [{
+        model: Resume,
+        include: [{
+          model: User,
+          where: {
+            userName: req.body.userName;
+          }
+        }]
+      }]
+    }]
+  }).then(function(bullets) {
+     bullets = _.map(bullets, function(item){ return item.bullets; });
+     res.send(bullets);
+  });
+});
+
+//Update Query 6 : Update a Users bullets
+
+app.post('/api/bullets/archive', function(req, res) {
   User.findOne({
     where: {
-      user_name: req.session.user.user_name
+      userName: req.body.userName
     }
   }).then(function(user) {
-    var user_id = user.id;
-    Collection.findOne({
+    Resume.findOne({
       where: {
-        collection: req.body.collection,
-        user_id: user_id
+        theme: req.body.theme
       }
-    }).then(function(collection) {
-      collection.getBooks({
+    }).then(function(resume) {
+      Block.findOne({
         where: {
-          title: req.body.book.title
+          jobTitle: req.body.jobTitle
         }
-      }).then(function(books) {
-        books[0].destroy().then(function() {
-          console.log("successfully deleted book");
-          res.send("deleted book");
-        })
       });
+    }).then(function(block) {
+      Bullet.update({
+        where: {
+          bulletPosition: req.body.bulletPosition
+        }
+      });
+      res.status(201).('successfully updated bulletPosition');
     });
   });
 });
