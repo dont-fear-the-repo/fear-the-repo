@@ -24,7 +24,12 @@ Please do NOT let localPWD.js get uploaded to github! It has API keys.
 
 
 ### Misc postgres commands ###
-* For removing all tables 
+* Insert a new user:
+  `INSERT INTO "Users" ("id","userName","password","email","firstName","lastName","headline","updatedAt","createdAt") VALUES (DEFAULT,'q','q','q@q.q','alalala','lalala','lalala','2015-11-24 04:24:22.914 +00:00','2015-11-24 04:24:22.914 +00:00') RETURNING *;`
+
+* Show me the users, pretty view
+  `select id,"userName","password","email","firstName" from "Users";`
+* For removing all tables
  1. `drop schema public cascade;`
  2. `create schema public;`
 
@@ -54,4 +59,97 @@ Please do NOT let localPWD.js get uploaded to github! It has API keys.
  * halp!
      * `\help`
 
+<!--
+Stuff that used to be stored in dbSchema.js, removed to prevent confusion. But worth keeping for now, please.
 
+// db.sync({force: true});
+
+/*
+
+THESE FUNCTIONS ARE NOT BEING USED.
+Look in /bin/webpack-dev-server.js for all the database methods.
+
+
+'buildATestUser' below is a test function which:
+ * builds the Sequelize models
+ * builds/clears the database tables
+ * and builds our first and only user.
+ * It also imports and uses Sequlize and the DB connection.
+ ! It will not work without a localPWD.js in the root of your repo.
+*/
+export function buildATestUser(name) {
+  console.log("buildATestUser() was called.")
+  db.sync({
+    force: true
+  }).then(function() {
+    return User.create({
+      userName: name,
+      password: name,
+      email: name + '@' + name + '.com',
+      firstName: 'Optimism Kitten',
+      lastName: 'Courage Wolf',
+      headline: '#twoboosters'
+    }).then(function(testUser) {
+      console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
+      console.log(testUser.get({
+        plain: true
+      }));
+    });
+  });
+  return {
+    User: User
+  }
+}
+buildATestUser('chrisrhoton')
+// export function findAUser(id) {
+//   console.log("findAUser("+ id +") was called.")
+//   User.findOne({
+//       where: {
+//         id: id
+//       }
+//     })
+//     .then(function(results) {
+//       console.log(results.dataValues);
+//       return results;
+//     })
+// }
+
+
+/*
+
+function utilityToBuildGenericUser(foobar) {
+  return ({
+    userName: foobar,
+    password: foobar,
+    email: foobar,
+    firstName: foobar,
+    lastName: foobar,
+    headline: foobar,
+    industry: foobar,
+    country: foobar,
+    city: foobar,
+    zipCode: foobar,
+    phoneNumber: foobar,
+    facebookURL: foobar,
+    linkedInURL: foobar,
+    homepageURL: foobar,
+    blogURL: foobar,
+    githubURL: foobar,
+    behanceURL: foobar,
+    web1Title: foobar,
+    web1URL: foobar,
+    web2Title: foobar,
+    web2URL: foobar,
+    pictureUrl: foobar,
+    positions: foobar,
+    summary: foobar
+  })
+}
+
+
+*/
+
+
+
+
+ -->
