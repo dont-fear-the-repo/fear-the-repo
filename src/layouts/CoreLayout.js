@@ -5,13 +5,14 @@ import 'styles/core.scss';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loginUser, signupUser } from 'actions/titleBarActions';
+import { loginUser, signupUser,logout } from 'actions/titleBarActions';
 import $ from 'jQuery';
 import { FlatButton, Popover, TextField } from 'material-ui/lib';
 
   const ActionCreators = {
     loginUser: loginUser,
-    signupUser: signupUser
+    signupUser: signupUser,
+    logout: logout
   };
 
   const mapStateToProps = (state) => ({
@@ -43,7 +44,6 @@ export default class CoreLayout extends React.Component {
       username: this.refs.username.getValue(),
       password: this.refs.password.getValue()
     };
-
     // jQuery defeat...not "the Redux Way"?
     $.ajax({  // TODO: eliminate jQuery!
       url: '/login',
@@ -51,16 +51,30 @@ export default class CoreLayout extends React.Component {
       data: JSON.stringify(userLoginInfo),
       contentType: 'application/json',
       success: function(data) {
+        localStorage.setItem('username',userLoginInfo.username)
+        this.closePopover('pop');
+        this.props.actions.loginUser(userLoginInfo)
         }.bind(this),
       error: function(xhr,status,err) {
           console.log("error")
         }.bind(this)
     });
-
-
     // this.props.actions.loginUser(userLoginInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
+
+    handleLogout(){
+     let ca = document.cookie.split(';'); 
+    for(var i of ca) {
+       if(i.slice(0,11) === "connect.sid" || i.slice(1,12) === "connect.sid"){
+         document.cookie = i + "; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+         break;
+       }
+    }
+    localStorage.removeItem("username");
+    this.props.actions.logout();
+  }
+
 
   handleSignup() {
     const userSignupInfo = {
@@ -118,13 +132,16 @@ export default class CoreLayout extends React.Component {
           <FlatButton label='export' />
           {this.props.Loggedin ? <Link to='/secretpage'>
             <FlatButton label = 'Secret Page' />
-          </Link>: ""}  
-          <FlatButton style={{float: 'right', marginRight: '30px'}}
+          </Link>: ""}
+          {this.props.Loggedin && <FlatButton style={{float: 'right', marginRight: '30px'}} label='Logout'
+          onClick={e => this.handleLogout(e)} />}  
+          {!this.props.Loggedin && <FlatButton style={{float: 'right', marginRight: '30px'}}
                       label='Login'
                       onClick={this.showLoginPopover.bind(this, 'pop')} />
-          <FlatButton style={{float: 'right', marginRight: '10px'}}
+          }
+          {!this.props.Loggedin && <FlatButton style={{float: 'right', marginRight: '10px'}}
                       label='Signup'
-                      onClick={this.showSignupPopover.bind(this, 'pop')} />
+                      onClick={this.showSignupPopover.bind(this, 'pop')} />}
           </div>
         <Popover className='signup-popover'
                  open={this.state.activePopover === 'pop'}
