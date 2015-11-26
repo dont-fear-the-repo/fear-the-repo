@@ -119,6 +119,7 @@ class UserFormView extends React.Component {
 
   render() {
     console.log(this.props.canSubmit);
+    const { canSubmit } = this.props;
     return (
       <div className='container'>
         <h1 className='userinfo-header'>
@@ -222,7 +223,7 @@ class UserFormView extends React.Component {
           </div>
 
           <RaisedButton label='Save'
-                        disabled={this.props.canSubmit}
+                        disabled={!!canSubmit}
                         onClick={e => this.handleSubmit(e)} />
         </div>
       </div>
@@ -234,3 +235,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(UserFormView);
 
 // FIXME: this.props.canSubmit is undefined, despite being defined in initialState
 // in the reducer, and changes being apparent in the devtools state. why?
+
