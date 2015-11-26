@@ -11,7 +11,7 @@ import SecretView from 'views/SecretView';
 import $ from 'jQuery';
 
 function requireAuth(nextState, replaceState) {
-  //Note will change url address when deployed
+  // NOTE: will change url address when deployed
 
   $.ajax({
     url: 'http://localhost:3000/authentication',
@@ -29,7 +29,7 @@ function requireAuth(nextState, replaceState) {
       console.error(err);
     }
   });
-};
+}
 
 export default (
   <Route path='/' component={CoreLayout}>
