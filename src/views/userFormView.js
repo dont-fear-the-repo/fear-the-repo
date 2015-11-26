@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { saveForm, enableSubmit, disableSubmit } from 'actions/userFormActions';
+import { isDefined, isValidEmail, minLength, maxLength, exactLength, isInteger } from 'utils/validation';
 
 import { RaisedButton, TextField } from 'material-ui/lib';
 
@@ -104,15 +105,20 @@ export class UserFormView extends React.Component {
     this.refs.job2Description.clearValue();
   }
 
-  enableButton() {
-    this.props.actions.enableSubmit();
-  }
-
-  disableButton() {
-    this.props.actions.disableSubmit();
+  validateField(event, validatorsArray) {
+    const value = event.target.value;
+    const shouldEnable = validatorsArray.every(validator => {
+      return validator(value);
+    });
+    if (shouldEnable) {
+      this.props.actions.enableSubmit();
+    } else {
+      this.props.actions.disableSubmit();
+    }
   }
 
   render() {
+    const { canSubmit } = this.props;
     return (
       <div className='container'>
         <h1 className='userinfo-header'>
@@ -141,19 +147,38 @@ export class UserFormView extends React.Component {
 
         <div className='userinfo-form'>
           <div>
-            <TextField ref='name' hintText='Full Name' />
-            <TextField ref='email' hintText='Email' />
-            <TextField ref='phone' hintText='Phone Number' />
-            <TextField ref='streetAddress' hintText='Street Address' />
-            <TextField ref='city' hintText='City' />
-            <TextField ref='state' hintText='State' />
-            <TextField ref='zipCode' hintText='ZIP Code' />
-            <TextField ref='homepageOrBlog' hintText='Homepage or Blog' />
-            <TextField ref='linkedinUrl' hintText='LinkedIn.com/in/...' />
-            <TextField ref='githubUrl' hintText='Github.com/...' />
-            <TextField ref='facebookUrl' hintText='Facebook.com/...' />
-            <TextField ref='twitterUrl' hintText='Twitter.com/...' />
-            <TextField ref='otherUrls' hintText='Other URLs, comma-separated' />
+            <TextField ref='name'
+                       hintText='Full Name'
+                       onBlur={e => this.validateField(e, [isDefined])} />
+            <TextField ref='email'
+                       hintText='Email'
+                       onBlur={e => this.validateField(e, [isDefined, isValidEmail])} />
+            <TextField ref='phone'
+                       hintText='Phone Number'
+                       onBlur={e => this.validateField(e, [isDefined, isInteger])} />
+            <TextField ref='streetAddress'
+                       hintText='Street Address' />
+            <TextField ref='city'
+                       hintText='City'
+                       onBlur={e => this.validateField(e, [isDefined])} />
+            <TextField ref='state'
+                       hintText='State'
+                       onBlur={e => this.validateField(e, [isDefined, exactLength(2)])} />
+            <TextField ref='zipCode'
+                       hintText='ZIP Code'
+                       onBlur={e => this.validateField(e, [isDefined, isInteger, minLength(5), maxLength(9)])} />
+            <TextField ref='homepageOrBlog'
+                       hintText='Homepage or Blog' />
+            <TextField ref='linkedinUrl'
+                       hintText='LinkedIn.com/in/...' />
+            <TextField ref='githubUrl'
+                       hintText='Github.com/...' />
+            <TextField ref='facebookUrl'
+                       hintText='Facebook.com/...' />
+            <TextField ref='twitterUrl'
+                       hintText='Twitter.com/...' />
+            <TextField ref='otherUrls'
+                       hintText='Other URLs, comma-separated' />
           </div>
 
           <div>
@@ -197,7 +222,7 @@ export class UserFormView extends React.Component {
           </div>
 
           <RaisedButton label='Save'
-                        disabled={this.props.canSubmit}
+                        disabled={!!canSubmit}
                         onClick={e => this.handleSubmit(e)} />
         </div>
       </div>
@@ -206,5 +231,3 @@ export class UserFormView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserFormView);
-
-// onClick={e => this.handleSubmit(e)}

@@ -47,13 +47,15 @@ export default createReducer(initialState, {
     });
   },
 
-  [ENABLE_SUBMIT]: (state/* , payload */) => {
+  [ENABLE_SUBMIT]: (state) => {
+    console.log('enabling');
     return Object.assign({}, state, {
       canSubmit: true
     });
   },
 
-  [DISABLE_SUBMIT]: (state/* , payload */) => {
+  [DISABLE_SUBMIT]: (state) => {
+    console.log('disabling');
     return Object.assign({}, state, {
       canSubmit: false
     });
