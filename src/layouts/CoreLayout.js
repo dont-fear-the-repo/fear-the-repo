@@ -35,7 +35,8 @@ export default class CoreLayout extends React.Component {
   state = {
     activePopover: '',
     anchorEl: {},
-    loginOrSignup: ''
+    loginOrSignup: '',
+    failedattempted: false
   }
 
 // AUTH METHODS
@@ -52,11 +53,12 @@ export default class CoreLayout extends React.Component {
       contentType: 'application/json',
       success: function(data) {
         localStorage.setItem('username',userLoginInfo.username)
+        this.setState({failedattempted:false})
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo)
         }.bind(this),
       error: function(xhr,status,err) {
-          console.log("error")
+          this.setState({failedattempted : true});
         }.bind(this)
     });
     // this.props.actions.loginUser(userLoginInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
@@ -157,6 +159,7 @@ export default class CoreLayout extends React.Component {
                         onClick={this.state.loginOrSignup === 'login' ?
                           e => this.handleLogin(e) :
                           e => this.handleSignup(e)} />
+            {this.state.failedattempted ? <p style={{color: 'red'}}> Wrong username or password</p> : ''}              
           </div>
         </Popover>
 

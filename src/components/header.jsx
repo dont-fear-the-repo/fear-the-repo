@@ -44,7 +44,6 @@ export class Header extends React.Component {
       success: function(data) {
         }.bind(this),
       error: function(xhr,status,err) {
-          console.log("error")
         }.bind(this)
     });
 

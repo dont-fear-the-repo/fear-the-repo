@@ -37,7 +37,7 @@ devServer.app.post('/login',function(req,res){
  		if(results){
  			utils.createSession(req,res,results);
  		}else{
- 			res.redirect('/login')
+ 			res.send(404);
  		}
 	})
 })
