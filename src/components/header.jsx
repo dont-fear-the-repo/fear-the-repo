@@ -44,11 +44,10 @@ export class Header extends React.Component {
       success: function(data) {
         }.bind(this),
       error: function(xhr,status,err) {
-          console.log("error")
         }.bind(this)
     });
 
-    console.log('Logging in: ', userLoginInfo);
+
     // this.props.actions.loginUser(userLoginInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
@@ -61,7 +60,6 @@ export class Header extends React.Component {
 
     // jQuery defeat...not "the Redux Way"?
 
-    console.log('Signing up: ', userSignupInfo);
     this.props.actions.signupUser(userSignupInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }

@@ -1,4 +1,4 @@
-import { LOGIN_USER, SIGNUP_USER } from 'constants/titleBarConstants';
+import { LOGIN_USER, SIGNUP_USER, LOGOUT} from 'constants/titleBarConstants';
 
 export function loginUser(payload) {
   return {
@@ -12,4 +12,8 @@ export function signupUser(payload) {
     type: SIGNUP_USER,
     payload: payload
   };
+}
+
+export function logout(){
+	return {type: LOGOUT}
 }

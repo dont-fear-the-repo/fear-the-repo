@@ -17,7 +17,8 @@ devServer.app.use(parser.json());
 
 
 devServer.app.use(session({
-	secret: "Backend if fun because I don't have to deal with react"
+	secret: "Backend if fun because I don't have to deal with react",
+	cookie: {httpOnly: false}
 	}));
  
 devServer.app.post('/authentication',utils.checkUser);
@@ -36,7 +37,7 @@ devServer.app.post('/login',function(req,res){
  		if(results){
  			utils.createSession(req,res,results);
  		}else{
- 			res.redirect('/login')
+ 			res.send(404);
  		}
 	})
 })
