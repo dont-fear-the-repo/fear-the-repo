@@ -39,25 +39,51 @@ devServer.listen(port, host, function() {
 devServer.app.use(parser.json());
 
 devServer.app.use(session({
-  secret: "Backend is fun because I don't have to deal with react"
-}));
 
-devServer.app.post('/authentication', utils.checkUser);
+//   secret: "Backend is fun because I don't have to deal with react"
+// }));
 
-devServer.app.post('/login', function(req, res) {
-  dbSchema.User.findOne({
-      where: {
-        userName: req.body.username,
-        password: req.body.password
-      }
-    })
-    .then(function(results) {
-      if (results) {
-        utils.createSession(req, res, results);
-      } else {
-        res.redirect('/login')
-      }
-    })
+// devServer.app.post('/authentication', utils.checkUser);
+
+// devServer.app.post('/login', function(req, res) {
+//   dbSchema.User.findOne({
+//       where: {
+//         userName: req.body.username,
+//         password: req.body.password
+//       }
+//     })
+//     .then(function(results) {
+//       if (results) {
+//         utils.createSession(req, res, results);
+//       } else {
+//         res.redirect('/login')
+//       }
+//     })
+
+	secret: "Backend if fun because I don't have to deal with react",
+	cookie: {httpOnly: false}
+	}));
+
+devServer.app.post('/authentication',utils.checkUser);
+
+
+
+devServer.app.post('/login',function(req,res){
+	dbSchema.User.findOne({
+		where:
+			{
+				userName: req.body.username,
+				password: req.body.password
+			}
+		})
+ 	.then(function(results){
+ 		if(results){
+ 			utils.createSession(req,res,results);
+ 		}else{
+ 			res.send(404);
+ 		}
+	})
+
 })
 
 
