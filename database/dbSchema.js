@@ -7,7 +7,7 @@ import db from './dbConfig.js'; // connect to database
 //   see 'import Sequelize' and 'import db' at top.   //
 ////////////////////////////////////////////////////////
 
-const User = db.define('User', {
+export const User = db.define('User', {
   userName: Sequelize.STRING,
   password: Sequelize.STRING,
   email: Sequelize.STRING,
@@ -37,21 +37,21 @@ const User = db.define('User', {
 
 
 
-const Resume = db.define('Resume', {
+export const Resume = db.define('Resume', {
   theme: Sequelize.TEXT
 });
 
-const Block = db.define('Block', {
+export const Block = db.define('Block', {
   jobTitle: Sequelize.STRING,
   startDate: Sequelize.DATE,
   endDate: Sequelize.DATE
 });
 
-const Bullet = db.define('Bullet', {
+export const Bullet = db.define('Bullet', {
   archived: Sequelize.STRING.BINARY
 });
 
-const Employer = db.define('Employer', {
+export const Employer = db.define('Employer', {
   companyName: Sequelize.STRING,
   industry: Sequelize.STRING,
   country: Sequelize.STRING,
@@ -86,54 +86,4 @@ Block.belongsToMany(Resume, {
 
 
 
-
-
-/////////////////////////////////////////////////////////////////
-//                                                             //
-//   Database methods that will be imported into other files   //
-//                                                             //
-/////////////////////////////////////////////////////////////////
-
-
-/*
-'buildATestUser' below is a test function which:
- * builds the Sequelize models
- * builds/clears the database tables
- * and builds our first and only user.
- * It also imports and uses Sequlize and the DB connection.
- ! It will not work without a localPWD.js in the root of your repo.
-
- Try calling this function from anywhere!
- It is currently being called only in /bin/webpack-dev-server.js
-*/
-// export function buildATestUser() {
-//   db.sync({
-//     force: true
-//   }).then(function() {
-//     return User.create({
-//       userName: 'You can do the thing!',
-//       password: 'It is gonna be okay',
-//       email: 'react@redux.tryhard',
-//       firstName: 'Optimism Kitten',
-//       lastName: 'Courage Wolf',
-//       headline: '#twoboosters'
-//     }).then(function(testUser) {
-//       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
-//       console.log(testUser.get({
-//         plain: true
-//       }));
-//     });
-//   });
-//   return {
-//     User: User
-//   }
-// }
-
-User.sync();
-exports.User = User;
-
-exports.User = User;
-
 console.log('database/dbSchema.js was run.')
-
-
