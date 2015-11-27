@@ -1,31 +1,36 @@
 import { createReducer } from '../utils';
-import { LOGIN_USER, SIGNUP_USER } from 'constants/titleBarConstants';
+import { LOGIN_USER, SIGNUP_USER, LOGOUT} from 'constants/titleBarConstants';
 
-import $ from 'jQuery';
+function isLoggedIn(){
+    let ca = document.cookie.split(';'); 
+    let loggedin = false
+    for(var i of ca) {
+       if(i.slice(0,11) === "connect.sid" || i.slice(1,12) === "connect.sid"){
+         loggedin = true;
+         break;
+       }
+    }
+    return loggedin;
+};
+
+function hasUsername(){
+  var results = localStorage.getItem("username");
+  return results || "guest"
+}
 
 const initialState = {
   activePopover: '',
-  anchorEl: ''
+  anchorEl: '',
+  Loggedin: isLoggedIn(),
+  username: hasUsername()
 };
 
 export default createReducer(initialState, {
 
   [LOGIN_USER]: (state, payload) => {
-    console.log('kenny LOGIN');
-    $.ajax({  // TODO: eliminate jQuery!
-      url: '/login',
-      type: 'POST',
-      data: JSON.stringify(payload),
-      contentType: 'application/json',
-      success: function(data) {
-        console.log('success', data);
-      },
-      error: function(xhr, status, err) {
-        console.log('error', err);
-      }
-    });
     return Object.assign({}, state, {
-      username: payload.username
+      username: payload.username,
+      Loggedin: true
     });
   },
 
@@ -34,6 +39,16 @@ export default createReducer(initialState, {
     return Object.assign({}, state, {
       username: payload.username
     });
+  },
+  [LOGOUT]: (state) => {
+    return Object.assign({},state,{
+      Loggedin: false,
+      username: "guest"
+
+    })
   }
+
+
+
 
 });

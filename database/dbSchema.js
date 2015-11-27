@@ -7,7 +7,7 @@ import db from './dbConfig.js'; // connect to database
 //   see 'import Sequelize' and 'import db' at top.   //
 ////////////////////////////////////////////////////////
 
-const User = db.define('User', {
+export const User = db.define('User', {
   userName: Sequelize.STRING,
   password: Sequelize.STRING,
   email: Sequelize.STRING,
@@ -38,7 +38,7 @@ const Resume = db.define('Resume', {
   theme: Sequelize.TEXT
 });
 
-const Block = db.define('Block', {
+export const Block = db.define('Block', {
   jobTitle: Sequelize.STRING,
   blockPosition: Sequelize.INTEGER,
   startDate: Sequelize.DATE,
@@ -51,7 +51,7 @@ const Bullet = db.define('Bullet', {
   archived: {type : Sequelize.STRING.BINARY, defaultValue: 'N'}
 });
 
-const Employer = db.define('Employer', {
+export const Employer = db.define('Employer', {
   companyName: Sequelize.STRING,
   industry: Sequelize.STRING,
   country: Sequelize.STRING,
