@@ -14,7 +14,8 @@ const bulletSource = {
   beginDrag (props) {
     return {
       id: props.id,
-      originalIndex: props.findBullet(props.id).index
+      originalIndex: props.findBullet(props.id).index,
+      body: props.body
     };
   },
 
@@ -77,7 +78,7 @@ export default class Bullet extends React.Component {
     moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
     // coming from ResumeView.js (parent component) thru props
-    text: PropTypes.string.isRequired
+    body: PropTypes.string.isRequired
   };
 
 
@@ -95,7 +96,7 @@ export default class Bullet extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
         <Paper>
-          <h1>{this.props.text}</h1>
+          <h1>{this.props.body}</h1>
         </Paper>
       </div>
     ));

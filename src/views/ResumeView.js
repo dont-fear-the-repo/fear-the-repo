@@ -5,13 +5,35 @@ import Block from 'components/Block';
 import Bullet from 'components/Bullet';
 import { DropTarget } from 'react-dnd';
 import update from 'react/lib/update';
-import { saveResume } from 'actions/resumeActions';
-
+import { saveResume, dropBullet } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const blockTarget = {
-  // drop() {
-  // }
+  drop(props, monitor, component) {
+    // TODO: allow for bullet to be dropped into block
+      // this drop() function will be invoked when an item is dropped
+      // DropTarget() [line 61] first argument authorizes bullets to interact with blocks
+      // create a body property on Block
+        // see ResumeView line 49 (maybe?)
+      // set props.body to be a <ul> container
+      // add bullet to Block's text prop as a <li> when dropped on block
+
+    const bulletProps = {
+      id: monitor.getItem().id,
+      body: monitor.getItem().body
+    };
+
+    if (monitor.getItemType() === 'bullet') {
+      props.actions.dropBullet({
+        blocks: component.state.blocks,
+        targetBlock: monitor.getDropResult(),
+        droppedBullet: bulletProps
+      });
+        // Uncaught TypeError: Cannot assign to read only property 'body' of #<Object>
+        // Can't alter props, so we must use state instead
+        // FIRE AN ACTION!!
+    }
+  },
 };
 
 const Types = {
@@ -20,7 +42,8 @@ const Types = {
 };
 
 const ActionCreators = {
-  saveResume: saveResume
+  saveResume: saveResume,
+  dropBullet: dropBullet
 };
 
 const mapStateToProps = (state) => ({
@@ -52,29 +75,32 @@ export class ResumeView extends React.Component {
         companyName: 'My Company',
         jobTitle: 'Senior Señor',
         year: '2015',
-        location: 'San Francisco, CA'
+        location: 'San Francisco, CA',
+        body: ''
       },
       {
         id: 2,
         companyName: 'Company 2',
         jobTitle: 'Mister Manager',
         year: '2014',
-        location: 'Chicago, IL'
+        location: 'Chicago, IL',
+        body: ''
       },
       {
         id: 3,
         companyName: 'Company 3',
         jobTitle: 'Lowly Peon',
         year: '2012',
-        location: 'New York, NY'
+        location: 'New York, NY',
+        body: ''
       }],
       bullets: [{
         id: 1,
-        text: 'I kicked ass at this job'
+        body: 'I was good at this job'
       },
       {
         id: 2,
-        text: 'Just hire me now'
+        body: 'Just hire me now'
       }]
     };
   }
@@ -196,6 +222,7 @@ export class ResumeView extends React.Component {
                        companyName={block.companyName}
                        jobTitle={block.jobTitle}
                        year={block.year}
+                       body={block.body}
                        location={block.location}
                        moveBlock={this.moveBlock}
                        findBlock={this.findBlock} />
@@ -206,7 +233,7 @@ export class ResumeView extends React.Component {
               return (
                 <Bullet key={bullet.id}
                         id={bullet.id}
-                        text={bullet.text}
+                        body={bullet.body}
                         moveBullet={this.moveBullet}
                         findBullet={this.findBullet} />
               );
