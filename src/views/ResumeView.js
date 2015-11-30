@@ -11,10 +11,10 @@ import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 const blockTarget = {
   drop(props, monitor, component) {
     // TODO: allow for bullet to be dropped into block
-      // this drop() function will be invoked when an item is dropped
-      // DropTarget() [line 61] first argument authorizes bullets to interact with blocks
-      // create a body property on Block
-        // see ResumeView line 49 (maybe?)
+      // this drop() function will be invoked when an item is dropped -- DONE
+      // DropTarget() [line 61] first argument authorizes bullets to interact with blocks -- DONE
+      // create a body property on Block -- DONE
+        // see ResumeView line 49 (maybe?) -- DONE
       // set props.body to be a <ul> container
       // add bullet to Block's text prop as a <li> when dropped on block
 
@@ -32,8 +32,12 @@ const blockTarget = {
         // Uncaught TypeError: Cannot assign to read only property 'body' of #<Object>
         // Can't alter props, so we must use state instead
         // FIRE AN ACTION!!
+    } else {
+      props.actions.saveResume({
+        blocks: component.state.blocks
+      });
     }
-  },
+  }
 };
 
 const Types = {
@@ -71,7 +75,7 @@ export class ResumeView extends React.Component {
 
     this.state = {
       blocks: [{
-        id: 1,
+        id: 0,
         companyName: 'My Company',
         jobTitle: 'Senior Señor',
         year: '2015',
@@ -79,7 +83,7 @@ export class ResumeView extends React.Component {
         body: ''
       },
       {
-        id: 2,
+        id: 1,
         companyName: 'Company 2',
         jobTitle: 'Mister Manager',
         year: '2014',
@@ -87,7 +91,7 @@ export class ResumeView extends React.Component {
         body: ''
       },
       {
-        id: 3,
+        id: 2,
         companyName: 'Company 3',
         jobTitle: 'Lowly Peon',
         year: '2012',
@@ -95,12 +99,16 @@ export class ResumeView extends React.Component {
         body: ''
       }],
       bullets: [{
+        id: 0,
+        body: 'Bullet 1One1one1one1111'
+      },
+      {
         id: 1,
-        body: 'I was good at this job'
+        body: 'Bullet 2Two2two2two2222'
       },
       {
         id: 2,
-        body: 'Just hire me now'
+        body: 'Bullet 3Three3three3333'
       }]
     };
   }

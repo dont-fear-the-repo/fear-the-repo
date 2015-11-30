@@ -1,7 +1,9 @@
-import React, { PropTypes } from 'react';
-import Paper from 'material-ui/lib/paper';
+import React, { PropTypes }       from 'react';
+import Paper                      from 'material-ui/lib/paper';
 import { DragSource, DropTarget } from 'react-dnd';
-import { dropBullet } from 'actions/resumeActions';
+import { saveResume }             from 'actions/resumeActions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 const Types = {
   BLOCK: 'block',
@@ -16,7 +18,7 @@ const blockSource = {
     };
   },
 
-  endDrag(props, monitor) {
+  endDrag(props, monitor, component) {
     const { id: droppedId, originalIndex } = monitor.getItem();
     const didDrop = monitor.didDrop();
 
@@ -53,6 +55,17 @@ const blockTarget = {
   }
 };
 
+const ActionCreators = {
+  saveResume: saveResume
+};
+
+const mapStateToProps = (state) => ({
+  routerState: state.router
+});
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(ActionCreators, dispatch)
+});
+
 @DropTarget([Types.BLOCK, Types.BULLET], blockTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
@@ -61,7 +74,7 @@ const blockTarget = {
   isDragging: monitor.isDragging()
 }))
 
-export default class Block extends React.Component {
+export class Block extends React.Component {
   static propTypes = {
     // injected by react dnd
     connectDragSource: PropTypes.func.isRequired,
@@ -145,3 +158,5 @@ export default class Block extends React.Component {
     ));
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Block);

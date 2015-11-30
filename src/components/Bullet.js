@@ -11,6 +11,7 @@ const Types = {
 const bulletSource = {
   // When dragging starts, beginDrag is called
   // What's returned is the only information available to the drop targets
+    // should be the minimum amount of info, which is why why return just the ID and not the entire object
   beginDrag (props) {
     return {
       id: props.id,

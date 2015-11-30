@@ -19,9 +19,24 @@ export default createReducer(initialState, {
   [DROP_BULLET]: (state, payload) => {
     console.log('bullet drop payload: ', payload)
     console.log('state: ', state)
+
+    // need to replace body of block with matching ID of drop, not matching index
+    // this is the logic I want, but how can I pass the targetIndex down to the return statement?
+    var targetIndex = () => {
+      for (var i = 0; i < payload.blocks.length; i++) {
+        if (payload.blocks[i].id === payload.targetBlock.id) {
+          return i;
+        }
+      }
+    }
+
+    // This logs the whole function expression, and not the return value. Any idea why?
+    console.log('targetIndex: ', targetIndex)
+
     return Object.assign({}, state, {
-      blocks: payload.blocks.map(item => item),
-      droppedBullet: payload.blocks[payload.droppedBullet.id].body = payload.droppedBullet.body
+      droppedBullet: payload.blocks[targetIndex].body = payload.droppedBullet.body,
+      blocks: payload.blocks.map(item => item)
+      // Do I want to be editing state.blocks or payload.blocks?
     })
   }
 });
