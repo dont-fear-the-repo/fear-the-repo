@@ -13,12 +13,10 @@ const ActionCreators = {
   signupUser: signupUser,
   logout: logout
 };
-
 const mapStateToProps = (state) => ({
   userLoginInfo: state.username,
-  Loggedin: state.titleBarReducer.Loggedin
+  loggedIn: state.titleBarReducer.loggedIn
 });
-
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
@@ -27,8 +25,8 @@ export default class CoreLayout extends React.Component {
     static propTypes = {
       children: React.PropTypes.element,
       actions: React.PropTypes.object,
-      Loggedin: React.PropTypes.bool
-
+      loggedIn: React.PropTypes.bool,
+      userLoginInfo: React.PropTypes.string
     };
 
     state = {
@@ -77,12 +75,12 @@ export default class CoreLayout extends React.Component {
       localStorage.removeItem('username');
       this.props.actions.logout();
     }
-
   handleSignup() {
     const userSignupInfo = {
       username: this.refs.username.getValue(),
       password: this.refs.password.getValue()
     };
+
     $.ajax({ // TODO: eliminate jQuery!
       url: '/signup',
       type: 'POST',
@@ -99,6 +97,9 @@ export default class CoreLayout extends React.Component {
         });
       }.bind(this)
     });
+
+// TODO: make this work? Currently this component has no props, and so no actions are being bound and available
+    // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
 
 // POPOVER METHODS
@@ -128,59 +129,70 @@ showSignupPopover(key, e) {
     });
   }
 
-  render () {
+  render() {
     return (
       <div className='page-container'>
         <div className='view-container'>
-      <div>
-        <div className='header'>
-          <Link to='/' style={{marginLeft: '30px'}}>Fear the Repo</Link>
-          <Link to='/userform'>
-            <FlatButton label='User Info' />
-          </Link>
-          <Link to='/resume'>
-            <FlatButton label='Edit Resume' />
-          </Link>
-          <FlatButton label='export' />
-          {this.props.Loggedin ? <Link to='/secretpage'>
-            <FlatButton label = 'Secret Page' />
-          </Link> : ''}
-          {this.props.Loggedin && <FlatButton style={{float: 'right', marginRight: '30px'}} label='Logout'
-          onClick={e => this.handleLogout(e)} />}
-          {!this.props.Loggedin && <FlatButton style={{float: 'right', marginRight: '30px'}}
-                      label='Login'
-                      onClick={this.showLoginPopover.bind(this, 'pop')} />
-          }
-          {!this.props.Loggedin && <FlatButton style={{float: 'right', marginRight: '10px'}}
-                      label='Signup'
-                      onClick={this.showSignupPopover.bind(this, 'pop')} />}
+          <div>
+            <div className='header'>
+
+              <Link to='/' style={{marginLeft: '30px'}}>
+                Fear the Repo
+              </Link>
+
+              <Link to='/userform'>
+                <FlatButton label='User Info' />
+              </Link>
+
+              <Link to='/resume'>
+                <FlatButton label='Edit Resume' />
+              </Link>
+
+              <FlatButton label='export' />
+              {this.props.loggedIn ? <Link to='/secretpage'>
+                  <FlatButton label='Secret Page' />
+                </Link>
+              : '' }
+
+            {this.props.loggedIn &&
+              <FlatButton style={{float: 'right', marginRight: '30px'}}
+                          label='Logout'
+                          onClick={e => this.handleLogout(e)} />}
+            {!this.props.loggedIn &&
+              <FlatButton style={{float: 'right', marginRight: '30px'}}
+                          label='Login'
+                          onClick={this.showLoginPopover.bind(this, 'pop')} />}
+            {!this.props.loggedIn &&
+              <FlatButton style={{float: 'right', marginRight: '10px'}}
+                          label='Signup'
+                          onClick={this.showSignupPopover.bind(this, 'pop')} />}
           </div>
-        <Popover className='signup-popover'
-                 open={this.state.activePopover === 'pop'}
-                 anchorEl={this.state.anchorEl}
-                 anchorOrigin={{horizontal: 'left', vertical: 'center'}}
-                 targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                 onRequestClose={this.closePopover.bind(this, 'pop')} >
-          <div style={{padding: 20}}>
-            <TextField hintText='Username' ref='username' />
-            <TextField hintText='Password' type='password'  ref='password' />
-            <FlatButton label='Submit'
-                        onClick={this.state.loginOrSignup === 'login' ?
-                          e => this.handleLogin(e) :
-                          e => this.handleSignup(e)} />
-            {this.state.failedattempted ? <p style={{color: 'red'}}> Wrong username or password</p> : ''}
-            {this.state.userAlreadyExists ? <p style={{color: 'red'}}> Username already exists</p> : ''}
-          </div>
+
+          <Popover className='signup-popover'
+                   open={this.state.activePopover === 'pop'}
+                   anchorEl={this.state.anchorEl}
+                   anchorOrigin={{horizontal: 'left', vertical: 'center'}}
+                   targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                   onRequestClose={this.closePopover.bind(this, 'pop')} >
+            <div style={{padding: 20}}>
+              <TextField hintText='Username' ref='username' />
+              <TextField hintText='Password' type='password'  ref='password' />
+              <FlatButton label='Submit'
+                          onClick={this.state.loginOrSignup === 'login' ?
+                            e => this.handleLogin(e) :
+                            e => this.handleSignup(e)} />
+              {this.state.failedAttempted ? <p style={{color: 'red'}}> Wrong username or password</p> : ''}
+              {this.state.userAlreadyExists ? <p style={{color: 'red'}}> Username already exists</p> : ''}
+            </div>
         </Popover>
 
-      </div>
-            {this.props.children}
+          </div>
+          {this.props.children}
         <Footer />
         </div>
       </div>
     );
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout);

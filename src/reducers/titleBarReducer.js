@@ -1,5 +1,6 @@
+
 import { createReducer } from '../utils';
-import { LOGIN_USER, SIGNUP_USER, LOGOUT} from 'constants/titleBarConstants';
+import { LOGIN_USER, LOGOUT} from 'constants/titleBarConstants';
 
 function isLoggedIn() {
   const cookies = document.cookie.split(';');
@@ -21,7 +22,7 @@ function hasUsername() {
 const initialState = {
   activePopover: '',
   anchorEl: '',
-  Loggedin: isLoggedIn(),
+  loggedIn: isLoggedIn(),
   username: hasUsername()
 };
 
@@ -30,18 +31,13 @@ export default createReducer(initialState, {
   [LOGIN_USER]: (state, payload) => {
     return Object.assign({}, state, {
       username: payload.username,
-      Loggedin: true
+      loggedIn: true
     });
   },
 
-  [SIGNUP_USER]: (state, payload) => {
-    // TODO: signup user!
+  [LOGOUT]: (state) => {
     return Object.assign({}, state, {
-      username: payload.username
-    });
-  }, [LOGOUT]: (state) => {
-    return Object.assign({}, state, {
-      Loggedin: false,
+      loggedIn: false,
       username: 'guest'
     });
   }

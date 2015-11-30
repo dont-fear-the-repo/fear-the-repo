@@ -14,7 +14,7 @@ const utils = require('./lib/utils');
 
 
 
-devServer.listen(port, host, function() {
+devServer.listen(port, host, function () {
   console.log(chalk.green(
     `webpack-dev-server is now running at ${host}:${port}.`
   ));
@@ -39,48 +39,48 @@ devServer.listen(port, host, function() {
 devServer.app.use(parser.json());
 
 devServer.app.use(session({
-	secret: "Backend if fun because I don't have to deal with react",
-	cookie: {httpOnly: false}
-	}));
- 
-devServer.app.post('/authentication',utils.checkUser);
+  secret: "Backend if fun because I don't have to deal with react",
+  cookie: {
+    httpOnly: false
+  }
+}));
 
-devServer.app.post('/login',function(req,res){
-	dbSchema.User.findOne({
-		where: 
-			{
-				userName: req.body.username,
-				password: req.body.password
-			}
-		})
- 	.then(function(results){
- 		if(results){
- 			utils.createSession(req,res,results);
- 		}else{
- 			res.send(404);
- 		}
-	})
+devServer.app.post('/authentication', utils.checkUser);
+
+devServer.app.post('/login', function (req, res) {
+  dbSchema.User.findOne({
+      where: {
+        userName: req.body.username,
+        password: req.body.password
+      }
+    })
+    .then(function (results) {
+      if (results) {
+        utils.createSession(req, res, results);
+      } else {
+        res.send(404);
+      }
+    })
 });
 
-devServer.app.post('/signup',function(req,res){
+devServer.app.post('/signup', function (req, res) {
   dbSchema.User.findOne({
-    where: 
-      {
+      where: {
         userName: req.body.username
       }
-  })
-  .then(function(results){
-    if(!results){
-      dbSchema.User.create({
-        userName: req.body.username, 
-        password: req.body.password
-      }).then(function(results){
-        utils.createSession(req,res,results);        
-      })
-    }else{
-      res.send(404);
-    }
-  })
+    })
+    .then(function (results) {
+      if (!results) {
+        dbSchema.User.create({
+          userName: req.body.username,
+          password: req.body.password
+        }).then(function (results) {
+          utils.createSession(req, res, results);
+        })
+      } else {
+        res.send(404);
+      }
+    })
 });
 
 /////////////////////////////////////////////////////////////////
@@ -107,28 +107,30 @@ To test the API, try this:
 
 
 // Find a user
-devServer.app.post('/api/findauser', function(req, res) {
+devServer.app.post('/api/findauser', function (req, res) {
   dbSchema.User.findOne({
       where: {
         id: req.body.id
       }
     })
-    .then(function(results) {
+    .then(function (results) {
       res.send(results.dataValues);
     })
 })
 
 // All users please
-devServer.app.post('/api/allusers', function(req, res) {
+devServer.app.post('/api/allusers', function (req, res) {
   dbSchema.User.findAll()
-    .then(function(results) {
-      var userList = results.map(function(user){return "id: "+ user.id + " userName: " + user.userName});
+    .then(function (results) {
+      var userList = results.map(function (user) {
+        return "id: " + user.id + " userName: " + user.userName
+      });
       res.send(userList);
     })
 })
 
 // Create a User
-devServer.app.post('/api/userinfo', function(req, res) {
+devServer.app.post('/api/userinfo', function (req, res) {
   dbSchema.User.create({
     userName: req.body.userName,
     password: req.body.password,
@@ -154,7 +156,7 @@ devServer.app.post('/api/userinfo', function(req, res) {
     pictureUrl: req.body.pictureUrl,
     positions: req.body.positions,
     summary: req.body.summary
-  }).then(function(userinfo) {
+  }).then(function (userinfo) {
     res.send('successfully added ', userinfo);
   });
 });
