@@ -97,10 +97,9 @@ export class ResumeView extends React.Component {
   }
 
   handlPrint() {
-    let prtContent = document.getElementById("resumeContainer");
-    console.log(prtContent);
-    let WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-    WinPrint.document.write(prtContent.innerHTML);
+    const prtContent = document.getElementById('resumeContainer');
+    const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+    WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
     WinPrint.document.close();
     WinPrint.focus();
     WinPrint.print();
@@ -125,7 +124,7 @@ export class ResumeView extends React.Component {
 
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />
-          <RaisedButton label='Print resume' onClick={e => this.handlPrint(e)} />              
+          <RaisedButton label='Print resume' onClick={e => this.handlPrint(e)} />
         </div>
 
         <Paper style={{height: '800px', width: '95%', marginLeft: 'auto', marginRight: 'auto'}}>
