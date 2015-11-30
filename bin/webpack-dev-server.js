@@ -10,10 +10,9 @@ const port = config.get('webpack_port');
 const parser = require('body-parser');
 const session = require('express-session');
 const utils = require('./lib/utils');
-
-
-
-
+const bcrypt = require('bcrypt-nodejs')
+const Promise = require("bluebird");
+console.log(bcrypt.compare);
 devServer.listen(port, host, function () {
   console.log(chalk.green(
     `webpack-dev-server is now running at ${host}:${port}.`
@@ -51,12 +50,17 @@ devServer.app.post('/login', function (req, res) {
   dbSchema.User.findOne({
       where: {
         userName: req.body.username,
-        password: req.body.password
       }
     })
     .then(function (results) {
       if (results) {
-        utils.createSession(req, res, results);
+        bcrypt.compare(req.body.password, results.password, function (err, success) {
+          if (err) {
+            res.send(404);
+          } else {
+            utils.createSession(req, res, results);
+          }
+        })
       } else {
         res.send(404);
       }
@@ -71,12 +75,16 @@ devServer.app.post('/signup', function (req, res) {
     })
     .then(function (results) {
       if (!results) {
-        dbSchema.User.create({
-          userName: req.body.username,
-          password: req.body.password
-        }).then(function (results) {
-          utils.createSession(req, res, results);
-        })
+        var hashing = Promise.promisify(bcrypt.hash);
+        hashing(req.body.password, null, null)
+          .then(function (hash) {
+            dbSchema.User.create({
+              userName: req.body.username,
+              password: hash
+            })
+          }).then(function (results) {
+            utils.createSession(req, res, results);
+          })
       } else {
         res.send(404);
       }

@@ -33,12 +33,15 @@ export default class CoreLayout extends React.Component {
       activePopover: '',
       anchorEl: {},
       loginOrSignup: '',
-      failedattempted: false,
+      failedAttempted: false,
       userAlreadyExists: false
     }
 
 // AUTH METHODS
   handleLogin() {
+    this.setState({
+      userAlreadyExists: false
+    });
     const userLoginInfo = {
       username: this.refs.username.getValue(),
       password: this.refs.password.getValue()
@@ -56,7 +59,7 @@ export default class CoreLayout extends React.Component {
       }.bind(this),
       error: function () {
         this.setState({
-          failedattempted: true
+          failedAttempted: true
         });
       }.bind(this)
     });
@@ -76,6 +79,9 @@ export default class CoreLayout extends React.Component {
       this.props.actions.logout();
     }
   handleSignup() {
+    this.setState({
+      failedAttempted: false
+    });
     const userSignupInfo = {
       username: this.refs.username.getValue(),
       password: this.refs.password.getValue()
@@ -124,7 +130,7 @@ showSignupPopover(key, e) {
     }
     this.setState({
       activePopover: 'none',
-      failedattempted: false,
+      failedAttempted: false,
       userAlreadyExists: false
     });
   }
