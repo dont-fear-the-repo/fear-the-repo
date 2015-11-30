@@ -34,7 +34,8 @@ export const User = db.define('User', {
   summary: Sequelize.TEXT,
 });
 
-const Resume = db.define('Resume', {
+export const Resume = db.define('Resume', {
+  title: Sequelize.TEXT,
   theme: Sequelize.TEXT
 });
 
@@ -45,10 +46,10 @@ export const Block = db.define('Block', {
   endDate: Sequelize.DATE
 });
 
-const Bullet = db.define('Bullet', {
+export const Bullet = db.define('Bullet', {
   bullet: Sequelize.STRING,
   bulletPosition: Sequelize.INTEGER,
-  archived: {type : Sequelize.STRING.BINARY, defaultValue: 'N'}
+  archived: {type : Sequelize.STRING, defaultValue: 'N'}
 });
 
 export const Employer = db.define('Employer', {
@@ -61,19 +62,12 @@ export const Employer = db.define('Employer', {
   jobPostingUrl: Sequelize.STRING
 });
 
-
 // set up foreign keys
-User.hasMany(Resume, {
-  as: 'user_id'
-});
+User.hasMany(Resume);
 
-Block.hasMany(Bullet, {
-  as: 'block_id'
-});
+Block.hasMany(Bullet);
 
-Employer.hasMany(Block, {
-  as: 'employer_id'
-});
+Employer.hasMany(Block);
 
 Resume.belongsToMany(Block, {
   through: 'resume_to_block'
@@ -101,28 +95,28 @@ Block.belongsToMany(Resume, {
  It is currently being called only in /bin/webpack-dev-server.js
 */
 
-export function buildATestUser() {
-  db.sync({
-    force: true
-  }).then(function() {
-    return User.create({
-      userName: 'You can do the thing!',
-      password: 'It is gonna be okay',
-      email: 'react@redux.tryhard',
-      firstName: 'Optimism Kitten',
-      lastName: 'Courage Wolf',
-      headline: '#twoboosters'
-    }).then(function(testUser) {
-      console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
-      console.log(testUser.get({
-        plain: true
-      }));
-    });
-  });
-  return {
-    User: User
-  }
-}
+// export function buildATestUser() {
+//   db.sync({
+//     force: true
+//   }).then(function() {
+//     return User.create({
+//       userName: 'You can do the thing!',
+//       password: 'It is gonna be okay',
+//       email: 'react@redux.tryhard',
+//       firstName: 'Optimism Kitten',
+//       lastName: 'Courage Wolf',
+//       headline: '#twoboosters'
+//     }).then(function(testUser) {
+//       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
+//       console.log(testUser.get({
+//         plain: true
+//       }));
+//     });
+//   });
+//   return {
+//     User: User
+//   }
+// }
 
 // User.sync();
 exports.User = User;
