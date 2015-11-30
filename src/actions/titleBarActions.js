@@ -14,6 +14,8 @@ export function signupUser(payload) {
   };
 }
 
-export function logout(){
-	return {type: LOGOUT}
+export function logout() {
+  return {
+    type: LOGOUT
+  };
 }
