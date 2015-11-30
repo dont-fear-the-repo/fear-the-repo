@@ -96,6 +96,18 @@ export class ResumeView extends React.Component {
     };
   }
 
+  handlPrint() {
+    let prtContent = document.getElementById("resumeContainer");
+    console.log(prtContent);
+    let WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+    WinPrint.document.write(prtContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+  }
+
+
   render() {
     const { connectDropTarget } = this.props;
     const { blocks } = this.state;
@@ -113,13 +125,14 @@ export class ResumeView extends React.Component {
 
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />
+          <RaisedButton label='Print resume' onClick={e => this.handlPrint(e)} />              
         </div>
 
         <Paper style={{height: '800px', width: '95%', marginLeft: 'auto', marginRight: 'auto'}}>
           <div className='margin-top'
                style={{height: '20px'}} />
 
-          <Paper className='resumeContainer'
+          <Paper className='resumeContainer' id='resumeContainer'
                  style={{marginLeft: '20px', marginRight: '20px'}} >
             {blocks.map(block => {
               return (
