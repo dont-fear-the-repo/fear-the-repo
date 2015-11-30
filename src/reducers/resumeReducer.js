@@ -17,8 +17,8 @@ export default createReducer(initialState, {
   },
 
   [DROP_BULLET]: (state, payload) => {
+    console.log('previous state: ', state)
     console.log('bullet drop payload: ', payload)
-    console.log('state: ', state)
 
     // need to replace body of block with matching ID of drop, not matching index
     // this is the logic I want, but how can I pass the targetIndex down to the return statement?
@@ -34,7 +34,8 @@ export default createReducer(initialState, {
     console.log('targetIndex: ', targetIndex)
 
     return Object.assign({}, state, {
-      droppedBullet: payload.blocks[targetIndex].body = payload.droppedBullet.body,
+      droppedBullet: payload.blocks[payload.targetBlock.id].body = payload.droppedBullet.body,
+      hasBullets: payload.blocks[payload.targetBlock.id].hasBullets = true,
       blocks: payload.blocks.map(item => item)
       // Do I want to be editing state.blocks or payload.blocks?
     })

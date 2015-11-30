@@ -126,6 +126,19 @@ export class Block extends React.Component {
       }
     };
 
+    // Conditional for rendering nothing if block has no bullets, or the bullet if it's been dropped
+    // TODO: make it work
+      // if (!this.props.hasBullets) works, but not the other way
+      // tell it to check props.hasBullets of any/all blocks at any time?
+    var bullet;
+    if (this.props.hasBullets) {
+      bullet = (
+        <ul>
+          <li>{this.props.body}</li>
+        </ul>
+      );
+    }
+
     return connectDragSource(connectDropTarget(
       <div style={styles.blockDrag}>
         <Paper zDepth={1}>
@@ -151,7 +164,7 @@ export class Block extends React.Component {
             |
           </div>
           <div style={styles.location}>
-            {this.props.body}
+            {bullet}
           </div>
         </Paper>
       </div>

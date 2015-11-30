@@ -80,7 +80,8 @@ export class ResumeView extends React.Component {
         jobTitle: 'Senior Señor',
         year: '2015',
         location: 'San Francisco, CA',
-        body: ''
+        body: '',
+        hasBullets: false
       },
       {
         id: 1,
@@ -88,7 +89,8 @@ export class ResumeView extends React.Component {
         jobTitle: 'Mister Manager',
         year: '2014',
         location: 'Chicago, IL',
-        body: ''
+        body: '',
+        hasBullets: false
       },
       {
         id: 2,
@@ -96,7 +98,8 @@ export class ResumeView extends React.Component {
         jobTitle: 'Lowly Peon',
         year: '2012',
         location: 'New York, NY',
-        body: ''
+        body: '',
+        hasBullets: false
       }],
       bullets: [{
         id: 0,
@@ -233,7 +236,8 @@ export class ResumeView extends React.Component {
                        body={block.body}
                        location={block.location}
                        moveBlock={this.moveBlock}
-                       findBlock={this.findBlock} />
+                       findBlock={this.findBlock}
+                       hasBullets={this.hasBullets} />
               );
             })}
 
