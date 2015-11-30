@@ -10,13 +10,6 @@ import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const blockTarget = {
   drop(props, monitor, component) {
-    // TODO: allow for bullet to be dropped into block
-      // this drop() function will be invoked when an item is dropped -- DONE
-      // DropTarget() [line 61] first argument authorizes bullets to interact with blocks -- DONE
-      // create a body property on Block -- DONE
-        // see ResumeView line 49 (maybe?) -- DONE
-      // set props.body to be a <ul> container
-      // add bullet to Block's text prop as a <li> when dropped on block
 
     const bulletProps = {
       id: monitor.getItem().id,
@@ -29,10 +22,7 @@ const blockTarget = {
         targetBlock: monitor.getDropResult(),
         droppedBullet: bulletProps
       });
-        // Uncaught TypeError: Cannot assign to read only property 'body' of #<Object>
-        // Can't alter props, so we must use state instead
-        // FIRE AN ACTION!!
-    } else {
+    } else if (monitor.getItemType() === 'block') {
       props.actions.saveResume({
         blocks: component.state.blocks
       });
@@ -75,43 +65,43 @@ export class ResumeView extends React.Component {
 
     this.state = {
       blocks: [{
-        id: 0,
+        id: 1,
         companyName: 'My Company',
         jobTitle: 'Senior Señor',
         year: '2015',
         location: 'San Francisco, CA',
-        body: '',
+        body: [],
         hasBullets: false
       },
       {
-        id: 1,
+        id: 2,
         companyName: 'Company 2',
         jobTitle: 'Mister Manager',
         year: '2014',
         location: 'Chicago, IL',
-        body: '',
+        body: [],
         hasBullets: false
       },
       {
-        id: 2,
+        id: 3,
         companyName: 'Company 3',
         jobTitle: 'Lowly Peon',
         year: '2012',
         location: 'New York, NY',
-        body: '',
+        body: [],
         hasBullets: false
       }],
       bullets: [{
-        id: 0,
-        body: 'Bullet 1One1one1one1111'
-      },
-      {
         id: 1,
-        body: 'Bullet 2Two2two2two2222'
+        body: '1111111'
       },
       {
         id: 2,
-        body: 'Bullet 3Three3three3333'
+        body: '2222222'
+      },
+      {
+        id: 3,
+        body: '3333333'
       }]
     };
   }

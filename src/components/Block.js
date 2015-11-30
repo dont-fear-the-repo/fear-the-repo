@@ -2,8 +2,8 @@ import React, { PropTypes }       from 'react';
 import Paper                      from 'material-ui/lib/paper';
 import { DragSource, DropTarget } from 'react-dnd';
 import { saveResume }             from 'actions/resumeActions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { bindActionCreators }     from 'redux';
+import { connect }                from 'react-redux';
 
 const Types = {
   BLOCK: 'block',
@@ -47,9 +47,10 @@ const blockTarget = {
       if (draggedId !== overId) {
         const { index: overIndex } = props.findBlock(overId);
         props.moveBlock(draggedId, overIndex);
-      }
+      } // ONLY HERE does body re-render, when a block is sorted
     } else if (monitor.getItemType() === 'bullet') {
       // TODO: signal to user that it's ok to drop
+        // low priority
         // highlight/outline block?
     }
   }
@@ -73,10 +74,8 @@ const mapDispatchToProps = (dispatch) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
 }))
-
 export class Block extends React.Component {
   static propTypes = {
-    // injected by react dnd
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
@@ -88,11 +87,10 @@ export class Block extends React.Component {
     jobTitle: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     year: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired
+    body: PropTypes.array.isRequired
   };
 
   render() {
-    // not sure why these need to be assigned, but not companyName and jobTitle
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
 
     const styles = {
@@ -104,7 +102,8 @@ export class Block extends React.Component {
       jobTitle: {
         display: 'inline',
         margin: '10px',
-        fontWeight: '700'
+        fontWeight: '700',
+        fontSize: '18px'
       },
       pipe: {
         display: 'inline',
@@ -113,7 +112,8 @@ export class Block extends React.Component {
       companyName: {
         display: 'inline',
         margin: '10px',
-        fontWeight: '500'
+        fontWeight: '500',
+        fontSize: '16px'
       },
       location: {
         display: 'inline',
@@ -128,13 +128,23 @@ export class Block extends React.Component {
 
     // Conditional for rendering nothing if block has no bullets, or the bullet if it's been dropped
     // TODO: make it work
-      // if (!this.props.hasBullets) works, but not the other way
-      // tell it to check props.hasBullets of any/all blocks at any time?
+      // (!this.props.hasBullets) works, but doesn't work without the bang
+    // TODO: subsequent bullet drops should add a new <li>, not overwrite the existing
+      // ng-repeat
+      // or this.props.body.map(item => etc etc)
+      // IDEA: store bullets as properties of individual blocks
+        // this way, we can save the entire state as one resume
+        // right now, 'body' property of blocks represents bullets, but it's a string that can't intelligently hold more than one bullet
+        // bullet property of block could be an array
+          // NOPE, prop must be a string
+
     var bullet;
-    if (this.props.hasBullets) {
+    if (!this.props.hasBullets) {
       bullet = (
         <ul>
-          <li>{this.props.body}</li>
+          {this.props.body.map(item =>
+            <li key={this.props.id}>{item}</li>
+          )}
         </ul>
       );
     }
@@ -160,9 +170,6 @@ export class Block extends React.Component {
           <div style={styles.year}>
             {this.props.year}
           </div>
-          <div style={styles.pipe}>
-            |
-          </div>
           <div style={styles.location}>
             {bullet}
           </div>
@@ -173,3 +180,12 @@ export class Block extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Block);
+
+/*
+
+TODO
+ - render bullets in blocks immediately upon drop
+ - enable dnd for bullets within blocks
+ - edit blocks/bullets directly
+
+*/

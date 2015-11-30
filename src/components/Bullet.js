@@ -56,7 +56,7 @@ const bulletTarget = {
   }
 };
 
-@DropTarget([Types.BULLET, Types.BLOCK], bulletTarget, connect => ({
+@DropTarget(Types.BLOCK, bulletTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 // DragSource takes 3 parameters:

@@ -11,33 +11,29 @@ export default createReducer(initialState, {
     console.log('save resume payload: ', payload)
 
     return Object.assign({}, state, {
-      blocks: payload.blocks.map(item => item),
+      blocks: payload.blocks,
       resumeTitle: payload.resumeTitle
     });
   },
 
   [DROP_BULLET]: (state, payload) => {
-    console.log('previous state: ', state)
+    console.log('bullet drop state: ', state)
     console.log('bullet drop payload: ', payload)
 
-    // need to replace body of block with matching ID of drop, not matching index
-    // this is the logic I want, but how can I pass the targetIndex down to the return statement?
-    var targetIndex = () => {
-      for (var i = 0; i < payload.blocks.length; i++) {
-        if (payload.blocks[i].id === payload.targetBlock.id) {
-          return i;
+    const targetIndex = () => {
+      for (let index = 0; index < payload.blocks.length; index++) {
+        if (payload.blocks[index].id === payload.targetBlock.id) {
+          return index;
         }
       }
-    }
+    }();
 
-    // This logs the whole function expression, and not the return value. Any idea why?
-    console.log('targetIndex: ', targetIndex)
+    // hasBullets: I really want to toggle hasBullets on the targetBlock, not necessarily add it to the global state object
 
     return Object.assign({}, state, {
-      droppedBullet: payload.blocks[payload.targetBlock.id].body = payload.droppedBullet.body,
-      hasBullets: payload.blocks[payload.targetBlock.id].hasBullets = true,
-      blocks: payload.blocks.map(item => item)
-      // Do I want to be editing state.blocks or payload.blocks?
+      blocks: payload.blocks,
+      droppedBullet: payload.blocks[targetIndex].body.push(payload.droppedBullet.body),
+      hasBullets: payload.blocks[targetIndex].hasBullets = true
     })
   }
 });
