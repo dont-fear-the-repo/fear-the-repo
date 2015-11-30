@@ -1,5 +1,5 @@
 export function isDefined(value) {
-  if (value !== undefined || value !== null || value !== '') {
+  if (value !== undefined && value !== null && value !== '') {
     return true;
   } else {
     return false;

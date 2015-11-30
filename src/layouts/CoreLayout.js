@@ -22,7 +22,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
-export default class CoreLayout extends React.Component {
+class CoreLayout extends React.Component {
   static propTypes = {
     children : React.PropTypes.element,
     actions: React.PropTypes.object,
@@ -37,7 +37,7 @@ export default class CoreLayout extends React.Component {
     failedAttempted: false
   }
 
-// AUTH METHODS
+  // AUTH METHODS
   handleLogin() {
     const userLoginInfo = {
       username: this.refs.username.getValue(),
@@ -79,7 +79,6 @@ export default class CoreLayout extends React.Component {
     this.props.actions.logout();
   }
 
-
   handleSignup() {
     const userSignupInfo = {
       username: this.refs.username.getValue(),
@@ -90,7 +89,7 @@ export default class CoreLayout extends React.Component {
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
 
-// POPOVER METHODS
+  // POPOVER METHODS
   showLoginPopover(key, e) {
     this.setState({
       activePopover: key,
