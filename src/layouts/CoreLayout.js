@@ -67,17 +67,15 @@ export default class CoreLayout extends React.Component {
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
 
-    handleLogout() {
-      const cookies = document.cookie.split(';');
-      for (const cookie of cookies) {
-        if (cookie.slice(0, 11) === 'connect.sid' || cookie.slice(1, 12) === 'connect.sid') {
-          document.cookie = cookie + '; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-          break;
-        }
-      }
-      localStorage.removeItem('username');
-      this.props.actions.logout();
-    }
+  handleLogout() {
+    $.ajax({ // TODO: eliminate jQuery!
+      url: '/logout',
+      type: 'POST',
+      success: function () {
+        this.props.actions.logout();
+      }.bind(this),
+    });
+  }
   handleSignup() {
     this.setState({
       failedAttempted: false
@@ -93,7 +91,6 @@ export default class CoreLayout extends React.Component {
       data: JSON.stringify(userSignupInfo),
       contentType: 'application/json',
       success: function () {
-        localStorage.setItem('username', userSignupInfo.username);
         this.closePopover('pop');
         this.props.actions.loginUser(userSignupInfo);
       }.bind(this),

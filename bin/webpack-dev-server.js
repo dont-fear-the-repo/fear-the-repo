@@ -39,13 +39,12 @@ devServer.app.use(parser.json());
 
 devServer.app.use(session({
   secret: "Backend if fun because I don't have to deal with react",
-  cookie: {
-    httpOnly: false
-  }
+  resave: false,
+  saveUninitialized: true  
 }));
 
 devServer.app.post('/authentication', utils.checkUser);
-
+//Login in
 devServer.app.post('/login', function (req, res) {
   dbSchema.User.findOne({
       where: {
@@ -56,17 +55,17 @@ devServer.app.post('/login', function (req, res) {
       if (results) {
         bcrypt.compare(req.body.password, results.password, function (err, success) {
           if (err) {
-            res.send(404);
+            res.sendStatus(404);
           } else {
             utils.createSession(req, res, results);
           }
         })
       } else {
-        res.send(404);
+        res.sendStatus(404);
       }
     })
 });
-
+//Signup
 devServer.app.post('/signup', function (req, res) {
   dbSchema.User.findOne({
       where: {
@@ -83,13 +82,28 @@ devServer.app.post('/signup', function (req, res) {
               password: hash
             })
           }).then(function (results) {
+            console.log("I should not be called")
             utils.createSession(req, res, results);
           })
       } else {
-        res.send(404);
+        res.sendStatus(404);
       }
     })
 });
+
+//logout
+devServer.app.post('/logout',function (req, res) {
+    req.session.destroy(function(err) {
+    if (err) {
+      console.error(err);
+      res.status(201).send("unable to logout user")
+    } else {
+      console.log("logout success");
+      res.status(200).send("logout success");
+    }
+  });
+});
+
 
 /////////////////////////////////////////////////////////////////
 //                                                             //
