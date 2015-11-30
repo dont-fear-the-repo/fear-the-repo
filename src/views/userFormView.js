@@ -136,10 +136,13 @@ class UserFormView extends React.Component {
     const shouldEnable = _.every(this.state.validations,
                             validation => validation === true );
     if (shouldEnable) {
+      this.state.canSubmit = true;  // kill this if props ever work
       this.props.actions.enableSubmit();
     } else {
+      this.state.canSubmit = false;  // kill this if props ever work
       this.props.actions.disableSubmit();
     }
+    this.forceUpdate();  // kill this if props ever work?
   }
 
   render() {
