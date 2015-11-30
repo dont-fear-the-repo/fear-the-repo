@@ -55,7 +55,6 @@ devServer.app.post('/login',function(req,res){
 		})
  	.then(function(results){
  		if(results){
-      console.log("I'm the results", results)
  			utils.createSession(req,res,results);
  		}else{
  			res.send(404);
@@ -64,16 +63,20 @@ devServer.app.post('/login',function(req,res){
 });
 
 devServer.app.post('/signup',function(req,res){
-  dbSchema.User.findOrCreate({
+  dbSchema.User.findOne({
     where: 
       {
-        userName: req.body.username,
-        password: req.body.password
+        userName: req.body.username
       }
   })
-  .spread(function(user,created){
-    if(created){
-      utils.createSession(req,res,user);
+  .then(function(results){
+    if(!results){
+      dbSchema.User.create({
+        userName: req.body.username, 
+        password: req.body.password
+      }).then(function(results){
+        utils.createSession(req,res,results);        
+      })
     }else{
       res.send(404);
     }
