@@ -13,6 +13,7 @@ exports.checkUser = function(req, res, next){
 exports.createSession = function(req, res, newUser) {
   return req.session.regenerate(function() {
       req.session.user = newUser;
-      res.redirect('/secretpage');
+      console.log("i'm in create session")
+      res.send();
     });
 };

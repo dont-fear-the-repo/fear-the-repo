@@ -36,7 +36,8 @@ export default class CoreLayout extends React.Component {
     activePopover: '',
     anchorEl: {},
     loginOrSignup: '',
-    failedattempted: false
+    failedattempted: false,
+    userAlreadyExists: false
   }
 
 // AUTH METHODS
@@ -53,7 +54,6 @@ export default class CoreLayout extends React.Component {
       contentType: 'application/json',
       success: function(data) {
         localStorage.setItem('username',userLoginInfo.username)
-        this.setState({failedattempted:false})
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo)
         }.bind(this),
@@ -66,10 +66,10 @@ export default class CoreLayout extends React.Component {
   }
 
     handleLogout(){
-     let ca = document.cookie.split(';'); 
-    for(var i of ca) {
-       if(i.slice(0,11) === "connect.sid" || i.slice(1,12) === "connect.sid"){
-         document.cookie = i + "; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+     let cookies = document.cookie.split(';'); 
+    for(var cookie of cookies) {
+       if(cookie.slice(0,11) === "connect.sid" || i.slice(1,12) === "connect.sid"){
+         document.cookie = cookie + "; expires=Thu, 01 Jan 1970 00:00:00 UTC";
          break;
        }
     }
@@ -83,11 +83,20 @@ export default class CoreLayout extends React.Component {
       username: this.refs.username.getValue(),
       password: this.refs.password.getValue()
     };
-
-    // jQuery defeat...not "the Redux Way"?
-
-    this.props.actions.signupUser(userSignupInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
-    // TODO: change button to show userinfo, maybe redirect? Possible async concerns
+    $.ajax({  // TODO: eliminate jQuery!
+      url: '/signup',
+      type: 'POST',
+      data: JSON.stringify(userSignupInfo),
+      contentType: 'application/json',
+      success: function(data) {
+        localStorage.setItem('username',userSignupInfo.username)
+        this.closePopover('pop');
+        this.props.actions.loginUser(userSignupInfo)
+        }.bind(this),
+      error: function(xhr,status,err) {
+          this.setState({userAlreadyExists : true});
+        }.bind(this)
+    });
   }
 
 // POPOVER METHODS
@@ -112,6 +121,8 @@ export default class CoreLayout extends React.Component {
       return
     this.setState({
       activePopover:'none',
+      failedattempted: false,
+      userAlreadyExists: false
     });
   }
 
@@ -159,7 +170,8 @@ export default class CoreLayout extends React.Component {
                         onClick={this.state.loginOrSignup === 'login' ?
                           e => this.handleLogin(e) :
                           e => this.handleSignup(e)} />
-            {this.state.failedattempted ? <p style={{color: 'red'}}> Wrong username or password</p> : ''}              
+            {this.state.failedattempted ? <p style={{color: 'red'}}> Wrong username or password</p> : ''}
+            {this.state.userAlreadyExists? <p style={{color: 'red'}}> Username already exists</p>: ''}              
           </div>
         </Popover>
 
