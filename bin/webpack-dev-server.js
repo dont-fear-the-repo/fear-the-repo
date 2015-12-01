@@ -10,10 +10,9 @@ const port = config.get('webpack_port');
 const parser = require('body-parser');
 const session = require('express-session');
 const utils = require('./lib/utils');
-
-
-
-
+const bcrypt = require('bcrypt-nodejs')
+const Promise = require("bluebird");
+console.log(bcrypt.compare);
 devServer.listen(port, host, function() {
   console.log(chalk.green(
     `webpack-dev-server is now running at ${host}:${port}.`
@@ -39,27 +38,70 @@ devServer.listen(port, host, function() {
 devServer.app.use(parser.json());
 
 devServer.app.use(session({
-	secret: "Backend if fun because I don't have to deal with react",
-	cookie: {httpOnly: false}
-	}));
+  secret: "Backend if fun because I don't have to deal with react",
+  resave: false,
+  saveUninitialized: true
+}));
 
 devServer.app.post('/authentication', utils.checkUser);
+//Login in
+devServer.app.post('/login', function (req, res) {
+  console.log("On my way");
+  dbSchema.User.findOne({
+      where: {
+        userName: req.body.username,
+      }
+    })
+    .then(function (results) {
+      if (results) {
+        bcrypt.compare(req.body.password, results.password, function (err, success) {
+          if (success) {
+            utils.createSession(req, res, results);
+          } else {
+            res.sendStatus(404);
+          }
+        })
+      } else {
+        res.sendStatus(404);
+      }
+    })
+});
+//Signup
+devServer.app.post('/signup', function (req, res) {
+  dbSchema.User.findOne({
+      where: {
+        userName: req.body.username
+      }
+    })
+    .then(function (results) {
+      if (!results) {
+        var hashing = Promise.promisify(bcrypt.hash);
+        hashing(req.body.password, null, null)
+          .then(function (hash) {
+            dbSchema.User.create({
+              userName: req.body.username,
+              password: hash
+            })
+          }).then(function (results) {
+            utils.createSession(req, res, results);
+          })
+      } else {
+        res.sendStatus(404);
+      }
+    })
+});
 
-devServer.app.post('/login',function(req, res){
-	dbSchema.User.findOne({
-		where:
-			{
-				email: req.body.email,
-				password: req.body.password
-			}
-		})
- 	.then(function(results) {
- 		if (results) {
- 			utils.createSession(req,res,results);
- 		} else {
- 			res.send(404);
- 		}
-	})
+//logout
+devServer.app.post('/logout',function (req, res) {
+    req.session.destroy(function(err) {
+    if (err) {
+      console.error(err);
+      res.status(201).send("unable to logout user")
+    } else {
+      console.log("logout success");
+      res.status(200).send("logout success");
+    }
+  });
 });
 
 
@@ -97,54 +139,81 @@ To test the API, try this:
 */
 
 
+/*
+TODO: make these work!
+// Make me a resume
+devServer.app.post('/api/makemearesume', function(req, res) {
+  // TODO: call this funciton when making a new user
+  // user logs in for first time, we immediately call this API endpoint to assign them a new resume
+  // that resume is born with a block, and all blocks are born with a bullet
+
+  // users can also call this function to add a resume, so if they already have one, we'll ask sequelize to auto-insert one
+
+  // RETURNS the new resume's unique sequelize ID, and also the block and bullet_id
+  // ...and something stores it on the state, next to the userName
+
+  // this whole effort is so that when they load ResumeView, we can ask the state for this resume info to display.
+})
+
+
+// Save Bullets
+devServer.app.post('/api/savebulletsonresume', function(req, res) {
+  // we have the userName and the RESUME_ID, and the BLOCK_ID, and the BULLET_ID
+  // .... if the user adds BLOCKS and BULLETS, then we'll ship those back to the server here
+  // and update the view.
+
+})
+*/
+
 // Find a user
 devServer.app.post('/api/findauser', function(req, res) {
+  console.log("You looked for userId: " + req.body.id)
   dbSchema.User.findOne({
       where: {
         id: req.body.id
       }
     })
-    .then(function(results) {
+    .then(function (results) {
       res.send(results.dataValues);
     })
 })
 
 // All users please
-devServer.app.post('/api/allusers', function(req, res) {
+devServer.app.post('/api/allusers', function (req, res) {
   dbSchema.User.findAll()
     .then(function(results) {
-      var userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
-      res.send(userList);
+      // var userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
+      res.send(results);
     })
 })
 
 // Create a User
 devServer.app.post('/api/userinfo', function(req, res) {
+  console.log("I see users! ", req.body.email)
   dbSchema.User.create({
-    // userName: req.body.userName,
-    password: req.body.password,
     email: req.body.email,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    headline: req.body.headline,
-    industry: req.body.industry,
-    country: req.body.country,
+    password: req.body.password,
+    // firstName: req.body.firstName,
+    // lastName: req.body.lastName,
+    // headline: req.body.headline,
+    // industry: req.body.industry,
+    // country: req.body.country,
     city: req.body.city,
-    zipCode: req.body.zipCode,
-    phoneNumber: req.body.phoneNumber,
-    facebookURL: req.body.facebookURL,
-    linkedInURL: req.body.linkedInURL,
-    homepageURL: req.body.homepageURL,
-    blogURL: req.body.blogURL,
-    githubURL: req.body.githubURL,
-    behanceURL: req.body.behanceURL,
-    web1Title: req.body.web1Title,
-    web1URL: req.body.web1URL,
-    web2Title: req.body.web2Title,
-    web2URL: req.body.web2URL,
-    pictureUrl: req.body.pictureUrl,
-    positions: req.body.positions,
-    summary: req.body.summary
+    // zipCode: req.body.zipCode,
+    // phoneNumber: req.body.phoneNumber,
+    // facebookURL: req.body.facebookURL,
+    // linkedInURL: req.body.linkedInURL,
+    // homepageURL: req.body.homepageURL,
+    // blogURL: req.body.blogURL,
+    // githubURL: req.body.githubURL,
+    // behanceURL: req.body.behanceURL,
+    // web1Title: req.body.web1Title,
+    // web1URL: req.body.web1URL,
+    // web2Title: req.body.web2Title,
+    // web2URL: req.body.web2URL,
+    // pictureUrl: req.body.pictureUrl,
+    // positions: req.body.positions,
+    // summary: req.body.summary
   }).then(function(userinfo) {
     res.send('successfully added user: ', userinfo);
   });

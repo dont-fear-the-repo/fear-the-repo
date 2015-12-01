@@ -1,4 +1,4 @@
-import { SAVE_RESUME } from 'constants/resumeConstants';
+import { SAVE_RESUME, DROP_BULLET } from 'constants/resumeConstants';
 
 export function saveResume (payload) {
   return {
@@ -7,7 +7,14 @@ export function saveResume (payload) {
   };
 }
 
-//**TODO Notes by Sujay - DELETE OR FIX ME :)
+export function dropBullet (payload) {
+  return {
+    type: DROP_BULLET,
+    payload: payload
+  };
+}
+
+// **TODO Notes by Sujay - DELETE OR FIX ME :)
 // export function saveResumeDb(payload){
 //   return dispatch => {
 //     dispatch(saveResumeRequest(payload));
@@ -24,7 +31,7 @@ export function saveResume (payload) {
   //       : dispatch(saveResumeSuccess());
   //     });
   //   };
-//}
+// }
 
 
 // export function saveResumeSuccess(){
@@ -35,5 +42,5 @@ export function saveResume (payload) {
 //   return console.log("there is an error saving resume to db", err);
 // }
 
-//create action 1. post 2. response
-//npm install superagent
+// create action 1. post 2. response
+// npm install superagent

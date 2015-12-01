@@ -35,7 +35,6 @@ const ActionCreators = {
   enableSubmit: enableSubmit,
   disableSubmit: disableSubmit
 };
-
 const mapStateToProps = (state) => ({
   userLoginInfo: state.email,
   loggedIn: state.titleBarReducer.loggedIn,
@@ -46,23 +45,27 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class CoreLayout extends React.Component {
-  static propTypes = {
-    children : React.PropTypes.element,
-    actions: React.PropTypes.object,
-    userLoginInfo: React.PropTypes.string,
-    loggedIn: React.PropTypes.bool,
-    canSubmit: React.PropTypes.bool
-  };
+    static propTypes = {
+      children: React.PropTypes.element,
+      actions: React.PropTypes.object,
+      loggedIn: React.PropTypes.bool,
+      userLoginInfo: React.PropTypes.string,
+      canSubmit: React.PropTypes.bool
+    };
 
-  state = {
-    activePopover: '',
-    anchorEl: {},
-    loginOrSignup: '',
-    failedAttempted: false
-  }
+    state = {
+      activePopover: '',
+      anchorEl: {},
+      loginOrSignup: '',
+      failedAttempted: false,
+      userAlreadyExists: false
+    }
 
   // AUTH METHODS
   handleLogin() {
+    this.setState({
+      userAlreadyExists: false
+    });
     const userLoginInfo = {
       email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
@@ -73,15 +76,12 @@ class CoreLayout extends React.Component {
       type: 'POST',
       data: JSON.stringify(userLoginInfo),
       contentType: 'application/json',
-      success: function() {
+      success: function () {
         localStorage.setItem('email', userLoginInfo.email);
-        this.setState({
-          failedAttempted: false
-        });
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo);
       }.bind(this),
-      error: function(xhr, status, err) {
+      error: function () {
         this.setState({
           failedAttempted: true
         });
@@ -92,35 +92,52 @@ class CoreLayout extends React.Component {
   }
 
   handleLogout() {
-    const ca = document.cookie.split(';');  // FIXME: what does 'ca' stand for? This variable needs a better name.
-    for (let i of ca) {  // FIXME: is 'ca' an array? Why is object iteration being used here?
-      if (i.slice(0, 11) === 'connect.sid' || i.slice(1, 12) === 'connect.sid') {
-        document.cookie = i + '; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-        break;
-      }
-    }
-    localStorage.removeItem('email');
-    this.props.actions.logout();
+    $.ajax({ // TODO: eliminate jQuery!
+      url: '/logout',
+      type: 'POST',
+      success: function () {
+        this.props.actions.logout();
+      }.bind(this),
+    });
   }
 
   handleSignup() {
+    this.setState({
+      failedAttempted: false
+    });
     const userSignupInfo = {
       email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
     };
 
-    this.props.actions.signupUser(userSignupInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
+    $.ajax({ // TODO: eliminate jQuery!
+      url: '/signup',
+      type: 'POST',
+      data: JSON.stringify(userSignupInfo),
+      contentType: 'application/json',
+      success: function () {
+        this.closePopover('pop');
+        this.props.actions.loginUser(userSignupInfo);
+      }.bind(this),
+      error: function () {
+        this.setState({
+          userAlreadyExists: true
+        });
+      }.bind(this)
+    });
+
+// TODO: make this work? Currently this component has no props, and so no actions are being bound and available
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
 
-  // POPOVER METHODS
-  showLoginPopover(key, e) {
-    this.setState({
-      activePopover: key,
-      anchorEl: e.currentTarget,
-      loginOrSignup: 'login'
-    });
-  }
+// POPOVER METHODS
+showLoginPopover(key, e) {
+  this.setState({
+    activePopover: key,
+    anchorEl: e.currentTarget,
+    loginOrSignup: 'login'
+  });
+}
 
   showSignupPopover(key, e) {
     this.setState({
@@ -135,7 +152,9 @@ class CoreLayout extends React.Component {
       return;
     }
     this.setState({
-      activePopover: 'none'
+      activePopover: 'none',
+      failedAttempted: false,
+      userAlreadyExists: false
     });
   }
 
@@ -227,6 +246,13 @@ class CoreLayout extends React.Component {
                           onClick={this.state.loginOrSignup === 'login' ?
                             e => this.handleLogin(e) :
                             e => this.handleSignup(e)} />
+
+              {this.state.userAlreadyExists ?
+                <p className='userAlreadyExists'
+                   style={{ marginTop: '20px', marginLeft: '30px', color: 'red' }}>
+                  Account already exists for this email.<br/>
+                  Perhaps you meant to sign up?
+                </p> : ''}
               {this.state.failedAttempted ?
                 <p className='failedAttempted'
                    style={{ marginTop: '20px', marginLeft: '30px', color: 'red' }}>
@@ -238,6 +264,7 @@ class CoreLayout extends React.Component {
                    style={{ marginTop: '20px', marginLeft: '30px', color: 'blue' }}>
                   Please enter valid email and password
                 </p> : ''}
+
             </div>
         </Popover>
 

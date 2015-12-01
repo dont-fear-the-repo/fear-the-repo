@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'underscore';
-import { saveForm, enableSubmit, disableSubmit } from 'actions/userFormActions';
+import { saveForm, enableSubmit, disableSubmit, fetchUser } from 'actions/userFormActions';
 import { isDefined, isValidEmail, minLength, maxLength, exactLength, isInteger } from 'utils/validation';
 
 import { RaisedButton, TextField } from 'material-ui/lib';
@@ -20,7 +20,8 @@ const validations = {  // add new entry for each use of validateField
 const ActionCreators = {
   saveForm: saveForm,
   enableSubmit: enableSubmit,
-  disableSubmit: disableSubmit
+  disableSubmit: disableSubmit,
+  fetchUser: fetchUser
 };
 
 const mapStateToProps = (state) => {
@@ -78,7 +79,10 @@ class UserFormView extends React.Component {
       job2Description: this.refs.job2Description.getValue()
     };
 
-    this.props.actions.saveForm(userInput);
+    console.log('userInput from userFormView: ', userInput);
+
+    this.props.actions.fetchUser(userInput);
+
     this.clearInfo();
   }
 
