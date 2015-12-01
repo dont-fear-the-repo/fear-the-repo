@@ -18,7 +18,7 @@ const blockTarget = {
 
     if (monitor.getItemType() === 'bullet') {
       props.actions.dropBullet({
-        blocks: component.state.blocks,
+        // blocks: component.state.blocks,
         targetBlock: monitor.getDropResult(),
         droppedBullet: bulletProps
       });
@@ -41,7 +41,8 @@ const ActionCreators = {
 };
 
 const mapStateToProps = (state) => ({
-  routerState: state.router
+  routerState: state.router,
+  resumeState: state.resume
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -67,44 +68,44 @@ export class ResumeView extends React.Component {
     this.moveBullet = this.moveBullet.bind(this);
     this.findBullet = this.findBullet.bind(this);
 
-    this.state = {
-      blocks: [{
-        id: 1,
-        companyName: 'My Company',
-        jobTitle: 'Senior Señor',
-        year: '2015',
-        location: 'San Francisco, CA',
-        body: []
-      },
-      {
-        id: 2,
-        companyName: 'Company 2',
-        jobTitle: 'Mister Manager',
-        year: '2014',
-        location: 'Chicago, IL',
-        body: []
-      },
-      {
-        id: 3,
-        companyName: 'Company 3',
-        jobTitle: 'Lowly Peon',
-        year: '2012',
-        location: 'New York, NY',
-        body: []
-      }],
-      bullets: [{
-        id: 1,
-        body: '1111111'
-      },
-      {
-        id: 2,
-        body: '2222222'
-      },
-      {
-        id: 3,
-        body: '3333333'
-      }]
-    };
+    // this.state = {
+    //   blocks: [{
+    //     id: 1,
+    //     companyName: 'My Company',
+    //     jobTitle: 'Senior Señor',
+    //     year: '2015',
+    //     location: 'San Francisco, CA',
+    //     body: [{id: 1, text: '11111'}]
+    //   },
+    //   {
+    //     id: 2,
+    //     companyName: 'Company 2',
+    //     jobTitle: 'Mister Manager',
+    //     year: '2014',
+    //     location: 'Chicago, IL',
+    //     body: [{id: 2, text: '22222'}, {id: 3, text: '33333'}]
+    //   },
+    //   {
+    //     id: 3,
+    //     companyName: 'Company 3',
+    //     jobTitle: 'Lowly Peon',
+    //     year: '2012',
+    //     location: 'New York, NY',
+    //     body: []
+    //   }],
+    //   bullets: [{
+    //     id: 1,
+    //     body: '1111111'
+    //   },
+    //   {
+    //     id: 2,
+    //     body: '2222222'
+    //   },
+    //   {
+    //     id: 3,
+    //     body: '3333333'
+    //   }]
+    // };
   }
 
   handleSubmit() {
@@ -170,7 +171,7 @@ export class ResumeView extends React.Component {
 
   render() {
     const { connectDropTarget } = this.props;
-    const { blocks, bullets } = this.state;
+    const { blockChildren } = this.state.resume;
 
     const styles = {
       container: {
@@ -230,24 +231,24 @@ export class ResumeView extends React.Component {
 
              <ResumeHeader />
 
-            {blocks.map(block => {
+            {blockChildren.map(block => {
               return (
-                <Block key={block.id}
-                       id={block.id}
+                <Block key={block.blockId}
+                       blockId={block.blockId}
                        companyName={block.companyName}
                        jobTitle={block.jobTitle}
                        year={block.year}
-                       body={block.body}
+                       bulletChildren={block.bulletChildren}
                        location={block.location}
                        moveBlock={this.moveBlock}
                        findBlock={this.findBlock}
                        hasBullets={this.hasBullets}>
 
-              {bullets.map(bullet => {
+              {blockChildren.bulletChildren.map(bullet => {
                 return (
-                  <Bullet key={bullet.id}
-                          id={bullet.id}
-                          body={bullet.body}
+                  <Bullet key={bullet.bulletId}
+                          bulletId={bullet.bulletId}
+                          text={bullet.text}
                           moveBullet={this.moveBullet}
                           findBullet={this.findBullet} />
                 );

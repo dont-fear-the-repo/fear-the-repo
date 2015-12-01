@@ -26,9 +26,10 @@ const blockSource = {
 const blockTarget = {
   drop(props) {
     // Simply return an object to make certain props available to the bullet being dropped on it via monitor.getDropResult. See ResumeView's blockTarget for the dispatching of that action.
+    console.log('props: ', props)
     return {
       body: props.body,
-      id: props.id
+      blockId: props.blockId
     };
   },
 
