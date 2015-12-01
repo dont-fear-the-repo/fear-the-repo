@@ -180,5 +180,8 @@ Still TODO
     - right now only happens on block drop
  - enable dnd for bullets within blocks
  - edit blocks/bullets directly
+    - on double click?
+
+ - save resume: new obj in state with props of header, body ([] of blocks of [] of bullets)
 
 */

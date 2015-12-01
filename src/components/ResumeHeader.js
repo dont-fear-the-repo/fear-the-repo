@@ -11,8 +11,6 @@ export default class ResumeHeader extends React.Component {
   }
 
   render() {
-    const userInput = this.context.store.getState().userFormReducer;
-
     const styles = {
       name: {
         fontWeight: '700',

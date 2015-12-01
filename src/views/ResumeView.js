@@ -75,23 +75,23 @@ export class ResumeView extends React.Component {
         year: '2015',
         location: 'San Francisco, CA',
         body: []
+      },
+      {
+        id: 2,
+        companyName: 'Company 2',
+        jobTitle: 'Mister Manager',
+        year: '2014',
+        location: 'Chicago, IL',
+        body: []
+      },
+      {
+        id: 3,
+        companyName: 'Company 3',
+        jobTitle: 'Lowly Peon',
+        year: '2012',
+        location: 'New York, NY',
+        body: []
       }],
-      // {
-      //   id: 2,
-      //   companyName: 'Company 2',
-      //   jobTitle: 'Mister Manager',
-      //   year: '2014',
-      //   location: 'Chicago, IL',
-      //   body: []
-      // },
-      // {
-      //   id: 3,
-      //   companyName: 'Company 3',
-      //   jobTitle: 'Lowly Peon',
-      //   year: '2012',
-      //   location: 'New York, NY',
-      //   body: []
-      // }],
       bullets: [{
         id: 1,
         body: '1111111'
@@ -99,11 +99,11 @@ export class ResumeView extends React.Component {
       {
         id: 2,
         body: '2222222'
+      },
+      {
+        id: 3,
+        body: '3333333'
       }]
-      // {
-      //   id: 3,
-      //   body: '3333333'
-      // }]
     };
   }
 
@@ -205,9 +205,6 @@ export class ResumeView extends React.Component {
       }
     };
 
-    // This is how we can access the global state object, and therefore any inputs from the user form
-    const userInput = this.context.store.getState().userFormReducer;
-
     return connectDropTarget(
       <div className='container'
            style={styles.container}>
@@ -237,14 +234,16 @@ export class ResumeView extends React.Component {
               return (
                 <Block key={block.id}
                        id={block.id}
-                       companyName={userInput.job1Name}
-                       jobTitle={userInput.job1Title}
+                       companyName={block.companyName}
+                       jobTitle={block.jobTitle}
                        year={block.year}
                        body={block.body}
-                       location={userInput.job1Location}
+                       location={block.location}
                        moveBlock={this.moveBlock}
                        findBlock={this.findBlock}
-                       hasBullets={this.hasBullets}>
+                       hasBullets={this.hasBullets} />
+                );
+            })}
 
               {bullets.map(bullet => {
                 return (
@@ -253,13 +252,8 @@ export class ResumeView extends React.Component {
                           body={bullet.body}
                           moveBullet={this.moveBullet}
                           findBullet={this.findBullet} />
-                );
-              })}
-
-                </Block>
-
               );
-            })}
+              })}
 
 
           </Paper>
