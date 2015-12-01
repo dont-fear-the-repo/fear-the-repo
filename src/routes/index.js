@@ -8,11 +8,11 @@ import ResumeView from 'views/ResumeView';
 import UserFormView from 'views/UserFormView';
 import AboutView from 'views/AboutView';
 import SecretView from 'views/SecretView';
+
 import $ from 'jQuery';
 
 function requireAuth(nextState, replaceState) {
   // NOTE: will change url address when deployed
-
   $.ajax({
     url: 'http://localhost:3000/authentication',
     async: false,
@@ -38,7 +38,7 @@ export default (
     <Route path='/resume' component={ResumeView} />
     <Route path='/about' component={AboutView} />
     <Route path='/login' component={LoginView}/>
-    <Route path = '/secretpage' component={SecretView} onEnter={requireAuth} />
+    <Route path='/secretpage' component={SecretView} onEnter={requireAuth} />
   </Route>
 );
 
