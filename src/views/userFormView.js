@@ -8,6 +8,15 @@ import { isDefined, isValidEmail, minLength, maxLength, exactLength, isInteger }
 import { RaisedButton, TextField } from 'material-ui/lib';
 
 
+const validations = {  // add new entry for each use of validateField
+  name: false,
+  email: false,
+  phone: false,
+  city: false,
+  state: false,
+  zip: false
+};
+
 const ActionCreators = {
   saveForm: saveForm,
   enableSubmit: enableSubmit,
@@ -32,18 +41,6 @@ class UserFormView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
     canSubmit: React.PropTypes.bool
-  }
-
-  state = {
-    canSubmit: true,  // change this back to false
-    validations: {  // add new entry for each use of validateField
-      name: false,
-      email: false,
-      phone: false,
-      city: false,
-      state: false,
-      zip: false
-    }
   }
 
   handleSubmit() {
@@ -124,27 +121,24 @@ class UserFormView extends React.Component {
     this.refs.job2Description.clearValue();
   }
 
-  validateField(event, validatorsArray, key) {  // add to this.state.validations for each use
+  validateField(event, validatorsArray, key) {  // add to validations object for each use
     const value = event.target.value;
     const validEntry = validatorsArray.every(validator => {
       return validator(value);
     });
     if (validEntry) {
-      this.state.validations[key] = true;
+      validations[key] = true;
     } else if (!validEntry) {
-      this.state.validations[key] = false;
+      validations[key] = false;
     }
 
-    const shouldEnable = _.every(this.state.validations,
+    const shouldEnable = _.every(validations,
                             validation => validation === true );
     if (shouldEnable) {
-      this.state.canSubmit = true;  // kill this if props ever work
       this.props.actions.enableSubmit();
     } else {
-      this.state.canSubmit = false;  // kill this if props ever work
       this.props.actions.disableSubmit();
     }
-    this.forceUpdate();  // kill this if props ever work?
   }
 
   render() {
@@ -252,6 +246,7 @@ class UserFormView extends React.Component {
           </div>
 
           <RaisedButton label='Save'
+                        disabled={!canSubmit}
                         onClick={e => this.handleSubmit(e)} />
           {!canSubmit ?
             <span className='disabled-text'
