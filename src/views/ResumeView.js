@@ -1,12 +1,12 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import Block from 'components/Block';
-import Bullet from 'components/Bullet';
-import ResumeHeader from 'components/ResumeHeader';
-import { DropTarget } from 'react-dnd';
-import update from 'react/lib/update';
-import { saveResume, dropBullet } from 'actions/resumeActions';
+import React                              from 'react';
+import { bindActionCreators }             from 'redux';
+import { connect }                        from 'react-redux';
+import Block                              from 'components/Block';
+import Bullet                             from 'components/Bullet';
+import ResumeHeader                       from 'components/ResumeHeader';
+import { DropTarget }                     from 'react-dnd';
+import update                             from 'react/lib/update';
+import { saveResume, dropBullet }         from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const blockTarget = {
@@ -158,7 +158,7 @@ export class ResumeView extends React.Component {
     };
   }
 
-  handlPrint() {
+  handlePrint() {
     const prtContent = document.getElementById('resumeContainer');
     const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
     WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
@@ -218,7 +218,7 @@ export class ResumeView extends React.Component {
 
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />
-          <RaisedButton label='Print resume' onClick={e => this.handlPrint(e)} />
+          <RaisedButton label='Print Resume' onClick={e => this.handlePrint(e)} />
         </div>
 
         <Paper style={styles.resumePaper}>
@@ -241,9 +241,7 @@ export class ResumeView extends React.Component {
                        location={block.location}
                        moveBlock={this.moveBlock}
                        findBlock={this.findBlock}
-                       hasBullets={this.hasBullets} />
-                );
-            })}
+                       hasBullets={this.hasBullets}>
 
               {bullets.map(bullet => {
                 return (
@@ -252,9 +250,13 @@ export class ResumeView extends React.Component {
                           body={bullet.body}
                           moveBullet={this.moveBullet}
                           findBullet={this.findBullet} />
-              );
+                );
               })}
 
+                </Block>
+
+              );
+            })}
 
           </Paper>
 
