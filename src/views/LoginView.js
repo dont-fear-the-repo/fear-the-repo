@@ -1,7 +1,5 @@
 import React                  from 'react';
-import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
-import { Link }               from 'react-router';
 import RaisedButton           from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import $                      from 'jQuery';
@@ -18,8 +16,8 @@ export class LoginView extends React.Component {
   static propTypes = {
     actions : React.PropTypes.object
   }
-  handleSubmit(e) {
-    var comment = {
+  handleSubmit() {
+    const comment = {
       username:this.refs.username.getValue(),
       password:this.refs.password.getValue()
     };
@@ -28,11 +26,10 @@ export class LoginView extends React.Component {
       type: 'POST',
       data: JSON.stringify(comment),
       contentType: 'application/json',
-      success: function(data){
-      }.bind(this),
-      error: function(xhr,status,err){
-        console.log("error")
-      }.bind(this)
+      success: function() {
+      },
+      error: function() {
+      }
     });
     return;
   }
@@ -43,7 +40,7 @@ export class LoginView extends React.Component {
         <br/>
         Username: <TextField hintText='Username' ref='username'/>
         <br/>
-        Password: <TextField hintText='Password'  type="password"  ref='password'/>
+        Password: <TextField hintText='Password'  type='password'  ref='password'/>
       <br/>
       <RaisedButton label='Submit' onClick={e =>this.handleSubmit(e)}/>
       </div>
