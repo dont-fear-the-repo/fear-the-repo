@@ -37,7 +37,7 @@ export default class CoreLayout extends React.Component {
       userAlreadyExists: false
     }
 
-// AUTH METHODS
+  // AUTH METHODS
   handleLogin() {
     this.setState({
       userAlreadyExists: false
@@ -76,6 +76,7 @@ export default class CoreLayout extends React.Component {
       }.bind(this),
     });
   }
+
   handleSignup() {
     this.setState({
       failedAttempted: false
@@ -114,13 +115,14 @@ showLoginPopover(key, e) {
   });
 }
 
-showSignupPopover(key, e) {
-  this.setState({
-    activePopover: key,
-    anchorEl: e.currentTarget,
-    loginOrSignup: 'signup'
-  });
-}
+  showSignupPopover(key, e) {
+    this.setState({
+      activePopover: key,
+      anchorEl: e.currentTarget,
+      loginOrSignup: 'signup'
+    });
+  }
+
   closePopover(key) {
     if (this.state.activePopover !== key) {
       return;
