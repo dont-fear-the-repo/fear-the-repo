@@ -87,8 +87,7 @@ export class Block extends React.Component {
     jobTitle: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     year: PropTypes.string.isRequired,
-    body: PropTypes.array.isRequired,
-    hasBullets: PropTypes.boolean.isRequired
+    body: PropTypes.array.isRequired
   };
 
   render() {
@@ -135,7 +134,7 @@ export class Block extends React.Component {
             <li>{item}</li>
             // <li key={this.props.id}>{item}</li>  // this is block id
               // how do I get bullet id?
-              // throw console error, but still behaves as it should
+              // throws console error, but still behaves as it should
           )}
         </ul>
       );
