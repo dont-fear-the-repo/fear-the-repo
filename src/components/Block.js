@@ -135,6 +135,7 @@ export class Block extends React.Component {
             <li>{item}</li>
             // <li key={this.props.id}>{item}</li>  // this is block id
               // how do I get bullet id?
+              // throw console error, but still behaves as it should
           )}
         </ul>
       );

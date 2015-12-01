@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Block from 'components/Block';
 import Bullet from 'components/Bullet';
+import ResumeHeader from 'components/ResumeHeader';
 import { DropTarget } from 'react-dnd';
 import update from 'react/lib/update';
 import { saveResume, dropBullet } from 'actions/resumeActions';
@@ -56,6 +57,10 @@ export class ResumeView extends React.Component {
     connectDropTarget: React.PropTypes.func.isRequired
   }
 
+  static contextTypes = {
+    store: React.PropTypes.object
+  }
+
   constructor (props) {
     super(props);
     this.moveBlock = this.moveBlock.bind(this);
@@ -70,8 +75,7 @@ export class ResumeView extends React.Component {
         jobTitle: 'Senior Señor',
         year: '2015',
         location: 'San Francisco, CA',
-        body: [],
-        hasBullets: false
+        body: []
       },
       {
         id: 2,
@@ -79,8 +83,7 @@ export class ResumeView extends React.Component {
         jobTitle: 'Mister Manager',
         year: '2014',
         location: 'Chicago, IL',
-        body: [],
-        hasBullets: false
+        body: []
       },
       {
         id: 3,
@@ -88,8 +91,7 @@ export class ResumeView extends React.Component {
         jobTitle: 'Lowly Peon',
         year: '2012',
         location: 'New York, NY',
-        body: [],
-        hasBullets: false
+        body: []
       }],
       bullets: [{
         id: 1,
@@ -194,6 +196,9 @@ export class ResumeView extends React.Component {
       }
     };
 
+    // This is how we can access the global state object, and therefore any inputs from the user form
+    const userInput = this.context.store.getState().userFormReducer;
+
     return connectDropTarget(
       <div className='container'
            style={styles.container}>
@@ -214,17 +219,19 @@ export class ResumeView extends React.Component {
                style={styles.marginTop} />
 
           <Paper className='resumeContainer'
-                 style={styles.resumeContainer} >
+                 style={styles.resumeContainer}>
+
+             <ResumeHeader />
 
             {blocks.map(block => {
               return (
                 <Block key={block.id}
                        id={block.id}
-                       companyName={block.companyName}
-                       jobTitle={block.jobTitle}
+                       companyName={userInput.job1Name}
+                       jobTitle={userInput.job1Title}
                        year={block.year}
                        body={block.body}
-                       location={block.location}
+                       location={userInput.job1Location}
                        moveBlock={this.moveBlock}
                        findBlock={this.findBlock}
                        hasBullets={this.hasBullets} />
