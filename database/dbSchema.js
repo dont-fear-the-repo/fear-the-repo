@@ -9,7 +9,7 @@ import db from './dbConfig.js'; // connect to database
 
 export const UserLogin = db.define('UserLogin', {
   email: Sequelize.STRING,
-  password: Sequelize.STRING
+  password: Sequelize.STRING,
 });
 
 export const User = db.define('User', {
@@ -102,23 +102,25 @@ Block.belongsToMany(Resume, {
  It is currently being called only in /bin/webpack-dev-server.js
 */
 
-export function buildATestUser() {
-  db.sync({
-    force: true
-  }).then(function() {
-    return UserLogin.create({
-      email: 'test@gmail.com',
-      password: 'testHASH'
-    }).then(function(testUser) {
-      console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
-      console.log(testUser.get({
-        plain: true
-      }));
-    });
-  });
-  return {
-    UserLogin: UserLogin
-  }
-}
+// export function buildATestUser() {
+//   db.sync({
+//     force: true
+//   })
+//   .then(function() {
+//     return UserLogin.create({
+//       email: 'test@gmail.com',
+//       password: 'testHASH'
+//     }).then(function(testUser) {
+//       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
+//       console.log(testUser.get({
+//         plain: true
+//       }));
+//     });
+//   });
+//   return {
+//     UserLogin: UserLogin
+//   }
+// }
+db.sync({force: true});
 
 console.log('database/dbSchema.js was run.')
