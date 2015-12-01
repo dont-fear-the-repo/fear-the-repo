@@ -94,10 +94,6 @@ To test the API, try this:
 "Add a new bullet to the database for a given userName, title, jobTitle:"
   curl -H "Content-Type: application/json" -X POST -d '{"userName":"chrisrhoton", "title":"instructor", "jobTitle":"Interim Managing Director", "bullet":"Created platform for students to get a 6 figure job", "bulletPosition": "1"}' http://localhost:3000/api/bullet/create
   curl -H "Content-Type: application/json" -X POST -d '{"userName":"chrisrhoton", "title":"instructor", "jobTitle":"Interim Managing Director", "bullet":"Reigned on the SF MKS empire", "bulletPosition":"2"}' http://localhost:3000/api/bullet/create
-
-"Get all bullets from the database for a given userName:"
-  curl -H "Content-Type: application/json" -X POST -d '{"userName":"chrisrhoton"}' http://localhost:3000/api/bullet/get
-
 */
 
 
@@ -222,27 +218,5 @@ devServer.app.post('/api/bullet/create', function(req, res) {
         });
       });
     });
-  });
-});
-
-//Retrieve a Users bullets with given userName
-devServer.app.post('/api/bullet/get', function(req, res){
-  dbSchema.Bullet.findAll({
-    //where: { archived: req.body.archived }
-    include: [{
-      model: dbSchema.Block,
-      include: [{
-        model: dbSchema.Resume,
-        include: [{
-          model: dbSchema.User,
-          where: {
-            userName: req.body.userName
-          }
-        }]
-      }]
-    }]
-  }).then(function(bullets) {
-     //bullets = _.map(bullets, function(item){ return item.bullets; });
-     res.send('successfully retrieved bullets: ', bullets);
   });
 });
