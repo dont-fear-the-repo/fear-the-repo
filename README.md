@@ -1,6 +1,6 @@
 # Fear The Repo #
 
-* [MKS Git workflow (Contributing.md)](https://github.com/dont-fear-the-repo/fear-the-repo/blob/master/CONTRIBUTING.md)
+* [MKS Git workflow (Contributing.md)](https://github.com/dont-fear-the-repo/fear-the-repo/CONTRIBUTING.md)
 * [MKS Waffle.io board for gitissues](https://waffle.io/dont-fear-the-repo/fear-the-repo)
   * Please add what you're working on
   * Title it in the style of the commits, `<type>(<scope>): <subject>` 

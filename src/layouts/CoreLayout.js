@@ -1,32 +1,56 @@
 import React from 'react';
-import { Footer } from 'components/footer';
-import 'styles/core.scss';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loginUser, signupUser, logout } from 'actions/titleBarActions';
 import $ from 'jQuery';
+import _ from 'underscore';
+
+import { Footer } from 'components/footer';
+import { loginUser, signupUser, logout } from 'actions/titleBarActions';
+import { enableSubmit, disableSubmit } from 'actions/validationActions';
+import { isDefined, isValidEmail, matches } from 'utils/validation';
+
 import { FlatButton, Popover, TextField } from 'material-ui/lib';
+import 'styles/core.scss';
+
+
+const validations = {
+  login: {
+    email: false,
+    password: false
+  },
+  signup: {
+    email: false,
+    password: false,
+    password2: false
+  }
+};
+
+let tempPassword = '';
 
 const ActionCreators = {
   loginUser: loginUser,
   signupUser: signupUser,
-  logout: logout
+  logout: logout,
+  enableSubmit: enableSubmit,
+  disableSubmit: disableSubmit
 };
 const mapStateToProps = (state) => ({
-  userLoginInfo: state.username,
-  loggedIn: state.titleBarReducer.loggedIn
+  userLoginInfo: state.email,
+  loggedIn: state.titleBarReducer.loggedIn,
+  canSubmit: state.validationReducer.canSubmit
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
 
-export default class CoreLayout extends React.Component {
+class CoreLayout extends React.Component {
     static propTypes = {
       children: React.PropTypes.element,
       actions: React.PropTypes.object,
       loggedIn: React.PropTypes.bool,
-      userLoginInfo: React.PropTypes.string
+      userLoginInfo: React.PropTypes.string,
+      canSubmit: React.PropTypes.bool
     };
 
     state = {
@@ -43,17 +67,17 @@ export default class CoreLayout extends React.Component {
       userAlreadyExists: false
     });
     const userLoginInfo = {
-      username: this.refs.username.getValue(),
+      email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
     };
-    // jQuery defeat...not "the Redux Way"?
-    $.ajax({ // TODO: eliminate jQuery!
+
+    $.ajax({
       url: '/login',
       type: 'POST',
       data: JSON.stringify(userLoginInfo),
       contentType: 'application/json',
       success: function () {
-        localStorage.setItem('username', userLoginInfo.username);
+        localStorage.setItem('email', userLoginInfo.email);
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo);
       }.bind(this),
@@ -63,7 +87,7 @@ export default class CoreLayout extends React.Component {
         });
       }.bind(this)
     });
-    // this.props.actions.loginUser(userLoginInfo);  // TODO: make this work? Currently this component has no props, and so no actions are being bound and available
+    // this.props.actions.loginUser(userLoginInfo);  // TODO: make this work?
     // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
 
@@ -82,7 +106,7 @@ export default class CoreLayout extends React.Component {
       failedAttempted: false
     });
     const userSignupInfo = {
-      username: this.refs.username.getValue(),
+      email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
     };
 
@@ -134,26 +158,47 @@ showLoginPopover(key, e) {
     });
   }
 
+  // VALIDATION METHODS
+  validateField(event, validatorsArray, key) {  // add to validations object for each use
+    const value = event.target.value;
+    const validEntry = validatorsArray.every(validator => {
+      return validator(value);
+    });
+    if (validEntry) {
+      validations[this.state.loginOrSignup][key] = true;
+    } else if (!validEntry) {
+      validations[this.state.loginOrSignup][key] = false;
+    }
+
+    const shouldEnable = _.every(validations[this.state.loginOrSignup],
+                            validation => validation === true );
+    if (shouldEnable) {
+      this.props.actions.enableSubmit();
+    } else {
+      this.props.actions.disableSubmit();
+    }
+  }
+
+  saveTempPassword(event) {
+    tempPassword = event.target.value;
+  }
+
   render() {
+    const { canSubmit } = this.props;
     return (
       <div className='page-container'>
         <div className='view-container'>
           <div>
             <div className='header'>
 
-              <Link to='/' style={{marginLeft: '30px'}}>
+              <Link to='/' style={{marginLeft: '30px', marginRight: '20px'}}>
                 Fear the Repo
               </Link>
 
-              <Link to='/userform'>
-                <FlatButton label='User Info' />
-              </Link>
-
               <Link to='/resume'>
-                <FlatButton label='Edit Resume' />
+                <FlatButton label='Edit Your Resume' />
               </Link>
 
-              <FlatButton label='export' />
               {this.props.loggedIn ? <Link to='/secretpage'>
                   <FlatButton label='Secret Page' />
                 </Link>
@@ -180,14 +225,46 @@ showLoginPopover(key, e) {
                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
                    onRequestClose={this.closePopover.bind(this, 'pop')} >
             <div style={{padding: 20}}>
-              <TextField hintText='Username' ref='username' />
-              <TextField hintText='Password' type='password'  ref='password' />
+              <TextField ref='email'
+                         hintText='Email'
+                         onChange={e => this.validateField(e, [isDefined, isValidEmail], 'email')}
+                         />
+              <TextField ref='password'
+                         hintText='Password'
+                         type='password'
+                         onChange={e => this.validateField(e, [isDefined], 'password')}
+                         onBlur={e => this.saveTempPassword(e)}
+                         />
+              {this.state.loginOrSignup === 'signup' ?
+                <TextField ref='password2'
+                           hintText='Re-enter password'
+                           type='password'
+                           onChange={e => this.validateField(e, [isDefined, matches(tempPassword)], 'password2')}
+                           /> : ''}
               <FlatButton label='Submit'
+                          disabled={!canSubmit}
                           onClick={this.state.loginOrSignup === 'login' ?
                             e => this.handleLogin(e) :
                             e => this.handleSignup(e)} />
-              {this.state.failedAttempted ? <p style={{color: 'red'}}> Wrong username or password</p> : ''}
-              {this.state.userAlreadyExists ? <p style={{color: 'red'}}> Username already exists</p> : ''}
+
+              {this.state.userAlreadyExists ?
+                <p className='userAlreadyExists'
+                   style={{ marginTop: '20px', marginLeft: '30px', color: 'red' }}>
+                  Account already exists for this email.<br/>
+                  Perhaps you meant to sign up?
+                </p> : ''}
+              {this.state.failedAttempted ?
+                <p className='failedAttempted'
+                   style={{ marginTop: '20px', marginLeft: '30px', color: 'red' }}>
+                  Incorrect email or password - please try again.<br/>
+                  Perhaps you meant to sign up?
+                </p> : ''}
+              {!canSubmit ?
+                <p className='disabled-text'
+                   style={{ marginTop: '20px', marginLeft: '30px', color: 'blue' }}>
+                  Please enter valid email and password
+                </p> : ''}
+
             </div>
         </Popover>
 
