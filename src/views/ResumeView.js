@@ -75,23 +75,23 @@ export class ResumeView extends React.Component {
         year: '2015',
         location: 'San Francisco, CA',
         body: []
-      },
-      {
-        id: 2,
-        companyName: 'Company 2',
-        jobTitle: 'Mister Manager',
-        year: '2014',
-        location: 'Chicago, IL',
-        body: []
-      },
-      {
-        id: 3,
-        companyName: 'Company 3',
-        jobTitle: 'Lowly Peon',
-        year: '2012',
-        location: 'New York, NY',
-        body: []
       }],
+      // {
+      //   id: 2,
+      //   companyName: 'Company 2',
+      //   jobTitle: 'Mister Manager',
+      //   year: '2014',
+      //   location: 'Chicago, IL',
+      //   body: []
+      // },
+      // {
+      //   id: 3,
+      //   companyName: 'Company 3',
+      //   jobTitle: 'Lowly Peon',
+      //   year: '2012',
+      //   location: 'New York, NY',
+      //   body: []
+      // }],
       bullets: [{
         id: 1,
         body: '1111111'
@@ -99,11 +99,11 @@ export class ResumeView extends React.Component {
       {
         id: 2,
         body: '2222222'
-      },
-      {
-        id: 3,
-        body: '3333333'
       }]
+      // {
+      //   id: 3,
+      //   body: '3333333'
+      // }]
     };
   }
 
@@ -233,19 +233,23 @@ export class ResumeView extends React.Component {
                        location={userInput.job1Location}
                        moveBlock={this.moveBlock}
                        findBlock={this.findBlock}
-                       hasBullets={this.hasBullets} />
+                       hasBullets={this.hasBullets}>
+
+              {bullets.map(bullet => {
+                return (
+                  <Bullet key={bullet.id}
+                          id={bullet.id}
+                          body={bullet.body}
+                          moveBullet={this.moveBullet}
+                          findBullet={this.findBullet} />
+                );
+              })}
+
+                </Block>
+
               );
             })}
 
-            {bullets.map(bullet => {
-              return (
-                <Bullet key={bullet.id}
-                        id={bullet.id}
-                        body={bullet.body}
-                        moveBullet={this.moveBullet}
-                        findBullet={this.findBullet} />
-              );
-            })}
 
           </Paper>
 
