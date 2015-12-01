@@ -3,7 +3,7 @@ import { SAVE_FORM, ENABLE_SUBMIT, DISABLE_SUBMIT } from 'constants/userFormCons
 
 
 const initialState = {
-  canSubmit: false  // TODO: change this to false if using validation
+  canSubmit: false
 };
 
 export default createReducer(initialState, {
@@ -11,7 +11,8 @@ export default createReducer(initialState, {
   [SAVE_FORM]: (state, payload) => {
     // TODO: send data to database!
     console.log('payload:', payload);
-    return Object.assign({}, state, {
+    return {
+      ...state,
       name: payload.name,
       email: payload.email,
       phone: payload.phone,
@@ -44,21 +45,23 @@ export default createReducer(initialState, {
       job2Years: payload.job2Years,
       job2Title: payload.job2Title,
       job2Description: payload.job2Description
-    });
+    };
   },
 
   [ENABLE_SUBMIT]: (state) => {
     console.log('enabling');
-    return Object.assign({}, state, {
+    return {
+      ...state,
       canSubmit: true
-    });
+    };
   },
 
   [DISABLE_SUBMIT]: (state) => {
     console.log('disabling');
-    return Object.assign({}, state, {
+    return {
+      ...state,
       canSubmit: false
-    });
+    };
   }
 
 });
