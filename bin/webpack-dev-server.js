@@ -47,9 +47,9 @@ devServer.app.post('/authentication', utils.checkUser);
 //Login in
 devServer.app.post('/login', function (req, res) {
   console.log("On my way");
-  dbSchema.User.findOne({
+  dbSchema.UserLogin.findOne({
       where: {
-        userName: req.body.username,
+        email: req.body.email,
       }
     })
     .then(function (results) {
@@ -68,9 +68,9 @@ devServer.app.post('/login', function (req, res) {
 });
 //Signup
 devServer.app.post('/signup', function (req, res) {
-  dbSchema.User.findOne({
+  dbSchema.UserLogin.findOne({
       where: {
-        userName: req.body.username
+        email: req.body.email //change me to id
       }
     })
     .then(function (results) {
@@ -78,8 +78,8 @@ devServer.app.post('/signup', function (req, res) {
         var hashing = Promise.promisify(bcrypt.hash);
         hashing(req.body.password, null, null)
           .then(function (hash) {
-            dbSchema.User.create({
-              userName: req.body.username,
+            dbSchema.UserLogin.create({
+              email: req.body.email,
               password: hash
             })
           }).then(function (results) {
@@ -227,7 +227,7 @@ devServer.app.post('/api/resume/create', function(req, res){
   }).then( function(resume) {
       dbSchema.User.findOne({
         where: {
-          email: req.body.email
+          email: req.body.email //change to ID
         }
       }).then(function(user){
         user.addResume(resume);
@@ -246,7 +246,7 @@ devServer.app.post('/api/block/create', function(req, res){
   }).then(function(block){
     dbSchema.User.findOne({
       where: {
-        email: req.body.email
+        email: req.body.email //change to ID
       }
     }).then(function(user){
       dbSchema.Resume.findOne({
@@ -269,7 +269,7 @@ devServer.app.post('/api/bullet/create', function(req, res) {
   }).then(function(bullet) {
       dbSchema.User.findOne({
         where: {
-          email: req.body.email
+          email: req.body.email //change to ID
         }
     }).then(function(user) {
         dbSchema.Resume.findOne({
