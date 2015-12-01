@@ -1,5 +1,5 @@
 import rootReducer          from '../reducers';
-import thunkMiddleware      from 'redux-thunk';
+import thunk                from 'redux-thunk';
 import routes               from '../routes';
 import { reduxReactRouter } from 'redux-router';
 import createHistory        from 'history/lib/createBrowserHistory';
@@ -13,7 +13,7 @@ import {
 export default function configureStore (initialState, debug = false) {
   let createStoreWithMiddleware;
 
-  const middleware = applyMiddleware(thunkMiddleware);
+  const middleware = applyMiddleware(thunk);
 
   if (debug) {
     createStoreWithMiddleware = compose(

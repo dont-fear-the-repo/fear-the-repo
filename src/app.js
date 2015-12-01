@@ -1,5 +1,3 @@
-// import { fetchUser } from './actions/userFormActions.js';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './containers/Root';
@@ -20,5 +18,3 @@ const node = (
   // )
 
 ReactDOM.render(node, target);
-
-// store.dispatch(fetchUser(2))

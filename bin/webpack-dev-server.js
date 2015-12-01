@@ -99,7 +99,6 @@ To test the API, try this:
 
 // Find a user
 devServer.app.post('/api/findauser', function(req, res) {
-  console.log("You looked for userId: " + req.body.id)
   dbSchema.User.findOne({
       where: {
         id: req.body.id
@@ -114,39 +113,38 @@ devServer.app.post('/api/findauser', function(req, res) {
 devServer.app.post('/api/allusers', function(req, res) {
   dbSchema.User.findAll()
     .then(function(results) {
-      // var userList = results.map(function(user){return "id: "+ user.id + " userName: " + user.userName});
-      res.send(results);
+      var userList = results.map(function(user){return "id: "+ user.id + " userName: " + user.userName});
+      res.send(userList);
     })
 })
 
 // Create a User
 devServer.app.post('/api/userinfo', function(req, res) {
-  console.log("I see users! ", req.body.email)
   dbSchema.User.create({
-    // userName: req.body.userName,
-    // password: req.body.password,
+    userName: req.body.userName,
+    password: req.body.password,
     email: req.body.email,
-    // firstName: req.body.firstName,
-    // lastName: req.body.lastName,
-    // headline: req.body.headline,
-    // industry: req.body.industry,
-    // country: req.body.country,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    headline: req.body.headline,
+    industry: req.body.industry,
+    country: req.body.country,
     city: req.body.city,
-    // zipCode: req.body.zipCode,
-    // phoneNumber: req.body.phoneNumber,
-    // facebookURL: req.body.facebookURL,
-    // linkedInURL: req.body.linkedInURL,
-    // homepageURL: req.body.homepageURL,
-    // blogURL: req.body.blogURL,
-    // githubURL: req.body.githubURL,
-    // behanceURL: req.body.behanceURL,
-    // web1Title: req.body.web1Title,
-    // web1URL: req.body.web1URL,
-    // web2Title: req.body.web2Title,
-    // web2URL: req.body.web2URL,
-    // pictureUrl: req.body.pictureUrl,
-    // positions: req.body.positions,
-    // summary: req.body.summary
+    zipCode: req.body.zipCode,
+    phoneNumber: req.body.phoneNumber,
+    facebookURL: req.body.facebookURL,
+    linkedInURL: req.body.linkedInURL,
+    homepageURL: req.body.homepageURL,
+    blogURL: req.body.blogURL,
+    githubURL: req.body.githubURL,
+    behanceURL: req.body.behanceURL,
+    web1Title: req.body.web1Title,
+    web1URL: req.body.web1URL,
+    web2Title: req.body.web2Title,
+    web2URL: req.body.web2URL,
+    pictureUrl: req.body.pictureUrl,
+    positions: req.body.positions,
+    summary: req.body.summary
   }).then(function(userinfo) {
     res.send('successfully added user: ', userinfo);
   });

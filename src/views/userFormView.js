@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'underscore';
-import { saveForm, enableSubmit, disableSubmit, fetchUser } from 'actions/userFormActions';
+import { saveForm, enableSubmit, disableSubmit } from 'actions/userFormActions';
 import { isDefined, isValidEmail, minLength, maxLength, exactLength, isInteger } from 'utils/validation';
 
 import { RaisedButton, TextField } from 'material-ui/lib';
@@ -11,8 +11,7 @@ import { RaisedButton, TextField } from 'material-ui/lib';
 const ActionCreators = {
   saveForm: saveForm,
   enableSubmit: enableSubmit,
-  disableSubmit: disableSubmit,
-  fetchUser: fetchUser
+  disableSubmit: disableSubmit
 };
 
 const mapStateToProps = (state) => {
@@ -35,7 +34,7 @@ class UserFormView extends React.Component {
   }
 
   state = {
-    canSubmit: true,  // change this back to false
+    canSubmit: false,
     validations: {  // add new entry for each use of validateField
       name: false,
       email: false,
@@ -48,43 +47,42 @@ class UserFormView extends React.Component {
 
   handleSubmit() {
     const userInput = {
-      // name: this.refs.name.getValue(),
+      name: this.refs.name.getValue(),
       email: this.refs.email.getValue(),
-      // phone: this.refs.phone.getValue(),
-      // streetAddress: this.refs.streetAddress.getValue(),
+      phone: this.refs.phone.getValue(),
+      streetAddress: this.refs.streetAddress.getValue(),
       city: this.refs.city.getValue(),
-      // state: this.refs.state.getValue(),
-      // zipCode: this.refs.zipCode.getValue(),
-      // homepageOrBlog: this.refs.homepageOrBlog.getValue(),
-      // linkedinUrl: this.refs.linkedinUrl.getValue(),
-      // githubUrl: this.refs.githubUrl.getValue(),
-      // facebookUrl: this.refs.facebookUrl.getValue(),
-      // twitterUrl: this.refs.twitterUrl.getValue(),
-      // otherUrls: this.refs.otherUrls.getValue(),
-      // // temp links below
-      // project1Name: this.refs.project1Name.getValue(),
-      // project1Url: this.refs.project1Url.getValue(),
-      // project1Role: this.refs.project1Role.getValue(),
-      // project1Description: this.refs.project1Description.getValue(),
-      // project2Name: this.refs.project2Name.getValue(),
-      // project2Url: this.refs.project2Url.getValue(),
-      // project2Role: this.refs.project2Role.getValue(),
-      // project2Description: this.refs.project2Description.getValue(),
-      // job1Name: this.refs.job1Name.getValue(),
-      // job1Location: this.refs.job1Location.getValue(),
-      // job1Years: this.refs.job1Years.getValue(),
-      // job1Title: this.refs.job1Title.getValue(),
-      // job1Description: this.refs.job1Description.getValue(),
-      // job2Name: this.refs.job2Name.getValue(),
-      // job2Location: this.refs.job2Location.getValue(),
-      // job2Years: this.refs.job2Years.getValue(),
-      // job2Title: this.refs.job2Title.getValue(),
-      // job2Description: this.refs.job2Description.getValue()
+      state: this.refs.state.getValue(),
+      zipCode: this.refs.zipCode.getValue(),
+      homepageOrBlog: this.refs.homepageOrBlog.getValue(),
+      linkedinUrl: this.refs.linkedinUrl.getValue(),
+      githubUrl: this.refs.githubUrl.getValue(),
+      facebookUrl: this.refs.facebookUrl.getValue(),
+      twitterUrl: this.refs.twitterUrl.getValue(),
+      otherUrls: this.refs.otherUrls.getValue(),
+      // temp links below
+      project1Name: this.refs.project1Name.getValue(),
+      project1Url: this.refs.project1Url.getValue(),
+      project1Role: this.refs.project1Role.getValue(),
+      project1Description: this.refs.project1Description.getValue(),
+      project2Name: this.refs.project2Name.getValue(),
+      project2Url: this.refs.project2Url.getValue(),
+      project2Role: this.refs.project2Role.getValue(),
+      project2Description: this.refs.project2Description.getValue(),
+      job1Name: this.refs.job1Name.getValue(),
+      job1Location: this.refs.job1Location.getValue(),
+      job1Years: this.refs.job1Years.getValue(),
+      job1Title: this.refs.job1Title.getValue(),
+      job1Description: this.refs.job1Description.getValue(),
+      job2Name: this.refs.job2Name.getValue(),
+      job2Location: this.refs.job2Location.getValue(),
+      job2Years: this.refs.job2Years.getValue(),
+      job2Title: this.refs.job2Title.getValue(),
+      job2Description: this.refs.job2Description.getValue()
     };
 
-    console.log('userInput from userFormView: ', userInput);
-    // this.props.actions.saveForm(userInput);
-    this.props.actions.fetchUser(userInput);
+    console.log('userInput', userInput);
+    this.props.actions.saveForm(userInput);
 
     this.clearInfo();
   }
@@ -252,6 +250,7 @@ class UserFormView extends React.Component {
           </div>
 
           <RaisedButton label='Save'
+                        disabled={!canSubmit}
                         onClick={e => this.handleSubmit(e)} />
           {!canSubmit ?
             <span className='disabled-text'
