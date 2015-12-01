@@ -1,6 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import _ from 'underscore';
 import { saveForm, enableSubmit, disableSubmit } from 'actions/userFormActions';
 import { isDefined, isValidEmail, minLength, maxLength, exactLength, isInteger } from 'utils/validation';
 
@@ -13,19 +14,35 @@ const ActionCreators = {
   disableSubmit: disableSubmit
 };
 
-const mapStateToProps = (state) => ({
-  routerState: state.router,
-  canSubmit: state.canSubmit
-});
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(ActionCreators, dispatch)
-});
+const mapStateToProps = (state) => {
+  return {
+    routerState: state.router,
+    canSubmit: state.userFormReducer.canSubmit
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(ActionCreators, dispatch)
+  };
+};
 
 class UserFormView extends React.Component {
 
   static propTypes = {
     actions: React.PropTypes.object,
     canSubmit: React.PropTypes.bool
+  }
+
+  state = {
+    canSubmit: false,
+    validations: {  // add new entry for each use of validateField
+      name: false,
+      email: false,
+      phone: false,
+      city: false,
+      state: false,
+      zip: false
+    }
   }
 
   handleSubmit() {
@@ -105,20 +122,30 @@ class UserFormView extends React.Component {
     this.refs.job2Description.clearValue();
   }
 
-  validateField(event, validatorsArray) {
+  validateField(event, validatorsArray, key) {  // add to this.state.validations for each use
     const value = event.target.value;
-    const shouldEnable = validatorsArray.every(validator => {
+    const validEntry = validatorsArray.every(validator => {
       return validator(value);
     });
+    if (validEntry) {
+      this.state.validations[key] = true;
+    } else if (!validEntry) {
+      this.state.validations[key] = false;
+    }
+
+    const shouldEnable = _.every(this.state.validations,
+                            validation => validation === true );
     if (shouldEnable) {
+      this.state.canSubmit = true;  // kill this if props ever work
       this.props.actions.enableSubmit();
     } else {
+      this.state.canSubmit = false;  // kill this if props ever work
       this.props.actions.disableSubmit();
     }
+    this.forceUpdate();  // kill this if props ever work?
   }
 
   render() {
-    console.log(this.props.canSubmit);
     const { canSubmit } = this.props;
     return (
       <div className='container'>
@@ -150,24 +177,24 @@ class UserFormView extends React.Component {
           <div>
             <TextField ref='name'
                        hintText='Full Name'
-                       onBlur={e => this.validateField(e, [isDefined])} />
+                       onBlur={e => this.validateField(e, [isDefined], 'name')} />
             <TextField ref='email'
                        hintText='Email'
-                       onBlur={e => this.validateField(e, [isDefined, isValidEmail])} />
+                       onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email')} />
             <TextField ref='phone'
                        hintText='Phone Number'
-                       onBlur={e => this.validateField(e, [isDefined, isInteger])} />
+                       onBlur={e => this.validateField(e, [isDefined, isInteger], 'phone')} />
             <TextField ref='streetAddress'
                        hintText='Street Address' />
             <TextField ref='city'
                        hintText='City'
-                       onBlur={e => this.validateField(e, [isDefined])} />
+                       onBlur={e => this.validateField(e, [isDefined], 'city')} />
             <TextField ref='state'
                        hintText='State'
-                       onBlur={e => this.validateField(e, [isDefined, exactLength(2)])} />
+                       onBlur={e => this.validateField(e, [isDefined, exactLength(2)], 'state')} />
             <TextField ref='zipCode'
                        hintText='ZIP Code'
-                       onBlur={e => this.validateField(e, [isDefined, isInteger, minLength(5), maxLength(9)])} />
+                       onBlur={e => this.validateField(e, [isDefined, isInteger, minLength(5), maxLength(9)], 'zip')} />
             <TextField ref='homepageOrBlog'
                        hintText='Homepage or Blog' />
             <TextField ref='linkedinUrl'
@@ -223,8 +250,13 @@ class UserFormView extends React.Component {
           </div>
 
           <RaisedButton label='Save'
-                        disabled={!!canSubmit}
+                        disabled={!canSubmit}
                         onClick={e => this.handleSubmit(e)} />
+          {!canSubmit ?
+            <span className='disabled-text'
+                  style={{ marginLeft: '20px', color: 'red' }}>
+              Please complete form above
+            </span> : ''}
         </div>
       </div>
     );
@@ -232,7 +264,3 @@ class UserFormView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserFormView);
-
-// FIXME: this.props.canSubmit is undefined, despite being defined in initialState
-// in the reducer, and changes being apparent in the devtools state. why?
-

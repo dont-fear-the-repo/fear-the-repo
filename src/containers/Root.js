@@ -10,14 +10,14 @@ import { DragDropContext }      from 'react-dnd';
 @DragDropContext(HTML5Backend)
 export default class Root extends React.Component {
   static propTypes = {
-    store : React.PropTypes.object.isRequired,
-    debug : React.PropTypes.bool,
-    debugExternal : React.PropTypes.bool
+    store: React.PropTypes.object.isRequired,
+    debug: React.PropTypes.bool,
+    debugExternal: React.PropTypes.bool
   }
 
   static defaultProps = {
-    debug : false,
-    debugExternal : false
+    debug: false,
+    debugExternal: false
   }
 
   renderDevTools () {
