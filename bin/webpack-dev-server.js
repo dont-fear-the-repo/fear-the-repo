@@ -97,6 +97,32 @@ To test the API, try this:
 */
 
 
+/*
+TODO: make these work!
+// Make me a resume
+devServer.app.post('/api/makemearesume', function(req, res) {
+  // TODO: call this funciton when making a new user
+  // user logs in for first time, we immediately call this API endpoint to assign them a new resume
+  // that resume is born with a block, and all blocks are born with a bullet
+
+  // users can also call this function to add a resume, so if they already have one, we'll ask sequelize to auto-insert one
+
+  // RETURNS the new resume's unique sequelize ID, and also the block and bullet_id
+  // ...and something stores it on the state, next to the userName
+
+  // this whole effort is so that when they load ResumeView, we can ask the state for this resume info to display.
+})
+
+
+// Save Bullets
+devServer.app.post('/api/savebulletsonresume', function(req, res) {
+  // we have the userName and the RESUME_ID, and the BLOCK_ID, and the BULLET_ID
+  // .... if the user adds BLOCKS and BULLETS, then we'll ship those back to the server here
+  // and update the view.
+
+})
+*/
+
 // Find a user
 devServer.app.post('/api/findauser', function(req, res) {
   console.log("You looked for userId: " + req.body.id)
