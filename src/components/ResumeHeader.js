@@ -11,34 +11,33 @@ export default class ResumeHeader extends React.Component {
   }
 
   render() {
+    const userInput = this.context.store.getState().userFormReducer;
 
-  const userInput = this.context.store.getState().userFormReducer;
+    const styles = {
+      name: {
+        fontWeight: '700',
+        fontSize: '28px',
+        textAlign: 'center',
+        marginLeft: '10px'
+      },
+      email: {
+        color: 'blue',
+        fontSize: '16px',
+        marginLeft: '10px'
 
-  const styles = {
-    name: {
-      fontWeight: '700',
-      fontSize: '28px',
-      textAlign: 'center',
-      marginLeft: '10px'
-    },
-    email: {
-      color: 'blue',
-      fontSize: '16px',
-      marginLeft: '10px'
-
-    },
-    phone: {
-      fontSize: '16px',
-      marginLeft: '10px'
-    },
-    city: {
-      marginLeft: '10px'
-    },
-    url: {
-      textAlign: 'right',
-      marginRight: '10px'
-    }
-  }
+      },
+      phone: {
+        fontSize: '16px',
+        marginLeft: '10px'
+      },
+      city: {
+        marginLeft: '10px'
+      },
+      url: {
+        textAlign: 'right',
+        marginRight: '10px'
+      }
+    };
 
     return (
       <div>
@@ -63,6 +62,6 @@ export default class ResumeHeader extends React.Component {
           </div>
         </Paper>
       </div>
-    )
+    );
   }
 }

@@ -92,7 +92,7 @@ export default class Bullet extends React.Component {
         opacity: isDragging ? 0 : 1,
         cursor: 'move'
       }
-    }
+    };
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>

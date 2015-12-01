@@ -11,7 +11,6 @@ import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const blockTarget = {
   drop(props, monitor, component) {
-
     const bulletProps = {
       id: monitor.getItem().id,
       body: monitor.getItem().body

@@ -7,9 +7,6 @@ const initialState = {
 export default createReducer(initialState, {
 
   [SAVE_RESUME]: (state, payload) => {
-    console.log('save resume state: ', state)
-    console.log('save resume payload: ', payload)
-
     return Object.assign({}, state, {
       blocks: payload.blocks,
       resumeTitle: payload.resumeTitle
@@ -17,9 +14,6 @@ export default createReducer(initialState, {
   },
 
   [DROP_BULLET]: (state, payload) => {
-    console.log('bullet drop state: ', state)
-    console.log('bullet drop payload: ', payload)
-
     const targetIndex = () => {
       for (let index = 0; index < payload.blocks.length; index++) {
         if (payload.blocks[index].id === payload.targetBlock.id) {
@@ -34,6 +28,6 @@ export default createReducer(initialState, {
       blocks: payload.blocks,
       droppedBullet: payload.blocks[targetIndex].body.push(payload.droppedBullet.body),
       hasBullets: payload.blocks[targetIndex].hasBullets = true
-    })
+    });
   }
 });

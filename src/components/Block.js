@@ -4,7 +4,6 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { saveResume }             from 'actions/resumeActions';
 import { bindActionCreators }     from 'redux';
 import { connect }                from 'react-redux';
-import Bullet                     from 'components/Bullet';
 
 const Types = {
   BLOCK: 'block',
@@ -19,7 +18,7 @@ const blockSource = {
     };
   },
 
-  endDrag(props, monitor, component) {
+  endDrag(props, monitor) {
     const { id: droppedId, originalIndex } = monitor.getItem();
     const didDrop = monitor.didDrop();
 
@@ -31,12 +30,12 @@ const blockSource = {
 
 const blockTarget = {
 
-  drop(props, monitor) {
+  drop(props) {
     // Simply return an object to make certain props available to the bullet being dropped on it via monitor.getDropResult. See ResumeView's blockTarget for the dispatching of that action.
     return {
       body: props.body,
       id: props.id
-    }
+    };
   },
 
   hover(props, monitor) {
@@ -50,7 +49,7 @@ const blockTarget = {
         props.moveBlock(draggedId, overIndex);
       } // ONLY HERE does body re-render, when a block is sorted
     } else if (monitor.getItemType() === 'bullet') {
-      // TODO: signal to user that it's ok to drop
+      // Still TODO: signal to user that it's ok to drop
         // low priority
         // highlight/outline block?
     }
@@ -88,7 +87,8 @@ export class Block extends React.Component {
     jobTitle: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     year: PropTypes.string.isRequired,
-    body: PropTypes.array.isRequired
+    body: PropTypes.array.isRequired,
+    hasBullets: PropTypes.boolean.isRequired
   };
 
   render() {
@@ -127,7 +127,7 @@ export class Block extends React.Component {
       }
     };
 
-    var bullet;
+    let bullet;
     if (!this.props.hasBullets) {
       bullet = (
         <ul>
@@ -175,7 +175,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Block);
 
 /*
 
-TODO
+Still TODO
  - render bullets in blocks immediately upon drop
     - right now only happens on block drop
  - enable dnd for bullets within blocks

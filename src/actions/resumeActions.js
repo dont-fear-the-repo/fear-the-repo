@@ -14,7 +14,7 @@ export function dropBullet (payload) {
   };
 }
 
-//**TODO Notes by Sujay - DELETE OR FIX ME :)
+// **TODO Notes by Sujay - DELETE OR FIX ME :)
 // export function saveResumeDb(payload){
 //   return dispatch => {
 //     dispatch(saveResumeRequest(payload));
@@ -31,7 +31,7 @@ export function dropBullet (payload) {
   //       : dispatch(saveResumeSuccess());
   //     });
   //   };
-//}
+// }
 
 
 // export function saveResumeSuccess(){
@@ -42,5 +42,5 @@ export function dropBullet (payload) {
 //   return console.log("there is an error saving resume to db", err);
 // }
 
-//create action 1. post 2. response
-//npm install superagent
+// create action 1. post 2. response
+// npm install superagent
