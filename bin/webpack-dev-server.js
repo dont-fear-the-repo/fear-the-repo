@@ -10,11 +10,10 @@ const port = config.get('webpack_port');
 const parser = require('body-parser');
 const session = require('express-session');
 const utils = require('./lib/utils');
-
-
-
-
-devServer.listen(port, host, function() {
+const bcrypt = require('bcrypt-nodejs')
+const Promise = require("bluebird");
+console.log(bcrypt.compare);
+devServer.listen(port, host, function () {
   console.log(chalk.green(
     `webpack-dev-server is now running at ${host}:${port}.`
   ));
@@ -39,27 +38,70 @@ devServer.listen(port, host, function() {
 devServer.app.use(parser.json());
 
 devServer.app.use(session({
-	secret: "Backend if fun because I don't have to deal with react",
-	cookie: {httpOnly: false}
-	}));
+  secret: "Backend if fun because I don't have to deal with react",
+  resave: false,
+  saveUninitialized: true  
+}));
 
-devServer.app.post('/authentication',utils.checkUser);
+devServer.app.post('/authentication', utils.checkUser);
+//Login in
+devServer.app.post('/login', function (req, res) {
+  console.log("On my way");
+  dbSchema.User.findOne({
+      where: {
+        userName: req.body.username,
+      }
+    })
+    .then(function (results) {
+      if (results) {
+        bcrypt.compare(req.body.password, results.password, function (err, success) {
+          if (success) {
+            utils.createSession(req, res, results);
+          } else {
+            res.sendStatus(404);
+          }
+        })
+      } else {
+        res.sendStatus(404);
+      }
+    })
+});
+//Signup
+devServer.app.post('/signup', function (req, res) {
+  dbSchema.User.findOne({
+      where: {
+        userName: req.body.username
+      }
+    })
+    .then(function (results) {
+      if (!results) {
+        var hashing = Promise.promisify(bcrypt.hash);
+        hashing(req.body.password, null, null)
+          .then(function (hash) {
+            dbSchema.User.create({
+              userName: req.body.username,
+              password: hash
+            })
+          }).then(function (results) {
+            utils.createSession(req, res, results);
+          })
+      } else {
+        res.sendStatus(404);
+      }
+    })
+});
 
-devServer.app.post('/login',function(req,res){
-	dbSchema.User.findOne({
-		where:
-			{
-				userName: req.body.username,
-				password: req.body.password
-			}
-		})
- 	.then(function(results){
- 		if(results){
- 			utils.createSession(req,res,results);
- 		}else{
- 			res.send(404);
- 		}
-	})
+//logout
+devServer.app.post('/logout',function (req, res) {
+    req.session.destroy(function(err) {
+    if (err) {
+      console.error(err);
+      res.status(201).send("unable to logout user")
+    } else {
+      console.log("logout success");
+      res.status(200).send("logout success");
+    }
+  });
 });
 
 
@@ -98,28 +140,30 @@ To test the API, try this:
 
 
 // Find a user
-devServer.app.post('/api/findauser', function(req, res) {
+devServer.app.post('/api/findauser', function (req, res) {
   dbSchema.User.findOne({
       where: {
         id: req.body.id
       }
     })
-    .then(function(results) {
+    .then(function (results) {
       res.send(results.dataValues);
     })
 })
 
 // All users please
-devServer.app.post('/api/allusers', function(req, res) {
+devServer.app.post('/api/allusers', function (req, res) {
   dbSchema.User.findAll()
-    .then(function(results) {
-      var userList = results.map(function(user){return "id: "+ user.id + " userName: " + user.userName});
+    .then(function (results) {
+      var userList = results.map(function (user) {
+        return "id: " + user.id + " userName: " + user.userName
+      });
       res.send(userList);
     })
 })
 
 // Create a User
-devServer.app.post('/api/userinfo', function(req, res) {
+devServer.app.post('/api/userinfo', function (req, res) {
   dbSchema.User.create({
     userName: req.body.userName,
     password: req.body.password,
