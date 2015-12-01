@@ -154,7 +154,7 @@ devServer.app.post('/api/userinfo', function(req, res) {
   });
 });
 
-////Create resume theme for given user
+////Create resume for given user
 devServer.app.post('/api/resume/create', function(req, res){
   dbSchema.Resume.create({
     theme: req.body.theme,
@@ -197,7 +197,6 @@ devServer.app.post('/api/block/create', function(req, res){
 });
 
 //Create bullets for given block
-//**TODO** Requires Debugging
 devServer.app.post('/api/bullet/create', function(req, res) {
   dbSchema.Bullet.create({
     bullet: req.body.bullet,
@@ -229,6 +228,7 @@ devServer.app.post('/api/bullet/create', function(req, res) {
 //Retrieve a Users bullets with given userName
 devServer.app.post('/api/bullet/get', function(req, res){
   dbSchema.Bullet.findAll({
+    //where: { archived: req.body.archived }
     include: [{
       model: dbSchema.Block,
       include: [{
@@ -242,7 +242,7 @@ devServer.app.post('/api/bullet/get', function(req, res){
       }]
     }]
   }).then(function(bullets) {
-     bullets = _.map(bullets, function(item){ return item.bullets; });
+     //bullets = _.map(bullets, function(item){ return item.bullets; });
      res.send('successfully retrieved bullets: ', bullets);
   });
 });
