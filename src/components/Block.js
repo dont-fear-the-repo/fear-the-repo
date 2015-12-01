@@ -87,7 +87,8 @@ export class Block extends React.Component {
     jobTitle: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     year: PropTypes.string.isRequired,
-    body: PropTypes.array.isRequired
+    body: PropTypes.array.isRequired,
+    hasBullets: PropTypes.bool
   };
 
   render() {
