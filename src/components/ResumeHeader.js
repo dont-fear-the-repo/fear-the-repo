@@ -43,22 +43,22 @@ export default class ResumeHeader extends React.Component {
       <div>
         <Paper zDepth={1}>
           <div style={styles.name}>
-            {userInput.name}
+            Your Name Here
           </div>
           <div style={styles.email}>
-            {userInput.email}
+            email@website.com
           </div>
           <div style={styles.phone}>
-            {userInput.phone}
+            123-456-7890
           </div>
           <div style={styles.city}>
-            {userInput.city}, {userInput.state}
+            San Francisco, CA
           </div>
           <div style={styles.url}>
-            {userInput.linkedinUrl}
+            linkedin.com/michaeljordan
           </div>
           <div style={styles.url}>
-            {userInput.githubUrl}
+            github.com/number23
           </div>
         </Paper>
       </div>
