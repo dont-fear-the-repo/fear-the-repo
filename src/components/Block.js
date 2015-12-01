@@ -4,6 +4,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { saveResume }             from 'actions/resumeActions';
 import { bindActionCreators }     from 'redux';
 import { connect }                from 'react-redux';
+import Bullet                     from 'components/Bullet';
 
 const Types = {
   BLOCK: 'block',
@@ -126,24 +127,14 @@ export class Block extends React.Component {
       }
     };
 
-    // Conditional for rendering nothing if block has no bullets, or the bullet if it's been dropped
-    // TODO: make it work
-      // (!this.props.hasBullets) works, but doesn't work without the bang
-    // TODO: subsequent bullet drops should add a new <li>, not overwrite the existing
-      // ng-repeat
-      // or this.props.body.map(item => etc etc)
-      // IDEA: store bullets as properties of individual blocks
-        // this way, we can save the entire state as one resume
-        // right now, 'body' property of blocks represents bullets, but it's a string that can't intelligently hold more than one bullet
-        // bullet property of block could be an array
-          // NOPE, prop must be a string
-
     var bullet;
     if (!this.props.hasBullets) {
       bullet = (
         <ul>
           {this.props.body.map(item =>
-            <li key={this.props.id}>{item}</li>
+            <li>{item}</li>
+            // <li key={this.props.id}>{item}</li>  // this is block id
+              // how do I get bullet id?
           )}
         </ul>
       );
@@ -185,6 +176,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Block);
 
 TODO
  - render bullets in blocks immediately upon drop
+    - right now only happens on block drop
  - enable dnd for bullets within blocks
  - edit blocks/bullets directly
 
