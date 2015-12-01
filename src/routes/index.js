@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
+import $ from 'jQuery';
 
 import CoreLayout from 'layouts/CoreLayout';
 import HomeView from 'views/HomeView';
@@ -9,7 +10,6 @@ import UserFormView from 'views/UserFormView';
 import AboutView from 'views/AboutView';
 import SecretView from 'views/SecretView';
 
-import $ from 'jQuery';
 
 function requireAuth(nextState, replaceState) {
   // NOTE: will change url address when deployed
@@ -18,16 +18,14 @@ function requireAuth(nextState, replaceState) {
     async: false,
     type: 'POST',
     contentType: 'application/json',
-    success: function (data) {
+    success: (data) => {
       if (data.Auth === false) {
         replaceState({
           nextPathname: nextState.location.pathname
         }, '/login');
       }
     },
-    error: function (xhr, status, err) {
-      console.error(err);
-    }
+    error: (xhr, status, err) => console.error(err)
   });
 }
 
@@ -41,4 +39,3 @@ export default (
     <Route path='/secretpage' component={SecretView} onEnter={requireAuth} />
   </Route>
 );
-
