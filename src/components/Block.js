@@ -5,11 +5,6 @@ import { saveResume }             from 'actions/resumeActions';
 import { bindActionCreators }     from 'redux';
 import { connect }                from 'react-redux';
 
-const Types = {
-  BLOCK: 'block',
-  BULLET: 'bullet'
-};
-
 const blockSource = {
   beginDrag(props) {
     return {
@@ -29,12 +24,12 @@ const blockSource = {
 };
 
 const blockTarget = {
-
   drop(props) {
     // Simply return an object to make certain props available to the bullet being dropped on it via monitor.getDropResult. See ResumeView's blockTarget for the dispatching of that action.
+    console.log('props: ', props)
     return {
       body: props.body,
-      id: props.id
+      blockId: props.blockId
     };
   },
 
@@ -49,11 +44,17 @@ const blockTarget = {
         props.moveBlock(draggedId, overIndex);
       } // ONLY HERE does body re-render, when a block is sorted
     } else if (monitor.getItemType() === 'bullet') {
+
       // Still TODO: signal to user that it's ok to drop
         // low priority
         // highlight/outline block?
     }
   }
+};
+
+const Types = {
+  BLOCK: 'block',
+  BULLET: 'bullet'
 };
 
 const ActionCreators = {
@@ -88,11 +89,12 @@ export class Block extends React.Component {
     location: PropTypes.string.isRequired,
     year: PropTypes.string.isRequired,
     body: PropTypes.array.isRequired,
-    hasBullets: PropTypes.bool
+    hasBullets: PropTypes.bool,
+    children: PropTypes.node
   };
 
   render() {
-    const { isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { children, isDragging, connectDragSource, connectDropTarget } = this.props;
 
     const styles = {
       blockDrag: {
@@ -124,22 +126,23 @@ export class Block extends React.Component {
         display: 'inline',
         float: 'right',
         marginRight: '10px'
+      },
+      bullet: {
+        fontSize: '14px'
       }
     };
 
     let bullet;
-    if (!this.props.hasBullets) {
       bullet = (
         <ul>
-          {this.props.body.map(item =>
-            <li>{item}</li>
+          {this.props.children.map(item =>
+            <li style={styles.bullet}>{item}</li>
             // <li key={this.props.id}>{item}</li>  // this is block id
               // how do I get bullet id?
               // throws console error, but still behaves as it should
           )}
         </ul>
       );
-    }
 
     return connectDragSource(connectDropTarget(
       <div style={styles.blockDrag}>
@@ -162,7 +165,7 @@ export class Block extends React.Component {
           <div style={styles.year}>
             {this.props.year}
           </div>
-          <div style={styles.location}>
+          <div>
             {bullet}
           </div>
         </Paper>

@@ -41,10 +41,6 @@ const bulletSource = {
 };
 
 const bulletTarget = {
-  canDrop () {
-    return false;
-  },
-
   hover (props, monitor) {
     const { id: draggedId } = monitor.getItem();
     const { id: overId } = props;
@@ -56,7 +52,7 @@ const bulletTarget = {
   }
 };
 
-@DropTarget(Types.BLOCK, bulletTarget, connect => ({
+@DropTarget([Types.BLOCK, Types.BULLET], bulletTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 // DragSource takes 3 parameters:
