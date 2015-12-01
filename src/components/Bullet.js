@@ -71,11 +71,11 @@ export default class Bullet extends React.Component {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    id: PropTypes.any.isRequired,
+    bulletId: PropTypes.any.isRequired,
     moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
     // coming from ResumeView.js (parent component) thru props
-    body: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired
   };
 
 

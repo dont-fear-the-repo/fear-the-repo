@@ -14,7 +14,7 @@ const initialState = {
   },
   blockChildren: [
     { blockId: 1,
-      bulletChildren: [{bulletId: 1, text: 'My first bullet'}],
+      bulletChildren: [{bulletId: 1, text: 'My first bullet'}, {bulletId: 2, text: 'SECONDS'}],
       companyName: 'Company 1',
       jobTitle: 'Bossman',
       year: '2015',
@@ -27,7 +27,7 @@ const initialState = {
       year: '2013',
       location: 'New York, NY'
     },
-    { blockID: 100,
+    { blockId: 100,
       bulletChildren: [],
       title: 'archived'
     }
