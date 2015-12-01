@@ -78,12 +78,12 @@ class CoreLayout extends React.Component {
         localStorage.setItem('email', userLoginInfo.email);
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo);
-      }.bind(this),
+      },
       error: () => {
         this.setState({
           failedAttempted: true
         });
-      }.bind(this)
+      }
     });
     // this.props.actions.loginUser(userLoginInfo);  // use for actions
   }
@@ -94,7 +94,7 @@ class CoreLayout extends React.Component {
       type: 'POST',
       success: () => {
         this.props.actions.logout();
-      }.bind(this),
+      }
     });
   }
 
@@ -115,12 +115,12 @@ class CoreLayout extends React.Component {
       success: () => {
         this.closePopover('pop');
         this.props.actions.loginUser(userSignupInfo);
-      }.bind(this),
+      },
       error: () => {
         this.setState({
           userAlreadyExists: true
         });
-      }.bind(this)
+      }
     });
   }
 
