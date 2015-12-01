@@ -46,6 +46,7 @@ devServer.app.use(session({
 devServer.app.post('/authentication', utils.checkUser);
 //Login in
 devServer.app.post('/login', function (req, res) {
+  console.log("On my way");
   dbSchema.User.findOne({
       where: {
         userName: req.body.username,
@@ -54,10 +55,10 @@ devServer.app.post('/login', function (req, res) {
     .then(function (results) {
       if (results) {
         bcrypt.compare(req.body.password, results.password, function (err, success) {
-          if (err) {
-            res.sendStatus(404);
-          } else {
+          if (success) {
             utils.createSession(req, res, results);
+          } else {
+            res.sendStatus(404);
           }
         })
       } else {
@@ -82,7 +83,6 @@ devServer.app.post('/signup', function (req, res) {
               password: hash
             })
           }).then(function (results) {
-            console.log("I should not be called")
             utils.createSession(req, res, results);
           })
       } else {
