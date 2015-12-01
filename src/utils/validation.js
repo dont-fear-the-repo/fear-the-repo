@@ -51,3 +51,13 @@ export function isInteger(value) {
     return false;
   }
 }
+
+export function matches(target) {
+  return value => {
+    if (value === target) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+}

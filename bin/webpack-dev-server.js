@@ -43,20 +43,20 @@ devServer.app.use(session({
 	cookie: {httpOnly: false}
 	}));
 
-devServer.app.post('/authentication',utils.checkUser);
+devServer.app.post('/authentication', utils.checkUser);
 
-devServer.app.post('/login',function(req,res){
+devServer.app.post('/login',function(req, res){
 	dbSchema.User.findOne({
 		where:
 			{
-				userName: req.body.username,
+				email: req.body.email,
 				password: req.body.password
 			}
 		})
- 	.then(function(results){
- 		if(results){
+ 	.then(function(results) {
+ 		if (results) {
  			utils.createSession(req,res,results);
- 		}else{
+ 		} else {
  			res.send(404);
  		}
 	})
@@ -113,7 +113,7 @@ devServer.app.post('/api/findauser', function(req, res) {
 devServer.app.post('/api/allusers', function(req, res) {
   dbSchema.User.findAll()
     .then(function(results) {
-      var userList = results.map(function(user){return "id: "+ user.id + " userName: " + user.userName});
+      var userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
       res.send(userList);
     })
 })
@@ -121,7 +121,7 @@ devServer.app.post('/api/allusers', function(req, res) {
 // Create a User
 devServer.app.post('/api/userinfo', function(req, res) {
   dbSchema.User.create({
-    userName: req.body.userName,
+    // userName: req.body.userName,
     password: req.body.password,
     email: req.body.email,
     firstName: req.body.firstName,
@@ -158,7 +158,7 @@ devServer.app.post('/api/resume/create', function(req, res){
   }).then( function(resume) {
       dbSchema.User.findOne({
         where: {
-          userName: req.body.userName
+          email: req.body.email
         }
       }).then(function(user){
         user.addResume(resume);
@@ -177,7 +177,7 @@ devServer.app.post('/api/block/create', function(req, res){
   }).then(function(block){
     dbSchema.User.findOne({
       where: {
-        userName: req.body.userName
+        email: req.body.email
       }
     }).then(function(user){
       dbSchema.Resume.findOne({
@@ -200,7 +200,7 @@ devServer.app.post('/api/bullet/create', function(req, res) {
   }).then(function(bullet) {
       dbSchema.User.findOne({
         where: {
-          userName: req.body.userName
+          email: req.body.email
         }
     }).then(function(user) {
         dbSchema.Resume.findOne({

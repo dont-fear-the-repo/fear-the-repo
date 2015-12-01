@@ -13,8 +13,8 @@ function isLoggedIn() {
   return loggedIn;
 }
 
-function hasUsername() {
-  const results = localStorage.getItem('username');
+function hasEmail() {
+  const results = localStorage.getItem('email');
   return results || 'guest';
 }
 
@@ -22,14 +22,14 @@ const initialState = {
   activePopover: '',
   anchorEl: '',
   loggedIn: isLoggedIn(),
-  username: hasUsername()
+  email: hasEmail()
 };
 
 export default createReducer(initialState, {
 
   [LOGIN_USER]: (state, payload) => {
     return Object.assign({}, state, {
-      username: payload.username,
+      email: payload.email,
       loggedIn: true
     });
   },
@@ -37,14 +37,14 @@ export default createReducer(initialState, {
   [SIGNUP_USER]: (state, payload) => {
     // TODO: signup user!
     return Object.assign({}, state, {
-      username: payload.username
+      email: payload.email
     });
   },
 
   [LOGOUT]: (state) => {
     return Object.assign({}, state, {
       loggedIn: false,
-      username: 'guest'
+      email: 'guest'
     });
   }
 

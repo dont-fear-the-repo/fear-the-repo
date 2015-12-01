@@ -242,13 +242,7 @@ class UserFormView extends React.Component {
           </div>
 
           <RaisedButton label='Save'
-                        disabled={!canSubmit}
                         onClick={e => this.handleSubmit(e)} />
-          {!canSubmit ?
-            <span className='disabled-text'
-                  style={{ marginLeft: '20px', color: 'red' }}>
-              Please complete form above
-            </span> : ''}
         </div>
       </div>
     );
@@ -256,3 +250,12 @@ class UserFormView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserFormView);
+
+// add this line to Save button to enable form validation:
+    // disabled={!canSubmit}
+// and this disabled text below the Save button:
+    // {!canSubmit ?
+    //   <span className='disabled-text'
+    //         style={{ marginLeft: '20px', color: 'red' }}>
+    //     Please complete form above
+    //   </span> : ''}
