@@ -73,10 +73,6 @@ const blockTarget = {
 
 
 
-
-
-
-
 export default class BlockDumbComp extends React.Component {
 
   render() {
@@ -118,18 +114,6 @@ export default class BlockDumbComp extends React.Component {
       }
     };
 
-    let bullet;
-      bullet = (
-        <ul>
-          {this.props.children.map(item =>
-            // <li style={styles.bullet} key=>{item}</li>
-            <li key={item.bulletId}>{item.text}</li>  // this is block id
-              // how do I get bullet id?
-              // throws console error, but still behaves as it should
-          )}
-        </ul>
-      );
-
     return connectDragSource(connectDropTarget(
       <div style={styles.blockDrag}>
         <Paper zDepth={1}>
@@ -151,9 +135,6 @@ export default class BlockDumbComp extends React.Component {
           <div style={styles.year}>
             {this.props.year}
           </div>
-          <div>
-            {bullet}
-          </div>
         </Paper>
       </div>
     ));
@@ -162,7 +143,17 @@ export default class BlockDumbComp extends React.Component {
 }
 
 
-
+    // let bullet;
+    //   bullet = (
+    //     <ul>
+    //       {this.props.children.map(item =>
+    //         // <li style={styles.bullet} key=>{item}</li>
+    //         <li key={item.bulletId}>{item.text}</li>  // this is block id
+    //           // how do I get bullet id?
+    //           // throws console error, but still behaves as it should
+    //       )}
+    //     </ul>
+    //   );
 
 
 

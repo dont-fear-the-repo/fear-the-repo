@@ -72,8 +72,6 @@ export class ResumeView extends React.Component {
     this.findBullet = this.findBullet.bind(this);
   }
 
-
-
   handleSubmit() {
     // this is to test sujay's api/resume/create, so in the future just sent the whole this.props.resumeState
     const obj = {};
@@ -87,29 +85,19 @@ export class ResumeView extends React.Component {
   }
 
 
-  moveBlock(id, atIndex) {
-    const { block, index } = this.findBlock(id);
+  moveBlock(draggedId, atIndex) {
+    const { block, index } = this.findBlock(draggedId);
 
     this.props.actions.moveBlock({
       index: index,
       atIndex: atIndex,
-      block: block,
-      blockChildren: this.props.resumeState.blockChildren
+      block: block
     });
-
-    // this.setState(update(this.props.resumeState.blockChildren, {
-    //   blockChildren: {
-    //     $splice: [
-    //       [index, 1],
-    //       [atIndex, 0, block]
-    //     ]
-    //   }
-    // }));
   }
 
-  findBlock(id) {
+  findBlock(draggedId) {
     const blocks = this.props.resumeState.blockChildren;
-    const block = blocks.filter(b => b.blockId === id)[0];
+    const block = blocks.filter(b => b.blockId === draggedId)[0];
 
     return {
       block,
@@ -149,16 +137,7 @@ export class ResumeView extends React.Component {
     WinPrint.close();
   }
 
-
-
-
   render () {
-    // return (
-    //   <div className='landing main-body' style={{textAlign: 'center'}}>
-    //     <h1 className='main-title'>{this.props.resumeState.resumeTitle} {JSON.stringify(this.props.resumeState.blockChildren)}</h1>
-    //   </div>
-    // );
-
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState.blockChildren;
 
@@ -229,7 +208,7 @@ export class ResumeView extends React.Component {
                         bulletChildren={block.bulletChildren}
                         location={block.location}
                         moveBlock={this.moveBlock}
-                        findBlock={this.findBlock} > {block.blockId} </BlockDumbComp>
+                        findBlock={this.findBlock} />
                       );
             }
             )}
@@ -249,7 +228,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
 
 
 /*
-TODO: React doesn't like our unique keys, even when we replace BlockDumbComp with painfully simple version below:
+Still TODO: React doesn't like our unique keys, even when we replace BlockDumbComp with painfully simple version below:
 <ul>
   <li key={block.blockId}> {block.blockId} </li>
 </ul>
