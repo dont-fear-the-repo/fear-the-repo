@@ -1,5 +1,5 @@
 import mui from 'mui';
-import Colors from mui.Styles.Colors;
+const Colors = mui.Styles.Colors;
 import ColorManipulator from '../../node_modules/material-ui/lib/utils/color-manipulator';
 import Spacing from '../../node_modules/material-ui/lib/styles/spacing';
 

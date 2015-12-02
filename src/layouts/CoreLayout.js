@@ -10,7 +10,7 @@ import { loginUser, signupUser, logout } from 'actions/titleBarActions';
 import { enableSubmit, disableSubmit } from 'actions/validationActions';
 import { isDefined, isValidEmail, matches } from 'utils/validation';
 
-import { FlatButton, Popover, TextField } from 'material-ui/lib';
+import { FlatButton, Popover, TextField, RefreshIndicator } from 'material-ui/lib';
 import 'styles/core.scss';
 
 
@@ -46,6 +46,7 @@ class CoreLayout extends React.Component {
       failedAttempted: false,
       userAlreadyExists: false,
       tempPassword: '',
+      spinning: false,
       validations: {
         login: {
           email: false,
@@ -62,7 +63,8 @@ class CoreLayout extends React.Component {
   // AUTH METHODS
   handleLogin() { // TODO: use actions here?
     this.setState({
-      userAlreadyExists: false
+      userAlreadyExists: false,
+      spinning: true
     });
     const userLoginInfo = {
       email: this.refs.email.getValue(),
@@ -78,10 +80,14 @@ class CoreLayout extends React.Component {
         localStorage.setItem('email', userLoginInfo.email);
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo);
+        this.setState({
+          spinning: false
+        });
       },
       error: () => {
         this.setState({
-          failedAttempted: true
+          failedAttempted: true,
+          spinning: false
         });
       }
     });
@@ -89,18 +95,25 @@ class CoreLayout extends React.Component {
   }
 
   handleLogout() { // TODO: use actions here?
+    this.setState({
+      spinning: true
+    });
     $.ajax({
       url: '/logout',
       type: 'POST',
       success: () => {
         this.props.actions.logout();
+        this.setState({
+          spinning: false
+        });
       }
     });
   }
 
   handleSignup() { // TODO: use actions here?
     this.setState({
-      failedAttempted: false
+      failedAttempted: false,
+      spinning: true
     });
     const userSignupInfo = {
       email: this.refs.email.getValue(),
@@ -115,10 +128,14 @@ class CoreLayout extends React.Component {
       success: () => {
         this.closePopover('pop');
         this.props.actions.loginUser(userSignupInfo);
+        this.setState({
+          spinning: false
+        });
       },
       error: () => {
         this.setState({
-          userAlreadyExists: true
+          userAlreadyExists: true,
+          spinning: false
         });
       }
     });
@@ -234,11 +251,17 @@ showLoginPopover(key, e) {
                            type='password'
                            onChange={e => this.validateField(e, [isDefined, matches(this.state.tempPassword)], 'password2')}
                            /> : ''}
-              <FlatButton label='Submit'
-                          disabled={!canSubmit}
-                          onClick={this.state.loginOrSignup === 'login' ?
-                            e => this.handleLogin(e) :
-                            e => this.handleSignup(e)} />
+              {this.state.spinning ?
+                <RefreshIndicator status='loading'
+                                  size={80}
+                                  top={30}
+                                  left={250}
+                                  loadingColor={'#009040'} /> :
+                <FlatButton label='Submit'
+                            disabled={!canSubmit}
+                            onClick={this.state.loginOrSignup === 'login' ?
+                              e => this.handleLogin(e) :
+                              e => this.handleSignup(e)} />}
 
               {this.state.userAlreadyExists ?
                 <p className='userAlreadyExists'
