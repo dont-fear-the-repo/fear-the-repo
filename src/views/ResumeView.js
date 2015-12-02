@@ -71,22 +71,15 @@ class ResumeView extends React.Component {
     this.findBullet = this.findBullet.bind(this);
   }
 
-  // handleSubmit() {  // ADAPT THIS
-  //   if (this.props.loggedIn) {
-  //     this.props.actions.saveResume({
-  //       blocks: this.state.blocks,
-  //       resumeTitle: this.refs.resumeTitle.getValue()
-  //     });
-  //   } else {
-  //     alert('To save a resume, please signup above');
-  //   }
-  // }
-
   handleSubmit() {
     // this is to test sujay's api/resume/create, so in the future just sent the whole this.props.resumeState
-    const obj = {};
-    obj.title = this.props.resumeState.resumeTitle;
-    this.props.actions.sendResumeToServerAsync(obj);
+    if (this.props.loggedIn) {
+      const obj = {};
+      obj.title = this.props.resumeState.resumeTitle;
+      this.props.actions.sendResumeToServerAsync(obj);
+    } else {
+      alert('To save a resume, please signup above');
+    }
   }
 
   handleUpdateLocalState(event, textFieldName) {
