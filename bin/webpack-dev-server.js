@@ -19,13 +19,10 @@ devServer.listen(port, host, () => {
   ));
 });
 
-
 ////////////////////////////////////////////////////////////////////////
 // TODO: All of this Auth and API will need to be refactored someday  //
 // to an external file so that a deployment server can use them       //
 ////////////////////////////////////////////////////////////////////////
-
-
 
 
 /////////////////////////////////////////////////////////////////
@@ -115,8 +112,8 @@ devServer.app.post('/logout', (req, res) => {
 /*
 To test the API, try this:
   NOTE : To add information to USER table create a new user from web application
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "name":"sujay", "profession":"batman", "title":"test", "city":"gothom"}' http://localhost:3000/api/resume/create
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "title":"test", "jobTitle":"badass", "blockPosition":"2", "startDate":"2014", "endDate":"2015"}' http://localhost:3000/api/block/create
+  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "name":"sujay", "profession":"batman", "resumeTitle":"test", "city":"gothom"}' http://localhost:3000/api/resume/create
+  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "resumeTitle":"test", "jobTitle":"bossman", "blockPosition":"2", "startDate":"2014", "endDate":"2015"}' http://localhost:3000/api/block/create
 
 */
 
@@ -180,7 +177,17 @@ devServer.app.post('/api/resume/create', (req, res) => {
     phone: req.body.phone,
     webLinkedin: req.body.webLinkedin,
     webOther: req.body.webOther,
-    title: req.body.title
+    resumeTitle: req.body.resumeTitle,
+    resumeTheme: req.body.resumeTheme,
+    personalStatement: req.body.personalStatement,
+    school1Name: req.body.school1Name,
+    school1Degree: req.body.school1Degree,
+    school1EndYear: req.body.school1EndYear,
+    school1Location: req.body.school1Location,
+    school2Name: req.body.school2Name,
+    school2Degree: req.body.school2Degree,
+    school2EndYear: req.body.school2EndYear,
+    school2Location: req.body.school2Location
   })
   .then( (resume) => {
     dbSchema.User.findOne({
@@ -200,9 +207,9 @@ devServer.app.post('/api/block/create', (req, res) => {
   dbSchema.Block.create({
     jobTitle: req.body.jobTitle,
     blockPosition: req.body.blockPosition,
-    startYear: req.body.startYear,
-    endYear: req.body.endYear,
-    companyName: req.body.companyName
+    years: req.body.years
+    companyName: req.body.companyName,
+    location: req.body.location
   })
   .then( (block) => {
     dbSchema.User.findOne({
@@ -213,7 +220,7 @@ devServer.app.post('/api/block/create', (req, res) => {
     .then( (user) => {
       dbSchema.Resume.findOne({
           where: {
-            title: req.body.title
+            resumeTitle: req.body.resumeTitle
           }
       })
       .then( (resume) => {
@@ -239,7 +246,7 @@ devServer.app.post('/api/bullet/create', (req, res) => {
     .then( (user) => {
       dbSchema.Resume.findOne({
         where: {
-          theme: req.body.title
+          theme: req.body.resumeTitle
         }
       })
       .then( (resume) => {

@@ -20,15 +20,25 @@ export const Resume = db.define('Resume', {
   phone: Sequelize.INTEGER,
   webLinkedin: Sequelize.STRING,
   webOther: Sequelize.STRING,
-  title: Sequelize.STRING
+  resumetitle: Sequelize.STRING,
+  resumeTheme: Sequelize.STRING,
+  personalStatement: Sequelize.STRING,
+  school1Name: Sequelize.STRING,
+  school1Degree: Sequelize.STRING,
+  school1EndYear: Sequelize.STRING,
+  school1Location: Sequelize.STRING,
+  school2Name: Sequelize.STRING,
+  school2Degree: Sequelize.STRING,
+  school2EndYear: Sequelize.STRING,
+  school2Location: Sequelize.STRING
 });
 
 export const Block = db.define('Block', {
   jobTitle: Sequelize.STRING,
   blockPosition: Sequelize.INTEGER,
-  startYear: Sequelize.INTEGER,
-  endYear: Sequelize.INTEGER,
-  companyName: Sequelize.STRING
+  years: Sequelize.STRING,
+  companyName: Sequelize.STRING,
+  location: Sequelize.STRING
 });
 
 export const Bullet = db.define('Bullet', {
