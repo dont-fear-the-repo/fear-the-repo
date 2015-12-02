@@ -1,9 +1,12 @@
 import { createReducer } from '../utils';
 import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK } from 'constants/resumeConstants';
 
+
+// resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
 const initialState = {
   resumeId: 1,
   resumeTitle: 'My Rageume',
+  resumeTheme: 'stringOfThemeName'
   resumeHeader: {
     name: 'Your Name Here',
     profession: 'Plumber',
@@ -14,27 +17,63 @@ const initialState = {
     webLinkedin: 'linkedin.com/myname',
     webOther: 'github.com/number23'
   },
-  blockChildren: [
-    { blockId: 1,
-      bulletChildren: [{bulletId: 1, text: 'My first bullet'}, {bulletId: 2, text: 'SECONDS'}],
-      companyName: 'Company 1',
-      jobTitle: 'Bossman',
-      year: '2015',
-      location: 'San Francisco, CA'
+  blockChildren: [{
+    blockId: 1,
+    companyName: 'First Acme',
+    jobTitle: 'Bossman',
+    year: '2015',
+    location: 'San Francisco, CA',
+    bulletChildren: [{
+      bulletId: 1,
+      text: 'My first bullet'
+    }, {
+      bulletId: 2,
+      text: 'Then I productionalized everything, like the Bossman that I am.'
+    }]
+  }, {
+    blockId: 2,
+    companyName: 'Second Corp.',
+    jobTitle: 'Lackey',
+    year: '2014',
+    location: 'San Francisco, CA',
+    bulletChildren: [{
+      bulletId: 1,
+      text: 'I believe in sentences that end with punctuation'
+    }, {
+      bulletId: 2,
+      text: 'This is an inflexible belief.'
+    }]
+  }, {
+    blockId: 3,
+    companyName: 'Third Chance',
+    jobTitle: 'Intern',
+    year: '2012',
+    location: 'San Francisco, CA',
+    bulletChildren: [{
+      bulletId: 1,
+      text: 'Not a great life here, alas.'
+    }, {
+      bulletId: 2,
+      text: 'But I played with a lot of paperclips!'
+    }]
+  }],
+  resumeFooter: {
+    school1: {
+      name: 'MakerSquare',
+      degree: 'Software Engineer',
+      schoolEndYear: '2012',
+      location: 'Chicago'
     },
-    { blockId: 2,
-      bulletChildren: [{bulletId: 2, text: 'Such a lame job'}],
-      companyName: 'Company 2',
-      jobTitle: 'Noob',
-      year: '2013',
-      location: 'New York, NY'
+    school2: {
+      name: 'Trololo',
+      degree: 'BS',
+      schoolEndYear: '2008',
+      location: 'Boston'
     },
-    { blockId: 100,
-      bulletChildren: [],
-      title: 'archived'
-    }
-  ]
+    personalStatement: 'I like cats, but only sometimes, eating ramen, basketball, and taking long walks because BART is broken again.'
+  }
 };
+
 
 export default createReducer(initialState, {
 
@@ -72,8 +111,8 @@ export default createReducer(initialState, {
   },
 
   [MOVE_BLOCK]: (state, payload) => {
-    console.log('state: ', state)
-    console.log('payload: ', payload)
+    // console.log('state: ', state)
+    console.log('block dragged id: ', payload.block.blockId, ' wants to be inserted at:', payload.atIndex)
 
     return Object.assign({}, state, {
       blockChildren: payload.blockChildren.slice().splice([ [payload.index, 1], [payload.atIndex, 0, payload.block] ])
