@@ -1,5 +1,6 @@
 import { createReducer } from '../utils';
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE} from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK } from 'constants/resumeConstants';
+import Immutable from 'immutable';
 
 const initialState = {
   resumeId: 1,
@@ -23,7 +24,7 @@ const initialState = {
       location: 'San Francisco, CA'
     },
     { blockId: 2,
-      bulletChildren: [{bulletId: 2, text: 'Such a lame job'}],
+      bulletChildren: [{bulletId: 3, text: 'Such a lame job'}],
       companyName: 'Company 2',
       jobTitle: 'Noob',
       year: '2013',
@@ -39,10 +40,8 @@ const initialState = {
 export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
-    console.log("payload", payload);
     const obj = {};
     obj[payload.textFieldName] = payload.userInput;
-    console.log("obj", obj);
 
     return Object.assign({}, state, obj);
   },
@@ -56,9 +55,6 @@ export default createReducer(initialState, {
   },
 
   [DROP_BULLET]: (state, payload) => {
-    console.log('state: ', state)
-    console.log('payload: ', payload)
-
     // Can we just grab this.blockId from view?
     const targetIndex = () => {
       for (let index = 0; index < state.blockChildren.length; index++) {
@@ -71,6 +67,14 @@ export default createReducer(initialState, {
     return Object.assign({}, state, {
       blockChildren: state.blockChildren,
       droppedBullet: state.blockChildren[targetIndex].body.push(state.droppedBullet.body)
+    });
+  },
+
+  [MOVE_BLOCK]: (state, payload) => {
+    const immutableBlockChildren = Immutable.List(state.blockChildren);
+
+    return Object.assign({}, state, {
+      blockChildren: immutableBlockChildren.splice(payload.index, 1).splice(payload.atIndex, 0, payload.block).toJS()
     });
   }
 });

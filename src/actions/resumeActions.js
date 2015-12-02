@@ -1,4 +1,4 @@
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE } from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -20,6 +20,13 @@ export function dropBullet (payload) {
 export function updateLocalState (payload) {
   return {
     type: UPDATE_LOCAL_STATE,
+    payload: payload
+  };
+}
+
+export function moveBlock (payload) {
+  return {
+    type: MOVE_BLOCK,
     payload: payload
   };
 }

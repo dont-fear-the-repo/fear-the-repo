@@ -6,10 +6,6 @@ export default class ResumeHeader extends React.Component {
     body: PropTypes.string
   }
 
-  static contextTypes = {
-    store: React.PropTypes.object
-  }
-
   render() {
     const styles = {
       name: {
