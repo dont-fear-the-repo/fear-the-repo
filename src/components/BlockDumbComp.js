@@ -1,9 +1,16 @@
 import React, { PropTypes }       from 'react';
-import Paper                      from 'material-ui/lib/paper';
 import { DragSource, DropTarget } from 'react-dnd';
-import { saveResume }             from 'actions/resumeActions';
-import { bindActionCreators }     from 'redux';
-import { connect }                from 'react-redux';
+import Paper                      from 'material-ui/lib/paper';
+
+
+///////////////////////////////////////////
+//        Begin DnD requirements         //
+///////////////////////////////////////////
+
+const Types = {
+  BLOCK: 'block',
+  BULLET: 'bullet'
+};
 
 const blockSource = {
   beginDrag(props) {
@@ -52,46 +59,26 @@ const blockTarget = {
   }
 };
 
-const Types = {
-  BLOCK: 'block',
-  BULLET: 'bullet'
-};
-
-const ActionCreators = {
-  saveResume: saveResume
-};
-
-const mapStateToProps = (state) => ({
-  routerState: state.router
-});
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(ActionCreators, dispatch)
-});
-
 @DropTarget([Types.BLOCK, Types.BULLET], blockTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
+
 @DragSource(Types.BLOCK, blockSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
 }))
-export class Block extends React.Component {
-  static propTypes = {
-    connectDragSource: PropTypes.func.isRequired,
-    connectDropTarget: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    blockId: PropTypes.any.isRequired,
-    moveBlock: PropTypes.func.isRequired,
-    findBlock: PropTypes.func.isRequired,
-    // coming from ResumeView.js (parent component) thru props
-    companyName: PropTypes.string.isRequired,
-    jobTitle: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
-    bulletChildren: PropTypes.array.isRequired,
-    hasBullets: PropTypes.bool,
-    children: PropTypes.node
-  };
+
+///////////////////////////////////////////
+//        End DnD requirements           //
+///////////////////////////////////////////
+
+
+
+
+
+
+
+export default class BlockDumbComp extends React.Component {
 
   render() {
     const { children, isDragging, connectDragSource, connectDropTarget } = this.props;
@@ -172,9 +159,34 @@ export class Block extends React.Component {
       </div>
     ));
   }
+
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Block);
+
+
+
+
+
+// export class Block extends React.Component {
+//   static propTypes = {
+//     connectDragSource: PropTypes.func.isRequired,
+//     connectDropTarget: PropTypes.func.isRequired,
+//     isDragging: PropTypes.bool.isRequired,
+//     blockId: PropTypes.any.isRequired,
+//     moveBlock: PropTypes.func.isRequired,
+//     findBlock: PropTypes.func.isRequired,
+//     // coming from ResumeView.js (parent component) thru props
+//     companyName: PropTypes.string.isRequired,
+//     jobTitle: PropTypes.string.isRequired,
+//     location: PropTypes.string.isRequired,
+//     year: PropTypes.string.isRequired,
+//     bulletChildren: PropTypes.array.isRequired,
+//     hasBullets: PropTypes.bool,
+//     children: PropTypes.node
+//   };
+
+
+
 
 /*
 
