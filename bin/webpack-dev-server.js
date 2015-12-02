@@ -12,8 +12,8 @@ const session = require('express-session');
 const utils = require('./lib/utils');
 const bcrypt = require('bcrypt-nodejs')
 const Promise = require("bluebird");
-console.log(bcrypt.compare);
-devServer.listen(port, host, function() {
+
+devServer.listen(port, host, () => {
   console.log(chalk.green(
     `webpack-dev-server is now running at ${host}:${port}.`
   ));
@@ -38,68 +38,68 @@ devServer.listen(port, host, function() {
 devServer.app.use(parser.json());
 
 devServer.app.use(session({
-  secret: "Backend if fun because I don't have to deal with react",
+  secret: "Backend is fun because I don't have to deal with React",
   resave: false,
   saveUninitialized: true
 }));
 
 devServer.app.post('/authentication', utils.checkUser);
-//Login in
-devServer.app.post('/login', function (req, res) {
+
+devServer.app.post('/login', (req, res) => {
   console.log("On my way");
   dbSchema.User.findOne({
       where: {
         userName: req.body.username,
       }
     })
-    .then(function (results) {
+    .then( (results) => {
       if (results) {
-        bcrypt.compare(req.body.password, results.password, function (err, success) {
+        bcrypt.compare(req.body.password, results.password, (err, success) => {
           if (success) {
             utils.createSession(req, res, results);
           } else {
-            res.sendStatus(404);
+            res.status(401).send({error: 'incorrect password'});
           }
-        })
+        });
       } else {
-        res.sendStatus(404);
+        res.status(401).send({error: 'user not found'});
       }
-    })
+    });
 });
-//Signup
-devServer.app.post('/signup', function (req, res) {
+
+devServer.app.post('/signup', (req, res) => {
   dbSchema.User.findOne({
       where: {
         userName: req.body.username
       }
     })
-    .then(function (results) {
+    .then( (results) => {
       if (!results) {
         var hashing = Promise.promisify(bcrypt.hash);
         hashing(req.body.password, null, null)
-          .then(function (hash) {
-            dbSchema.User.create({
-              userName: req.body.username,
-              password: hash
-            })
-          }).then(function (results) {
-            utils.createSession(req, res, results);
-          })
+        .then( (hash) => {
+          dbSchema.User.create({
+            userName: req.body.username,
+            password: hash
+          });
+        })
+        .then( (results) => {
+          utils.createSession(req, res, results);
+        });
       } else {
-        res.sendStatus(404);
+        res.status(401).send({error: 'user already exists'});
       }
-    })
+    });
 });
 
-//logout
-devServer.app.post('/logout',function (req, res) {
-    req.session.destroy(function(err) {
+devServer.app.post('/logout', (req, res) => {
+  req.session.destroy( (err) => {
     if (err) {
       console.error(err);
-      res.status(201).send("unable to logout user")
+      res.status(201).send({error: 'unable to logout user'});
     } else {
-      console.log("logout success");
-      res.status(200).send("logout success");
+      console.log('logout success');
+      res.status(200).send({error: 'logout success'});
     }
   });
 });
@@ -166,30 +166,30 @@ devServer.app.post('/api/savebulletsonresume', function(req, res) {
 */
 
 // Find a user
-devServer.app.post('/api/findauser', function(req, res) {
-  console.log("You looked for userId: " + req.body.id)
+devServer.app.post('/api/findauser', (req, res) => {
+  console.log("You looked for userId: " + req.body.id);
   dbSchema.User.findOne({
-      where: {
-        id: req.body.id
-      }
-    })
-    .then(function (results) {
-      res.send(results.dataValues);
-    })
-})
+    where: {
+      id: req.body.id
+    }
+  })
+  .then( (results) => {
+    res.send(results.dataValues);
+  });
+});
 
 // All users please
-devServer.app.post('/api/allusers', function (req, res) {
+devServer.app.post('/api/allusers', (req, res) => {
   dbSchema.User.findAll()
-    .then(function(results) {
-      // var userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
-      res.send(results);
-    })
-})
+  .then( (results) => {
+    // const userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
+    res.send(results);
+  });
+});
 
 // Create a User
-devServer.app.post('/api/userinfo', function(req, res) {
-  console.log("I see users! ", req.body.email)
+devServer.app.post('/api/userinfo', (req, res) => {
+  console.log("I see users! ", req.body.email);
   dbSchema.User.create({
     email: req.body.email,
     password: req.body.password,
@@ -198,7 +198,7 @@ devServer.app.post('/api/userinfo', function(req, res) {
     // headline: req.body.headline,
     // industry: req.body.industry,
     // country: req.body.country,
-    city: req.body.city,
+    // city: req.body.city,
     // zipCode: req.body.zipCode,
     // phoneNumber: req.body.phoneNumber,
     // facebookURL: req.body.facebookURL,
@@ -214,46 +214,52 @@ devServer.app.post('/api/userinfo', function(req, res) {
     // pictureUrl: req.body.pictureUrl,
     // positions: req.body.positions,
     // summary: req.body.summary
-  }).then(function(userinfo) {
+  })
+  .then( (userinfo) => {
     res.send('successfully added user: ', userinfo);
   });
 });
 
-////Create resume for given user
-devServer.app.post('/api/resume/create', function(req, res){
+// Create resume for given user
+devServer.app.post('/api/resume/create', (req, res) => {
   dbSchema.Resume.create({
     theme: req.body.theme,
     title: req.body.title
-  }).then( function(resume) {
-      dbSchema.User.findOne({
-        where: {
-          email: req.body.email
-        }
-      }).then(function(user){
-        user.addResume(resume);
-        res.send('successfully added resume: ', resume);
-        });
-    });
-});
-
-////Create block for given resume
-devServer.app.post('/api/block/create', function(req, res){
-  dbSchema.Block.create({
-    jobTitle: req.body.jobTitle,
-    blockPosition: req.body.blockPosition,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate
-  }).then(function(block){
+  })
+  .then( (resume) => {
     dbSchema.User.findOne({
       where: {
         email: req.body.email
       }
-    }).then(function(user){
-      dbSchema.Resume.findOne({
+    })
+    .then( (user) => {
+      user.addResume(resume);
+      res.send('successfully added resume: ', resume);
+    });
+  });
+});
+
+////Create block for given resume
+devServer.app.post('/api/block/create', (req, res) => {
+  dbSchema.Block.create({
+      jobTitle: req.body.jobTitle,
+      blockPosition: req.body.blockPosition,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate
+  })
+  .then( (block) => {
+    dbSchema.User.findOne({
         where: {
-          title: req.body.title
+          email: req.body.email
         }
-      }).then(function(resume){
+    })
+    .then( (user) => {
+      dbSchema.Resume.findOne({
+          where: {
+            title: req.body.title
+          }
+      })
+      .then( (resume) => {
         resume.addBlock(block);
         res.send('successfully added block: ', block);
       });
@@ -262,26 +268,30 @@ devServer.app.post('/api/block/create', function(req, res){
 });
 
 //Create bullets for given block
-devServer.app.post('/api/bullet/create', function(req, res) {
+devServer.app.post('/api/bullet/create', (req, res) => {
   dbSchema.Bullet.create({
     bullet: req.body.bullet,
     bulletPosition: req.body.bulletPosition
-  }).then(function(bullet) {
-      dbSchema.User.findOne({
+  })
+  .then( (bullet) => {
+    dbSchema.User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then( (user) => {
+      dbSchema.Resume.findOne({
         where: {
-          email: req.body.email
+          theme: req.body.title
         }
-    }).then(function(user) {
-        dbSchema.Resume.findOne({
-          where: {
-            theme: req.body.title
-          }
-      }).then(function(resume) {
-          dbSchema.Block.findOne({
-              where: {
-                jobTitle: req.body.jobTitle
-              }
-          }).then(function(block) {
+      })
+      .then( (resume) => {
+        dbSchema.Block.findOne({
+            where: {
+              jobTitle: req.body.jobTitle
+            }
+        })
+        .then( (block) => {
           block.addBullet(bullet);
           res.send('successfully added bullet: ', bullet);
         });

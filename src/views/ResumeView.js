@@ -41,7 +41,8 @@ const ActionCreators = {
 };
 
 const mapStateToProps = (state) => ({
-  routerState: state.router
+  routerState: state.router,
+  loggedIn: state.titleBarReducer.loggedIn
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -50,7 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
 @DropTarget([Types.BLOCK, Types.BULLET], blockTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
-export class ResumeView extends React.Component {
+class ResumeView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
     connectDropTarget: React.PropTypes.func.isRequired
@@ -107,13 +108,6 @@ export class ResumeView extends React.Component {
     };
   }
 
-  handleSubmit() {
-    this.props.actions.saveResume({
-      blocks: this.state.blocks,
-      resumeTitle: this.refs.resumeTitle.getValue()
-    });
-  }
-
   moveBlock(id, atIndex) {
     const { block, index } = this.findBlock(id);
     this.setState(update(this.state, {
@@ -158,7 +152,7 @@ export class ResumeView extends React.Component {
     };
   }
 
-  handlPrint() {
+  handlePrint() {
     const prtContent = document.getElementById('resumeContainer');
     const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
     WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
@@ -166,6 +160,17 @@ export class ResumeView extends React.Component {
     WinPrint.focus();
     WinPrint.print();
     WinPrint.close();
+  }
+
+  handleSubmit() {
+    if (this.props.loggedIn) {
+      this.props.actions.saveResume({
+        blocks: this.state.blocks,
+        resumeTitle: this.refs.resumeTitle.getValue()
+      });
+    } else {
+      alert('To save a resume, please signup above');
+    }
   }
 
   render() {
@@ -218,7 +223,7 @@ export class ResumeView extends React.Component {
 
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />
-          <RaisedButton label='Print resume' onClick={e => this.handlPrint(e)} />
+          <RaisedButton label='Print resume' onClick={e => this.handlePrint(e)} />
         </div>
 
         <Paper style={styles.resumePaper}>
