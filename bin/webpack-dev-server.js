@@ -290,7 +290,7 @@ devServer.app.post('/api/bullet/create', function(req, res) {
   });
 });
 
-// temp end point, for testing front-to-back data. Sujay will replace?
+// temp end point, for testing front-to-back data. Sujay will replace.
 devServer.app.post('/api/resumeheader', function(req, res) {
   console.log("Hello, this is dog!");
   console.log(req.body)
