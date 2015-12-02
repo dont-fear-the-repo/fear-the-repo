@@ -6,7 +6,7 @@ import { RaisedButton } from 'material-ui/lib';
 const mapStateToProps = (state) => ({
   showKitten: state.showKitten
 });
-export class AboutView extends React.Component {
+class AboutView extends React.Component {
 
   state = {
     showKitten: false
@@ -16,7 +16,7 @@ export class AboutView extends React.Component {
     this.setState({showKitten: !this.state.showKitten});
   }
 
-  render () {
+  render() {
     const {showKitten} = this.state;
     return (
       <div className='about-page'>
@@ -36,17 +36,20 @@ export class AboutView extends React.Component {
           Psst! Would you like to see a kitten?
 
           <RaisedButton className={'kitten button' + (showKitten ? 'nope' : 'yep')}
-                  style={{marginLeft: 30}}
-                  onClick={this.handleToggleKitten.bind(this)}>
-            {showKitten ? 'No! I\'m a monster!' : 'Of course!'}</RaisedButton>
+                        style={{marginLeft: 30}}
+                        onClick={this.handleToggleKitten.bind(this)}>
+            {showKitten ? 'No! I\'m a monster!' : 'Of course!'}
+          </RaisedButton>
         </div>
 
-        {showKitten && <div><img src={require('styles/assets/kitten.jpg')}/></div>}
+        {showKitten &&
+          <div>
+            <img src={require('styles/assets/kitten.jpg')}/>
+          </div>}
 
       </div>
     );
   }
-
 }
 
 export default connect(mapStateToProps)(AboutView);

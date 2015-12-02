@@ -1,16 +1,18 @@
 import { createReducer } from '../utils';
-import { SAVE_RESUME, DROP_BULLET, MOVE_BLOCK } from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK } from 'constants/resumeConstants';
 
 const initialState = {
   resumeId: 1,
   resumeTitle: 'My Rageume',
   resumeHeader: {
     name: 'Your Name Here',
-    email: 'myemail@gmail.com',
+    profession: 'Plumber',
+    city: 'San Francsico',
+    state: 'CA',
+    displayEmail: 'myemail@gmail.com',
     phone: '124-125-4737',
-    headerLocation: 'SF, CA',
-    linkedin: 'linkedin.com/myname',
-    github: 'github.com/number23'
+    webLinkedin: 'linkedin.com/myname',
+    webOther: 'github.com/number23'
   },
   blockChildren: [
     { blockId: 1,
@@ -36,12 +38,21 @@ const initialState = {
 
 export default createReducer(initialState, {
 
-  [SAVE_RESUME]: (state, payload) => {
-    return Object.assign({}, state, {
-      blockChildren: payload.blockChildren,
-      resumeTitle: payload.resumeTitle,
-      resumeHeader: payload.resumeHeader
-    });
+  [UPDATE_LOCAL_STATE]: (state, payload) => {
+    console.log("payload", payload);
+    const obj = {};
+    obj[payload.textFieldName] = payload.userInput;
+    console.log("obj", obj);
+
+    return Object.assign({}, state, obj);
+  },
+
+  [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
+    console.log(payload);
+    return {
+      ...state,
+      ...payload
+    };
   },
 
   [DROP_BULLET]: (state, payload) => {

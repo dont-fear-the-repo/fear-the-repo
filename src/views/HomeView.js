@@ -12,17 +12,21 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(counterActions, dispatch)
 });
-export class HomeView extends React.Component {
+class HomeView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
     counter: React.PropTypes.number
   }
 
-  render () {
+  render() {
     return (
-      <div className='landing main-body' style={{textAlign: 'center'}}>
-        <img src={require('styles/assets/writing-resume.jpg')} style={{width: '100%'}} />
-        <h1 className='main-title'>FEAR THE REPO</h1>
+      <div className='landing main-body'
+           style={{ textAlign: 'center' }}>
+        <img src={require('styles/assets/writing-resume.jpg')}
+             style={{ width: '100%' }} />
+        <h1 className='main-title'>
+          FEAR THE REPO
+        </h1>
 
         <h3 className='main-tagline'>
           Resume Version Control and Templating

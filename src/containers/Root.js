@@ -1,11 +1,11 @@
-import React                    from 'react';
-import { Provider }             from 'react-redux';
-import routes                   from '../routes';
-import { ReduxRouter }          from 'redux-router';
-import DevTools                 from './DevTools';
+import React from 'react';
+import { Provider } from 'react-redux';
+import routes from '../routes';
+import { ReduxRouter } from 'redux-router';
+import DevTools from './DevTools';
 import { createDevToolsWindow } from '../utils';
-import HTML5Backend             from 'react-dnd-html5-backend';
-import { DragDropContext }      from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 
 @DragDropContext(HTML5Backend)
 export default class Root extends React.Component {
@@ -20,7 +20,7 @@ export default class Root extends React.Component {
     debugExternal: false
   }
 
-  renderDevTools () {
+  renderDevTools() {
     if (!this.props.debug) {
       return null;
     }
@@ -29,7 +29,7 @@ export default class Root extends React.Component {
       createDevToolsWindow(this.props.store) : <DevTools />;
   }
 
-  render () {
+  render() {
     return (
       <Provider store={this.props.store}>
         <div>

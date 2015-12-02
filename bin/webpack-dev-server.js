@@ -13,7 +13,7 @@ const utils = require('./lib/utils');
 const bcrypt = require('bcrypt-nodejs')
 const Promise = require("bluebird");
 console.log(bcrypt.compare);
-devServer.listen(port, host, function () {
+devServer.listen(port, host, function() {
   console.log(chalk.green(
     `webpack-dev-server is now running at ${host}:${port}.`
   ));
@@ -182,7 +182,7 @@ devServer.app.post('/api/findauser', function(req, res) {
 devServer.app.post('/api/allusers', function (req, res) {
   dbSchema.User.findAll()
     .then(function(results) {
-      // var userList = results.map(function(user){return "id: "+ user.id + " userName: " + user.userName});
+      // var userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
       res.send(results);
     })
 })
@@ -191,9 +191,8 @@ devServer.app.post('/api/allusers', function (req, res) {
 devServer.app.post('/api/userinfo', function(req, res) {
   console.log("I see users! ", req.body.email)
   dbSchema.User.create({
-    // userName: req.body.userName,
-    // password: req.body.password,
     email: req.body.email,
+    password: req.body.password,
     // firstName: req.body.firstName,
     // lastName: req.body.lastName,
     // headline: req.body.headline,
@@ -228,7 +227,7 @@ devServer.app.post('/api/resume/create', function(req, res){
   }).then( function(resume) {
       dbSchema.User.findOne({
         where: {
-          userName: req.body.userName
+          email: req.body.email
         }
       }).then(function(user){
         user.addResume(resume);
@@ -247,7 +246,7 @@ devServer.app.post('/api/block/create', function(req, res){
   }).then(function(block){
     dbSchema.User.findOne({
       where: {
-        userName: req.body.userName
+        email: req.body.email
       }
     }).then(function(user){
       dbSchema.Resume.findOne({
@@ -270,7 +269,7 @@ devServer.app.post('/api/bullet/create', function(req, res) {
   }).then(function(bullet) {
       dbSchema.User.findOne({
         where: {
-          userName: req.body.userName
+          email: req.body.email
         }
     }).then(function(user) {
         dbSchema.Resume.findOne({
@@ -289,4 +288,11 @@ devServer.app.post('/api/bullet/create', function(req, res) {
       });
     });
   });
+});
+
+// temp end point, for testing front-to-back data. Sujay will replace.
+devServer.app.post('/api/resumeheader', function(req, res) {
+  console.log("Hello, this is dog!");
+  console.log(req.body)
+  res.send(req.body);
 });

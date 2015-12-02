@@ -6,10 +6,13 @@ import Bullet                             from 'components/Bullet';
 import ResumeHeader                       from 'components/ResumeHeader';
 import { DropTarget }                     from 'react-dnd';
 import update                             from 'react/lib/update';
-import { moveBlock, dropBullet }          from 'actions/resumeActions';
+import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const ActionCreators = {
+  updateResumeState: updateResumeState,
+  sendResumeToServerAsync: sendResumeToServerAsync,
+  updateLocalState: updateLocalState,
   moveBlock: moveBlock,
   dropBullet: dropBullet
 };
@@ -69,12 +72,20 @@ export class ResumeView extends React.Component {
     this.findBullet = this.findBullet.bind(this);
   }
 
-  // handleSubmit() {
-  //   this.props.actions.saveResume({
-  //     blocks: this.state.blocks,
-  //     resumeTitle: this.refs.resumeTitle.getValue()
-  //   });
-  // }
+
+
+  handleSubmit() {
+    // this is to test sujay's api/resume/create, so in the future just sent the whole this.props.resumeState
+    const obj = {};
+    obj.title = this.props.resumeState.resumeTitle;
+    this.props.actions.sendResumeToServerAsync(obj);
+  }
+
+  handleUpdateLocalState(event, textFieldName) {
+    const userInput = event.target.value;
+    this.props.actions.updateLocalState({textFieldName, userInput});
+  }
+
 
   moveBlock(id, atIndex) {
     const { block, index } = this.findBlock(id);
@@ -128,15 +139,15 @@ export class ResumeView extends React.Component {
     };
   }
 
-  // handlePrint() {
-  //   const prtContent = document.getElementById('resumeContainer');
-  //   const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-  //   WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
-  //   WinPrint.document.close();
-  //   WinPrint.focus();
-  //   WinPrint.print();
-  //   WinPrint.close();
-  // }
+  handlePrint() {
+    const prtContent = document.getElementById('resumeContainer');
+    const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+    WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+  }
 
 
 
@@ -186,14 +197,14 @@ export class ResumeView extends React.Component {
 
     return connectDropTarget(
       <div className='container'
-           style={styles.container}>
+           style={styles.container} id='resumeContainer'>
         <div className='resumeTitle'
              style={styles.resumeTitle}>
           <TextField className='textCenter'
                      style={styles.textCenter}
                      hintStyle={styles.hintStyle}
-                     hintText='Your Resume Title'
-                     ref='resumeTitle' />
+                     hintText={this.props.resumeState.resumeTitle}
+                     ref='resumeTitle' onBlur={e => this.handleUpdateLocalState(e, 'resumeTitle')} />
 
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />

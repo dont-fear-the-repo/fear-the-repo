@@ -4,6 +4,7 @@ import counter from './counter';
 import userFormReducer from './userFormReducer';
 import titleBarReducer from './titleBarReducer';
 import resumeReducer from './resumeReducer';
+import validationReducer from './validationReducer';
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
   userFormReducer,
   titleBarReducer,
   resumeReducer,
+  validationReducer,
   router: routerStateReducer
 });
