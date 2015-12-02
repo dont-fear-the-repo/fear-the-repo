@@ -1,14 +1,11 @@
-import rootReducer          from '../reducers';
-import thunk                from 'redux-thunk';
-import routes               from '../routes';
+import rootReducer from '../reducers';
+import thunk from 'redux-thunk';
+import routes from '../routes';
 import { reduxReactRouter } from 'redux-router';
-import createHistory        from 'history/lib/createBrowserHistory';
-import DevTools             from 'containers/DevTools';
-import {
-  applyMiddleware,
-  compose,
-  createStore
-} from 'redux';
+import createHistory from 'history/lib/createBrowserHistory';
+import DevTools from 'containers/DevTools';
+import { applyMiddleware, compose, createStore } from 'redux';
+
 
 export default function configureStore (initialState, debug = false) {
   let createStoreWithMiddleware;

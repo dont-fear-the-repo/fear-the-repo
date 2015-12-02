@@ -11,13 +11,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(counterActions, dispatch)
 });
-export class HomeView extends React.Component {
+class SecretView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
     counter: React.PropTypes.number
   }
 
-  render () {
+  render() {
     return (
       <div className='landing main-body' style={{textAlign: 'center'}}>
         "YOU FOUND THE SECRET PAGE"
@@ -26,4 +26,4 @@ export class HomeView extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeView);
+export default connect(mapStateToProps, mapDispatchToProps)(SecretView);
