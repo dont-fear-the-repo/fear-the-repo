@@ -127,15 +127,15 @@ export class ResumeView extends React.Component {
     };
   }
 
-  // handlePrint() {
-  //   const prtContent = document.getElementById('resumeContainer');
-  //   const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-  //   WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
-  //   WinPrint.document.close();
-  //   WinPrint.focus();
-  //   WinPrint.print();
-  //   WinPrint.close();
-  // }
+  handlePrint() {
+    const prtContent = document.getElementById('resumeContainer');
+    const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+    WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+  }
 
 
 
@@ -185,7 +185,7 @@ export class ResumeView extends React.Component {
 
     return connectDropTarget(
       <div className='container'
-           style={styles.container}>
+           style={styles.container} id='resumeContainer'>
         <div className='resumeTitle'
              style={styles.resumeTitle}>
           <TextField className='textCenter'
