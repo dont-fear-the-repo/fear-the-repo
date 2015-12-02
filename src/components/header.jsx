@@ -94,16 +94,16 @@ export class Header extends React.Component {
       <div>
         <div className='header'>
           <Link to='/' style={{marginLeft: '30px'}}>Fear the Repo</Link>
-          <Link to='/userform'>
-            <FlatButton label='User Info' />
+          <Link to='/homeview'>
+            <FlatButton label='Home View' />
           </Link>
-          <Link to='/resume'>
+          <Link to='/userform'>
             <FlatButton label='Edit Resume' />
           </Link>
           <FlatButton label='export' />
           <Link to='/secretpage'>
             <FlatButton label = 'Secret Page' />
-          </Link>  
+          </Link>
           <FlatButton style={{float: 'right', marginRight: '30px'}}
                       label='Login'
                       onClick={this.showLoginPopover.bind(this, 'pop')} />
