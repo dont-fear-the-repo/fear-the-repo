@@ -1,5 +1,5 @@
 import { createReducer } from '../utils';
-import { SAVE_RESUME, DROP_BULLET } from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE} from 'constants/resumeConstants';
 
 const initialState = {
   resumeId: 1,
@@ -38,12 +38,21 @@ const initialState = {
 
 export default createReducer(initialState, {
 
-  [SAVE_RESUME]: (state, payload) => {
-    return Object.assign({}, state, {
-      blockChildren: payload.blockChildren,
-      resumeTitle: payload.resumeTitle,
-      resumeHeader: payload.resumeHeader
-    });
+  [UPDATE_LOCAL_STATE]: (state, payload) => {
+    console.log("payload", payload);
+    const obj = {};
+    obj[payload.textFieldName] = payload.userInput;
+    console.log("obj", obj);
+
+    return Object.assign({}, state, obj);
+  },
+
+  [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
+    console.log(payload);
+    return {
+      ...state,
+      ...payload
+    };
   },
 
   [DROP_BULLET]: (state, payload) => {
