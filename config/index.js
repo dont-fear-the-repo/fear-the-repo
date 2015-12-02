@@ -1,9 +1,9 @@
 /* eslint-disable */
-import path     from 'path';
+import path from 'path';
 import { argv } from 'yargs';
-import dotenv   from 'dotenv';
-import chalk    from 'chalk';
-import pkg      from '../package.json';
+import dotenv from 'dotenv';
+import chalk from 'chalk';
+import pkg from '../package.json';
 
 dotenv.load();
 const config = new Map();
@@ -17,12 +17,17 @@ config.set('dir_test', 'tests');
 
 config.set('coverage_enabled', !argv.watch);
 config.set('coverage_reporters', [
-  { type : 'text-summary' },
-  { type : 'html', dir : 'coverage' }
+  {
+    type: 'text-summary'
+  },
+  {
+    type: 'html',
+    dir: 'coverage'
+  }
 ]);
 
-config.set('webpack_host',  'localhost');
-config.set('webpack_port',  process.env.PORT || 3000);
+config.set('webpack_host', 'localhost');
+config.set('webpack_port', process.env.PORT || 3000);
 
 // Define what dependencies we'd like to treat as vendor dependencies,
 // but only include the ones that actually exist in package.json. This
@@ -84,15 +89,15 @@ config.set('path_project', path.resolve(__dirname, '../'));
 // Utilities
 // ------------------------------------
 const paths = (() => {
-  const base    = [config.get('path_project')];
+  const base = [config.get('path_project')];
   const resolve = path.resolve;
 
   const project = (...args) => resolve.apply(resolve, [...base, ...args]);
 
   return {
-    project : project,
-    src     : project.bind(null, config.get('dir_src')),
-    dist    : project.bind(null, config.get('dir_dist'))
+    project: project,
+    src: project.bind(null, config.get('dir_src')),
+    dist: project.bind(null, config.get('dir_dist'))
   };
 })();
 

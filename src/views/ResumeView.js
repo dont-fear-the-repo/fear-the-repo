@@ -54,7 +54,7 @@ const blockTarget = {
 @DropTarget([Types.BLOCK, Types.BULLET], blockTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
-export class ResumeView extends React.Component {
+class ResumeView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
     connectDropTarget: React.PropTypes.func.isRequired
@@ -74,16 +74,19 @@ export class ResumeView extends React.Component {
 
   handleSubmit() {
     // this is to test sujay's api/resume/create, so in the future just sent the whole this.props.resumeState
-    const obj = {};
-    obj.title = this.props.resumeState.resumeTitle;
-    this.props.actions.sendResumeToServerAsync(obj);
+    if (this.props.loggedIn) {
+      const obj = {};
+      obj.title = this.props.resumeState.resumeTitle;
+      this.props.actions.sendResumeToServerAsync(obj);
+    } else {
+      alert('To save a resume, please signup above');
+    }
   }
 
   handleUpdateLocalState(event, textFieldName) {
     const userInput = event.target.value;
     this.props.actions.updateLocalState({textFieldName, userInput});
   }
-
 
   moveBlock(draggedId, atIndex) {
     const { block, index } = this.findBlock(draggedId);
@@ -137,7 +140,7 @@ export class ResumeView extends React.Component {
     WinPrint.close();
   }
 
-  render () {
+  render() {
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState.blockChildren;
 
@@ -187,6 +190,7 @@ export class ResumeView extends React.Component {
 
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />
+
           <RaisedButton label='Print Resume' onClick={e => this.handlePrint(e)} />
         </div>
 
