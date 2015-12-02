@@ -1,17 +1,17 @@
-var isLoggedIn = function(req) {
+function isLoggedIn(req) {
   return req.session ? !!req.session.user : false;
 };
 
-exports.checkUser = function(req, res, next){
+export function checkUser(req, res, next) {
   if (!isLoggedIn(req)) {
     res.send({Auth: false});
   } else {
-    res.send({Auth: true})
+    res.send({Auth: true});
   }
 };
 
-exports.createSession = function(req, res, newUser) {
-  return req.session.regenerate(function() {
+export function createSession(req, res, newUser) {
+  return req.session.regenerate( () => {
       req.session.user = newUser;
       console.log("i'm in create session")
       res.send();
