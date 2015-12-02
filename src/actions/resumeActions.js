@@ -1,4 +1,4 @@
-import { SAVE_RESUME, DROP_BULLET } from 'constants/resumeConstants';
+import { SAVE_RESUME, DROP_BULLET, MOVE_BLOCK } from 'constants/resumeConstants';
 
 export function saveResume (payload) {
   return {
@@ -10,6 +10,13 @@ export function saveResume (payload) {
 export function dropBullet (payload) {
   return {
     type: DROP_BULLET,
+    payload: payload
+  };
+}
+
+export function moveBlock (payload) {
+  return {
+    type: MOVE_BLOCK,
     payload: payload
   };
 }

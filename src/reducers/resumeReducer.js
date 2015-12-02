@@ -1,5 +1,5 @@
 import { createReducer } from '../utils';
-import { SAVE_RESUME, DROP_BULLET } from 'constants/resumeConstants';
+import { SAVE_RESUME, DROP_BULLET, MOVE_BLOCK } from 'constants/resumeConstants';
 
 const initialState = {
   resumeId: 1,
@@ -45,9 +45,6 @@ export default createReducer(initialState, {
   },
 
   [DROP_BULLET]: (state, payload) => {
-    console.log('state: ', state)
-    console.log('payload: ', payload)
-
     // Can we just grab this.blockId from view?
     const targetIndex = () => {
       for (let index = 0; index < state.blockChildren.length; index++) {
@@ -61,5 +58,18 @@ export default createReducer(initialState, {
       blockChildren: state.blockChildren,
       droppedBullet: state.blockChildren[targetIndex].body.push(state.droppedBullet.body)
     });
+  },
+
+  [MOVE_BLOCK]: (state, payload) => {
+    console.log('state: ', state)
+    console.log('payload: ', payload)
+
+    return Object.assign({}, state, {
+      blockChildren: payload.blockChildren.slice().splice([ [payload.index, 1], [payload.atIndex, 0, payload.block] ])
+    });
   }
 });
+
+/*
+      blockChildren: state.blockChildren.splice([payload.index, 1], [payload.atIndex, 0, payload.block])
+*/

@@ -15,13 +15,13 @@ const Types = {
 const blockSource = {
   beginDrag(props) {
     return {
-      id: props.id,
-      originalIndex: props.findBlock(props.id).index
+      blockId: props.blockId,
+      originalIndex: props.findBlock(props.blockId).index
     };
   },
 
   endDrag(props, monitor) {
-    const { id: droppedId, originalIndex } = monitor.getItem();
+    const { blockId: droppedId, originalIndex } = monitor.getItem();
     const didDrop = monitor.didDrop();
 
     if (!didDrop) {
@@ -33,16 +33,15 @@ const blockSource = {
 const blockTarget = {
   drop(props) {
     // Simply return an object to make certain props available to the bullet being dropped on it via monitor.getDropResult. See ResumeView's blockTarget for the dispatching of that action.
-    console.log('props: ', props)
     return {
-      body: props.body,
+      bulletChildren: props.bulletChildren,
       blockId: props.blockId
     };
   },
 
   hover(props, monitor) {
-    const { id: draggedId } = monitor.getItem();
-    const { id: overId } = props;
+    const { blockId: draggedId } = monitor.getItem();
+    const { blockId: overId } = props;
 
     if (monitor.getItemType() === 'block') {
       // This is responsible for reordering the blocks when a block is dragged around the list of blocks
