@@ -3,7 +3,8 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE} fr
 
 const initialState = {
   resumeId: 1,
-  resumeTitle: 'My Rageume',
+  resumeTitle: 'My Resume',
+  resumeTheme: 'Default',
   resumeHeader: {
     name: 'Your Name Here',
     profession: 'Plumber',
@@ -39,10 +40,10 @@ const initialState = {
 export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
-    console.log("payload", payload);
-    const obj = {};
+    console.log('payload', payload);
+    const obj = {};  // FIXME: this needs a better name. What does it do?
     obj[payload.textFieldName] = payload.userInput;
-    console.log("obj", obj);
+    console.log('obj', obj);
 
     return Object.assign({}, state, obj);
   },
