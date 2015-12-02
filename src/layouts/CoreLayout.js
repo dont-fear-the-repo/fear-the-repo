@@ -66,7 +66,7 @@ class CoreLayout extends React.Component {
       userAlreadyExists: false,
       spinning: true
     });
-    const userLoginInfo = {
+    let userLoginInfo = {
       email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
     };
