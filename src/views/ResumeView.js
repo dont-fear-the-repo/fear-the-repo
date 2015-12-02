@@ -69,12 +69,12 @@ export class ResumeView extends React.Component {
     this.findBullet = this.findBullet.bind(this);
   }
 
-  // handleSubmit() {
-  //   this.props.actions.saveResume({
-  //     blocks: this.state.blocks,
-  //     resumeTitle: this.refs.resumeTitle.getValue()
-  //   });
-  // }
+  handleSubmit() {
+    this.props.actions.saveResume({
+      blocks: this.state.blocks,
+      resumeTitle: this.refs.resumeTitle.getValue()
+    });
+  }
 
   moveBlock(id, atIndex) {
     const { block, index } = this.findBlock(id);

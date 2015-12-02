@@ -1,6 +1,6 @@
 import { createConstants } from '../utils';
 
 export default createConstants(
-  'SAVE_RESUME',
-  'DROP_BULLET'
+  'DROP_BULLET',
+  'UPDATE_RESUME_FROM_SERVER'
 );

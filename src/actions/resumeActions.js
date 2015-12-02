@@ -1,8 +1,8 @@
-import { SAVE_RESUME, DROP_BULLET } from 'constants/resumeConstants';
+import { UPDATE_RESUME_FROM_SERVER, DROP_BULLET } from 'constants/resumeConstants';
 
-export function saveResume (payload) {
+export function updateResumeState (payload) {
   return {
-    type: SAVE_RESUME,
+    type: UPDATE_RESUME_FROM_SERVER,
     payload: payload
   };
 }
@@ -14,33 +14,52 @@ export function dropBullet (payload) {
   };
 }
 
-// **TODO Notes by Sujay - DELETE OR FIX ME :)
-// export function saveResumeDb(payload){
-//   return dispatch => {
-//     dispatch(saveResumeRequest(payload));
-//       return console.log('in saveResumeDb');
-//     }
-  //   return request
-  //     .post()
-  //     // ** TODO add url ** // ex. serverUrl + '/saveResume'
-  //     .send({
-  //       payload: payload
-  //     })
-  //     .end((err,res={}) => {
-  //       err ? dispatch(saveResumeError(err))
-  //       : dispatch(saveResumeSuccess());
-  //     });
-  //   };
+export function sendResumeToServerAsync(resume) {
+  // Thunk middleware knows how to handle functions.
+  // It passes the dispatch method as an argument to the function,
+  // thus making it able to dispatch actions itself.
+  return function(dispatch) {
+
+    return fetch('http://localhost:3000/api/userinfo', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userId)
+      })
+      .then(response => response.json())
+      .then(serverResumeJSON =>
+        dispatch(updateResumeState(serverResumeJSON))
+      )
+
+    // In a real world app, you also want to
+    // catch any error in the network call.
+  }
+}
+
+
+
+////////////////////////////////////////////////
+//    old stuff from userFormActions.js       //
+
+// export function saveForm(payload) {
+//   return {
+//     type: SAVE_FORM,
+//     payload: payload
+//   };
 // }
 
-
-// export function saveResumeSuccess(){
-//   return console.log("woo you saved to the database!");
+// export function enableSubmit(payload) {
+//   return {
+//     type: ENABLE_SUBMIT,
+//     payload: payload
+//   };
 // }
 
-// export function saveResumeError(err){
-//   return console.log("there is an error saving resume to db", err);
+// export function disableSubmit(payload) {
+//   return {
+//     type: DISABLE_SUBMIT,
+//     payload: payload
+//   };
 // }
-
-// create action 1. post 2. response
-// npm install superagent

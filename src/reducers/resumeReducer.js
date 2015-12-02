@@ -6,11 +6,13 @@ const initialState = {
   resumeTitle: 'My Rageume',
   resumeHeader: {
     name: 'Your Name Here',
-    email: 'myemail@gmail.com',
+    profession: 'Plumber',
+    city: 'San Francsico',
+    state: 'CA',
+    displayEmail: 'myemail@gmail.com',
     phone: '124-125-4737',
-    headerLocation: 'SF, CA',
-    linkedin: 'linkedin.com/myname',
-    github: 'github.com/number23'
+    webLinkedin: 'linkedin.com/myname',
+    webOther: 'github.com/number23'
   },
   blockChildren: [
     { blockId: 1,
