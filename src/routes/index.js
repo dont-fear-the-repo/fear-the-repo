@@ -30,7 +30,7 @@ function requireAuth(nextState, replaceState) {
 
 export default (
   <Route path='/' component={CoreLayout}>
-    <IndexRoute component={ResumeView} />
+    <IndexRoute component={HomeView} />
     <Route path='/userform' component={UserFormView} />
     <Route path='/resume' component={ResumeView} />
     <Route path='/about' component={AboutView} />
