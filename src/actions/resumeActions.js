@@ -61,7 +61,7 @@ export function sendResumeToServerAsync(sentResumeObj) {
   // thus making it able to dispatch actions itself.
   return function(dispatch) {
 
-    return fetch('http://localhost:3000/api/resumeheader', {
+    return fetch('http://localhost:3000/api/resume/create', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -70,8 +70,8 @@ export function sendResumeToServerAsync(sentResumeObj) {
         body: JSON.stringify(sentResumeObj)
       })
       .then(response => response.json())
-      .then(serverResumeJSON =>
-        dispatch(updateResumeState(serverResumeJSON))
+      .then(serverResponseJavascriptObject =>
+        dispatch(updateResumeState(serverResponseJavascriptObject))
       )
 
     // In a real world app, you also want to

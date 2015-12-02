@@ -74,7 +74,10 @@ export class ResumeView extends React.Component {
 
 
   handleSubmit() {
-    this.props.actions.sendResumeToServerAsync(this.props.resumeState);
+    // this is to test sujay's api/resume/create, so in the future just sent the whole this.props.resumeState
+    const obj = {};
+    obj.title = this.props.resumeState.resumeTitle;
+    this.props.actions.sendResumeToServerAsync(obj);
   }
 
   handleUpdateLocalState(event, textFieldName) {
