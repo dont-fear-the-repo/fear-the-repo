@@ -1,5 +1,15 @@
 import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE } from 'constants/resumeConstants';
 
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// TODO: needs to catch errors from the server, and set state flags   //
+//                                                                    //
+////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 export function dropBullet (payload) {
   return {
     type: DROP_BULLET,
@@ -68,29 +78,3 @@ export function sendResumeToServerAsync(sentResumeObj) {
     // catch any error in the network call.
   }
 }
-
-
-
-////////////////////////////////////////////////
-//    old stuff from userFormActions.js       //
-
-// export function saveForm(payload) {
-//   return {
-//     type: SAVE_FORM,
-//     payload: payload
-//   };
-// }
-
-// export function enableSubmit(payload) {
-//   return {
-//     type: ENABLE_SUBMIT,
-//     payload: payload
-//   };
-// }
-
-// export function disableSubmit(payload) {
-//   return {
-//     type: DISABLE_SUBMIT,
-//     payload: payload
-//   };
-// }
