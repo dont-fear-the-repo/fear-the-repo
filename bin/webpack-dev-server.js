@@ -169,25 +169,25 @@ devServer.app.post('/api/allusers', (req, res) => {
 // Create resume for given user
 devServer.app.post('/api/resume/create', (req, res) => {
   dbSchema.Resume.create({
-    name: req.body.name,
-    profession: req.body.profession,
-    city: req.body.city,
-    state: req.body.state,
-    displayEmail: req.body.displayEmail,
-    phone: req.body.phone,
-    webLinkedin: req.body.webLinkedin,
-    webOther: req.body.webOther,
+    name: req.body.resumeHeader.name,
+    profession: req.body.resumeHeader.profession,
+    city: req.body.resumeHeader.city,
+    state: req.body.resumeHeader.state,
+    displayEmail: req.body.resumeHeader.displayEmail,
+    phone: req.body.resumeHeader.phone,
+    webLinkedin: req.body.resumeHeader.webLinkedin,
+    webOther: req.body.resumeHeader.webOther,
     resumeTitle: req.body.resumeTitle,
     resumeTheme: req.body.resumeTheme,
-    personalStatement: req.body.personalStatement,
-    school1Name: req.body.school1Name,
-    school1Degree: req.body.school1Degree,
-    school1EndYear: req.body.school1EndYear,
-    school1Location: req.body.school1Location,
-    school2Name: req.body.school2Name,
-    school2Degree: req.body.school2Degree,
-    school2EndYear: req.body.school2EndYear,
-    school2Location: req.body.school2Location
+    personalStatement: req.body.resumeFooter.personalStatement,
+    school1Name: req.body.resumeFooter.school1.school1Name,
+    school1Degree: req.body.resumeFooter.school1.school1Degree,
+    school1EndYear: req.body.resumeFooter.school1.school1EndYear,
+    school1Location: req.body.resumeFooter.school1.school1Location,
+    school2Name: req.body.resumeFooter.school2.school2Name,
+    school2Degree: req.body.resumeFooter.school2.school2Degree,
+    school2EndYear: req.body.resumeFooter.school2.school2EndYear,
+    school2Location: req.body.resumeFooter.school2.school2Location
   })
   .then( (resume) => {
     dbSchema.User.findOne({
@@ -207,7 +207,7 @@ devServer.app.post('/api/block/create', (req, res) => {
   dbSchema.Block.create({
     jobTitle: req.body.jobTitle,
     blockPosition: req.body.blockPosition,
-    years: req.body.years
+    years: req.body.years,
     companyName: req.body.companyName,
     location: req.body.location
   })
