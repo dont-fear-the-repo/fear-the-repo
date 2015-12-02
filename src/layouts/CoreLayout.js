@@ -14,20 +14,6 @@ import { FlatButton, Popover, TextField } from 'material-ui/lib';
 import 'styles/core.scss';
 
 
-const validations = {
-  login: {
-    email: false,
-    password: false
-  },
-  signup: {
-    email: false,
-    password: false,
-    password2: false
-  }
-};
-
-let tempPassword = '';
-
 const ActionCreators = {
   loginUser: loginUser,
   signupUser: signupUser,
@@ -58,11 +44,23 @@ class CoreLayout extends React.Component {
       anchorEl: {},
       loginOrSignup: '',
       failedAttempted: false,
-      userAlreadyExists: false
+      userAlreadyExists: false,
+      tempPassword: '',
+      validations: {
+        login: {
+          email: false,
+          password: false
+        },
+        signup: {
+          email: false,
+          password: false,
+          password2: false
+        }
+      }
     }
 
   // AUTH METHODS
-  handleLogin() {
+  handleLogin() { // TODO: use actions here?
     this.setState({
       userAlreadyExists: false
     });
@@ -76,32 +74,31 @@ class CoreLayout extends React.Component {
       type: 'POST',
       data: JSON.stringify(userLoginInfo),
       contentType: 'application/json',
-      success: function () {
+      success: () => {
         localStorage.setItem('email', userLoginInfo.email);
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo);
-      }.bind(this),
-      error: function () {
+      },
+      error: () => {
         this.setState({
           failedAttempted: true
         });
-      }.bind(this)
+      }
     });
-    // this.props.actions.loginUser(userLoginInfo);  // TODO: make this work?
-    // TODO: change button to show userinfo, maybe redirect? Possible async concerns
+    // this.props.actions.loginUser(userLoginInfo);  // use for actions
   }
 
-  handleLogout() {
-    $.ajax({ // TODO: eliminate jQuery!
+  handleLogout() { // TODO: use actions here?
+    $.ajax({
       url: '/logout',
       type: 'POST',
-      success: function () {
+      success: () => {
         this.props.actions.logout();
-      }.bind(this),
+      }
     });
   }
 
-  handleSignup() {
+  handleSignup() { // TODO: use actions here?
     this.setState({
       failedAttempted: false
     });
@@ -110,24 +107,21 @@ class CoreLayout extends React.Component {
       password: this.refs.password.getValue()
     };
 
-    $.ajax({ // TODO: eliminate jQuery!
+    $.ajax({
       url: '/signup',
       type: 'POST',
       data: JSON.stringify(userSignupInfo),
       contentType: 'application/json',
-      success: function () {
+      success: () => {
         this.closePopover('pop');
         this.props.actions.loginUser(userSignupInfo);
-      }.bind(this),
-      error: function () {
+      },
+      error: () => {
         this.setState({
           userAlreadyExists: true
         });
-      }.bind(this)
+      }
     });
-
-// TODO: make this work? Currently this component has no props, and so no actions are being bound and available
-    // TODO: change button to show userinfo, maybe redirect? Possible async concerns
   }
 
 // POPOVER METHODS
@@ -159,18 +153,17 @@ showLoginPopover(key, e) {
   }
 
   // VALIDATION METHODS
-  validateField(event, validatorsArray, key) {  // add to validations object for each use
+  validateField(event, validatorsArray, key) {
     const value = event.target.value;
-    const validEntry = validatorsArray.every(validator => {
-      return validator(value);
-    });
+    const validEntry = _.every(validatorsArray,
+                          validator => validator(value) );
     if (validEntry) {
-      validations[this.state.loginOrSignup][key] = true;
+      this.state.validations[this.state.loginOrSignup][key] = true;
     } else if (!validEntry) {
-      validations[this.state.loginOrSignup][key] = false;
+      this.state.validations[this.state.loginOrSignup][key] = false;
     }
 
-    const shouldEnable = _.every(validations[this.state.loginOrSignup],
+    const shouldEnable = _.every(this.state.validations[this.state.loginOrSignup],
                             validation => validation === true );
     if (shouldEnable) {
       this.props.actions.enableSubmit();
@@ -180,7 +173,7 @@ showLoginPopover(key, e) {
   }
 
   saveTempPassword(event) {
-    tempPassword = event.target.value;
+    this.state.tempPassword = event.target.value;
   }
 
   render() {
@@ -191,7 +184,7 @@ showLoginPopover(key, e) {
           <div>
             <div className='header'>
 
-              <Link to='/' style={{marginLeft: '30px', marginRight: '20px'}}>
+              <Link to='/' style={{ marginLeft: '30px', marginRight: '20px' }}>
                 Fear the Repo
               </Link>
 
@@ -204,27 +197,27 @@ showLoginPopover(key, e) {
                 </Link>
               : '' }
 
-            {this.props.loggedIn &&
-              <FlatButton style={{float: 'right', marginRight: '30px'}}
-                          label='Logout'
-                          onClick={e => this.handleLogout(e)} />}
-            {!this.props.loggedIn &&
-              <FlatButton style={{float: 'right', marginRight: '30px'}}
-                          label='Login'
-                          onClick={this.showLoginPopover.bind(this, 'pop')} />}
-            {!this.props.loggedIn &&
-              <FlatButton style={{float: 'right', marginRight: '10px'}}
-                          label='Signup'
-                          onClick={this.showSignupPopover.bind(this, 'pop')} />}
+              {this.props.loggedIn &&
+                <FlatButton style={{ float: 'right', marginRight: '30px' }}
+                            label='Logout'
+                            onClick={e => this.handleLogout(e)} />}
+              {!this.props.loggedIn &&
+                <FlatButton style={{ float: 'right', marginRight: '30px' }}
+                            label='Login'
+                            onClick={this.showLoginPopover.bind(this, 'pop')} />}
+              {!this.props.loggedIn &&
+                <FlatButton style={{ float: 'right', marginRight: '10px' }}
+                            label='Signup'
+                            onClick={this.showSignupPopover.bind(this, 'pop')} />}
           </div>
 
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
                    anchorEl={this.state.anchorEl}
-                   anchorOrigin={{horizontal: 'left', vertical: 'center'}}
-                   targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                   anchorOrigin={{ horizontal: 'left', vertical: 'center' }}
+                   targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')} >
-            <div style={{padding: 20}}>
+            <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'
                          onChange={e => this.validateField(e, [isDefined, isValidEmail], 'email')}
@@ -239,7 +232,7 @@ showLoginPopover(key, e) {
                 <TextField ref='password2'
                            hintText='Re-enter password'
                            type='password'
-                           onChange={e => this.validateField(e, [isDefined, matches(tempPassword)], 'password2')}
+                           onChange={e => this.validateField(e, [isDefined, matches(this.state.tempPassword)], 'password2')}
                            /> : ''}
               <FlatButton label='Submit'
                           disabled={!canSubmit}
