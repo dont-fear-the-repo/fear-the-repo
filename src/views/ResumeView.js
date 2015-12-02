@@ -1,13 +1,33 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import Block from 'components/Block';
-import Bullet from 'components/Bullet';
-import ResumeHeader from 'components/ResumeHeader';
-import { DropTarget } from 'react-dnd';
-import update from 'react/lib/update';
-import { saveResume, dropBullet } from 'actions/resumeActions';
+import React                              from 'react';
+import { bindActionCreators }             from 'redux';
+import { connect }                        from 'react-redux';
+import BlockDumbComp                      from 'components/BlockDumbComp';
+import Bullet                             from 'components/Bullet';
+import ResumeHeader                       from 'components/ResumeHeader';
+import { DropTarget }                     from 'react-dnd';
+import update                             from 'react/lib/update';
+import { dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
+
+const ActionCreators = {
+  updateResumeState: updateResumeState,
+  sendResumeToServerAsync: sendResumeToServerAsync,
+  updateLocalState: updateLocalState,
+  dropBullet: dropBullet
+};
+
+const mapStateToProps = (state) => ({
+  routerState: state.router,
+  resumeState: state.resumeReducer,
+});
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(ActionCreators, dispatch)
+});
+
+const Types = {
+  BLOCK: 'block',
+  BULLET: 'bullet'
+};
 
 const blockTarget = {
   drop(props, monitor, component) {
@@ -18,7 +38,7 @@ const blockTarget = {
 
     if (monitor.getItemType() === 'bullet') {
       props.actions.dropBullet({
-        blocks: component.state.blocks,
+        // blocks: component.state.blocks,
         targetBlock: monitor.getDropResult(),
         droppedBullet: bulletProps
       });
@@ -29,23 +49,6 @@ const blockTarget = {
     }
   }
 };
-
-const Types = {
-  BLOCK: 'block',
-  BULLET: 'bullet'
-};
-
-const ActionCreators = {
-  saveResume: saveResume,
-  dropBullet: dropBullet
-};
-
-const mapStateToProps = (state) => ({
-  routerState: state.router
-});
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(ActionCreators, dispatch)
-});
 
 @DropTarget([Types.BLOCK, Types.BULLET], blockTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
@@ -66,53 +69,19 @@ export class ResumeView extends React.Component {
     this.findBlock = this.findBlock.bind(this);
     this.moveBullet = this.moveBullet.bind(this);
     this.findBullet = this.findBullet.bind(this);
-
-    this.state = {
-      blocks: [{
-        id: 1,
-        companyName: 'My Company',
-        jobTitle: 'Senior Señor',
-        year: '2015',
-        location: 'San Francisco, CA',
-        body: []
-      },
-      {
-        id: 2,
-        companyName: 'Company 2',
-        jobTitle: 'Mister Manager',
-        year: '2014',
-        location: 'Chicago, IL',
-        body: []
-      },
-      {
-        id: 3,
-        companyName: 'Company 3',
-        jobTitle: 'Lowly Peon',
-        year: '2012',
-        location: 'New York, NY',
-        body: []
-      }],
-      bullets: [{
-        id: 1,
-        body: '1111111'
-      },
-      {
-        id: 2,
-        body: '2222222'
-      },
-      {
-        id: 3,
-        body: '3333333'
-      }]
-    };
   }
+
+
 
   handleSubmit() {
-    this.props.actions.saveResume({
-      blocks: this.state.blocks,
-      resumeTitle: this.refs.resumeTitle.getValue()
-    });
+    this.props.actions.sendResumeToServerAsync(this.props.resumeState);
   }
+
+  handleUpdateLocalState(event, textFieldName) {
+    const userInput = event.target.value;
+    this.props.actions.updateLocalState({textFieldName, userInput});
+  }
+
 
   moveBlock(id, atIndex) {
     const { block, index } = this.findBlock(id);
@@ -158,7 +127,7 @@ export class ResumeView extends React.Component {
     };
   }
 
-  handlPrint() {
+  handlePrint() {
     const prtContent = document.getElementById('resumeContainer');
     const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
     WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
@@ -168,9 +137,18 @@ export class ResumeView extends React.Component {
     WinPrint.close();
   }
 
-  render() {
+
+
+
+  render () {
+    // return (
+    //   <div className='landing main-body' style={{textAlign: 'center'}}>
+    //     <h1 className='main-title'>{this.props.resumeState.resumeTitle} {JSON.stringify(this.props.resumeState.blockChildren)}</h1>
+    //   </div>
+    // );
+
     const { connectDropTarget } = this.props;
-    const { blocks, bullets } = this.state;
+    const { blockChildren } = this.props.resumeState.blockChildren;
 
     const styles = {
       container: {
@@ -207,18 +185,18 @@ export class ResumeView extends React.Component {
 
     return connectDropTarget(
       <div className='container'
-           style={styles.container}>
+           style={styles.container} id='resumeContainer'>
         <div className='resumeTitle'
              style={styles.resumeTitle}>
           <TextField className='textCenter'
                      style={styles.textCenter}
                      hintStyle={styles.hintStyle}
-                     hintText='Your Resume Title'
-                     ref='resumeTitle' />
+                     hintText={this.props.resumeState.resumeTitle}
+                     ref='resumeTitle' onBlur={e => this.handleUpdateLocalState(e, 'resumeTitle')} />
 
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />
-          <RaisedButton label='Print resume' onClick={e => this.handlPrint(e)} />
+          <RaisedButton label='Print Resume' onClick={e => this.handlePrint(e)} />
         </div>
 
         <Paper style={styles.resumePaper}>
@@ -229,32 +207,22 @@ export class ResumeView extends React.Component {
                  style={styles.resumeContainer}>
 
              <ResumeHeader />
-
-            {blocks.map(block => {
+            {this.props.resumeState.blockChildren.map(block => {
               return (
-                <Block key={block.id}
-                       id={block.id}
-                       companyName={block.companyName}
-                       jobTitle={block.jobTitle}
-                       year={block.year}
-                       body={block.body}
-                       location={block.location}
-                       moveBlock={this.moveBlock}
-                       findBlock={this.findBlock}
-                       hasBullets={this.hasBullets} />
-                );
-            })}
 
-              {bullets.map(bullet => {
-                return (
-                  <Bullet key={bullet.id}
-                          id={bullet.id}
-                          body={bullet.body}
-                          moveBullet={this.moveBullet}
-                          findBullet={this.findBullet} />
-              );
-              })}
-
+                      <BlockDumbComp key={block.blockId}
+                        blockId={block.blockId}
+                        companyName={block.companyName}
+                        jobTitle={block.jobTitle}
+                        year={block.year}
+                        bulletChildren={block.bulletChildren}
+                        location={block.location}
+                        moveBlock={this.moveBlock}
+                        findBlock={this.findBlock}
+                        > {block.blockId} </BlockDumbComp>
+                      );
+            }
+            )}
 
           </Paper>
 
@@ -267,3 +235,28 @@ export class ResumeView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
+
+
+
+/*
+TODO: React doesn't like our unique keys, even when we replace BlockDumbComp with painfully simple version below:
+<ul>
+  <li key={block.blockId}> {block.blockId} </li>
+</ul>
+
+
+
+
+  // {block.bulletChildren.map(bullet => {
+  //   return (
+  //     <Bullet key={bullet.bulletId}
+  //             bulletId={bullet.bulletId}
+  //             text={bullet.text}
+  //             moveBullet={this.moveBullet}
+  //             findBullet={this.findBullet} />
+  //   );
+  // })}
+
+
+
+*/

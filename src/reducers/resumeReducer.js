@@ -1,33 +1,76 @@
 import { createReducer } from '../utils';
-import { SAVE_RESUME, DROP_BULLET } from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE} from 'constants/resumeConstants';
 
 const initialState = {
+  resumeId: 1,
+  resumeTitle: 'My Rageume',
+  resumeHeader: {
+    name: 'Your Name Here',
+    profession: 'Plumber',
+    city: 'San Francsico',
+    state: 'CA',
+    displayEmail: 'myemail@gmail.com',
+    phone: '124-125-4737',
+    webLinkedin: 'linkedin.com/myname',
+    webOther: 'github.com/number23'
+  },
+  blockChildren: [
+    { blockId: 1,
+      bulletChildren: [{bulletId: 1, text: 'My first bullet'}, {bulletId: 2, text: 'SECONDS'}],
+      companyName: 'Company 1',
+      jobTitle: 'Bossman',
+      year: '2015',
+      location: 'San Francisco, CA'
+    },
+    { blockId: 2,
+      bulletChildren: [{bulletId: 2, text: 'Such a lame job'}],
+      companyName: 'Company 2',
+      jobTitle: 'Noob',
+      year: '2013',
+      location: 'New York, NY'
+    },
+    { blockId: 100,
+      bulletChildren: [],
+      title: 'archived'
+    }
+  ]
 };
 
 export default createReducer(initialState, {
 
-  [SAVE_RESUME]: (state, payload) => {
-    return Object.assign({}, state, {
-      blocks: payload.blocks,
-      resumeTitle: payload.resumeTitle
-    });
+  [UPDATE_LOCAL_STATE]: (state, payload) => {
+    console.log("payload", payload);
+    const obj = {};
+    obj[payload.textFieldName] = payload.userInput;
+    console.log("obj", obj);
+
+    return Object.assign({}, state, obj);
+  },
+
+  [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
+    console.log(payload);
+    return {
+      ...state,
+      ...payload
+    };
   },
 
   [DROP_BULLET]: (state, payload) => {
+    console.log('state: ', state)
+    console.log('payload: ', payload)
+
+    // Can we just grab this.blockId from view?
     const targetIndex = () => {
-      for (let index = 0; index < payload.blocks.length; index++) {
-        if (payload.blocks[index].id === payload.targetBlock.id) {
+      for (let index = 0; index < state.blockChildren.length; index++) {
+        if (state.blockChildren[index].blockId === state.targetBlock.blockId) {
           return index;
         }
       }
     }();
 
-    // hasBullets: I really want to toggle hasBullets on the targetBlock, not necessarily add it to the global state object
-
     return Object.assign({}, state, {
-      blocks: payload.blocks,
-      droppedBullet: payload.blocks[targetIndex].body.push(payload.droppedBullet.body),
-      hasBullets: payload.blocks[targetIndex].hasBullets = true
+      blockChildren: state.blockChildren,
+      droppedBullet: state.blockChildren[targetIndex].body.push(state.droppedBullet.body)
     });
   }
 });
