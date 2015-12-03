@@ -67,7 +67,7 @@ class CoreLayout extends React.Component {
       userAlreadyExists: false,
       spinning: true
     });
-    const userLoginInfo = {
+    let userLoginInfo = {
       email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
     };
@@ -77,7 +77,8 @@ class CoreLayout extends React.Component {
       type: 'POST',
       data: JSON.stringify(userLoginInfo),
       contentType: 'application/json',
-      success: () => {
+      success: (data) => {
+        userLoginInfo.id = data.id; 
         localStorage.setItem('email', userLoginInfo.email);
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo);
@@ -116,7 +117,7 @@ class CoreLayout extends React.Component {
       failedAttempted: false,
       spinning: true
     });
-    const userSignupInfo = {
+    let userSignupInfo = {
       email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
     };
@@ -126,7 +127,8 @@ class CoreLayout extends React.Component {
       type: 'POST',
       data: JSON.stringify(userSignupInfo),
       contentType: 'application/json',
-      success: () => {
+      success: (data) => {
+        userSignupInfo.id = data.id; 
         this.closePopover('pop');
         this.props.actions.loginUser(userSignupInfo);
         this.setState({
