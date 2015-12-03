@@ -1,6 +1,7 @@
-import React, { PropTypes }       from 'react';
+import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import Paper                      from 'material-ui/lib/paper';
+
+import { Paper } from 'material-ui/lib';
 
 
 ///////////////////////////////////////////
@@ -72,16 +73,16 @@ const blockTarget = {
 ///////////////////////////////////////////
 
 
-
-
 export default class BlockDumbComp extends React.Component {
 
   render() {
-    const { children, isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { children,
+            isDragging,
+            connectDragSource,
+            connectDropTarget } = this.props;
 
 
-    let bullet;
-      bullet = (
+    let bullet = (
         <ul>
           {this.props.bulletChildren.map(bullet =>
             // <li style={this.props.styles.bullet} key=>{item}</li>
@@ -94,33 +95,40 @@ export default class BlockDumbComp extends React.Component {
 
     return connectDragSource(connectDropTarget(
       <div style={this.props.styles.blockDrag}>
+
           <div style={this.props.styles.jobTitle}>
             {this.props.jobTitle}
           </div>
+
           <div style={this.props.styles.pipe}>
             |
           </div>
+
           <div style={this.props.styles.companyName}>
             {this.props.companyName}
           </div>
+
           <div style={this.props.styles.pipe}>
             |
           </div>
+
           <div style={this.props.styles.location}>
             {this.props.location}
           </div>
+
           <div style={this.props.styles.year}>
             {this.props.year}
           </div>
+
           <div>
             {bullet}
           </div>
+
       </div>
     ));
   }
 
 }
-
 
     // let bullet;
     //   bullet = (
@@ -133,7 +141,6 @@ export default class BlockDumbComp extends React.Component {
     //       )}
     //     </ul>
     //   );
-
 
 
 // export class Block extends React.Component {
@@ -153,8 +160,6 @@ export default class BlockDumbComp extends React.Component {
 //     hasBullets: PropTypes.bool,
 //     children: PropTypes.node
 //   };
-
-
 
 
 /*

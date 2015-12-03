@@ -1,17 +1,30 @@
-import React                              from 'react';
-import { bindActionCreators }             from 'redux';
-import { connect }                        from 'react-redux';
-import BlockDumbComp                      from 'components/BlockDumbComp';
-import Bullet                             from 'components/Bullet';
-import ResumeHeader                       from 'components/ResumeHeader';
-import { DropTarget }                     from 'react-dnd';
-import update                             from 'react/lib/update';
-import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState, updateLocalStateHeader, updateLocalStateFooter, updateLocalStateSavePrint, updateLocalStateBlocks } from 'actions/resumeActions';
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { DropTarget } from 'react-dnd';
+import update from 'react/lib/update';
+
+import BlockDumbComp from 'components/BlockDumbComp';
+import Bullet from 'components/Bullet';
+import ResumeHeader from 'components/ResumeHeader';
+import ResumeFooter from 'components/ResumeFooter';
+import ResumeSavePrint from 'components/ResumeSavePrint';
+import { moveBlock,
+         dropBullet,
+         updateResumeState,
+         sendResumeToServerAsync,
+         updateLocalState,
+         updateLocalStateHeader,
+         updateLocalStateFooter,
+         updateLocalStateSavePrint,
+         updateLocalStateBlocks } from 'actions/resumeActions';
+
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly
+
 
 const ActionCreators = {
   updateResumeState: updateResumeState,
@@ -33,7 +46,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
-
 
 ////////////////////////////////////
 //    React DnD functions below   //
@@ -75,28 +87,24 @@ const blockTarget = {
 ///////////////////////////////////////
 
 
-
-
 class ResumeView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
-    connectDropTarget: React.PropTypes.func.isRequired
+    connectDropTarget: React.PropTypes.func.isRequired,
+    loggedIn: React.PropTypes.bool
   }
 
   static contextTypes = {
     store: React.PropTypes.object
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.moveBlock = this.moveBlock.bind(this);
     this.findBlock = this.findBlock.bind(this);
     this.moveBullet = this.moveBullet.bind(this);
     this.findBullet = this.findBullet.bind(this);
   }
-
-
-
 
   // handleSubmit(props) {
   //   if (props.loggedIn) {
@@ -111,7 +119,7 @@ class ResumeView extends React.Component {
   handleUpdateLocalState(event, textFieldName, whereFrom) {
     const userInput = event.target.value;
 
-    if (whereFrom === 'header'){
+    if (whereFrom === 'header') {
       console.log('updating from header...')
       this.actions.updateLocalStateHeader({textFieldName, userInput, whereFrom});
     } else if (whereFrom === 'footer') {
@@ -135,7 +143,6 @@ class ResumeView extends React.Component {
       block: block,
       blockChildren: this.props.resumeState.blockChildren
     });
-
   }
 
   findBlock(id) {
@@ -181,7 +188,12 @@ class ResumeView extends React.Component {
 
         <div className='marginTop'
              style={styles.marginTop} />
-        <Paper>
+
+        <ResumeSavePrint {...this.props}
+                         styles={styles}
+                         handleUpdateLocalState={this.handleUpdateLocalState} />
+
+        <Paper style={styles.resumePaper}>
           <ResumeHeader {...this.props}
                         styles={styles}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
@@ -198,8 +210,8 @@ class ResumeView extends React.Component {
                                 bulletChildren={block.bulletChildren}
                                 location={block.location}
                                 moveBlock={this.moveBlock}
-                                findBlock={this.findBlock} > {block.blockId} </BlockDumbComp>
-                );
+                                findBlock={this.findBlock}> {block.blockId} </BlockDumbComp>
+              );
             })}
 
           <ResumeFooter {...this.props}
@@ -210,157 +222,9 @@ class ResumeView extends React.Component {
                style={styles.marginBottom} />
         </Paper>
 
-        <ResumeSavePrint {...this.props}
-                         styles={styles}
-                         handleUpdateLocalState={this.handleUpdateLocalState}
-                         handleSubmit={this.handleSubmit}
-                         handlePrint={this.handlePrint}
-                         handleChangeTheme={this.handleChangeTheme}/>
-
-      </div>
-    );
-  }
-} // end react component ResumeView
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-//    Resume Footer, super dumb comp is here instead of being a separate file      //
-/////////////////////////////////////////////////////////////////////////////////////
-class ResumeFooter extends React.Component {
-  render() {
-    return (
-      <div>
-        <div style={this.props.styles.plain}>
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='school1-name'
-                     hintText={this.props.resumeState.resumeFooter.school1.name}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-name', 'footer')} />
-          <div style={this.props.styles.pipe}> | </div>
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='school1-degree'
-                     hintText={this.props.resumeState.resumeFooter.school1.degree}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-degree', 'footer')} />
-          <div style={this.props.styles.pipe}> | </div>
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='school1-schoolEndYear'
-                     hintText={this.props.resumeState.resumeFooter.school1.schoolEndYear}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-schoolEndYear', 'footer')} />
-          <div style={this.props.styles.pipe}> | </div>
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='school1-location'
-                     hintText={this.props.resumeState.resumeFooter.school1.location}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-location', 'footer')} />
-
-
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='school2-name'
-                     hintText={this.props.resumeState.resumeFooter.school2.name}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-name', 'footer')} />
-          <div style={this.props.styles.pipe}> | </div>
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='school2-degree'
-                     hintText={this.props.resumeState.resumeFooter.school2.degree}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-degree', 'footer')} />
-          <div style={this.props.styles.pipe}> | </div>
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='school2-schoolEndYear'
-                     hintText={this.props.resumeState.resumeFooter.school2.schoolEndYear}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-schoolEndYear', 'footer')} />
-          <div style={this.props.styles.pipe}> | </div>
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='school2-location'
-                     hintText={this.props.resumeState.resumeFooter.school2.location}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-location', 'footer')} />
-        </div>
-        <div style={this.props.styles.plain}>
-
-        </div>
-        <div style={this.props.styles.plain}>
-          <TextField underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     ref='personalStatement'
-                     hintText='Personal Statement'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'personalStatement', 'footer')} />
-        </div>
       </div>
     );
   }
 }
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-//   Resume Save/Print, super dumb comp is here instead of being a separate file   //
-/////////////////////////////////////////////////////////////////////////////////////
-class ResumeSavePrint extends React.Component {
-
-  handleSubmit() {
-    if (this.props.loggedIn) {
-      console.log('saving...')
-      this.props.actions.sendResumeToServerAsync(this.props.resumeState);
-    } else {
-      alert('To save a resume, please signup above');
-    }
-  }
-
-  handlePrint() {
-    const prtContent = document.getElementById('resumeContainer');
-    const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-    WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
-    WinPrint.document.close();
-    WinPrint.focus();
-    WinPrint.print();
-    WinPrint.close();
-  }
-
-  handleChangeTheme(event, index) {
-    const userInput = event.target.value;
-    const textFieldName = 'resumeTheme';
-    this.props.actions.updateLocalState({textFieldName, userInput});
-  }
-
-  render() {
-        const themes = Object.keys(resumeThemes)
-                    .map( (value, index) => ({
-                      'index': index,
-                      'text': value
-                    }));
-    return (
-      <div>
-      <Paper>{JSON.stringify(this.props.handleUpdateLocalState)}</Paper>
-        <TextField className='resumeTitle'
-                     style={this.props.styles.resumeTitle}
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintStyle={this.props.styles.hintStyle}
-                     hintText={this.props.resumeState.resumeTitle}
-                     floatingLabelText='Resume Version Name'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
-
-          <RaisedButton label='Save Resume'
-                        onClick={e => this.handleSubmit(e)} />
-          <span> </span>
-          <RaisedButton label='Print Resume'
-                        onClick={e => this.handlePrint(e)} />
-          <SelectField floatingLabelText='Select a theme'
-                       menuItems={themes}
-                       value={this.props.resumeState.resumeTheme}
-                       valueMember='text'
-                       style={styles.themeSelection}
-                       onChange={(e, index) => this.handleChangeTheme(e, index)} />
-      </div>
-    );
-  }
-}
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
