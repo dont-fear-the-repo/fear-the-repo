@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { createReducer } from '../utils';
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK, MOVE_BULLET } from 'constants/resumeConstants';
-=======
 import {  createReducer } from '../utils';
-import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS, MOVE_BLOCK} from 'constants/resumeConstants';
->>>>>>> b247222720cc945f3767e474c7410a86f7b2202b
+import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS, MOVE_BLOCK, MOVE_BULLET } from 'constants/resumeConstants';
 import Immutable from 'immutable';
 
 
@@ -31,10 +26,12 @@ const initialState = {
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 1,
-      text: 'My first bullet'
+      text: 'My first bullet',
+      parentBlockId: 1
     }, {
       bulletId: 2,
-      text: 'Then I productionalized everything, like the Bossman that I am.'
+      text: 'Then I productionalized everything, like the Bossman that I am.',
+      parentBlockId: 1
     }]
   }, {
     blockId: 2,
@@ -151,29 +148,43 @@ export default createReducer(initialState, {
   },
 
   [MOVE_BULLET]: (state, payload) => {
+
     console.log('payload: ', payload)
-    const blocks = state.blockChildren;
-    let bullets = [];
 
-    blocks.map(block =>
-      block.bulletChildren.map(bullet =>
-        bullets.push(bullet)
-      ));
+    const parentBlock = state.blockChildren[payload.parentBlockIndex];
+    console.log('parentBlock: ', parentBlock)
 
-    const immutableBulletChildren = Immutable.List(bullets);
+    // const blocks = state.blockChildren;
+    // let bullets = [];
+
+    // blocks.map(block =>
+    //   block.bulletChildren.map(bullet =>
+    //     bullets.push(bullet)
+    //   ));
+
+
+    // const immutableBulletChildren = Immutable.List(bullets);
+
+    const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren)
 
     let obj = {};
+    const blockChildren = parentBlock.bulletChildren;
+    obj.blockChildren = immutableBulletChildren.splice(payload.index, 1).splice(payload.atIndex, 0, payload.bullet).toJS();;
+
+    console.log('obj: ', obj)
+
+    // immutableBulletChildren.splice(payload.index, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
 
     // TODO
-    // get ID of block where dragged bullet lives
-    // map the bullets of just that block
+    // get index of block where dragged bullet lives
 
     // blocks.map(block =>
     //   block.bulletChildren.map(bullet =>
     //     ))
 
-    return Object.assign({}, state, {
-      bulletChildren: immutableBulletChildren.splice(payload.index, 1).splice(payload.atIndex, 0, payload.bullet).toJS()
-    });
+  // want to update blockChildren[index of block where dragged bullet lives].bulletChildren
+                                // [payload.parentBlockId]
+
+    return Object.assign({}, state, obj);
   }
 });

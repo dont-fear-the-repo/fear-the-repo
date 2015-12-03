@@ -46,7 +46,7 @@ const blockTarget = {
     if (monitor.getItemType() === 'block') {
       // This is responsible for reordering the blocks when a block is dragged around the list of blocks
       if (draggedId !== overId) {
-        const { index: overIndex } = props.findBlock(overId);
+        const { blockIndex: overIndex } = props.findBlock(overId);
         props.moveBlock(draggedId, overIndex);
       }
     }
@@ -161,7 +161,6 @@ export default class BlockDumbComp extends React.Component {
           <div className='bulletContainer' style={styles.bulletContainer}>
             {bullet}
           </div>
-        </Paper>
       </div>
     ));
   }

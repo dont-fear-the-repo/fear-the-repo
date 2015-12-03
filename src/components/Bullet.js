@@ -12,9 +12,13 @@ const bulletSource = {
   // When dragging starts, beginDrag is called
   // What's returned is the only information available to the drop targets
     // should be the minimum amount of info, which is why why return just the ID and not the entire object
+
+
   beginDrag(props) {
+    console.log('props: ', props)
     return {
       bulletId: props.bulletId,
+      parentBlockId: props.parentBlockId,
       originalIndex: props.findBullet(props.bulletId).index,
       text: props.text
     };
@@ -43,14 +47,12 @@ const bulletSource = {
 const bulletTarget = {
   hover(props, monitor, component) {
     const { bulletId: draggedId } = monitor.getItem();
-    const { bulletId: overId, blockId: homeBlockId } = props;
-
-    console.log('component --- ', component)
+    const { bulletId: overId, parentBlockId: parentBlockId } = props;
 
     if (monitor.getItemType() !== 'block')
       if (draggedId !== overId) {
-        const { index: overIndex } = props.findBullet(overId);
-        props.moveBullet(draggedId, overIndex, homeBlockId);
+        const { bulletIndex: overIndex } = props.findBullet(overId);
+        props.moveBullet(draggedId, overIndex, parentBlockId);
       }
   }
 };

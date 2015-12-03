@@ -124,10 +124,10 @@ class ResumeView extends React.Component {
   }
 
   moveBlock(id, atIndex) {
-    const { block, index } = this.findBlock(id);
+    const { block, blockIndex } = this.findBlock(id);
 
     this.props.actions.moveBlock({
-      index: index,
+      blockIndex: blockIndex,
       atIndex: atIndex,
       block: block,
       blockChildren: this.props.resumeState.blockChildren
@@ -141,19 +141,21 @@ class ResumeView extends React.Component {
 
     return {
       block,
-      index: blocks.indexOf(block)
+      blockIndex: blocks.indexOf(block)
     };
   }
 
-  moveBullet(draggedId, atIndex, blockId) {
-    const { bullet, index } = this.findBullet(draggedId);
-    const { homeBlockId } = this.findBlock(blockId);
+  moveBullet(draggedId, atIndex, parentBlockId) {
+    const { bullet, bulletIndex } = this.findBullet(draggedId);
+    const { blockIndex } = this.findBlock(parentBlockId);
+
+    console.log('atIndex: ', atIndex)
 
     this.props.actions.moveBullet({
-      index: index,
+      bulletIndex: bulletIndex,
       atIndex: atIndex,
       bullet: bullet,
-      homeBlockId: homeBlockId
+      parentBlockIndex: blockIndex
     });
   }
 
@@ -170,7 +172,7 @@ class ResumeView extends React.Component {
 
     return {
       bullet,
-      index: bullets.indexOf(bullet)
+      bulletIndex: bullets.indexOf(bullet)
     };
   }
 
@@ -208,6 +210,7 @@ class ResumeView extends React.Component {
                       return (
                           <Bullet key={bullet.bulletId}
                             bulletId={bullet.bulletId}
+                            parentBlockId={bullet.parentBlockId}
                             text={bullet.text}
                             moveBullet={this.moveBullet}
                             findBullet={this.findBullet} />
