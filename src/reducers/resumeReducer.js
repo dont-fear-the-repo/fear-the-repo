@@ -8,7 +8,7 @@ const initialState = {
   resumeHeader: {
     name: 'Your Name Here',
     profession: 'Plumber',
-    city: 'San Francsico',
+    city: 'San Francisco',
     state: 'CA',
     displayEmail: 'myemail@gmail.com',
     phone: '124-125-4737',
@@ -30,10 +30,13 @@ const initialState = {
       year: '2013',
       location: 'New York, NY'
     },
-    { blockId: 100,
-      bulletChildren: [],
-      title: 'archived'
-    }
+    { blockId: 3,
+      bulletChildren: [{bulletId: 4, text: 'Niceness'}],
+      companyName: 'Company 3',
+      jobTitle: 'Intern',
+      year: '2012',
+      location: 'Chicago, IL'
+    },
   ]
 };
 

@@ -212,10 +212,22 @@ class ResumeView extends React.Component {
                         bulletChildren={block.bulletChildren}
                         location={block.location}
                         moveBlock={this.moveBlock}
-                        findBlock={this.findBlock} />
-                      );
-            }
-            )}
+                        findBlock={this.findBlock} >
+
+            {block.bulletChildren.map(bullet => {
+              return (
+                  <Bullet key={bullet.bulletId}
+                    bulletId={bullet.bulletId}
+                    text={bullet.text}
+                    moveBullet={this.moveBullet}
+                    findBullet={this.findBullet} />
+              );
+            })}
+
+            </BlockDumbComp>
+
+              );
+            })}
 
           </Paper>
 
@@ -229,27 +241,10 @@ class ResumeView extends React.Component {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
 
-
-
 /*
 Still TODO: React doesn't like our unique keys, even when we replace BlockDumbComp with painfully simple version below:
 <ul>
   <li key={block.blockId}> {block.blockId} </li>
 </ul>
-
-
-
-
-  // {block.bulletChildren.map(bullet => {
-  //   return (
-  //     <Bullet key={bullet.bulletId}
-  //             bulletId={bullet.bulletId}
-  //             text={bullet.text}
-  //             moveBullet={this.moveBullet}
-  //             findBullet={this.findBullet} />
-  //   );
-  // })}
-
-
 
 */
