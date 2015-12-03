@@ -11,7 +11,7 @@ const parser = require('body-parser');
 const session = require('express-session');
 const utils = require('./lib/utils');
 const bcrypt = require('bcrypt-nodejs')
-const Promise = require("bluebird");
+const Promise = require('bluebird');
 
 devServer.listen(port, host, () => {
   console.log(chalk.green(
@@ -75,11 +75,11 @@ devServer.app.post('/signup', (req, res) => {
     })
     .then( (results) => {
       if (!results) {
-        var hashing = Promise.promisify(bcrypt.hash); // FIXME: ES6 this
+        const hashing = Promise.promisify(bcrypt.hash);
         hashing(req.body.password, null, null)
         .then( (hash) => {
           dbSchema.User.create({
-            userName: req.body.username,
+            email: req.body.email,
             password: hash
           });
         })

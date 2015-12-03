@@ -74,8 +74,6 @@ const blockTarget = {
 
 
 
-
-
 export default class BlockDumbComp extends React.Component {
 
   render() {
@@ -85,9 +83,9 @@ export default class BlockDumbComp extends React.Component {
     let bullet;
       bullet = (
         <ul>
-          {this.props.bulletChildren.map(item =>
+          {this.props.bulletChildren.map(bullet =>
             // <li style={this.props.styles.bullet} key=>{item}</li>
-            <li key={item.bulletId}>{item.text}</li>  // this is block id
+            <li key={bullet.bulletId}>{bullet.text}</li>  // this is block id
               // how do I get bullet id?
               // throws console error, but still behaves as it should
           )}
@@ -124,7 +122,17 @@ export default class BlockDumbComp extends React.Component {
 }
 
 
-
+    // let bullet;
+    //   bullet = (
+    //     <ul>
+    //       {this.props.children.map(item =>
+    //         // <li style={styles.bullet} key=>{item}</li>
+    //         <li key={item.bulletId}>{item.text}</li>  // this is block id
+    //           // how do I get bullet id?
+    //           // throws console error, but still behaves as it should
+    //       )}
+    //     </ul>
+    //   );
 
 
 

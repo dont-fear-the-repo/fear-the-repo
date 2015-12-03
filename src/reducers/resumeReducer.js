@@ -1,14 +1,13 @@
-import {  createReducer }
-from '../utils';
-import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS, MOVE_BLOCK}
-from 'constants/resumeConstants';
+import {  createReducer } from '../utils';
+import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS, MOVE_BLOCK} from 'constants/resumeConstants';
+import Immutable from 'immutable';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
 const initialState = {
   resumeId: 1,
   resumeTitle: 'Resume Version Name',
-  resumeTheme: 'stringOfThemeName',
+  resumeTheme: 'Default',
   resumeHeader: {
     name: 'Full Name',
     profession: 'Profession',
@@ -139,16 +138,9 @@ export default createReducer(initialState, {
   },
 
   [MOVE_BLOCK]: (state, payload) => {
-    console.log('block dragged id: ', payload.block.blockId, ' wants to be inserted at:', payload.atIndex)
+    const immutableBlockChildren = Immutable.List(state.blockChildren);
     return Object.assign({}, state, {
-      blockChildren: payload.blockChildren.slice().splice([
-        [payload.index, 1],
-        [payload.atIndex, 0, payload.block]
-      ])
+      blockChildren: immutableBlockChildren.splice(payload.index, 1).splice(payload.atIndex, 0, payload.block).toJS()
     });
   }
 });
-
-/*
-      blockChildren: state.blockChildren.splice([payload.index, 1], [payload.atIndex, 0, payload.block])
-*/
