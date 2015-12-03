@@ -1,5 +1,4 @@
 require('babel/register');
-
 // connect to database.
 const dbSchema = require('../database/dbSchema.js');
 const chalk = require('chalk');
@@ -270,3 +269,69 @@ devServer.app.post('/api/resumeheader', function(req, res) {
   console.log(req.body)
   res.send(req.body);
 });
+
+
+
+//Retrieve all Bullets for given user
+
+//TODO - Attempting to fix performance issue
+//curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getBullets
+devServer.app.post('/api/getBullets', function(req, res){
+  dbSchema.Bullet.findAll({
+    include: [{
+      model: dbSchema.Block,
+      include: [{
+        model: dbSchema.Resume,
+        include: [{
+          model: dbSchema.User,
+          where: {
+            email: req.body.email
+          }
+        }]
+      }]
+    }]
+  }).then(function(bullets) {
+     //bullets = _.map(bullets, function(item){ return item.bullets; });
+     res.send(bullets);
+  });
+});
+
+//TODO - Attempting to fix performance issue;
+devServer.app.post('/api/getBullets', function(req, res){
+  dbSchema.User.findOne({
+    where: {
+      email: req.body.email
+    }
+  }).then(function(user) {
+    user.getResumes().then(
+      function(resume){
+       resume.getBlocks().then(
+        function(blocks){
+          blocks.getBullets().then(
+            function(bullets){
+            res.send(bullets);
+          });
+        });
+    });
+  });
+});
+
+
+
+// Get All Resume Info For Given User
+// curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getAllResumes
+devServer.app.post('/api/getAllResumes', function(req, res){
+  dbSchema.User.findOne({
+    where: {
+      email: req.body.email
+    }
+  }).then(function(user) {
+    user.getResumes()
+    .then(
+      function(resume){
+        res.send(resume);
+    });
+  });
+});
+
+

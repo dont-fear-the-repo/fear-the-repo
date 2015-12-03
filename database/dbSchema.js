@@ -20,7 +20,7 @@ export const Resume = db.define('Resume', {
   phone: Sequelize.INTEGER,
   webLinkedin: Sequelize.STRING,
   webOther: Sequelize.STRING,
-  resumetitle: Sequelize.STRING,
+  resumeTitle: Sequelize.STRING,
   resumeTheme: Sequelize.STRING,
   personalStatement: Sequelize.STRING,
   school1Name: Sequelize.STRING,
