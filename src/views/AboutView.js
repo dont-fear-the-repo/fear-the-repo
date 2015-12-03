@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { styles } from 'styles/AboutViewStyles';
 import { RaisedButton, Paper } from 'material-ui/lib';
 
+
 const mapStateToProps = (state) => ({
   showKitten: state.showKitten
 });
