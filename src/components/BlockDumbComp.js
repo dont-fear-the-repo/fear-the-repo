@@ -73,69 +73,48 @@ const blockTarget = {
 
 
 
+
 export default class BlockDumbComp extends React.Component {
 
   render() {
     const { children, isDragging, connectDragSource, connectDropTarget } = this.props;
 
-    const styles = {
-      blockDrag: {
-        opacity: isDragging ? 0 : 1,
-        cursor: 'move',
-        margin: '0px'
-      },
-      jobTitle: {
-        display: 'inline',
-        margin: '10px',
-        fontWeight: '700',
-        fontSize: '18px'
-      },
-      pipe: {
-        display: 'inline',
-        margin: '5px'
-      },
-      companyName: {
-        display: 'inline',
-        margin: '10px',
-        fontWeight: '500',
-        fontSize: '16px'
-      },
-      location: {
-        display: 'inline',
-        margin: '10px'
-      },
-      year: {
-        display: 'inline',
-        float: 'right',
-        marginRight: '10px'
-      },
-      bullet: {
-        fontSize: '14px'
-      }
-    };
+
+    let bullet;
+      bullet = (
+        <ul>
+          {this.props.bulletChildren.map(bullet =>
+            // <li style={this.props.styles.bullet} key=>{item}</li>
+            <li key={bullet.bulletId}>{bullet.text}</li>  // this is block id
+              // how do I get bullet id?
+              // throws console error, but still behaves as it should
+          )}
+        </ul>
+      );
 
     return connectDragSource(connectDropTarget(
-      <div style={styles.blockDrag}>
-        <Paper zDepth={1}>
-          <div style={styles.jobTitle}>
+      <div style={this.props.styles.blockDrag}>
+          <div style={this.props.styles.jobTitle}>
             {this.props.jobTitle}
           </div>
-          <div style={styles.pipe}>
+          <div style={this.props.styles.pipe}>
             |
           </div>
-          <div style={styles.companyName}>
+          <div style={this.props.styles.companyName}>
             {this.props.companyName}
           </div>
-          <div style={styles.pipe}>
+          <div style={this.props.styles.pipe}>
             |
           </div>
-          <div style={styles.location}>
+          <div style={this.props.styles.location}>
             {this.props.location}
           </div>
-          <div style={styles.year}>
+          <div style={this.props.styles.year}>
             {this.props.year}
           </div>
-        </Paper>
+          <div>
+            {bullet}
+          </div>
       </div>
     ));
   }

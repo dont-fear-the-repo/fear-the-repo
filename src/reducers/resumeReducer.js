@@ -1,49 +1,117 @@
-import { createReducer } from '../utils';
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK } from 'constants/resumeConstants';
+import {  createReducer } from '../utils';
+import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS, MOVE_BLOCK} from 'constants/resumeConstants';
 import Immutable from 'immutable';
 
+
+// resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
 const initialState = {
   resumeId: 1,
-  resumeTitle: 'My Resume',
+  resumeTitle: 'Resume Version Name',
   resumeTheme: 'Default',
   resumeHeader: {
-    name: 'Your Name Here',
-    profession: 'Plumber',
-    city: 'San Francsico',
-    state: 'CA',
-    displayEmail: 'myemail@gmail.com',
-    phone: '124-125-4737',
+    name: 'Full Name',
+    profession: 'Profession',
+    city: 'City',
+    state: 'State',
+    displayEmail: 'email@email.com',
+    phone: '(124) 125-4737',
     webLinkedin: 'linkedin.com/myname',
     webOther: 'github.com/number23'
   },
-  blockChildren: [
-    { blockId: 1,
-      bulletChildren: [{bulletId: 1, text: 'My first bullet'}, {bulletId: 2, text: 'SECONDS'}],
-      companyName: 'Company 1',
-      jobTitle: 'Bossman',
-      year: '2015',
-      location: 'San Francisco, CA'
+  blockChildren: [{
+    blockId: 1,
+    companyName: 'Company Name',
+    jobTitle: 'Bossman',
+    years: '2015',
+    location: 'San Francisco, CA',
+    bulletChildren: [{
+      bulletId: 1,
+      text: 'My first bullet'
+    }, {
+      bulletId: 2,
+      text: 'Then I productionalized everything, like the Bossman that I am.'
+    }]
+  }, {
+    blockId: 2,
+    companyName: 'Second Corp.',
+    jobTitle: 'Lackey',
+    years: '2014, 2013',
+    location: 'San Francisco, CA',
+    bulletChildren: [{
+      bulletId: 1,
+      text: 'I believe in sentences that end with punctuation'
+    }, {
+      bulletId: 2,
+      text: 'This is an inflexible belief.'
+    }]
+  }, {
+    blockId: 3,
+    companyName: 'Third Chance',
+    jobTitle: 'Intern',
+    years: '2012-2011',
+    location: 'San Francisco, CA',
+    bulletChildren: [{
+      bulletId: 1,
+      text: 'Not a great life here, alas.'
+    }, {
+      bulletId: 2,
+      text: 'But I played with a lot of paperclips!'
+    }]
+  }],
+  resumeFooter: {
+    school1: {
+      name: 'School Name',
+      degree: 'Degree',
+      schoolEndYear: 'Year',
+      location: 'City'
     },
-    { blockId: 2,
-      bulletChildren: [{bulletId: 3, text: 'Such a lame job'}],
-      companyName: 'Company 2',
-      jobTitle: 'Noob',
-      year: '2013',
-      location: 'New York, NY'
+    school2: {
+      name: 'School Name',
+      degree: 'Degree',
+      schoolEndYear: 'Year',
+      location: 'City'
     },
-    { blockId: 100,
-      bulletChildren: [],
-      title: 'archived'
-    }
-  ]
+    personalStatement: 'Personal Statement / Hobbies'
+  }
 };
+
 
 export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
-    const obj = {};
-    obj[payload.textFieldName] = payload.userInput;
-    return Object.assign({}, state, obj);
+    const newState = {};
+    newState[payload.textFieldName] = payload.userInput;
+    return Object.assign({}, state, newState);
+  },
+
+  [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    newState.resumeHeader[payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_FOOTER]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    if (payload.textFieldName.slice(0,6) === 'school'){
+      newState.resumeFooter[payload.textFieldName.slice(0,7)][payload.textFieldName.slice(8)] = payload.userInput;
+    } else {
+      newState.resumeFooter[payload.textFieldName] = payload.userInput;
+    }
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    newState[payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
+    // !!!!!!!
+    // this funciton is definitely not correct yet, see Andrew's commit for truth?
+    let newState = Object.assign({}, state);
+    newState.blockChildren[0][payload.textFieldName] = payload.userInput;
+    return newState;
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
@@ -55,7 +123,6 @@ export default createReducer(initialState, {
   },
 
   [DROP_BULLET]: (state, payload) => {
-    // Can we just grab this.blockId from view?
     const targetIndex = () => {
       for (let index = 0; index < state.blockChildren.length; index++) {
         if (state.blockChildren[index].blockId === state.targetBlock.blockId) {
@@ -72,7 +139,6 @@ export default createReducer(initialState, {
 
   [MOVE_BLOCK]: (state, payload) => {
     const immutableBlockChildren = Immutable.List(state.blockChildren);
-
     return Object.assign({}, state, {
       blockChildren: immutableBlockChildren.splice(payload.index, 1).splice(payload.atIndex, 0, payload.block).toJS()
     });
