@@ -7,7 +7,11 @@ import ResumeHeader                       from 'components/ResumeHeader';
 import { DropTarget }                     from 'react-dnd';
 import update                             from 'react/lib/update';
 import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState, updateLocalStateHeader, updateLocalStateFooter, updateLocalStateSavePrint, updateLocalStateBlocks } from 'actions/resumeActions';
-import { RaisedButton, TextField, Paper } from 'material-ui/lib';
+import { styles } from 'styles/ResumeViewStyles';
+import { resumeThemes } from 'styles/resumeThemes';
+import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly
 
 const ActionCreators = {
   updateResumeState: updateResumeState,
@@ -91,12 +95,12 @@ class ResumeView extends React.Component {
   }
 
   handleSubmit() {
-    // if (this.props.loggedIn) {
+    if (this.props.loggedIn) {
       console.log('saving...')
       this.props.actions.sendResumeToServerAsync(this.props.resumeState);
-    // } else {
-      // alert('To save a resume, please signup above');
-    // }
+    } else {
+      alert('To save a resume, please signup above');
+    }
   }
 
   handleUpdateLocalState(event, textFieldName, whereFrom) {
@@ -171,105 +175,15 @@ class ResumeView extends React.Component {
     WinPrint.close();
   }
 
+  handleChangeTheme(event, index) {
+    const userInput = event.target.value;
+    const textFieldName = 'resumeTheme';
+    this.props.actions.updateLocalState({textFieldName, userInput});
+  }
+
   render() {
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState.blockChildren;
-
-    const styles = {
-      container: {
-        backgroundColor: 'white',
-        height: '1000px'
-      },
-        plain: {
-        marginLeft: '10px'
-      },
-      resumeTitle: {
-        margin: '10px',
-        backgroundColor: 'white',
-        textAlign: 'center'
-      },
-      marginTop: {
-        height: '1px'
-      },
-      resumeContainer: {
-        marginLeft: '20px',
-        marginRight: '20px'
-      },
-      marginBottom: {
-        height: '20px'
-      },
-      resumePaper: {
-        height: '800px',
-        width: '95%',
-        marginLeft: 'auto',
-        marginRight: 'auto'
-      },
-      underlineStyle: {
-        borderColor: 'white',
-        borderWidth: '0px'
-      },
-      underlineFocusStyle : {
-        borderColor: 'orange',
-        borderWidth: '1px'
-      },
-      hintStyle: {
-        color: 'lightgray'
-      },
-      name: {
-        fontWeight: '700',
-        fontSize: '32px',
-        textAlign: 'left',
-        marginLeft: '10px'
-      },
-      email: {
-        color: 'blue',
-        fontSize: '16px',
-        marginLeft: '10px'
-      },
-      phone: {
-        fontSize: '16px',
-        marginLeft: '10px'
-      },
-      city: {
-        marginLeft: '10px'
-      },
-      url: {
-        textAlign: 'left',
-        marginLeft: '10px'
-      },
-      blockDrag: {
-        cursor: 'move',
-        margin: '0px'
-      },
-      jobTitle: {
-        display: 'inline',
-        margin: '10px',
-        fontWeight: '700',
-        fontSize: '18px'
-      },
-      pipe: {
-        display: 'inline',
-        margin: '5px'
-      },
-      companyName: {
-        display: 'inline',
-        margin: '10px',
-        fontWeight: '500',
-        fontSize: '16px'
-      },
-      location: {
-        display: 'inline',
-        margin: '10px'
-      },
-      year: {
-        display: 'inline',
-        float: 'right',
-        marginRight: '10px'
-      },
-      bullet: {
-        fontSize: '14px'
-      }
-    };
 
     return connectDropTarget(
       <div className='container'
@@ -397,6 +311,11 @@ class ResumeFooter extends React.Component {
 /////////////////////////////////////////////////////////////////////////////////////
 class ResumeSavePrint extends React.Component {
   render() {
+        const themes = Object.keys(resumeThemes)
+                    .map( (value, index) => ({
+                      'index': index,
+                      'text': value
+                    }));
     return (
       <div>
         <TextField className='resumeTitle'
@@ -413,42 +332,16 @@ class ResumeSavePrint extends React.Component {
           <span> </span>
           <RaisedButton label='Print Resume'
                         onClick={e => this.handlePrint(e)} />
+          <SelectField floatingLabelText='Select a theme'
+                       menuItems={themes}
+                       value={this.props.resumeState.resumeTheme}
+                       valueMember='text'
+                       style={styles.themeSelection}
+                       onChange={(e, index) => this.handleChangeTheme(e, index)} />
       </div>
     );
   }
 }
 
 
-
-/*
-
-  resumeFooter: {
-    school1: {
-      name: 'MakerSquare',
-      degree: 'Software Engineer',
-      schoolEndYear: '2012',
-      location: 'Chicago'
-    },
-    school2: {
-      name: 'Trololo',
-      degree: 'BS',
-      schoolEndYear: '2008',
-      location: 'Boston'
-    },
-    personalStatement: 'I like cats, but only sometimes, eating ramen, basketball, and taking long walks because BART is broken again.'
-  }
-
-
-
-            <TextField className='personalStatement'
-                       underlineStyle={styles.underlineStyle}
-                       underlineFocusStyle={styles.underlineFocusStyle}
-                       hintStyle={styles.hintStyle}
-                       hintText={this.props.resumeState.personalStatement}
-                       ref='personalStatement' onBlur={e => this.handleUpdateLocalState(e, 'personalStatement')} />
-*/
-
-
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
-
-
