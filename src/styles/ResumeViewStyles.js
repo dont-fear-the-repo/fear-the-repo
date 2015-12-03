@@ -4,9 +4,15 @@ export const styles = {
     height: '1000px',
     width: '100%'
   },
-  themeSelection: {
+  themeSelectDropdown: {
     backgroundColor: 'white',
     marginLeft: '30px'
+  },
+  saveButton: {
+    margin: '5px'
+  },
+  printButton: {
+    margin: '5px'
   },
   resumeTitle: {
     textAlign: 'center'
