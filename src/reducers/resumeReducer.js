@@ -40,10 +40,10 @@ const initialState = {
     years: '2014, 2013',
     location: 'San Francisco, CA',
     bulletChildren: [{
-      bulletId: 1,
+      bulletId: 3,
       text: 'I believe in sentences that end with punctuation'
     }, {
-      bulletId: 2,
+      bulletId: 4,
       text: 'This is an inflexible belief.'
     }]
   }, {
@@ -53,10 +53,10 @@ const initialState = {
     years: '2012-2011',
     location: 'San Francisco, CA',
     bulletChildren: [{
-      bulletId: 1,
+      bulletId: 5,
       text: 'Not a great life here, alas.'
     }, {
-      bulletId: 2,
+      bulletId: 6,
       text: 'But I played with a lot of paperclips!'
     }]
   }],
@@ -142,8 +142,9 @@ export default createReducer(initialState, {
 
   [MOVE_BLOCK]: (state, payload) => {
     const immutableBlockChildren = Immutable.List(state.blockChildren);
+
     return Object.assign({}, state, {
-      blockChildren: immutableBlockChildren.splice(payload.index, 1).splice(payload.atIndex, 0, payload.block).toJS()
+      blockChildren: immutableBlockChildren.splice(payload.blockIndex, 1).splice(payload.atIndex, 0, payload.block).toJS()
     });
   },
 

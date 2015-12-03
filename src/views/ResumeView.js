@@ -123,21 +123,20 @@ class ResumeView extends React.Component {
     }
   }
 
-  moveBlock(id, atIndex) {
-    const { block, blockIndex } = this.findBlock(id);
+  moveBlock(draggedId, atIndex) {
+    const { block, blockIndex } = this.findBlock(draggedId);
 
     this.props.actions.moveBlock({
       blockIndex: blockIndex,
       atIndex: atIndex,
-      block: block,
-      blockChildren: this.props.resumeState.blockChildren
+      block: block
     });
 
   }
 
-  findBlock(id) {
+  findBlock(draggedId) {
     const blocks = this.props.resumeState.blockChildren;
-    const block = blocks.filter(b => b.blockId === id)[0];
+    const block = blocks.filter(b => b.blockId === draggedId)[0];
 
     return {
       block,
@@ -200,7 +199,7 @@ class ResumeView extends React.Component {
                                 blockId={block.blockId}
                                 companyName={block.companyName}
                                 jobTitle={block.jobTitle}
-                                year={block.year}
+                                years={block.years}
                                 bulletChildren={block.bulletChildren}
                                 location={block.location}
                                 moveBlock={this.moveBlock}
@@ -240,6 +239,7 @@ class ResumeView extends React.Component {
     );
   }
 } // end react component ResumeView
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 //    Resume Footer, super dumb comp is here instead of being a separate file      //

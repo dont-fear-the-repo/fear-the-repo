@@ -81,7 +81,7 @@ export default class BlockDumbComp extends React.Component {
     companyName: PropTypes.string.isRequired,
     jobTitle: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
+    years: PropTypes.string.isRequired,
     bulletChildren: PropTypes.array.isRequired,
     children: PropTypes.node
   };
@@ -115,7 +115,7 @@ export default class BlockDumbComp extends React.Component {
         display: 'inline',
         margin: '10px'
       },
-      year: {
+      years: {
         display: 'inline',
         float: 'right',
         marginRight: '10px'
@@ -155,8 +155,8 @@ export default class BlockDumbComp extends React.Component {
           <div style={this.props.styles.location}>
             {this.props.location}
           </div>
-          <div style={this.props.styles.year}>
-            {this.props.year}
+          <div style={this.props.styles.years}>
+            {this.props.years}
           </div>
           <div className='bulletContainer' style={styles.bulletContainer}>
             {bullet}
@@ -167,6 +167,7 @@ export default class BlockDumbComp extends React.Component {
 }
 
 /*
+
 
 Still TODO
  - render bullets in blocks immediately upon drop
