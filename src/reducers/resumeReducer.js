@@ -1,6 +1,13 @@
-import {  createReducer } from '../utils';
-import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS, MOVE_BLOCK} from 'constants/resumeConstants';
+import { createReducer } from '../utils';
 import Immutable from 'immutable';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
+         DROP_BULLET,
+         UPDATE_LOCAL_STATE,
+         UPDATE_LOCAL_STATE_HEADER,
+         UPDATE_LOCAL_STATE_FOOTER,
+         UPDATE_LOCAL_STATE_SAVEPRINT,
+         UPDATE_LOCAL_STATE_BLOCKS,
+         MOVE_BLOCK } from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
@@ -79,9 +86,10 @@ const initialState = {
 export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
-    const newState = {};
-    newState[payload.textFieldName] = payload.userInput;
-    return Object.assign({}, state, newState);
+    const newProperty = {};
+    newProperty[payload.textFieldName] = payload.userInput;
+    return Object.assign({}, state,
+      newProperty);
   },
 
   [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
@@ -107,8 +115,7 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
-    // !!!!!!!
-    // this funciton is definitely not correct yet, see Andrew's commit for truth?
+    // FIXME: this function is definitely not correct yet, see Andrew's commit for truth?
     let newState = Object.assign({}, state);
     newState.blockChildren[0][payload.textFieldName] = payload.userInput;
     return newState;
@@ -123,7 +130,7 @@ export default createReducer(initialState, {
   },
 
   [DROP_BULLET]: (state, payload) => {
-    const targetIndex = () => {
+    const targetIndex = () => { // FIXME: refactor to use functional iteration instead of for loop
       for (let index = 0; index < state.blockChildren.length; index++) {
         if (state.blockChildren[index].blockId === state.targetBlock.blockId) {
           return index;
@@ -140,7 +147,9 @@ export default createReducer(initialState, {
   [MOVE_BLOCK]: (state, payload) => {
     const immutableBlockChildren = Immutable.List(state.blockChildren);
     return Object.assign({}, state, {
-      blockChildren: immutableBlockChildren.splice(payload.index, 1).splice(payload.atIndex, 0, payload.block).toJS()
+      blockChildren: immutableBlockChildren.splice(payload.index, 1)
+                                           .splice(payload.atIndex, 0, payload.block)
+                                           .toJS()
     });
   }
 });

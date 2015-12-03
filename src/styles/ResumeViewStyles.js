@@ -1,7 +1,8 @@
 export const styles = {
   container: {
     backgroundColor: 'lightgray',
-    height: '1000px'
+    height: '1000px',
+    width: '100%'
   },
   themeSelection: {
     backgroundColor: 'white',
@@ -47,11 +48,19 @@ export const styles = {
   hintStyle: {
     color: 'lightgray'
   },
+  firstLine: {
+
+  },
   name: {
     fontWeight: '700',
     fontSize: '32px',
-    textAlign: 'left',
-    marginLeft: '10px'
+    textAlign: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'inline-block'
+  },
+  profession: {
+    textAlign: 'center'
   },
   email: {
     color: 'blue',
@@ -62,8 +71,15 @@ export const styles = {
     fontSize: '16px',
     marginLeft: '10px'
   },
+  location: {
+    marginLeft: '10px',
+    display: 'inline-block'
+  },
   city: {
-    marginLeft: '10px'
+    width: '200px'
+  },
+  state: {
+    width: '50px'
   },
   url: {
     textAlign: 'left',
