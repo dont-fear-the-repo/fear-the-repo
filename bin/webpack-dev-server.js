@@ -79,7 +79,7 @@ devServer.app.post('/signup', (req, res) => {
         hashing(req.body.password, null, null)
         .then( (hash) => {
           dbSchema.User.create({
-            userName: req.body.username,
+            email: req.body.email,
             password: hash
           });
         })

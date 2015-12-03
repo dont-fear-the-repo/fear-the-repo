@@ -3,8 +3,8 @@
 * [MKS Git workflow (Contributing.md)](https://github.com/dont-fear-the-repo/fear-the-repo/CONTRIBUTING.md)
 * [MKS Waffle.io board for gitissues](https://waffle.io/dont-fear-the-repo/fear-the-repo)
   * Please add what you're working on
-  * Title it in the style of the commits, `<type>(<scope>): <subject>` 
-    * for example `[fix](deploy): Edit package.json for heroku deploy`
+  * Title it in the style of the commits, `[feat]: <Subject> + <description>`
+    * for example `[fix]: Edit package.json for heroku deploy`
   * Add labels that apply
 * Google docs:
   * [User Experience](https://docs.google.com/document/d/14RDEGpsJsEkOgTtGHLJrjvb10u0nh4CDXpbxbuaVh2M/edit)
@@ -41,6 +41,8 @@ About
 
 // TODO: update this
 This is where we talk about the app.
+
+// TODO: add note regarding boiler plate template
 
 Demo
 ----

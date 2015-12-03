@@ -7,18 +7,20 @@ import { DropTarget } from 'react-dnd';
 import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
+import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
 
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
-import { dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly
+
 
 const ActionCreators = {
   updateResumeState: updateResumeState,
   sendResumeToServerAsync: sendResumeToServerAsync,
   updateLocalState: updateLocalState,
+  moveBlock: moveBlock,
   dropBullet: dropBullet
 };
 
@@ -38,8 +40,12 @@ const Types = {
 const blockTarget = {
   drop(props, monitor, component) {
     const bulletProps = {
-      id: monitor.getItem().id,
-      body: monitor.getItem().body
+      bulletId: monitor.getItem().bulletId,
+      text: monitor.getItem().text
+    };
+
+    const blockProps = {
+      blockId: monitor.getItem().blockId
     };
 
     if (monitor.getItemType() === 'bullet') {
@@ -47,10 +53,6 @@ const blockTarget = {
         // blocks: component.state.blocks,
         targetBlock: monitor.getDropResult(),
         droppedBullet: bulletProps
-      });
-    } else if (monitor.getItemType() === 'block') {
-      props.actions.saveResume({
-        blocks: component.state.blocks
       });
     }
   }
@@ -93,21 +95,19 @@ class ResumeView extends React.Component {
     this.props.actions.updateLocalState({textFieldName, userInput});
   }
 
-  moveBlock(id, atIndex) {
-    const { block, index } = this.findBlock(id);
-    this.setState(update(this.state, {
-      blocks: {
-        $splice: [
-          [index, 1],
-          [atIndex, 0, block]
-        ]
-      }
-    }));
+  moveBlock(draggedId, atIndex) {
+    const { block, index } = this.findBlock(draggedId);
+
+    this.props.actions.moveBlock({
+      index: index,
+      atIndex: atIndex,
+      block: block
+    });
   }
 
-  findBlock(id) {
-    const { blocks } = this.state;
-    const block = blocks.filter(b => b.id === id)[0];
+  findBlock(draggedId) {
+    const blocks = this.props.resumeState.blockChildren;
+    const block = blocks.filter(b => b.blockId === draggedId)[0];
 
     return {
       block,
@@ -128,7 +128,7 @@ class ResumeView extends React.Component {
   }
 
   findBullet(id) {
-    const { bullets } = this.state;
+    const bullets = this.props.resumeState.blockChildren.bulletChildren;
     const bullet = bullets.filter(bu => bu.id === id)[0];
 
     return {
@@ -197,7 +197,6 @@ class ResumeView extends React.Component {
              <ResumeHeader />
             {this.props.resumeState.blockChildren.map(block => {
               return (
-
                       <BlockDumbComp key={block.blockId}
                         blockId={block.blockId}
                         companyName={block.companyName}
@@ -206,8 +205,7 @@ class ResumeView extends React.Component {
                         bulletChildren={block.bulletChildren}
                         location={block.location}
                         moveBlock={this.moveBlock}
-                        findBlock={this.findBlock}
-                        > {block.blockId} </BlockDumbComp>
+                        findBlock={this.findBlock} />
                       );
             }
             )}
@@ -227,7 +225,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
 
 
 /*
-TODO: React doesn't like our unique keys, even when we replace BlockDumbComp with painfully simple version below:
+Still TODO: React doesn't like our unique keys, even when we replace BlockDumbComp with painfully simple version below:
 <ul>
   <li key={block.blockId}> {block.blockId} </li>
 </ul>
