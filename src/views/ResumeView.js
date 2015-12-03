@@ -20,6 +20,7 @@ const ActionCreators = {
 const mapStateToProps = (state) => ({
   routerState: state.router,
   resumeState: state.resumeReducer,
+  loggedIn: state.titleBarReducer.loggedIn
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
