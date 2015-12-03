@@ -7,8 +7,9 @@ import { DropTarget } from 'react-dnd';
 import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
-import { resumeStyles, mainLayout } from 'styles/resumeThemes';
 
+import { styles } from 'styles/ResumeViewStyles';
+import { resumeThemes } from 'styles/resumeThemes';
 import { dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -155,7 +156,7 @@ class ResumeView extends React.Component {
   render() {
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState.blockChildren;
-    const themes = Object.keys(resumeStyles)
+    const themes = Object.keys(resumeThemes)
                     .map( (value, index) => ({
                       'index': index,
                       'text': value
@@ -163,19 +164,19 @@ class ResumeView extends React.Component {
 
     return connectDropTarget(
       <div className='container'
-           style={mainLayout.container} id='resumeContainer'>
+           style={styles.container} id='resumeContainer'>
 
         <div className='resumeTitle'
-             style={mainLayout.resumeTitle}>
+             style={styles.resumeTitle}>
           <SelectField floatingLabelText='Select a theme'
                        menuItems={themes}
                        value={this.props.resumeState.resumeTheme}
                        valueMember='text'
-                       style={mainLayout.themeSelection}
+                       style={styles.themeSelection}
                        onChange={(e, index) => this.handleChangeTheme(e, index)} />
           <TextField className='textCenter'
-                     style={mainLayout.textCenter}
-                     hintStyle={mainLayout.hintStyle}
+                     style={styles.textCenter}
+                     hintStyle={styles.hintStyle}
                      hintText={this.props.resumeState.resumeTitle}
                      ref='resumeTitle' onBlur={e => this.handleUpdateLocalState(e, 'resumeTitle')} />
 
@@ -186,12 +187,12 @@ class ResumeView extends React.Component {
                         onClick={e => this.handlePrint(e)} />
         </div>
 
-        <Paper style={mainLayout.resumePaper}>
+        <Paper style={styles.resumePaper}>
           <div className='marginTop'
-               style={mainLayout.marginTop} />
+               style={styles.marginTop} />
 
           <Paper className='resumeContainer'
-                 style={mainLayout.resumeContainer}>
+                 style={styles.resumeContainer}>
 
              <ResumeHeader />
             {this.props.resumeState.blockChildren.map(block => {
@@ -214,7 +215,7 @@ class ResumeView extends React.Component {
           </Paper>
 
           <div className='marginBottom'
-               style={mainLayout.marginBottom} />
+               style={styles.marginBottom} />
         </Paper>
       </div>
     );
