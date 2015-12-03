@@ -6,7 +6,7 @@ import Bullet                             from 'components/Bullet';
 import ResumeHeader                       from 'components/ResumeHeader';
 import { DropTarget }                     from 'react-dnd';
 import update                             from 'react/lib/update';
-import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState, updateLocalStateHeader } from 'actions/resumeActions';
+import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState, updateLocalStateHeader, updateLocalStateFooter, updateLocalStateSavePrint, updateLocalStateBlocks } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const ActionCreators = {
@@ -16,6 +16,7 @@ const ActionCreators = {
   updateLocalStateHeader: updateLocalStateHeader,
   updateLocalStateFooter: updateLocalStateFooter,
   updateLocalStateBlocks: updateLocalStateBlocks,
+  updateLocalStateSavePrint: updateLocalStateSavePrint,
   moveBlock: moveBlock,
   dropBullet: dropBullet
 };
@@ -98,12 +99,18 @@ class ResumeView extends React.Component {
     // }
   }
 
-  handleUpdateLocalState(event, textFieldName, fromHeader) {
+  handleUpdateLocalState(event, textFieldName, whereFrom) {
     const userInput = event.target.value;
 
-    if (fromHeader){
+    if (whereFrom === 'header'){
       console.log('updating from header...')
-      this.actions.updateLocalStateHeader({textFieldName, userInput, fromHeader});
+      this.actions.updateLocalStateHeader({textFieldName, userInput, whereFrom});
+    } else if (whereFrom === 'footer') {
+      console.log('updating from footer...')
+      this.actions.updateLocalStateFooter({textFieldName, userInput, whereFrom});
+    } else if (whereFrom === 'savePrint') {
+      console.log('updating from savePrint...')
+      this.actions.updateLocalStateSavePrint({textFieldName, userInput, whereFrom});
     } else {
       console.log('updating from main...')
       this.props.actions.updateLocalState({textFieldName, userInput});
@@ -229,6 +236,38 @@ class ResumeView extends React.Component {
       url: {
         textAlign: 'left',
         marginLeft: '10px'
+      },
+      blockDrag: {
+        cursor: 'move',
+        margin: '0px'
+      },
+      jobTitle: {
+        display: 'inline',
+        margin: '10px',
+        fontWeight: '700',
+        fontSize: '18px'
+      },
+      pipe: {
+        display: 'inline',
+        margin: '5px'
+      },
+      companyName: {
+        display: 'inline',
+        margin: '10px',
+        fontWeight: '500',
+        fontSize: '16px'
+      },
+      location: {
+        display: 'inline',
+        margin: '10px'
+      },
+      year: {
+        display: 'inline',
+        float: 'right',
+        marginRight: '10px'
+      },
+      bullet: {
+        fontSize: '14px'
       }
     };
 
@@ -240,35 +279,37 @@ class ResumeView extends React.Component {
         <div className='marginTop'
              style={styles.marginTop} />
         <Paper>
-          <ResumeHeader {...this.props} styles={styles} handleUpdateLocalState={this.handleUpdateLocalState} />
-
-
+          <ResumeHeader {...this.props}
+                        styles={styles}
+                        handleUpdateLocalState={this.handleUpdateLocalState} />
 
             {this.props.resumeState.blockChildren.map(block => {
               return (
-                      <BlockDumbComp key={block.blockId}
-                        blockId={block.blockId}
-                        companyName={block.companyName}
-                        jobTitle={block.jobTitle}
-                        year={block.year}
-                        bulletChildren={block.bulletChildren}
-                        location={block.location}
-                        moveBlock={this.moveBlock}
-                        findBlock={this.findBlock} > {block.blockId} </BlockDumbComp>
-                      );
-            }
-            )}
+                <BlockDumbComp  {...this.props}
+                                styles={styles}
+                                key={block.blockId}
+                                blockId={block.blockId}
+                                companyName={block.companyName}
+                                jobTitle={block.jobTitle}
+                                year={block.year}
+                                bulletChildren={block.bulletChildren}
+                                location={block.location}
+                                moveBlock={this.moveBlock}
+                                findBlock={this.findBlock} > {block.blockId} </BlockDumbComp>
+                );
+            })}
 
-
-
-          <ResumeFooter {...this.props} styles={styles} handleUpdateLocalState={this.handleUpdateLocalState} />
-<h1>{this.handleUpdateLocalState}</h1>
+          <ResumeFooter {...this.props}
+                        styles={styles}
+                        handleUpdateLocalState={this.handleUpdateLocalState} />
 
           <div className='marginBottom'
                style={styles.marginBottom} />
         </Paper>
 
-        <ResumeSavePrint {...this.props} styles={styles} handleUpdateLocalState={this.handleUpdateLocalState} />
+        <ResumeSavePrint {...this.props}
+                         styles={styles}
+                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
       </div>
     );
@@ -284,13 +325,66 @@ class ResumeFooter extends React.Component {
   render() {
     return (
       <div>
-          <div style={this.props.styles.plain}>
+        <div style={this.props.styles.plain}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='school1-name'
+                     hintText={this.props.resumeState.resumeFooter.school1.name}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-name', 'footer')} />
+          <div style={this.props.styles.pipe}> | </div>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='school1-degree'
+                     hintText={this.props.resumeState.resumeFooter.school1.degree}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-degree', 'footer')} />
+          <div style={this.props.styles.pipe}> | </div>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='school1-schoolEndYear'
+                     hintText={this.props.resumeState.resumeFooter.school1.schoolEndYear}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-schoolEndYear', 'footer')} />
+          <div style={this.props.styles.pipe}> | </div>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='school1-location'
+                     hintText={this.props.resumeState.resumeFooter.school1.location}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-location', 'footer')} />
+
+
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='school2-name'
+                     hintText={this.props.resumeState.resumeFooter.school2.name}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-name', 'footer')} />
+          <div style={this.props.styles.pipe}> | </div>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='school2-degree'
+                     hintText={this.props.resumeState.resumeFooter.school2.degree}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-degree', 'footer')} />
+          <div style={this.props.styles.pipe}> | </div>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='school2-schoolEndYear'
+                     hintText={this.props.resumeState.resumeFooter.school2.schoolEndYear}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-schoolEndYear', 'footer')} />
+          <div style={this.props.styles.pipe}> | </div>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='school2-location'
+                     hintText={this.props.resumeState.resumeFooter.school2.location}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-location', 'footer')} />
+        </div>
+        <div style={this.props.styles.plain}>
+
+        </div>
+        <div style={this.props.styles.plain}>
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='personalStatement'
                      hintText='Personal Statement'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'personalStatement', true)} />
-          </div>
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'personalStatement', 'footer')} />
+        </div>
       </div>
     );
   }
@@ -311,7 +405,8 @@ class ResumeSavePrint extends React.Component {
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      hintStyle={this.props.styles.hintStyle}
                      hintText={this.props.resumeState.resumeTitle}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', true)} />
+                     floatingLabelText='Resume Version Name'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
 
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />
@@ -322,9 +417,6 @@ class ResumeSavePrint extends React.Component {
     );
   }
 }
-
-
-
 
 
 

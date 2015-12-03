@@ -10,60 +10,60 @@ export default class ResumeHeader extends React.Component {
 
     return (
       <div>
-          <div style={this.props.styles.name}>
+        <div style={this.props.styles.name}>
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='name'
-                     hintText='Full Name'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'name', true)} />
-          </div>
-          <div style={this.props.styles.plain}>
+                     hintText={this.props.resumeState.resumeHeader.name}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'name', 'header')} />
+        </div>
+        <div style={this.props.styles.plain}>
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='profession'
-                     hintText='Profession'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'profession', true)} />
-          </div>
-          <div style={this.props.styles.email}>
+                     hintText={this.props.resumeState.resumeHeader.profession}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'profession', 'header')} />
+        </div>
+        <div style={this.props.styles.email}>
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='displayEmail'
-                     hintText='Email'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'displayEmail', true)} />
-          </div>
-          <div style={this.props.styles.phone}>
+                     hintText={this.props.resumeState.resumeHeader.displayEmail}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'displayEmail', 'header')} />
+        </div>
+        <div style={this.props.styles.phone}>
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='phone'
-                     hintText='(123) 456-7899'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'phone', true)} />
-          </div>
-          <div style={this.props.styles.city}>
+                     hintText={this.props.resumeState.resumeHeader.phone}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'phone', 'header')} />
+        </div>
+        <div style={this.props.styles.city}>
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='city'
-                     hintText='City'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'city', true)} />
+                     hintText={this.props.resumeState.resumeHeader.city}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'city', 'header')} />
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='state'
-                     hintText='State'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'state', true)} />
-          </div>
-          <div style={this.props.styles.url}>
+                     hintText={this.props.resumeState.resumeHeader.state}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'state', 'header')} />
+        </div>
+        <div style={this.props.styles.url}>
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='webLinkedin'
-                     hintText='Linkedin'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', true)} />
-          </div>
-          <div style={this.props.styles.url}>
+                     hintText={this.props.resumeState.resumeHeader.webLinkedin}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
+        </div>
+        <div style={this.props.styles.url}>
           <TextField underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      ref='webOther'
-                     hintText='Homepage'
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', true)} />
-          </div>
+                     hintText={this.props.resumeState.resumeHeader.webOther}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
+        </div>
       </div>
     );
   }

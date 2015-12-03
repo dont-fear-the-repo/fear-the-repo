@@ -1,27 +1,27 @@
 import {  createReducer }
 from '../utils';
-import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, MOVE_BLOCK}
+import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS, MOVE_BLOCK}
 from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
 const initialState = {
   resumeId: 1,
-  resumeTitle: 'My Rageume',
+  resumeTitle: 'Resume Version Name',
   resumeTheme: 'stringOfThemeName',
   resumeHeader: {
-    name: 'Your Name Here',
-    profession: 'Plumber',
-    city: 'San Francsico',
-    state: 'CA',
-    displayEmail: 'myemail@gmail.com',
-    phone: '124-125-4737',
+    name: 'Full Name',
+    profession: 'Profession',
+    city: 'City',
+    state: 'State',
+    displayEmail: 'email@email.com',
+    phone: '(124) 125-4737',
     webLinkedin: 'linkedin.com/myname',
     webOther: 'github.com/number23'
   },
   blockChildren: [{
     blockId: 1,
-    companyName: 'First Acme',
+    companyName: 'Company Name',
     jobTitle: 'Bossman',
     years: '2015',
     location: 'San Francisco, CA',
@@ -61,18 +61,18 @@ const initialState = {
   }],
   resumeFooter: {
     school1: {
-      name: 'MakerSquare',
-      degree: 'Software Engineer',
-      schoolEndYear: '2012',
-      location: 'Chicago'
+      name: 'School Name',
+      degree: 'Degree',
+      schoolEndYear: 'Year',
+      location: 'City'
     },
     school2: {
-      name: 'Trololo',
-      degree: 'BS',
-      schoolEndYear: '2008',
-      location: 'Boston'
+      name: 'School Name',
+      degree: 'Degree',
+      schoolEndYear: 'Year',
+      location: 'City'
     },
-    personalStatement: 'I like cats, eating ramen, basketball, and taking long walks because BART is broken again.'
+    personalStatement: 'Personal Statement / Hobbies'
   }
 };
 
@@ -80,15 +80,39 @@ const initialState = {
 export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
-    const obj = {};
-    obj[payload.textFieldName] = payload.userInput;
-    return Object.assign({}, state, obj);
+    const newState = {};
+    newState[payload.textFieldName] = payload.userInput;
+    return Object.assign({}, state, newState);
   },
 
   [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
-    let obj = Object.assign({}, state);
-    obj.resumeHeader[payload.textFieldName] = payload.userInput;
-    return obj;
+    let newState = Object.assign({}, state);
+    newState.resumeHeader[payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_FOOTER]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    if (payload.textFieldName.slice(0,6) === 'school'){
+      newState.resumeFooter[payload.textFieldName.slice(0,7)][payload.textFieldName.slice(8)] = payload.userInput;
+    } else {
+      newState.resumeFooter[payload.textFieldName] = payload.userInput;
+    }
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    newState[payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
+    // !!!!!!!
+    // this funciton is definitely not correct yet, see Andrew's commit for truth?
+    let newState = Object.assign({}, state);
+    newState.blockChildren[0][payload.textFieldName] = payload.userInput;
+    return newState;
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {

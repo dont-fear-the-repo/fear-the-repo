@@ -1,4 +1,4 @@
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_BLOCKS } from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -34,6 +34,13 @@ export function updateLocalStateHeader (payload) {
 export function updateLocalStateFooter (payload) {
   return {
     type: UPDATE_LOCAL_STATE_FOOTER,
+    payload: payload
+  };
+}
+
+export function updateLocalStateSavePrint (payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_SAVEPRINT,
     payload: payload
   };
 }
