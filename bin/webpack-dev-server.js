@@ -1,5 +1,4 @@
 require('babel/register');
-
 // connect to database.
 const dbSchema = require('../database/dbSchema.js');
 const chalk = require('chalk');
@@ -19,13 +18,10 @@ devServer.listen(port, host, () => {
   ));
 });
 
-
 ////////////////////////////////////////////////////////////////////////
 // TODO: All of this Auth and API will need to be refactored someday  //
 // to an external file so that a deployment server can use them       //
 ////////////////////////////////////////////////////////////////////////
-
-
 
 
 /////////////////////////////////////////////////////////////////
@@ -73,21 +69,22 @@ devServer.app.post('/signup', (req, res) => {
         email: req.body.email //change me to id
       }
     })
-    .then( (results) => {
+    .then((results) => {
       if (!results) {
         const hashing = Promise.promisify(bcrypt.hash);
         hashing(req.body.password, null, null)
-        .then( (hash) => {
-          dbSchema.User.create({
-            email: req.body.email,
-            password: hash
-          });
-        })
-        .then( (results) => {
-          utils.createSession(req, res, results);
-        });
+          .then((hash) => {
+            dbSchema.User.create({
+              email: req.body.email,
+              password: hash
+            }).then((results) => {
+              utils.createSession(req, res, results);
+            })
+          })
       } else {
-        res.status(401).send({error: 'user already exists'});
+        res.status(401).send({
+          error: 'user already exists'
+        });
       }
     });
 });
@@ -115,8 +112,8 @@ devServer.app.post('/logout', (req, res) => {
 /*
 To test the API, try this:
   NOTE : To add information to USER table create a new user from web application
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "name":"sujay", "profession":"batman", "title":"test", "city":"gothom"}' http://localhost:3000/api/resume/create
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "title":"test", "jobTitle":"badass", "blockPosition":"2", "startDate":"2014", "endDate":"2015"}' http://localhost:3000/api/block/create
+  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "name":"sujay", "profession":"batman", "resumeTitle":"test", "city":"gothom"}' http://localhost:3000/api/resume/create
+  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "resumeTitle":"test", "jobTitle":"bossman", "blockPosition":"2", "startDate":"2014", "endDate":"2015"}' http://localhost:3000/api/block/create
 
 */
 
@@ -172,15 +169,25 @@ devServer.app.post('/api/allusers', (req, res) => {
 // Create resume for given user
 devServer.app.post('/api/resume/create', (req, res) => {
   dbSchema.Resume.create({
-    name: req.body.name,
-    profession: req.body.profession,
-    city: req.body.city,
-    state: req.body.state,
-    displayEmail: req.body.displayEmail,
-    phone: req.body.phone,
-    webLinkedin: req.body.webLinkedin,
-    webOther: req.body.webOther,
-    title: req.body.title
+    name: req.body.resumeHeader.name,
+    profession: req.body.resumeHeader.profession,
+    city: req.body.resumeHeader.city,
+    state: req.body.resumeHeader.state,
+    displayEmail: req.body.resumeHeader.displayEmail,
+    phone: req.body.resumeHeader.phone,
+    webLinkedin: req.body.resumeHeader.webLinkedin,
+    webOther: req.body.resumeHeader.webOther,
+    resumeTitle: req.body.resumeTitle,
+    resumeTheme: req.body.resumeTheme,
+    personalStatement: req.body.resumeFooter.personalStatement,
+    school1Name: req.body.resumeFooter.school1.school1Name,
+    school1Degree: req.body.resumeFooter.school1.school1Degree,
+    school1EndYear: req.body.resumeFooter.school1.school1EndYear,
+    school1Location: req.body.resumeFooter.school1.school1Location,
+    school2Name: req.body.resumeFooter.school2.school2Name,
+    school2Degree: req.body.resumeFooter.school2.school2Degree,
+    school2EndYear: req.body.resumeFooter.school2.school2EndYear,
+    school2Location: req.body.resumeFooter.school2.school2Location
   })
   .then( (resume) => {
     dbSchema.User.findOne({
@@ -200,9 +207,9 @@ devServer.app.post('/api/block/create', (req, res) => {
   dbSchema.Block.create({
     jobTitle: req.body.jobTitle,
     blockPosition: req.body.blockPosition,
-    startYear: req.body.startYear,
-    endYear: req.body.endYear,
-    companyName: req.body.companyName
+    years: req.body.years,
+    companyName: req.body.companyName,
+    location: req.body.location
   })
   .then( (block) => {
     dbSchema.User.findOne({
@@ -213,7 +220,7 @@ devServer.app.post('/api/block/create', (req, res) => {
     .then( (user) => {
       dbSchema.Resume.findOne({
           where: {
-            title: req.body.title
+            resumeTitle: req.body.resumeTitle
           }
       })
       .then( (resume) => {
@@ -239,7 +246,7 @@ devServer.app.post('/api/bullet/create', (req, res) => {
     .then( (user) => {
       dbSchema.Resume.findOne({
         where: {
-          theme: req.body.title
+          theme: req.body.resumeTitle
         }
       })
       .then( (resume) => {
@@ -263,3 +270,69 @@ devServer.app.post('/api/resumeheader', function(req, res) {
   console.log(req.body)
   res.send(req.body);
 });
+
+
+
+//Retrieve all Bullets for given user
+
+//TODO - Attempting to fix performance issue
+//curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getBullets
+devServer.app.post('/api/getBullets', function(req, res){
+  dbSchema.Bullet.findAll({
+    include: [{
+      model: dbSchema.Block,
+      include: [{
+        model: dbSchema.Resume,
+        include: [{
+          model: dbSchema.User,
+          where: {
+            email: req.body.email
+          }
+        }]
+      }]
+    }]
+  }).then(function(bullets) {
+     //bullets = _.map(bullets, function(item){ return item.bullets; });
+     res.send(bullets);
+  });
+});
+
+//TODO - Attempting to fix performance issue;
+devServer.app.post('/api/getBullets', function(req, res){
+  dbSchema.User.findOne({
+    where: {
+      email: req.body.email
+    }
+  }).then(function(user) {
+    user.getResumes().then(
+      function(resume){
+       resume.getBlocks().then(
+        function(blocks){
+          blocks.getBullets().then(
+            function(bullets){
+            res.send(bullets);
+          });
+        });
+    });
+  });
+});
+
+
+
+// Get All Resume Info For Given User
+// curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getAllResumes
+devServer.app.post('/api/getAllResumes', function(req, res){
+  dbSchema.User.findOne({
+    where: {
+      email: req.body.email
+    }
+  }).then(function(user) {
+    user.getResumes()
+    .then(
+      function(resume){
+        res.send(resume);
+    });
+  });
+});
+
+
