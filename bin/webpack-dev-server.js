@@ -73,21 +73,22 @@ devServer.app.post('/signup', (req, res) => {
         email: req.body.email //change me to id
       }
     })
-    .then( (results) => {
+    .then((results) => {
       if (!results) {
         var hashing = Promise.promisify(bcrypt.hash); // FIXME: ES6 this
         hashing(req.body.password, null, null)
-        .then( (hash) => {
-          dbSchema.User.create({
-            email: req.body.email,
-            password: hash
-          });
-        })
-        .then( (results) => {
-          utils.createSession(req, res, results);
-        });
+          .then((hash) => {
+            dbSchema.User.create({
+              email: req.body.email,
+              password: hash
+            }).then((results) => {
+              utils.createSession(req, res, results);
+            })
+          })
       } else {
-        res.status(401).send({error: 'user already exists'});
+        res.status(401).send({
+          error: 'user already exists'
+        });
       }
     });
 });

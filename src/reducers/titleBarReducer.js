@@ -6,7 +6,8 @@ const initialState = {
   activePopover: '',
   anchorEl: '',
   loggedIn: false,
-  email: ''
+  email: '',
+  userID: ''
 };
 
 export default createReducer(initialState, {
@@ -14,21 +15,24 @@ export default createReducer(initialState, {
   [LOGIN_USER]: (state, payload) => {
     return Object.assign({}, state, {
       email: payload.email,
-      loggedIn: true
+      loggedIn: true,
+      userID: payload.id
     });
   },
 
   [SIGNUP_USER]: (state, payload) => {
     // TODO: signup user!
     return Object.assign({}, state, {
-      email: payload.email
+      email: payload.email,
+      userID: payload.id
     });
   },
 
   [LOGOUT]: (state) => {
     return Object.assign({}, state, {
       loggedIn: false,
-      email: 'guest'
+      email: 'guest',
+      userID: ''
     });
   }
 
