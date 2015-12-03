@@ -4,7 +4,8 @@ import Immutable from 'immutable';
 
 const initialState = {
   resumeId: 1,
-  resumeTitle: 'My Rageume',
+  resumeTitle: 'My Resume',
+  resumeTheme: 'Default',
   resumeHeader: {
     name: 'Your Name Here',
     profession: 'Plumber',
@@ -42,7 +43,6 @@ export default createReducer(initialState, {
   [UPDATE_LOCAL_STATE]: (state, payload) => {
     const obj = {};
     obj[payload.textFieldName] = payload.userInput;
-
     return Object.assign({}, state, obj);
   },
 
