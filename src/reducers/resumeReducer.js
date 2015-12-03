@@ -1,12 +1,14 @@
-import { createReducer } from '../utils';
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK } from 'constants/resumeConstants';
+import {  createReducer }
+from '../utils';
+import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, MOVE_BLOCK}
+from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
 const initialState = {
   resumeId: 1,
   resumeTitle: 'My Rageume',
-  resumeTheme: 'stringOfThemeName'
+  resumeTheme: 'stringOfThemeName',
   resumeHeader: {
     name: 'Your Name Here',
     profession: 'Plumber',
@@ -21,7 +23,7 @@ const initialState = {
     blockId: 1,
     companyName: 'First Acme',
     jobTitle: 'Bossman',
-    year: '2015',
+    years: '2015',
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 1,
@@ -34,7 +36,7 @@ const initialState = {
     blockId: 2,
     companyName: 'Second Corp.',
     jobTitle: 'Lackey',
-    year: '2014',
+    years: '2014, 2013',
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 1,
@@ -47,7 +49,7 @@ const initialState = {
     blockId: 3,
     companyName: 'Third Chance',
     jobTitle: 'Intern',
-    year: '2012',
+    years: '2012-2011',
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 1,
@@ -70,7 +72,7 @@ const initialState = {
       schoolEndYear: '2008',
       location: 'Boston'
     },
-    personalStatement: 'I like cats, but only sometimes, eating ramen, basketball, and taking long walks because BART is broken again.'
+    personalStatement: 'I like cats, eating ramen, basketball, and taking long walks because BART is broken again.'
   }
 };
 
@@ -78,12 +80,15 @@ const initialState = {
 export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
-    console.log("payload", payload);
     const obj = {};
     obj[payload.textFieldName] = payload.userInput;
-    console.log("obj", obj);
-
     return Object.assign({}, state, obj);
+  },
+
+  [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
+    let obj = Object.assign({}, state);
+    obj.resumeHeader[payload.textFieldName] = payload.userInput;
+    return obj;
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
@@ -95,7 +100,6 @@ export default createReducer(initialState, {
   },
 
   [DROP_BULLET]: (state, payload) => {
-    // Can we just grab this.blockId from view?
     const targetIndex = () => {
       for (let index = 0; index < state.blockChildren.length; index++) {
         if (state.blockChildren[index].blockId === state.targetBlock.blockId) {
@@ -111,11 +115,12 @@ export default createReducer(initialState, {
   },
 
   [MOVE_BLOCK]: (state, payload) => {
-    // console.log('state: ', state)
     console.log('block dragged id: ', payload.block.blockId, ' wants to be inserted at:', payload.atIndex)
-
     return Object.assign({}, state, {
-      blockChildren: payload.blockChildren.slice().splice([ [payload.index, 1], [payload.atIndex, 0, payload.block] ])
+      blockChildren: payload.blockChildren.slice().splice([
+        [payload.index, 1],
+        [payload.atIndex, 0, payload.block]
+      ])
     });
   }
 });

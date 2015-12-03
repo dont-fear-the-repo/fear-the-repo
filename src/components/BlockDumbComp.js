@@ -132,7 +132,6 @@ export default class BlockDumbComp extends React.Component {
 
     return connectDragSource(connectDropTarget(
       <div style={styles.blockDrag}>
-        <Paper zDepth={1}>
           <div style={styles.jobTitle}>
             {this.props.jobTitle}
           </div>
@@ -154,7 +153,6 @@ export default class BlockDumbComp extends React.Component {
           <div>
             {bullet}
           </div>
-        </Paper>
       </div>
     ));
   }

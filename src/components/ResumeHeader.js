@@ -1,60 +1,69 @@
 import React, {PropTypes} from 'react';
-import Paper from 'material-ui/lib/paper';
+import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 export default class ResumeHeader extends React.Component {
   static propTypes = {
-    body: PropTypes.string
+    // body: PropTypes.string
   }
 
   render() {
-    const styles = {
-      name: {
-        fontWeight: '700',
-        fontSize: '28px',
-        textAlign: 'center',
-        marginLeft: '10px'
-      },
-      email: {
-        color: 'blue',
-        fontSize: '16px',
-        marginLeft: '10px'
-
-      },
-      phone: {
-        fontSize: '16px',
-        marginLeft: '10px'
-      },
-      city: {
-        marginLeft: '10px'
-      },
-      url: {
-        textAlign: 'right',
-        marginRight: '10px'
-      }
-    };
 
     return (
       <div>
-        <Paper zDepth={1}>
-          <div style={styles.name}>
-            Your Name Here
+          <div style={this.props.styles.name}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='name'
+                     hintText='Full Name'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'name', true)} />
           </div>
-          <div style={styles.email}>
-            email@website.com
+          <div style={this.props.styles.plain}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='profession'
+                     hintText='Profession'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'profession', true)} />
           </div>
-          <div style={styles.phone}>
-            123-456-7890
+          <div style={this.props.styles.email}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='displayEmail'
+                     hintText='Email'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'displayEmail', true)} />
           </div>
-          <div style={styles.city}>
-            San Francisco, CA
+          <div style={this.props.styles.phone}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='phone'
+                     hintText='(123) 456-7899'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'phone', true)} />
           </div>
-          <div style={styles.url}>
-            linkedin.com/michaeljordan
+          <div style={this.props.styles.city}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='city'
+                     hintText='City'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'city', true)} />
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='state'
+                     hintText='State'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'state', true)} />
           </div>
-          <div style={styles.url}>
-            github.com/number23
+          <div style={this.props.styles.url}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='webLinkedin'
+                     hintText='Linkedin'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', true)} />
           </div>
-        </Paper>
+          <div style={this.props.styles.url}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='webOther'
+                     hintText='Homepage'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', true)} />
+          </div>
       </div>
     );
   }

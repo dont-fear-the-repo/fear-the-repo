@@ -6,13 +6,16 @@ import Bullet                             from 'components/Bullet';
 import ResumeHeader                       from 'components/ResumeHeader';
 import { DropTarget }                     from 'react-dnd';
 import update                             from 'react/lib/update';
-import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
+import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState, updateLocalStateHeader } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const ActionCreators = {
   updateResumeState: updateResumeState,
   sendResumeToServerAsync: sendResumeToServerAsync,
   updateLocalState: updateLocalState,
+  updateLocalStateHeader: updateLocalStateHeader,
+  updateLocalStateFooter: updateLocalStateFooter,
+  updateLocalStateBlocks: updateLocalStateBlocks,
   moveBlock: moveBlock,
   dropBullet: dropBullet
 };
@@ -24,6 +27,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
+
+
+////////////////////////////////////
+//    React DnD functions below   //
+////////////////////////////////////
+
 
 const Types = {
   BLOCK: 'block',
@@ -54,6 +63,14 @@ const blockTarget = {
 @DropTarget([Types.BLOCK, Types.BULLET], blockTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
+
+///////////////////////////////////////
+//   end React DnD functions above   //
+///////////////////////////////////////
+
+
+
+
 class ResumeView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
@@ -73,19 +90,24 @@ class ResumeView extends React.Component {
   }
 
   handleSubmit() {
-    // this is to test sujay's api/resume/create, so in the future just sent the whole this.props.resumeState
-    if (this.props.loggedIn) {
-      const obj = {};
-      obj.title = this.props.resumeState.resumeTitle;
-      this.props.actions.sendResumeToServerAsync(obj);
-    } else {
-      alert('To save a resume, please signup above');
-    }
+    // if (this.props.loggedIn) {
+      console.log('saving...')
+      this.props.actions.sendResumeToServerAsync(this.props.resumeState);
+    // } else {
+      // alert('To save a resume, please signup above');
+    // }
   }
 
-  handleUpdateLocalState(event, textFieldName) {
+  handleUpdateLocalState(event, textFieldName, fromHeader) {
     const userInput = event.target.value;
-    this.props.actions.updateLocalState({textFieldName, userInput});
+
+    if (fromHeader){
+      console.log('updating from header...')
+      this.actions.updateLocalStateHeader({textFieldName, userInput, fromHeader});
+    } else {
+      console.log('updating from main...')
+      this.props.actions.updateLocalState({textFieldName, userInput});
+    }
   }
 
   moveBlock(id, atIndex) {
@@ -98,14 +120,6 @@ class ResumeView extends React.Component {
       blockChildren: this.props.resumeState.blockChildren
     });
 
-    // this.setState(update(this.props.resumeState.blockChildren, {
-    //   blockChildren: {
-    //     $splice: [
-    //       [index, 1],
-    //       [atIndex, 0, block]
-    //     ]
-    //   }
-    // }));
   }
 
   findBlock(id) {
@@ -156,21 +170,19 @@ class ResumeView extends React.Component {
 
     const styles = {
       container: {
-        backgroundColor: 'lightgray',
+        backgroundColor: 'white',
         height: '1000px'
       },
+        plain: {
+        marginLeft: '10px'
+      },
       resumeTitle: {
+        margin: '10px',
+        backgroundColor: 'white',
         textAlign: 'center'
       },
-      textCenter: {
-        margin: '20px',
-        backgroundColor: 'white'
-      },
-      hintStyle: {
-        paddingLeft: '8px'
-      },
       marginTop: {
-        height: '20px'
+        height: '1px'
       },
       resumeContainer: {
         marginLeft: '20px',
@@ -184,34 +196,54 @@ class ResumeView extends React.Component {
         width: '95%',
         marginLeft: 'auto',
         marginRight: 'auto'
+      },
+      underlineStyle: {
+        borderColor: 'white',
+        borderWidth: '0px'
+      },
+      underlineFocusStyle : {
+        borderColor: 'orange',
+        borderWidth: '1px'
+      },
+      hintStyle: {
+        color: 'lightgray'
+      },
+      name: {
+        fontWeight: '700',
+        fontSize: '32px',
+        textAlign: 'left',
+        marginLeft: '10px'
+      },
+      email: {
+        color: 'blue',
+        fontSize: '16px',
+        marginLeft: '10px'
+      },
+      phone: {
+        fontSize: '16px',
+        marginLeft: '10px'
+      },
+      city: {
+        marginLeft: '10px'
+      },
+      url: {
+        textAlign: 'left',
+        marginLeft: '10px'
       }
     };
 
     return connectDropTarget(
       <div className='container'
-           style={styles.container} id='resumeContainer'>
-        <div className='resumeTitle'
-             style={styles.resumeTitle}>
-          <TextField className='textCenter'
-                     style={styles.textCenter}
-                     hintStyle={styles.hintStyle}
-                     hintText={this.props.resumeState.resumeTitle}
-                     ref='resumeTitle' onBlur={e => this.handleUpdateLocalState(e, 'resumeTitle')} />
+           style={styles.container}
+           id='resumeContainer'>
 
-          <RaisedButton label='Save Resume'
-                        onClick={e => this.handleSubmit(e)} />
+        <div className='marginTop'
+             style={styles.marginTop} />
+        <Paper>
+          <ResumeHeader {...this.props} styles={styles} handleUpdateLocalState={this.handleUpdateLocalState} />
 
-          <RaisedButton label='Print Resume' onClick={e => this.handlePrint(e)} />
-        </div>
 
-        <Paper style={styles.resumePaper}>
-          <div className='marginTop'
-               style={styles.marginTop} />
 
-          <Paper className='resumeContainer'
-                 style={styles.resumeContainer}>
-
-             <ResumeHeader />
             {this.props.resumeState.blockChildren.map(block => {
               return (
                       <BlockDumbComp key={block.blockId}
@@ -227,39 +259,103 @@ class ResumeView extends React.Component {
             }
             )}
 
-          </Paper>
+
+
+          <ResumeFooter {...this.props} styles={styles} handleUpdateLocalState={this.handleUpdateLocalState} />
+<h1>{this.handleUpdateLocalState}</h1>
 
           <div className='marginBottom'
                style={styles.marginBottom} />
         </Paper>
+
+        <ResumeSavePrint {...this.props} styles={styles} handleUpdateLocalState={this.handleUpdateLocalState} />
+
+      </div>
+    );
+  }
+} // end react component ResumeView
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+//    Resume Footer, super dumb comp is here instead of being a separate file      //
+/////////////////////////////////////////////////////////////////////////////////////
+class ResumeFooter extends React.Component {
+  render() {
+    return (
+      <div>
+          <div style={this.props.styles.plain}>
+          <TextField underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     ref='personalStatement'
+                     hintText='Personal Statement'
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'personalStatement', true)} />
+          </div>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+//   Resume Save/Print, super dumb comp is here instead of being a separate file  //
+/////////////////////////////////////////////////////////////////////////////////////
+class ResumeSavePrint extends React.Component {
+  render() {
+    return (
+      <div>
+        <TextField className='resumeTitle'
+                     style={this.props.styles.resumeTitle}
+                     underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     hintStyle={this.props.styles.hintStyle}
+                     hintText={this.props.resumeState.resumeTitle}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', true)} />
+
+          <RaisedButton label='Save Resume'
+                        onClick={e => this.handleSubmit(e)} />
+          <span> </span>
+          <RaisedButton label='Print Resume'
+                        onClick={e => this.handlePrint(e)} />
+      </div>
+    );
+  }
+}
+
+
+
 
 
 
 /*
-TODO: React doesn't like our unique keys, even when we replace BlockDumbComp with painfully simple version below:
-<ul>
-  <li key={block.blockId}> {block.blockId} </li>
-</ul>
+
+  resumeFooter: {
+    school1: {
+      name: 'MakerSquare',
+      degree: 'Software Engineer',
+      schoolEndYear: '2012',
+      location: 'Chicago'
+    },
+    school2: {
+      name: 'Trololo',
+      degree: 'BS',
+      schoolEndYear: '2008',
+      location: 'Boston'
+    },
+    personalStatement: 'I like cats, but only sometimes, eating ramen, basketball, and taking long walks because BART is broken again.'
+  }
 
 
 
-
-  // {block.bulletChildren.map(bullet => {
-  //   return (
-  //     <Bullet key={bullet.bulletId}
-  //             bulletId={bullet.bulletId}
-  //             text={bullet.text}
-  //             moveBullet={this.moveBullet}
-  //             findBullet={this.findBullet} />
-  //   );
-  // })}
-
-
-
+            <TextField className='personalStatement'
+                       underlineStyle={styles.underlineStyle}
+                       underlineFocusStyle={styles.underlineFocusStyle}
+                       hintStyle={styles.hintStyle}
+                       hintText={this.props.resumeState.personalStatement}
+                       ref='personalStatement' onBlur={e => this.handleUpdateLocalState(e, 'personalStatement')} />
 */
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
+
