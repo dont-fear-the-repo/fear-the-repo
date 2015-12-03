@@ -1,13 +1,20 @@
-import React                              from 'react';
-import { bindActionCreators }             from 'redux';
-import { connect }                        from 'react-redux';
-import BlockDumbComp                      from 'components/BlockDumbComp';
-import Bullet                             from 'components/Bullet';
-import ResumeHeader                       from 'components/ResumeHeader';
-import { DropTarget }                     from 'react-dnd';
-import update                             from 'react/lib/update';
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import update from 'react/lib/update';
+import { DropTarget } from 'react-dnd';
+
+import BlockDumbComp from 'components/BlockDumbComp';
+import Bullet from 'components/Bullet';
+import ResumeHeader from 'components/ResumeHeader';
 import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
-import { RaisedButton, TextField, Paper } from 'material-ui/lib';
+
+import { styles } from 'styles/ResumeViewStyles';
+import { resumeThemes } from 'styles/resumeThemes';
+import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly
+
 
 const ActionCreators = {
   updateResumeState: updateResumeState,
@@ -75,7 +82,7 @@ class ResumeView extends React.Component {
   handleSubmit() {
     // this is to test sujay's api/resume/create, so in the future just sent the whole this.props.resumeState
     if (this.props.loggedIn) {
-      const obj = {};
+      const obj = {};  // FIXME: this needs a better name. What does it do?
       obj.title = this.props.resumeState.resumeTitle;
       this.props.actions.sendResumeToServerAsync(obj);
     } else {
@@ -140,48 +147,33 @@ class ResumeView extends React.Component {
     WinPrint.close();
   }
 
+  handleChangeTheme(event, index) {
+    const userInput = event.target.value;
+    const textFieldName = 'resumeTheme';
+    this.props.actions.updateLocalState({textFieldName, userInput});
+  }
+
   render() {
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState.blockChildren;
-
-    const styles = {
-      container: {
-        backgroundColor: 'lightgray',
-        height: '1000px'
-      },
-      resumeTitle: {
-        textAlign: 'center'
-      },
-      textCenter: {
-        margin: '20px',
-        backgroundColor: 'white'
-      },
-      hintStyle: {
-        paddingLeft: '8px'
-      },
-      marginTop: {
-        height: '20px'
-      },
-      resumeContainer: {
-        marginLeft: '20px',
-        marginRight: '20px'
-      },
-      marginBottom: {
-        height: '20px'
-      },
-      resumePaper: {
-        height: '800px',
-        width: '95%',
-        marginLeft: 'auto',
-        marginRight: 'auto'
-      }
-    };
+    const themes = Object.keys(resumeThemes)
+                    .map( (value, index) => ({
+                      'index': index,
+                      'text': value
+                    }));
 
     return connectDropTarget(
       <div className='container'
            style={styles.container} id='resumeContainer'>
+
         <div className='resumeTitle'
              style={styles.resumeTitle}>
+          <SelectField floatingLabelText='Select a theme'
+                       menuItems={themes}
+                       value={this.props.resumeState.resumeTheme}
+                       valueMember='text'
+                       style={styles.themeSelection}
+                       onChange={(e, index) => this.handleChangeTheme(e, index)} />
           <TextField className='textCenter'
                      style={styles.textCenter}
                      hintStyle={styles.hintStyle}
@@ -191,7 +183,8 @@ class ResumeView extends React.Component {
           <RaisedButton label='Save Resume'
                         onClick={e => this.handleSubmit(e)} />
 
-          <RaisedButton label='Print Resume' onClick={e => this.handlePrint(e)} />
+          <RaisedButton label='Print Resume'
+                        onClick={e => this.handlePrint(e)} />
         </div>
 
         <Paper style={styles.resumePaper}>

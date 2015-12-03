@@ -11,6 +11,7 @@ import { enableSubmit, disableSubmit } from 'actions/validationActions';
 import { isDefined, isValidEmail, matches } from 'utils/validation';
 
 import { FlatButton, Popover, TextField, RefreshIndicator } from 'material-ui/lib';
+import { styles } from 'styles/CoreLayoutStyles';
 import 'styles/core.scss';
 
 
@@ -201,7 +202,7 @@ showLoginPopover(key, e) {
           <div>
             <div className='header'>
 
-              <Link to='/' style={{ marginLeft: '30px', marginRight: '20px' }}>
+              <Link to='/' style={styles.name}>
                 Fear the Repo
               </Link>
 
@@ -209,31 +210,33 @@ showLoginPopover(key, e) {
                 <FlatButton label='Edit Your Resume' />
               </Link>
 
-              {this.props.loggedIn ? <Link to='/secretpage'>
+              {this.props.loggedIn ?
+                <Link to='/secretpage'>
                   <FlatButton label='Secret Page' />
                 </Link>
               : '' }
 
               {this.props.loggedIn &&
-                <FlatButton style={{ float: 'right', marginRight: '30px' }}
+                <FlatButton style={styles.loginButton}
                             label='Logout'
                             onClick={e => this.handleLogout(e)} />}
               {!this.props.loggedIn &&
-                <FlatButton style={{ float: 'right', marginRight: '30px' }}
+                <FlatButton style={styles.loginButton}
                             label='Login'
-                            onClick={this.showLoginPopover.bind(this, 'pop')} />}
+                            onClick={(e) => this.showLoginPopover('pop', e)} />}
               {!this.props.loggedIn &&
-                <FlatButton style={{ float: 'right', marginRight: '10px' }}
+                <FlatButton style={styles.signupButton}
                             label='Signup'
-                            onClick={this.showSignupPopover.bind(this, 'pop')} />}
+                            onClick={(e) => this.showSignupPopover('pop', e)} />}
           </div>
 
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
                    anchorEl={this.state.anchorEl}
-                   anchorOrigin={{ horizontal: 'left', vertical: 'center' }}
-                   targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-                   onRequestClose={this.closePopover.bind(this, 'pop')} >
+                   anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                   targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                   onRequestClose={this.closePopover.bind(this, 'pop')}
+                   canAutoPosition={false} >
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'
@@ -265,19 +268,19 @@ showLoginPopover(key, e) {
 
               {this.state.userAlreadyExists ?
                 <p className='userAlreadyExists'
-                   style={{ marginTop: '20px', marginLeft: '30px', color: 'red' }}>
+                   style={styles.errorText}>
                   Account already exists for this email.<br/>
                   Perhaps you meant to sign up?
                 </p> : ''}
               {this.state.failedAttempted ?
                 <p className='failedAttempted'
-                   style={{ marginTop: '20px', marginLeft: '30px', color: 'red' }}>
+                   style={styles.errorText}>
                   Incorrect email or password - please try again.<br/>
                   Perhaps you meant to sign up?
                 </p> : ''}
               {!canSubmit ?
                 <p className='disabled-text'
-                   style={{ marginTop: '20px', marginLeft: '30px', color: 'blue' }}>
+                   style={styles.disabledText}>
                   Please enter valid email and password
                 </p> : ''}
 
