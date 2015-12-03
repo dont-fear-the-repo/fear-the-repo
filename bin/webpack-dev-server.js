@@ -41,6 +41,7 @@ devServer.app.use(session({
 
 devServer.app.post('/authentication', utils.checkUser);
 
+//Login In
 devServer.app.post('/login', (req, res) => {
   console.log("On my way");
   dbSchema.User.findOne({
@@ -63,6 +64,7 @@ devServer.app.post('/login', (req, res) => {
     });
 });
 
+//Sign Up
 devServer.app.post('/signup', (req, res) => {
   dbSchema.User.findOne({
       where: {
@@ -89,6 +91,7 @@ devServer.app.post('/signup', (req, res) => {
     });
 });
 
+//Log Out
 devServer.app.post('/logout', (req, res) => {
   req.session.destroy( (err) => {
     if (err) {
@@ -192,7 +195,7 @@ devServer.app.post('/api/resume/create', (req, res) => {
   .then( (resume) => {
     dbSchema.User.findOne({
       where: {
-        email: req.body.email
+        id: req.body.userId
       }
     })
     .then( (user) => {
