@@ -139,24 +139,23 @@ export default class BlockDumbComp extends React.Component {
       );
 
     return connectDragSource(connectDropTarget(
-      <div style={styles.blockDrag}>
-        <Paper zDepth={1}>
-          <div style={styles.jobTitle}>
+      <div style={this.props.styles.blockDrag}>
+          <div style={this.props.styles.jobTitle}>
             {this.props.jobTitle}
           </div>
-          <div style={styles.pipe}>
+          <div style={this.props.styles.pipe}>
             |
           </div>
-          <div style={styles.companyName}>
+          <div style={this.props.styles.companyName}>
             {this.props.companyName}
           </div>
-          <div style={styles.pipe}>
+          <div style={this.props.styles.pipe}>
             |
           </div>
-          <div style={styles.location}>
+          <div style={this.props.styles.location}>
             {this.props.location}
           </div>
-          <div style={styles.year}>
+          <div style={this.props.styles.year}>
             {this.props.year}
           </div>
           <div className='bulletContainer' style={styles.bulletContainer}>

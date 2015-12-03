@@ -13,7 +13,6 @@ export function checkUser(req, res, next) {
 export function createSession(req, res, newUser) {
   return req.session.regenerate( () => {
       req.session.user = newUser;
-      console.log("i'm in create session")
-      res.send();
+      res.send({id: newUser.id});
     });
 };

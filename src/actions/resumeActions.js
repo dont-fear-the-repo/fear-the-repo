@@ -1,4 +1,4 @@
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK, MOVE_BULLET } from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK, MOVE_BULLET, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -24,6 +24,34 @@ export function updateLocalState (payload) {
   };
 }
 
+export function updateLocalStateHeader (payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_HEADER,
+    payload: payload
+  };
+}
+
+export function updateLocalStateFooter (payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_FOOTER,
+    payload: payload
+  };
+}
+
+export function updateLocalStateSavePrint (payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_SAVEPRINT,
+    payload: payload
+  };
+}
+
+export function updateLocalStateBlocks (payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_BLOCKS,
+    payload: payload
+  };
+}
+
 export function moveBlock (payload) {
   return {
     type: MOVE_BLOCK,
@@ -45,29 +73,6 @@ export function updateResumeState (payload) { // rename to "serverupdate"
   };
 }
 
-const testUserSendResume = {
-  resumeId: 1,
-  resumeTitle: 'win',
-  resumeHeader: {
-    name: 'win',
-    profession: 'win',
-    city: 'win',
-    state: 'win',
-    displayEmail: 'win@win.com',
-    phone: 'win-win',
-    webLinkedin: 'linkedin.com/win',
-    webOther: 'github.com/number23'
-  },
-  blockChildren: [
-    { blockId: 1,
-      bulletChildren: [{bulletId: 1, text: 'My first bullet'}, {bulletId: 2, text: 'SECONDS'}],
-      companyName: 'Aww yah 1',
-      jobTitle: 'Win',
-      year: '2015',
-      location: 'San Francisco, CA'
-    }
-  ]
-};
 
 export function sendResumeToServerAsync(sentResumeObj) {
   // Thunk middleware knows how to handle functions.
