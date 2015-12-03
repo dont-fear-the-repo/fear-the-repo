@@ -95,14 +95,18 @@ class ResumeView extends React.Component {
     this.findBullet = this.findBullet.bind(this);
   }
 
-  handleSubmit() {
-    if (this.props.loggedIn) {
-      console.log('saving...')
-      this.props.actions.sendResumeToServerAsync(this.props.resumeState);
-    } else {
-      alert('To save a resume, please signup above');
-    }
-  }
+
+
+
+  // handleSubmit(props) {
+  //   if (props.loggedIn) {
+  //     console.log('saving...')
+  //     props.actions.sendResumeToServerAsync(props.resumeState);
+  //   } else {
+  //     alert('To save a resume, please signup above');
+  //   }
+  // }
+  //// remember to pass in props from the component
 
   handleUpdateLocalState(event, textFieldName, whereFrom) {
     const userInput = event.target.value;
@@ -166,22 +170,6 @@ class ResumeView extends React.Component {
     };
   }
 
-  handlePrint() {
-    const prtContent = document.getElementById('resumeContainer');
-    const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-    WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
-    WinPrint.document.close();
-    WinPrint.focus();
-    WinPrint.print();
-    WinPrint.close();
-  }
-
-  handleChangeTheme(event, index) {
-    const userInput = event.target.value;
-    const textFieldName = 'resumeTheme';
-    this.props.actions.updateLocalState({textFieldName, userInput});
-  }
-
   render() {
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState.blockChildren;
@@ -224,7 +212,10 @@ class ResumeView extends React.Component {
 
         <ResumeSavePrint {...this.props}
                          styles={styles}
-                         handleUpdateLocalState={this.handleUpdateLocalState} />
+                         handleUpdateLocalState={this.handleUpdateLocalState}
+                         handleSubmit={this.handleSubmit}
+                         handlePrint={this.handlePrint}
+                         handleChangeTheme={this.handleChangeTheme}/>
 
       </div>
     );
@@ -308,9 +299,35 @@ class ResumeFooter extends React.Component {
 
 
 /////////////////////////////////////////////////////////////////////////////////////
-//   Resume Save/Print, super dumb comp is here instead of being a separate file  //
+//   Resume Save/Print, super dumb comp is here instead of being a separate file   //
 /////////////////////////////////////////////////////////////////////////////////////
 class ResumeSavePrint extends React.Component {
+
+  handleSubmit() {
+    if (this.props.loggedIn) {
+      console.log('saving...')
+      this.props.actions.sendResumeToServerAsync(this.props.resumeState);
+    } else {
+      alert('To save a resume, please signup above');
+    }
+  }
+
+  handlePrint() {
+    const prtContent = document.getElementById('resumeContainer');
+    const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+    WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+  }
+
+  handleChangeTheme(event, index) {
+    const userInput = event.target.value;
+    const textFieldName = 'resumeTheme';
+    this.props.actions.updateLocalState({textFieldName, userInput});
+  }
+
   render() {
         const themes = Object.keys(resumeThemes)
                     .map( (value, index) => ({
@@ -319,6 +336,7 @@ class ResumeSavePrint extends React.Component {
                     }));
     return (
       <div>
+      <Paper>{JSON.stringify(this.props.handleUpdateLocalState)}</Paper>
         <TextField className='resumeTitle'
                      style={this.props.styles.resumeTitle}
                      underlineStyle={this.props.styles.underlineStyle}
