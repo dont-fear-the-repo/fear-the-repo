@@ -103,22 +103,22 @@ app.post('/api/bullets', function(req, res) {
 
 //Retrieve Query 5 : Retrieve a Users bullets
 
-app.post('/api/bullets/get', function(req, res){
-  Bullets.findAll({
+dbServer.app.post('/api/bullets/get', function(req, res){
+  dbSchema.Bullets.findAll({
     include: [{
-      model: Block,
+      model: dbSchema.Block,
       include: [{
-        model: Resume,
+        model: dbSchema.Resume,
         include: [{
-          model: User,
+          model: dbSchema.User,
           where: {
-            userName: req.body.userName;
+            email: req.body.email;
           }
         }]
       }]
     }]
   }).then(function(bullets) {
-     bullets = _.map(bullets, function(item){ return item.bullets; });
+     //bullets = _.map(bullets, function(item){ return item.bullets; });
      res.send(bullets);
   });
 });
@@ -151,3 +151,80 @@ app.post('/api/bullets/archive', function(req, res) {
     });
   });
 });
+
+
+//Retrieve Query 7 : Retrieve a Users Resumes
+
+dbServer.app.post('/api/getAllResumes', function(req, res){
+  dbSchema.Resume.findAll({
+    include: [{
+      model: dbSchema.User,
+      where: {
+        email: req.body.email;
+      }
+    }]
+  }).then(function(resume) {
+     res.send(resume.resumeTitle);
+  });
+});
+
+
+//retrieve resume based on resume id and user id
+devServer.app.post('/api/getAllResumeInfo', function(req, res) {
+Sequelize.query(
+'SELECT
+res.name,
+res.profession,
+res.city,
+res.state,
+res."displayEmail",
+res.phone,
+res."webLinkedin",
+res."webOther",
+res."resumeTitle",
+res."resumeTheme",
+res."personalStatement",
+res."school1Name",
+res."school1Degree",
+res."school1EndYear",
+res."school1Location",
+res."school2Name",
+res."school2Degree",
+res."school2EndYear",
+res."school2Location",
+blk."jobTitle",
+blk."blockPosition",
+blk.years,
+blk."companyName",
+blk.location,
+bul.bullet,
+bul."bulletPosition",
+bul.archived
+FROM
+"Users" u INNER JOIN "Resumes" res ON u.id = res."UserId"
+INNER JOIN  resume_to_block rb ON res.id = rb."ResumeId"
+INNER JOIN "Blocks" blk ON rb."BlockId" = blk.id
+INNER JOIN "Bullets" bul ON blk.id = bul."BlockId"
+WHERE u.id = ?
+AND res.id = ?'
+{replacements: [req.body.UserId, req.body.ResumeId], type: Sequelize.QueryTypes.SELECT}
+).then(function(info){
+  console.log(info);
+  res.send('success for all info: ', info);
+})
+})
+
+//Retrieve all resume titles for given User
+
+// devServer.app.post('/api/getAllResumes', function(req, res){
+//   dbSchema.Resume.findAll({
+//     include: [{
+//       model: dbSchema.User,
+//       where: {
+//         email: req.body.email
+//       }
+//     }]
+//   }).then(function(resume) {
+//      res.send(resume.resumeTitle);
+//   });
+// });
