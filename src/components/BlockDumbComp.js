@@ -48,13 +48,11 @@ const blockTarget = {
       if (draggedId !== overId) {
         const { index: overIndex } = props.findBlock(overId);
         props.moveBlock(draggedId, overIndex);
-      } // ONLY HERE does body re-render, when a block is sorted
-    } else if (monitor.getItemType() === 'bullet') {
-
+      }
+    }
       // Still TODO: signal to user that it's ok to drop
         // low priority
         // highlight/outline block?
-    }
   }
 };
 
@@ -73,6 +71,20 @@ const blockTarget = {
 
 
 export default class BlockDumbComp extends React.Component {
+  static propTypes = {
+    connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    blockId: PropTypes.any.isRequired,
+    moveBlock: PropTypes.func.isRequired,
+    findBlock: PropTypes.func.isRequired,
+    companyName: PropTypes.string.isRequired,
+    jobTitle: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired,
+    bulletChildren: PropTypes.array.isRequired,
+    children: PropTypes.node
+  };
 
   render() {
     const { children, isDragging, connectDragSource, connectDropTarget } = this.props;
@@ -87,7 +99,7 @@ export default class BlockDumbComp extends React.Component {
         display: 'inline',
         margin: '10px',
         fontWeight: '700',
-        fontSize: '18px'
+        fontSize: '20px'
       },
       pipe: {
         display: 'inline',
@@ -97,7 +109,7 @@ export default class BlockDumbComp extends React.Component {
         display: 'inline',
         margin: '10px',
         fontWeight: '500',
-        fontSize: '16px'
+        fontSize: '18px'
       },
       location: {
         display: 'inline',
@@ -108,8 +120,12 @@ export default class BlockDumbComp extends React.Component {
         float: 'right',
         marginRight: '10px'
       },
+      bulletContainer: {
+        width: '95%'
+      },
       bullet: {
-        fontSize: '14px'
+        fontSize: '16px',
+        marginTop: '10px'
       }
     };
 
@@ -143,40 +159,14 @@ export default class BlockDumbComp extends React.Component {
           <div style={styles.year}>
             {this.props.year}
           </div>
-          <div>
+          <div className='bulletContainer' style={styles.bulletContainer}>
             {bullet}
           </div>
         </Paper>
       </div>
     ));
   }
-
 }
-
-
-
-
-
-// export class Block extends React.Component {
-//   static propTypes = {
-//     connectDragSource: PropTypes.func.isRequired,
-//     connectDropTarget: PropTypes.func.isRequired,
-//     isDragging: PropTypes.bool.isRequired,
-//     blockId: PropTypes.any.isRequired,
-//     moveBlock: PropTypes.func.isRequired,
-//     findBlock: PropTypes.func.isRequired,
-//     // coming from ResumeView.js (parent component) thru props
-//     companyName: PropTypes.string.isRequired,
-//     jobTitle: PropTypes.string.isRequired,
-//     location: PropTypes.string.isRequired,
-//     year: PropTypes.string.isRequired,
-//     bulletChildren: PropTypes.array.isRequired,
-//     hasBullets: PropTypes.bool,
-//     children: PropTypes.node
-//   };
-
-
-
 
 /*
 

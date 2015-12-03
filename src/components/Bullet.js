@@ -14,7 +14,7 @@ const bulletSource = {
     // should be the minimum amount of info, which is why why return just the ID and not the entire object
   beginDrag(props) {
     return {
-      bulletId: props.bulletI,
+      bulletId: props.bulletId,
       originalIndex: props.findBullet(props.bulletId).index,
       text: props.text
     };
@@ -41,18 +41,21 @@ const bulletSource = {
 };
 
 const bulletTarget = {
-  hover(props, monitor) {
+  hover(props, monitor, component) {
     const { bulletId: draggedId } = monitor.getItem();
-    const { bulletId: overId } = props;
+    const { bulletId: overId, blockId: homeBlockId } = props;
 
-    if (draggedId !== overId) {
-      const { index: overIndex } = props.findBullet(overId);
-      props.moveBullet(draggedId, overIndex);
-    }
+    console.log('component --- ', component)
+
+    if (monitor.getItemType() !== 'block')
+      if (draggedId !== overId) {
+        const { index: overIndex } = props.findBullet(overId);
+        props.moveBullet(draggedId, overIndex, homeBlockId);
+      }
   }
 };
 
-@DropTarget([Types.BLOCK, Types.BULLET], bulletTarget, connect => ({
+@DropTarget([Types.BULLET, Types.BLOCK], bulletTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 // DragSource takes 3 parameters:
@@ -92,7 +95,7 @@ export default class Bullet extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
         <Paper>
-          <h1>{this.props.text}</h1>
+          <p>{this.props.text}</p>
         </Paper>
       </div>
     ));

@@ -6,7 +6,7 @@ import Bullet                             from 'components/Bullet';
 import ResumeHeader                       from 'components/ResumeHeader';
 import { DropTarget }                     from 'react-dnd';
 import update                             from 'react/lib/update';
-import { moveBlock, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
+import { moveBlock, moveBullet, dropBullet, updateResumeState, sendResumeToServerAsync, updateLocalState } from 'actions/resumeActions';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 
 const ActionCreators = {
@@ -14,7 +14,8 @@ const ActionCreators = {
   sendResumeToServerAsync: sendResumeToServerAsync,
   updateLocalState: updateLocalState,
   moveBlock: moveBlock,
-  dropBullet: dropBullet
+  dropBullet: dropBullet,
+  moveBullet: moveBullet
 };
 
 const mapStateToProps = (state) => ({
@@ -41,13 +42,13 @@ const blockTarget = {
       blockId: monitor.getItem().blockId
     };
 
-    if (monitor.getItemType() === 'bullet') {
-      props.actions.dropBullet({
-        // blocks: component.state.blocks,
-        targetBlock: monitor.getDropResult(),
-        droppedBullet: bulletProps
-      });
-    }
+    // if (monitor.getItemType() === 'bullet') {
+    //   props.actions.dropBullet({
+    //     // blocks: component.state.blocks,
+    //     targetBlock: monitor.getDropResult(),
+    //     droppedBullet: bulletProps
+    //   });
+    // }
   }
 };
 
@@ -58,10 +59,6 @@ class ResumeView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
     connectDropTarget: React.PropTypes.func.isRequired
-  }
-
-  static contextTypes = {
-    store: React.PropTypes.object
   }
 
   constructor (props) {
@@ -108,21 +105,28 @@ class ResumeView extends React.Component {
     };
   }
 
-  moveBullet(id, atIndex) {
-    const { bullet, index } = this.findBullet(id);
-    this.setState(update(this.state, {
-      bullets: {
-        $splice: [
-          [index, 1],
-          [atIndex, 0, bullet]
-        ]
-      }
-    }));
+  moveBullet(draggedId, atIndex, blockId) {
+    const { bullet, index } = this.findBullet(draggedId);
+    const { homeBlockId } = this.findBlock(blockId);
+
+    this.props.actions.moveBullet({
+      index: index,
+      atIndex: atIndex,
+      bullet: bullet,
+      homeBlockId: homeBlockId
+    });
   }
 
-  findBullet(id) {
-    const bullets = this.props.resumeState.blockChildren.bulletChildren;
-    const bullet = bullets.filter(bu => bu.id === id)[0];
+  findBullet(draggedId) {
+    const blocks = this.props.resumeState.blockChildren;
+    let bullets = [];
+
+    blocks.map(block =>
+      block.bulletChildren.map(bullet =>
+        bullets.push(bullet)
+      ));
+
+    const bullet = bullets.filter(bu => bu.bulletId === draggedId)[0];
 
     return {
       bullet,
