@@ -153,100 +153,12 @@ export default createReducer(initialState, {
   },
 
   [MOVE_BULLET]: (state, payload) => {
-
-    console.log('payload: ', payload)
-
     const parentBlock = payload.blockChildren[payload.parentBlockIndex];
     const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren)
     const parentBlockIndex = payload.parentBlockIndex;
 
-    console.log('parentBlock: ', parentBlock)
-
-
-    /* bulletChildren reorders itself liek it should, but rather than applying the change to the root directory of state, we need to get into state.blockChildren[payload.parentBlockIndex] (aka parentBlock) and update parentBlock's bulletChildren array
-
-      HOW DO WE GET IN THERE?!?!
-
-      Tried and failed. See below for corresponding code:
-        1. Pass parentBlock in as Object.assign's second argument
-            - this overwrites all of state.resumeReducer with parentBlock props
-        2. Define third argument update object prior to .assign
-            - in third argument, property name must be a string with no dot or bracket notation
-            - tried defining that object prior to the .assign method, specifying the target location (bulletChildren within parentBlock) and passing it in
-        3. Copy just the parentBlock portion of state
-            - I THINK what I was doing was:
-              - copy just the parentBlock portion of state
-              - define the updating action
-              - return just that new chunk of state
-        4. Use nested object/arr as third argument
-            - commented out code is incorrect but demonstrates:
-              - blockChildren changed to {}
-              - updates with key of 0 and array of bulletChildren
-            - it doesn't like:
-              a) parens after .splice
-                - so set that whole chained function to a var (splice) and passed var in
-                - then complains about parentBlockIndex ('Unexpected type cast')
-
-    */
-
-// #1 -------------------------------------
-    // return Object.assign({}, parentBlock, obj);
-
-// #2 -------------------------------------
-    // let obj = {};
-    // const bulletChildren = parentBlock.bulletChildren;
-    // obj[bulletChildren] = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
-
-// #3 -------------------------------------
-    // let newState = Object.assign({}, state.blockChildren[payload.parentBlockIndex]);
-    // newState.bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
-    // return newState;
-
-// #4 -------------------------------------
-    // return Object.assign({}, state, {
-    //   blockChildren: {
-    //     0: {
-    //       bulletChildren: immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS()
-    //     }
-    //   }
-    // });
-
-// #4a -------------------------------------
-    // const splice = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
-
-    // return Object.assign({}, state, {
-    //   blockChildren: [
-    //     parentBlockIndex: {
-    //       bulletChildren: splice
-    //     }
-    //   ]
-    // });
-
-
-// ---------------------------
-
-    return Object.assign({}, state, {
-      blockChildren: [
-        parentBlockIndex: {
-          bulletChildren: immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS()
-        }
-      ]
-    });
-
+    let newState = Object.assign({}, state);
+    newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet);
+    return newState;
   }
-});
-
-
-/*
-*/
-
-    // const blocks = state.blockChildren;
-    // let bullets = [];
-
-    // blocks.map(block =>
-    //   block.bulletChildren.map(bullet =>
-    //     bullets.push(bullet)
-    //   ));
-
-
-    // const immutableBulletChildren = Immutable.List(bullets);
+})
