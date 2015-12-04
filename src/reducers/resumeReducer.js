@@ -162,23 +162,12 @@ export default createReducer(initialState, {
   },
 
   [MOVE_BULLET]: (state, payload) => {
+    const parentBlock = payload.blockChildren[payload.parentBlockIndex];
+    const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren)
+    const parentBlockIndex = payload.parentBlockIndex;
 
-
-
+    let newState = Object.assign({}, state);
+    newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet);
+    return newState;
   }
-});
-
-
-/*
-*/
-
-    // const blocks = state.blockChildren;
-    // let bullets = [];
-
-    // blocks.map(block =>
-    //   block.bulletChildren.map(bullet =>
-    //     bullets.push(bullet)
-    //   ));
-
-
-    // const immutableBulletChildren = Immutable.List(bullets);
+})
