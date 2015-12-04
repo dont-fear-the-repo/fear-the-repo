@@ -13,6 +13,7 @@ export default class ResumeHeader extends React.Component {
     return (
       <div>
         <div style={this.props.styles.firstLine}>
+
           <div style={this.props.styles.location}>
 
             <Editor style={this.props.styles.city}
@@ -59,6 +60,7 @@ export default class ResumeHeader extends React.Component {
           <Editor style={this.props.styles.url} 
            options={{toolbar: false}}
            onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
+
       </div>
     );
   }

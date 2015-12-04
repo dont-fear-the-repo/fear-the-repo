@@ -1,25 +1,49 @@
+import { MasterTheme } from 'styles/MasterTheme';
+
+const font = MasterTheme.muli;
+const merriweather = MasterTheme.merriweather;
+
 export const styles = {
   container: {
-    backgroundColor: 'lightgray',
+    backgroundColor: MasterTheme.lightGray,
     height: '1000px',
-    width: '100%'
+    width: '100%',
+    fontFamily: font
+  },
+  headerContainer: {
+    textAlign: 'center',
+    width: '98%',
+    marginBottom: '10px',
+    fontFamily: font
   },
   themeSelectDropdown: {
-    backgroundColor: 'white',
-    marginLeft: '30px'
-  },
-  saveButton: {
-    margin: '5px'
-  },
-  printButton: {
-    margin: '5px'
+    backgroundColor: MasterTheme.lightGray,
+    fontFamily: font,
+    marginLeft: '40px',
+    float: 'left',
+    paddingTop: '0'
   },
   resumeTitle: {
-    textAlign: 'center'
+    textAlign: 'center',
+    marginLeft: '50px',
+    backgroundColor: MasterTheme.lightGray
+  },
+  saveButton: {
+    margin: '5px',
+    float: 'right',
+    marginRight: '20px',
+    marginTop: '20px',
+    marginBottom: '0'
+  },
+  printButton: {
+    margin: '5px',
+    float: 'right',
+    marginTop: '20px',
+    marginBottom: '0'
   },
   textCenter: {
     margin: '20px',
-    backgroundColor: 'white'
+    backgroundColor: MasterTheme.lightGray
   },
   hintStyle: {
     paddingLeft: '8px'
@@ -29,7 +53,8 @@ export const styles = {
   },
   resumeContainer: {
     marginLeft: '20px',
-    marginRight: '20px'
+    marginRight: '20px',
+    fontFamily: merriweather
   },
   marginBottom: {
     height: '20px'
@@ -44,15 +69,20 @@ export const styles = {
     marginLeft: '10px'
   },
   underlineStyle: {
-    borderColor: 'white',
+    borderColor: MasterTheme.white,
     borderWidth: '0px'
   },
   underlineFocusStyle: {
-    borderColor: 'orange',
+    borderColor: MasterTheme.orange,
     borderWidth: '1px'
   },
   hintStyle: {
-    color: 'lightgray'
+    color: MasterTheme.lightGray
+  },
+  floatingLabelStyle: {
+    color: MasterTheme.orange,
+    fontFamily: font,
+    fontWeight: MasterTheme.light
   },
   firstLine: {
 

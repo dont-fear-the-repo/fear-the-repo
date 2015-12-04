@@ -23,7 +23,8 @@ import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly
+injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly,
+                        // check the issues on their repo for more information
 
 
 const ActionCreators = {
@@ -41,6 +42,7 @@ const ActionCreators = {
 const mapStateToProps = (state) => ({
   routerState: state.router,
   resumeState: state.resumeReducer,
+  resumeTheme: state.resumeReducer.resumeTheme,
   loggedIn: state.titleBarReducer.loggedIn
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -50,7 +52,6 @@ const mapDispatchToProps = (dispatch) => ({
 ////////////////////////////////////
 //    React DnD functions below   //
 ////////////////////////////////////
-
 
 const Types = {
   BLOCK: 'block',
