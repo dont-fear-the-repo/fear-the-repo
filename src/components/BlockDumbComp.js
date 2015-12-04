@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-
 import { Paper } from 'material-ui/lib';
 
 
-///////////////////////////////////////////
-//        Begin DnD requirements         //
-///////////////////////////////////////////
+// /////////////////////////////////////// //
+//        Begin DnD requirements           //
+// /////////////////////////////////////// //
 
 const Types = {
   BLOCK: 'block',
@@ -51,9 +50,6 @@ const blockTarget = {
         props.moveBlock(draggedId, overIndex);
       }
     }
-      // Still TODO: signal to user that it's ok to drop
-        // low priority
-        // highlight/outline block?
   }
 };
 
@@ -133,7 +129,7 @@ export default class BlockDumbComp extends React.Component {
       }
     };
 
-    let bullet = (
+    const bullet = (
         <ul>
           {this.props.children.map(item =>
             <li key={item.key} style={styles.bullet}>{item}</li>
@@ -143,7 +139,7 @@ export default class BlockDumbComp extends React.Component {
 
     return connectDragSource(connectDropTarget(
       <div style={this.props.styles.blockDrag}>
-
+        <Paper>
           <div style={this.props.styles.jobTitle}>
             {this.props.jobTitle}
           </div>
@@ -169,23 +165,8 @@ export default class BlockDumbComp extends React.Component {
           <div className='bulletContainer' style={styles.bulletContainer}>
             {bullet}
           </div>
-
+        </Paper>
       </div>
     ));
   }
 }
-
-
-/*
-
-
-Still TODO
- - render bullets in blocks immediately upon drop
-    - right now only happens on block drop
- - enable dnd for bullets within blocks
- - edit blocks/bullets directly
-    - on double click?
-
- - save resume: new obj in state with props of header, body ([] of blocks of [] of bullets)
-
-*/

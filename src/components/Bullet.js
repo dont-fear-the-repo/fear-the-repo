@@ -1,5 +1,4 @@
 import React, { PropTypes }       from 'react';
-import Paper                      from 'material-ui/lib/paper';
 import { DragSource, DropTarget } from 'react-dnd';
 
 const Types = {
@@ -15,14 +14,15 @@ const bulletSource = {
 
 
   beginDrag(props, monitor, component) {
+    // Store the ID of the parent block of the dragged bullet
     const parentBlockId = component.props.parentBlockId;
-    const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId, true);
-
-    console.log('parentBlockIndex in beginDrag: ', parentBlockIndex)
+    // Get the index of the parent block
+    const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId);
 
     return {
       bulletId: props.bulletId,
-      parentBlockIndex: props.parentBlockIndex,
+      parentBlockId: parentBlockId,
+      parentBlockIndex: parentBlockIndex,
       originalIndex: props.findBullet(props.bulletId, parentBlockIndex).index,
       text: props.text
     };
@@ -49,18 +49,19 @@ const bulletSource = {
 };
 
 const bulletTarget = {
-  hover(props, monitor, component) {
+  hover(props, monitor) {
     const { bulletId: draggedId } = monitor.getItem();
     const { bulletId: overId, parentBlockId: parentBlockId } = props;
     const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId);
 
-    // how do i get parentBlockIndex without calling findBlock again
-
-    if (monitor.getItemType() !== 'block')
-      if (draggedId !== overId) {
-        const { bulletIndex: overIndex } = props.findBullet(overId, parentBlockIndex);
-        props.moveBullet(draggedId, overIndex, parentBlockId);
+    if (monitor.getItemType() !== 'block') {
+      if (monitor.getItem().parentBlockId === props.parentBlockId) {
+        if (draggedId !== overId) {
+          const { bulletIndex: overIndex } = props.findBullet(overId, parentBlockIndex);
+          props.moveBullet(draggedId, overIndex, parentBlockId);
+        }
       }
+    }
   }
 };
 
@@ -103,9 +104,7 @@ export default class Bullet extends React.Component {
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
-        <Paper>
-          <p>{this.props.text}</p>
-        </Paper>
+        <p>{this.props.text}</p>
       </div>
     ));
   }

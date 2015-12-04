@@ -2,15 +2,13 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
-import update from 'react/lib/update';
-
 import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
 import { moveBlock,
-         dropBullet,
+         moveBullet,
          updateResumeState,
          sendResumeToServerAsync,
          updateLocalState,
@@ -18,8 +16,6 @@ import { moveBlock,
          updateLocalStateFooter,
          updateLocalStateSavePrint,
          updateLocalStateBlocks } from 'actions/resumeActions';
-
-// import update                             from 'react/lib/update';
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
@@ -36,7 +32,6 @@ const ActionCreators = {
   updateLocalStateBlocks: updateLocalStateBlocks,
   updateLocalStateSavePrint: updateLocalStateSavePrint,
   moveBlock: moveBlock,
-  dropBullet: dropBullet,
   moveBullet: moveBullet
 };
 
@@ -59,28 +54,7 @@ const Types = {
   BULLET: 'bullet'
 };
 
-const blockTarget = {
-  drop(props, monitor, component) {
-    const bulletProps = {
-      bulletId: monitor.getItem().bulletId,
-      text: monitor.getItem().text
-    };
-
-    const blockProps = {
-      blockId: monitor.getItem().blockId
-    };
-
-    // if (monitor.getItemType() === 'bullet') {
-    //   props.actions.dropBullet({
-    //     // blocks: component.state.blocks,
-    //     targetBlock: monitor.getDropResult(),
-    //     droppedBullet: bulletProps
-    //   });
-    // }
-  }
-};
-
-@DropTarget([Types.BLOCK, Types.BULLET], blockTarget, (connect) => ({
+@DropTarget([Types.BLOCK, Types.BULLET], {}, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 
@@ -118,16 +92,16 @@ class ResumeView extends React.Component {
     const userInput = event.target.value;
 
     if (whereFrom === 'header') {
-      console.log('updating from header...')
+      console.log('updating from header...');
       this.actions.updateLocalStateHeader({textFieldName, userInput, whereFrom});
     } else if (whereFrom === 'footer') {
-      console.log('updating from footer...')
+      console.log('updating from footer...');
       this.actions.updateLocalStateFooter({textFieldName, userInput, whereFrom});
     } else if (whereFrom === 'savePrint') {
-      console.log('updating from savePrint...')
+      console.log('updating from savePrint...');
       this.actions.updateLocalStateSavePrint({textFieldName, userInput, whereFrom});
     } else {
-      console.log('updating from main...')
+      console.log('updating from main...');
       this.props.actions.updateLocalState({textFieldName, userInput});
     }
   }
@@ -143,12 +117,12 @@ class ResumeView extends React.Component {
     });
   }
 
-  findBlock(draggedId, calledByBullet) {
+  findBlock(draggedId) {
+    // For bullet drag:
+      // First time called is on beginDrag, so that bullet has knowledge of its parent block's index (position on the resume)
+
     const blocks = this.props.resumeState.blockChildren;
     const block = blocks.filter(b => b.blockId === draggedId)[0];
-
-    console.log('block in findBlock: ', block)
-    console.log('blockIndex in findBlock: ', blocks.indexOf(block))
 
     return {
       block,
@@ -170,26 +144,14 @@ class ResumeView extends React.Component {
   }
 
   findBullet(draggedId, parentBlockIndex) {
-    // const blocks = this.props.resumeState.blockChildren;
-
-    // findBullet is getting called multiple times, we don't want that
-    // on subsequent calls, this.props.resumeState.blockChildren becomes undefined
-      // where is it being overwritten/mutated?
-
     const block = this.props.resumeState.blockChildren[parentBlockIndex];
-    console.log('props state blockChildren in findBullet: ', this.props.resumeState.blockChildren)
-    console.log('block in findBullet: ', block)
-
     let bullets = [];
 
     block.bulletChildren.map(bullet =>
       bullets.push(bullet)
     );
 
-    console.log('bullets in findBullet: ', bullets)
-
     const bullet = bullets.filter(bu => bu.bulletId === draggedId)[0];
-    console.log('bullet in findBullet: ', bullet)
 
     return {
       bullet,

@@ -1,14 +1,13 @@
 import {  createReducer } from '../utils';
-import {  UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS, MOVE_BLOCK, MOVE_BULLET } from 'constants/resumeConstants';
 import Immutable from 'immutable';
 import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
-         DROP_BULLET,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_LOCAL_STATE_BLOCKS,
-         MOVE_BLOCK } from 'constants/resumeConstants';
+         MOVE_BLOCK,
+         MOVE_BULLET } from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
@@ -107,7 +106,7 @@ export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE_FOOTER]: (state, payload) => {
     let newState = Object.assign({}, state);
-    if (payload.textFieldName.slice(0,6) === 'school'){
+    if (payload.textFieldName.slice(0, 6) === 'school'){
       newState.resumeFooter[payload.textFieldName.slice(0,7)][payload.textFieldName.slice(8)] = payload.userInput;
     } else {
       newState.resumeFooter[payload.textFieldName] = payload.userInput;
@@ -136,23 +135,6 @@ export default createReducer(initialState, {
     };
   },
 
-
-  // [DROP_BULLET]: (state, payload) => {
-  //   // Can we just grab this.blockId from view?
-  //   const targetIndex = () => {
-  //     for (let index = 0; index < state.blockChildren.length; index++) {
-  //       if (state.blockChildren[index].blockId === state.targetBlock.blockId) {
-  //         return index;
-  //       }
-  //     }
-  //   }();
-
-  //   return Object.assign({}, state, {
-  //     blockChildren: state.blockChildren,
-  //     droppedBullet: state.blockChildren[targetIndex].body.push(state.droppedBullet.body)
-  //   });
-  // },
-
   [MOVE_BLOCK]: (state, payload) => {
     const immutableBlockChildren = Immutable.List(state.blockChildren);
 
@@ -163,11 +145,11 @@ export default createReducer(initialState, {
 
   [MOVE_BULLET]: (state, payload) => {
     const parentBlock = payload.blockChildren[payload.parentBlockIndex];
-    const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren)
+    const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren);
     const parentBlockIndex = payload.parentBlockIndex;
 
     let newState = Object.assign({}, state);
-    newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet);
+    newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
   }
-})
+});
