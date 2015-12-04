@@ -200,35 +200,36 @@ devServer.app.post('/api/resume/create', (req, res) => {
     })
     .then( (user) => {
       user.addResume(resume);
-      res.send('successfully added resume: ', resume);
+      res.send('successfully added resume. Here is the resume.id: ', resume.id);
     });
   });
 });
 
 ////Create block for given resume
 devServer.app.post('/api/block/create', (req, res) => {
+  const lastIndex = req.body.blockChildren.length-1;
   dbSchema.Block.create({
-    jobTitle: req.body.jobTitle,
-    blockPosition: req.body.blockPosition,
-    years: req.body.years,
-    companyName: req.body.companyName,
-    location: req.body.location
+    jobTitle: req.body.blockChildren[lastIndex].jobTitle,
+    blockPosition: req.body.blockChildren[lastIndex].blockPosition,
+    years: req.body.blockChildren[lastIndex].years,
+    companyName: req.body.blockChildren[lastIndex].companyName,
+    location: req.body.blockChildren[lastIndex].location
   })
   .then( (block) => {
     dbSchema.User.findOne({
         where: {
-          email: req.body.email
+          id: req.body.userId
         }
     })
     .then( (user) => {
       dbSchema.Resume.findOne({
           where: {
-            resumeTitle: req.body.resumeTitle
+            id: req.body.resumeId
           }
       })
       .then( (resume) => {
         resume.addBlock(block);
-        res.send('successfully added block: ', block);
+        res.status(200).send('successfully added block. Here is the block.id: ', block.id);
       });
     });
   });
@@ -236,45 +237,39 @@ devServer.app.post('/api/block/create', (req, res) => {
 
 //Create bullets for given block
 devServer.app.post('/api/bullet/create', (req, res) => {
+  //create bullet for newest block
+  const lastIndexBlock= req.body.blockChildren.length-1;
+  const lastIndexBullet = req.body.blockChildren[lastIndexBlock].bulletChildren.length-1;
   dbSchema.Bullet.create({
-    bullet: req.body.bullet,
-    bulletPosition: req.body.bulletPosition
+    bullet: req.body.blockChildren[lastIndex].bulletChildren[lastIndexBullet].text,
+    bulletPosition: req.body.blockChildren[lastIndex].bulletChildren[lastIndexBullet].bulletPosition
   })
   .then( (bullet) => {
     dbSchema.User.findOne({
       where: {
-        email: req.body.email
+        id: req.body.userId
       }
     })
     .then( (user) => {
       dbSchema.Resume.findOne({
         where: {
-          theme: req.body.resumeTitle
+          id: req.body.resumeId
         }
       })
       .then( (resume) => {
         dbSchema.Block.findOne({
             where: {
-              jobTitle: req.body.jobTitle
+              id: req.body.blockId
             }
         })
         .then( (block) => {
           block.addBullet(bullet);
-          res.send('successfully added bullet: ', bullet);
+          res.status(200).send('successfully added bullet: ', bullet.id);
         });
       });
     });
   });
 });
-
-// temp end point, for testing front-to-back data. Sujay will replace.
-devServer.app.post('/api/resumeheader', function(req, res) {
-  console.log("Hello, this is dog!");
-  console.log(req.body)
-  res.send(req.body);
-});
-
-
 
 //Retrieve all Bullets for given user
 
@@ -289,7 +284,7 @@ devServer.app.post('/api/getBullets', function(req, res){
         include: [{
           model: dbSchema.User,
           where: {
-            email: req.body.email
+            id: req.body.id
           }
         }]
       }]
@@ -304,7 +299,7 @@ devServer.app.post('/api/getBullets', function(req, res){
 devServer.app.post('/api/getBullets', function(req, res){
   dbSchema.User.findOne({
     where: {
-      email: req.body.email
+      id: req.body.id
     }
   }).then(function(user) {
     user.getResumes().then(
@@ -327,7 +322,7 @@ devServer.app.post('/api/getBullets', function(req, res){
 devServer.app.post('/api/getAllResumes', function(req, res){
   dbSchema.User.findOne({
     where: {
-      email: req.body.email
+      id: req.body.id
     }
   }).then(function(user) {
     user.getResumes()
