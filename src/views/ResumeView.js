@@ -2,6 +2,8 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
+import update from 'react/lib/update';
+import $ from 'jQuery';
 import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
@@ -20,7 +22,8 @@ import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly
+injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly,
+                        // check the issues on their repo for more information
 
 
 const ActionCreators = {
@@ -38,6 +41,7 @@ const ActionCreators = {
 const mapStateToProps = (state) => ({
   routerState: state.router,
   resumeState: state.resumeReducer,
+  resumeTheme: state.resumeReducer.resumeTheme,
   loggedIn: state.titleBarReducer.loggedIn
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -47,7 +51,6 @@ const mapDispatchToProps = (dispatch) => ({
 ////////////////////////////////////
 //    React DnD functions below   //
 ////////////////////////////////////
-
 
 const Types = {
   BLOCK: 'block',
@@ -89,7 +92,8 @@ class ResumeView extends React.Component {
   //// remember to pass in props from the component
 
   handleUpdateLocalState(event, textFieldName, whereFrom) {
-    const userInput = event.target.value;
+    const userInput = $(event.target).text();
+    console.log(userInput)
 
     if (whereFrom === 'header') {
       console.log('updating from header...');

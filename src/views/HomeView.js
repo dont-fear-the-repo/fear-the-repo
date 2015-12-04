@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import counterActions from 'actions/counter';
 
 import { RaisedButton } from 'material-ui/lib';
+import { styles } from 'styles/HomeViewStyles';
+
 
 const mapStateToProps = (state) => ({
   counter: state.counter,
@@ -12,6 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(counterActions, dispatch)
 });
+
 class HomeView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
@@ -21,32 +24,34 @@ class HomeView extends React.Component {
   render() {
     return (
       <div className='landing main-body'
-           style={{ textAlign: 'center' }}>
+           style={styles.mainBody}>
+
         <img src={require('styles/assets/writing-resume.jpg')}
-             style={{ width: '100%' }} />
-        <h1 className='main-title'>
-          FEAR THE REPO
-        </h1>
+             style={styles.heroImg} />
 
-        <h3 className='main-tagline'>
-          Resume Version Control and Templating
-        </h3>
+        <div style={styles.heroDiv}>
+          <div style={{ height: '1px' }} />
+          <div style={styles.mainTitle}>
+            [insert app name here]
+          </div>
 
-        <div className='main-copy'>
-          All other resume tools suck. Ours is the best.
+          <p style={styles.tagline}>
+            An easy, intuitive, drag-and-drop resume builder
+          </p>
         </div>
 
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <div>For no reason, a counter: {this.props.counter}</div>
-        <RaisedButton label='Increment' onClick={this.props.actions.increment} />
+        <div style={styles.copy}>
+          [insert copy talking about WYSIWYG, the user, how we solve their needs, how our app is the best, yada yada yada]
+        </div>
 
+
+        <div style={{ margin: '20px' }}>
+          <div style={{ margin: '5px' }}>
+            For no reason, a counter: {this.props.counter}
+          </div>
+          <RaisedButton label='Increment'
+                        onClick={this.props.actions.increment} />
+        </div>
       </div>
     );
   }
