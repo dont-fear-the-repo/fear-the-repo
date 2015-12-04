@@ -8,27 +8,29 @@ export default class ResumeHeader extends React.Component {
   }
 
   render() {
+    const { currentTheme, resumeThemes } = this.props;
+
     return (
       <div>
-        <div style={this.props.styles.firstLine}>
+        <div>
 
-          <div style={this.props.styles.location}>
+          <div style={resumeThemes[currentTheme].location}>
             <TextField ref='city'
                        underlineStyle={this.props.styles.underlineStyle}
                        underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                       style={this.props.styles.city}
+                       style={resumeThemes[currentTheme].city}
                        hintText={this.props.resumeState.resumeHeader.city}
                        onBlur={e => this.props.handleUpdateLocalState(e, 'city', 'header')} />
             <TextField ref='state'
                        underlineStyle={this.props.styles.underlineStyle}
                        underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                       style={this.props.styles.state}
+                       style={resumeThemes[currentTheme].state}
                        hintText='State'
                        defaultValue={this.props.resumeState.resumeHeader.state}
                        onBlur={e => this.props.handleUpdateLocalState(e, 'state', 'header')} />
           </div>
 
-          <div style={this.props.styles.name}>
+          <div style={resumeThemes[currentTheme].name}>
             <TextField ref='name'
                        underlineStyle={this.props.styles.underlineStyle}
                        underlineFocusStyle={this.props.styles.underlineFocusStyle}
@@ -38,7 +40,7 @@ export default class ResumeHeader extends React.Component {
 
         </div>
 
-        <div style={this.props.styles.profession}>
+        <div style={resumeThemes[currentTheme].profession}>
           <TextField ref='profession'
                      underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
@@ -46,7 +48,7 @@ export default class ResumeHeader extends React.Component {
                      onBlur={e => this.props.handleUpdateLocalState(e, 'profession', 'header')} />
         </div>
 
-        <div style={this.props.styles.phone}>
+        <div style={resumeThemes[currentTheme].phone}>
           <TextField ref='phone'
                      underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
@@ -54,7 +56,7 @@ export default class ResumeHeader extends React.Component {
                      onBlur={e => this.props.handleUpdateLocalState(e, 'phone', 'header')} />
         </div>
 
-        <div style={this.props.styles.email}>
+        <div style={resumeThemes[currentTheme].email}>
           <TextField ref='displayEmail'
                      underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
@@ -62,7 +64,7 @@ export default class ResumeHeader extends React.Component {
                      onBlur={e => this.props.handleUpdateLocalState(e, 'displayEmail', 'header')} />
         </div>
 
-        <div style={this.props.styles.url}>
+        <div style={resumeThemes[currentTheme].url}>
           <TextField ref='webLinkedin'
                      underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
@@ -70,7 +72,7 @@ export default class ResumeHeader extends React.Component {
                      onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
         </div>
 
-        <div style={this.props.styles.url}>
+        <div style={resumeThemes[currentTheme].url}>
           <TextField ref='webOther'
                      underlineStyle={this.props.styles.underlineStyle}
                      underlineFocusStyle={this.props.styles.underlineFocusStyle}

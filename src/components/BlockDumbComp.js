@@ -79,7 +79,9 @@ export default class BlockDumbComp extends React.Component {
     const { children,
             isDragging,
             connectDragSource,
-            connectDropTarget } = this.props;
+            connectDropTarget,
+            currentTheme,
+            resumeThemes } = this.props;
 
 
     let bullet = (
@@ -96,27 +98,27 @@ export default class BlockDumbComp extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={this.props.styles.blockDrag}>
 
-          <div style={this.props.styles.jobTitle}>
+          <div style={resumeThemes[currentTheme].jobTitle}>
             {this.props.jobTitle}
           </div>
 
-          <div style={this.props.styles.pipe}>
+          <div style={resumeThemes[currentTheme].pipe}>
             |
           </div>
 
-          <div style={this.props.styles.companyName}>
+          <div style={resumeThemes[currentTheme].companyName}>
             {this.props.companyName}
           </div>
 
-          <div style={this.props.styles.pipe}>
+          <div style={resumeThemes[currentTheme].pipe}>
             |
           </div>
 
-          <div style={this.props.styles.location}>
+          <div style={resumeThemes[currentTheme].jobLocation}>
             {this.props.location}
           </div>
 
-          <div style={this.props.styles.year}>
+          <div style={resumeThemes[currentTheme].year}>
             {this.props.year}
           </div>
 

@@ -42,7 +42,7 @@ const ActionCreators = {
 const mapStateToProps = (state) => ({
   routerState: state.router,
   resumeState: state.resumeReducer,
-  resumeTheme: state.resumeReducer.resumeTheme,
+  currentTheme: state.resumeReducer.resumeTheme,
   loggedIn: state.titleBarReducer.loggedIn
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -197,6 +197,7 @@ class ResumeView extends React.Component {
         <Paper style={styles.resumePaper}>
           <ResumeHeader {...this.props}
                         styles={styles}
+                        resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
             {this.props.resumeState.blockChildren.map(block => {
@@ -211,12 +212,16 @@ class ResumeView extends React.Component {
                                 bulletChildren={block.bulletChildren}
                                 location={block.location}
                                 moveBlock={this.moveBlock}
-                                findBlock={this.findBlock}> {block.blockId} </BlockDumbComp>
+                                findBlock={this.findBlock}
+                                resumeThemes={resumeThemes}>
+                    {block.blockId}
+                </BlockDumbComp>
               );
             })}
 
           <ResumeFooter {...this.props}
                         styles={styles}
+                        resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
           <div className='marginBottom'
