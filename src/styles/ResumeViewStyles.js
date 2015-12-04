@@ -96,37 +96,43 @@ export const styles = {
     display: 'inline-block'
   },
   profession: {
-    textAlign: 'center'
+    textAlign: 'center',
+    display: 'inline-block'
   },
   email: {
     color: 'blue',
     fontSize: '16px',
-    marginLeft: '10px'
+    marginLeft: '10px',
+    display: 'inline-block'
   },
   phone: {
     fontSize: '16px',
-    marginLeft: '10px'
+    marginLeft: '10px',
+    display: 'inline-block'
   },
   location: {
     marginLeft: '10px',
     display: 'inline-block'
   },
   city: {
-    width: '200px'
+    width: '200px',
+    display: 'inline-block'
   },
   state: {
-    width: '50px'
+    width: '50px',
+    display: 'inline-block'
   },
   url: {
     textAlign: 'left',
-    marginLeft: '10px'
+    marginLeft: '10px',
+    display: 'inline-block'
   },
   blockDrag: {
     cursor: 'move',
     margin: '0px'
   },
   jobTitle: {
-    display: 'inline',
+    display: 'inline-block',
     margin: '10px',
     fontWeight: '700',
     fontSize: '18px'
@@ -136,21 +142,46 @@ export const styles = {
     margin: '5px'
   },
   companyName: {
-    display: 'inline',
+    display: 'inline-block',
     margin: '10px',
     fontWeight: '500',
     fontSize: '16px'
   },
   location: {
-    display: 'inline',
+    display: 'inline-block',
     margin: '10px'
   },
   year: {
-    display: 'inline',
+    display: 'inline-block',
     float: 'right',
     marginRight: '10px'
   },
   bullet: {
     fontSize: '14px'
+  },
+  school1Name: {
+    display: 'inline-block'
+  },
+  school2Name: {
+    display: 'inline-block'
+  },
+  school1Degree: {
+    display: 'inline-block'
+  },
+  school2Degree: {
+    display: 'inline-block'
+  },
+  school1Location: {
+    display: 'inline-block'
+  },
+  school2Location: {
+    display: 'inline-block'
+  },
+  school1SchoolEndYear: {
+    display: 'inline-block'
+  },
+  school2SchoolEndYear: {
+    display: 'inline-block'
   }
+
 };
