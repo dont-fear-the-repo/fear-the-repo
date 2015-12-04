@@ -33,7 +33,9 @@ class AboutView extends React.Component {
               <a href='http://github.com/AndrewTHuang'>
                 <img src='styles/assets/Andrew-balloon-square.jpg'
                      style={styles.teamImg} />
-              Andrew Huang
+                <span style={styles.teamMemberName}>
+                  Andrew Huang
+                </span>
               </a>
             </Paper>
           </div>
@@ -43,7 +45,9 @@ class AboutView extends React.Component {
               <a href='http://github.com/melodylu'>
                 <img src='styles/assets/Melody-hat-square.jpg'
                      style={styles.teamImg} />
-              Melody Lu
+                <span style={styles.teamMemberName}>
+                  Melody Lu
+                </span>
               </a>
             </Paper>
           </div>
@@ -53,7 +57,9 @@ class AboutView extends React.Component {
               <a href='http://github.com/ericsonmichaelj'>
                 <img src='styles/assets/Michael-climbing-square.jpg'
                      style={styles.teamImg} />
-              Michael Ericson
+                <span style={styles.teamMemberName}>
+                  Michael Ericson
+                </span>
               </a>
             </Paper>
           </div>
@@ -63,7 +69,9 @@ class AboutView extends React.Component {
               <a href='http://github.com/dangerismycat'>
                 <img src='styles/assets/Ryan-Danger-square.jpg'
                      style={styles.teamImg} />
-              Ryan James
+                <span style={styles.teamMemberName}>
+                  Ryan James
+                </span>
               </a>
             </Paper>
           </div>
@@ -73,7 +81,9 @@ class AboutView extends React.Component {
               <a href='http://github.com/sujaypatel16'>
                 <img src='styles/assets/Sujay-monopoly-square.jpg'
                      style={styles.teamImg} />
-              Sujay Patel
+                <span style={styles.teamMemberName}>
+                  Sujay Patel
+                </span>
               </a>
             </Paper>
           </div>
@@ -81,14 +91,15 @@ class AboutView extends React.Component {
         </div>
 
         <div className='davezuko' style={styles.starterKit}>
-          We built off the wonderful <a href='https://github.com/davezuko/react-redux-starter-kit'>React-Redux starter kit</a> by <a href='https://github.com/davezuko'>David Zukowski</a>.
+          We built off the wonderful <a href='https://github.com/davezuko/react-redux-starter-kit'
+                                        style={{ fontStyle: 'italic' }}>React-Redux starter kit</a> by <a href='https://github.com/davezuko'>David Zukowski</a>.
         </div>
 
         <div className='kitten' style={styles.secretText}>
           Psst! Would you like to see a kitten?
 
-          <RaisedButton className={'kitten button' + (showKitten ? 'nope' : 'yep')}
-                        style={styles.kittenButton}
+          <RaisedButton style={styles.button}
+                        backgroundColor={(showKitten ? styles.monsterButton : styles.kittenButton)}
                         onClick={this.handleToggleKitten.bind(this)}>
             {showKitten ? 'No! I\'m a monster!' : 'Of course!'}
           </RaisedButton>
