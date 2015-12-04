@@ -8,7 +8,7 @@ import { styles } from 'styles/footerStyles';
 export class Footer extends React.Component {
 
   render() {
-    const githubIcon = require('styles/assets/github-icon-dark.png');
+    const githubIcon = require('styles/assets/github-circle-icon-white.png');
 
     return (
       <div>
@@ -16,11 +16,18 @@ export class Footer extends React.Component {
              style={styles.wholeComponent}>
 
           <Link to='/about'>
-            <FlatButton label='About Us' />
+            <FlatButton label='About Us'
+                        style={styles.aboutButton}
+                        backgroundColor={styles.buttonColor}
+                        hoverColor={styles.buttonHoverColor} />
           </Link>
 
           <a href='https://github.com/dont-fear-the-repo/fear-the-repo'>
-            <FlatButton label='Check us out on Github' />
+            <FlatButton label='Check us out on Github'
+                        style={styles.githubButton}
+                        backgroundColor={styles.buttonColor}
+                        hoverColor={styles.buttonHoverColor} />
+
             <img src={githubIcon}
                  style={styles.githubIcon} />
           </a>

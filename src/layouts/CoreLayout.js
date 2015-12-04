@@ -12,7 +12,6 @@ import { isDefined, isValidEmail, matches } from 'utils/validation';
 
 import { FlatButton, Popover, TextField, RefreshIndicator } from 'material-ui/lib';
 import { styles } from 'styles/CoreLayoutStyles';
-import 'styles/core.scss';
 
 
 const ActionCreators = {
@@ -43,11 +42,11 @@ class CoreLayout extends React.Component {
     state = {
       activePopover: '',
       anchorEl: {},
-      loginOrSignup: '',
       failedAttempted: false,
-      userAlreadyExists: false,
-      tempPassword: '',
+      loginOrSignup: '',
       spinning: false,
+      tempPassword: '',
+      userAlreadyExists: false,
       validations: {
         login: {
           email: false,
@@ -78,7 +77,7 @@ class CoreLayout extends React.Component {
       data: JSON.stringify(userLoginInfo),
       contentType: 'application/json',
       success: (data) => {
-        userLoginInfo.id = data.id; 
+        userLoginInfo.id = data.id;
         localStorage.setItem('email', userLoginInfo.email);
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo);
@@ -128,7 +127,7 @@ class CoreLayout extends React.Component {
       data: JSON.stringify(userSignupInfo),
       contentType: 'application/json',
       success: (data) => {
-        userSignupInfo.id = data.id; 
+        userSignupInfo.id = data.id;
         this.closePopover('pop');
         this.props.actions.loginUser(userSignupInfo);
         this.setState({
@@ -198,18 +197,22 @@ showLoginPopover(key, e) {
 
   render() {
     const { canSubmit } = this.props;
+
     return (
       <div className='page-container'>
         <div className='view-container'>
           <div>
-            <div className='header'>
+            <div className='header' style={styles.mainContainer}>
 
               <Link to='/' style={styles.name}>
-                Fear the Repo
+                [insert logo here]
               </Link>
 
               <Link to='/resume'>
-                <FlatButton label='Edit Your Resume' />
+                <FlatButton label='Edit Resume'
+                            style={styles.resumeButton}
+                            backgroundColor={styles.buttonColor}
+                            hoverColor={styles.buttonHoverColor} />
               </Link>
 
               {this.props.loggedIn ?
@@ -219,16 +222,22 @@ showLoginPopover(key, e) {
               : '' }
 
               {this.props.loggedIn &&
-                <FlatButton style={styles.loginButton}
-                            label='Logout'
+                <FlatButton label='Logout'
+                            style={styles.loginButton}
+                            backgroundColor={styles.buttonColor}
+                            hoverColor={styles.buttonHoverColor}
                             onClick={e => this.handleLogout(e)} />}
               {!this.props.loggedIn &&
-                <FlatButton style={styles.loginButton}
-                            label='Login'
+                <FlatButton label='Login'
+                            style={styles.loginButton}
+                            backgroundColor={styles.buttonColor}
+                            hoverColor={styles.buttonHoverColor}
                             onClick={(e) => this.showLoginPopover('pop', e)} />}
               {!this.props.loggedIn &&
-                <FlatButton style={styles.signupButton}
-                            label='Signup'
+                <FlatButton label='Signup'
+                            style={styles.signupButton}
+                            backgroundColor={styles.buttonColor}
+                            hoverColor={styles.buttonHoverColor}
                             onClick={(e) => this.showSignupPopover('pop', e)} />}
           </div>
 

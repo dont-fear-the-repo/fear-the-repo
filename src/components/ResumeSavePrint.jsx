@@ -37,13 +37,22 @@ export default class ResumeSavePrint extends React.Component {
                     }));
 
     return (
-      <div>
+      <div style={this.props.styles.headerContainer}>
 
         <Paper>
           {JSON.stringify(this.props.handleUpdateLocalState)}
         </Paper>
 
+        <SelectField floatingLabelText='Select a theme'
+                     floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                     menuItems={themes}
+                     value={this.props.resumeState.resumeTheme}
+                     valueMember='text'
+                     style={this.props.styles.themeSelectDropdown}
+                     onChange={(e, index) => this.handleChangeTheme(e, index)} />
+
         <TextField floatingLabelText='Resume Version Name'
+                   floatingLabelStyle={this.props.styles.floatingLabelStyle}
                    style={this.props.styles.resumeTitle}
                    underlineStyle={this.props.styles.underlineStyle}
                    underlineFocusStyle={this.props.styles.underlineFocusStyle}
@@ -59,12 +68,6 @@ export default class ResumeSavePrint extends React.Component {
                       style={this.props.styles.printButton}
                       onClick={e => this.handlePrint(e)} />
 
-        <SelectField floatingLabelText='Select a theme'
-                     menuItems={themes}
-                     value={this.props.resumeState.resumeTheme}
-                     valueMember='text'
-                     style={this.props.styles.themeSelectDropdown}
-                     onChange={(e, index) => this.handleChangeTheme(e, index)} />
       </div>
     );
   }
