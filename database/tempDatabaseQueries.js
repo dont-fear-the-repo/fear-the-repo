@@ -170,9 +170,10 @@ dbServer.app.post('/api/getAllResumes', function(req, res){
 
 
 //retrieve resume based on resume id and user id
+
 devServer.app.post('/api/getAllResumeInfo', function(req, res) {
-Sequelize.query(
-'SELECT
+db.query(
+"SELECT
 res.name,
 res.profession,
 res.city,
@@ -201,18 +202,19 @@ bul.bullet,
 bul."bulletPosition",
 bul.archived
 FROM
-"Users" u INNER JOIN "Resumes" res ON u.id = res."UserId"
+"Users" u LEFT OUTER JOIN "Resumes" res ON u.id = res."UserId"
 INNER JOIN  resume_to_block rb ON res.id = rb."ResumeId"
 INNER JOIN "Blocks" blk ON rb."BlockId" = blk.id
-INNER JOIN "Bullets" bul ON blk.id = bul."BlockId"
+LEFT OUTER JOIN "Bullets" bul ON blk.id = bul."BlockId"
 WHERE u.id = ?
-AND res.id = ?'
-{replacements: [req.body.UserId, req.body.ResumeId], type: Sequelize.QueryTypes.SELECT}
+AND res.id = ?",
+{replacements: [req.body.UserId, req.body.ResumeId], type: db.QueryTypes.SELECT}
 ).then(function(info){
   console.log(info);
   res.send('success for all info: ', info);
 })
 })
+
 
 //Retrieve all resume titles for given User
 
