@@ -12,19 +12,27 @@ const bulletSource = {
   // When dragging starts, beginDrag is called
   // What's returned is the only information available to the drop targets
     // should be the minimum amount of info, which is why why return just the ID and not the entire object
-  beginDrag (props) {
+
+
+  beginDrag(props, monitor, component) {
+    const parentBlockId = component.props.parentBlockId;
+    const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId, true);
+
+    console.log('parentBlockIndex in beginDrag: ', parentBlockIndex)
+
     return {
-      id: props.id,
-      originalIndex: props.findBullet(props.id).index,
-      body: props.body
+      bulletId: props.bulletId,
+      parentBlockIndex: props.parentBlockIndex,
+      originalIndex: props.findBullet(props.bulletId, parentBlockIndex).index,
+      text: props.text
     };
   },
 
   // When dragging stops, endDrag is called
-  endDrag (props, monitor) {
+  endDrag(props, monitor) {
     // Monitors allow you to get info about the drag state
     // getItem() returns a plain obj representing the currently dragged item, specified in the return statement of its beginDrag() method
-    const { id: droppedId, originalIndex } = monitor.getItem();
+    const { bulletId: droppedId, originalIndex } = monitor.getItem();
     // Check whether or not the drop was handled by a compatible drop target
     const didDrop = monitor.didDrop();
 
@@ -34,25 +42,29 @@ const bulletSource = {
     }
   },
 
-  isDragging (props, monitor) {
+  isDragging(props, monitor) {
     // Our bullet gets unmounted while dragged, so this keeps its appearance dragged
-    return props.id === monitor.getItem().id;
+    return props.bulletId === monitor.getItem().bulletId;
   }
 };
 
 const bulletTarget = {
-  hover (props, monitor) {
-    const { id: draggedId } = monitor.getItem();
-    const { id: overId } = props;
+  hover(props, monitor, component) {
+    const { bulletId: draggedId } = monitor.getItem();
+    const { bulletId: overId, parentBlockId: parentBlockId } = props;
+    const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId);
 
-    if (draggedId !== overId) {
-      const { index: overIndex } = props.findBullet(overId);
-      props.moveBullet(draggedId, overIndex);
-    }
+    // how do i get parentBlockIndex without calling findBlock again
+
+    if (monitor.getItemType() !== 'block')
+      if (draggedId !== overId) {
+        const { bulletIndex: overIndex } = props.findBullet(overId, parentBlockIndex);
+        props.moveBullet(draggedId, overIndex, parentBlockId);
+      }
   }
 };
 
-@DropTarget([Types.BLOCK, Types.BULLET], bulletTarget, connect => ({
+@DropTarget([Types.BULLET, Types.BLOCK], bulletTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 // DragSource takes 3 parameters:
@@ -78,8 +90,7 @@ export default class Bullet extends React.Component {
     text: PropTypes.string.isRequired
   };
 
-
-  render () {
+  render() {
     // not sure why these need to be assigned, but not companyName and jobTitle
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
 
@@ -93,7 +104,7 @@ export default class Bullet extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
         <Paper>
-          <h1>{this.props.body}</h1>
+          <p>{this.props.text}</p>
         </Paper>
       </div>
     ));

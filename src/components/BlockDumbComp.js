@@ -47,15 +47,13 @@ const blockTarget = {
     if (monitor.getItemType() === 'block') {
       // This is responsible for reordering the blocks when a block is dragged around the list of blocks
       if (draggedId !== overId) {
-        const { index: overIndex } = props.findBlock(overId);
+        const { blockIndex: overIndex } = props.findBlock(overId);
         props.moveBlock(draggedId, overIndex);
-      } // ONLY HERE does body re-render, when a block is sorted
-    } else if (monitor.getItemType() === 'bullet') {
-
+      }
+    }
       // Still TODO: signal to user that it's ok to drop
         // low priority
         // highlight/outline block?
-    }
   }
 };
 
@@ -74,6 +72,20 @@ const blockTarget = {
 
 
 export default class BlockDumbComp extends React.Component {
+  static propTypes = {
+    connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    blockId: PropTypes.any.isRequired,
+    moveBlock: PropTypes.func.isRequired,
+    findBlock: PropTypes.func.isRequired,
+    companyName: PropTypes.string.isRequired,
+    jobTitle: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    years: PropTypes.string.isRequired,
+    bulletChildren: PropTypes.array.isRequired,
+    children: PropTypes.node
+  };
 
   render() {
     const { children,
@@ -81,14 +93,50 @@ export default class BlockDumbComp extends React.Component {
             connectDragSource,
             connectDropTarget } = this.props;
 
+    const styles = {
+      blockDrag: {
+        opacity: isDragging ? 0 : 1,
+        cursor: 'move',
+        margin: '0px'
+      },
+      jobTitle: {
+        display: 'inline',
+        margin: '10px',
+        fontWeight: '700',
+        fontSize: '20px'
+      },
+      pipe: {
+        display: 'inline',
+        margin: '5px'
+      },
+      companyName: {
+        display: 'inline',
+        margin: '10px',
+        fontWeight: '500',
+        fontSize: '18px'
+      },
+      location: {
+        display: 'inline',
+        margin: '10px'
+      },
+      years: {
+        display: 'inline',
+        float: 'right',
+        marginRight: '10px'
+      },
+      bulletContainer: {
+        width: '95%'
+      },
+      bullet: {
+        fontSize: '16px',
+        marginTop: '10px'
+      }
+    };
 
     let bullet = (
         <ul>
-          {this.props.bulletChildren.map(bullet =>
-            // <li style={this.props.styles.bullet} key=>{item}</li>
-            <li key={bullet.bulletId}>{bullet.text}</li>  // this is block id
-              // how do I get bullet id?
-              // throws console error, but still behaves as it should
+          {this.props.children.map(item =>
+            <li key={item.key} style={styles.bullet}>{item}</li>
           )}
         </ul>
       );
@@ -115,54 +163,21 @@ export default class BlockDumbComp extends React.Component {
           <div style={this.props.styles.location}>
             {this.props.location}
           </div>
-
-          <div style={this.props.styles.year}>
-            {this.props.year}
+          <div style={this.props.styles.years}>
+            {this.props.years}
           </div>
-
-          <div>
+          <div className='bulletContainer' style={styles.bulletContainer}>
             {bullet}
           </div>
 
       </div>
     ));
   }
-
 }
-
-    // let bullet;
-    //   bullet = (
-    //     <ul>
-    //       {this.props.children.map(item =>
-    //         // <li style={styles.bullet} key=>{item}</li>
-    //         <li key={item.bulletId}>{item.text}</li>  // this is block id
-    //           // how do I get bullet id?
-    //           // throws console error, but still behaves as it should
-    //       )}
-    //     </ul>
-    //   );
-
-
-// export class Block extends React.Component {
-//   static propTypes = {
-//     connectDragSource: PropTypes.func.isRequired,
-//     connectDropTarget: PropTypes.func.isRequired,
-//     isDragging: PropTypes.bool.isRequired,
-//     blockId: PropTypes.any.isRequired,
-//     moveBlock: PropTypes.func.isRequired,
-//     findBlock: PropTypes.func.isRequired,
-//     // coming from ResumeView.js (parent component) thru props
-//     companyName: PropTypes.string.isRequired,
-//     jobTitle: PropTypes.string.isRequired,
-//     location: PropTypes.string.isRequired,
-//     year: PropTypes.string.isRequired,
-//     bulletChildren: PropTypes.array.isRequired,
-//     hasBullets: PropTypes.bool,
-//     children: PropTypes.node
-//   };
 
 
 /*
+
 
 Still TODO
  - render bullets in blocks immediately upon drop
