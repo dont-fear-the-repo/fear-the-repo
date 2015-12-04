@@ -1,6 +1,4 @@
 require('babel/register');
-import { db } from '../database/dbConfig.js';
-
 // connect to database.
 const dbSchema = require('../database/dbSchema.js');
 const chalk = require('chalk');
@@ -13,9 +11,7 @@ const session = require('express-session');
 const utils = require('./lib/utils');
 const bcrypt = require('bcrypt-nodejs')
 const Promise = require('bluebird');
-// const db = require('../database/dbConfig.js');
-
-
+const db = require('../database/dbConfig.js');
 
 devServer.listen(port, host, () => {
   console.log(chalk.green(
@@ -84,9 +80,10 @@ devServer.app.post('/signup', (req, res) => {
             dbSchema.User.create({
               email: req.body.email,
               password: hash
-            }).then((results) => {
-              utils.createSession(req, res, results);
-            })
+            }).then((user) => {
+                addResume(user).then((results) => {
+                utils.createSession(req, res, results);
+              })
           })
       } else {
         res.status(401).send({
@@ -151,6 +148,17 @@ devServer.app.post('/api/savebulletsonresume', function(req, res) {
 
 })
 */
+
+// Retrieve All Resume Info For Given User
+
+devServer.app.post('/api/getAllResumeInfo', function(req, res) {
+db.query( "SELECT u.id as \"UserId\", res.id as \"ResumeId\", blk.id as \"BlkId\", bul.id as \"BulletId\", res.name, res.profession, res.\"displayEmail\", res.phone, res.\"webLinkedin\", res.\"webOther\", res.\"resumeTitle\", res.\"resumeTheme\", res.\"personalStatement\", res.\"school1Name\", res.\"school1Degree\", res.\"school1EndYear\",res.\"school1Location\", res.\"school2Name\", res.\"school2Degree\", res.\"school2EndYear\", res.\"school2Location\", blk.\"jobTitle\", blk.\"blockPosition\", blk.years, blk.\"companyName\", blk.location, bul.bullet, bul.\"bulletPosition\", bul.archived FROM \"Users\" u LEFT OUTER JOIN \"Resumes\" res ON u.id = res.\"UserId\" INNER JOIN  resume_to_block rb ON res.id = rb.\"ResumeId\" INNER JOIN \"Blocks\" blk ON rb.\"BlockId\" = blk.id LEFT OUTER JOIN \"Bullets\" bul ON blk.id = bul.\"BlockId\" WHERE u.id = ? AND res.id = ?", { replacements: [req.body.UserId, req.body.ResumeId] , type: db.QueryTypes.SELECT}
+//{replacements: [req.body.UserId, req.body.ResumeId], type: db.QueryTypes.SELECT}
+).then(function(info){
+  console.log(info);
+  res.send('success for all info: ', info);
+})
+})
 
 // Find a user
 devServer.app.post('/api/findauser', (req, res) => {
@@ -276,103 +284,8 @@ devServer.app.post('/api/bullet/create', (req, res) => {
   });
 });
 
-//Retrieve all Bullets for given user
-
-//TODO - Attempting to fix performance issue
-//curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getBullets
-// devServer.app.post('/api/getBullets', function(req, res){
-//   dbSchema.Bullet.findAll({
-//     include: [{
-//       model: dbSchema.Block,
-//       include: [{
-//         model: dbSchema.Resume,
-//         include: [{
-//           model: dbSchema.User,
-//           where: {
-//             id: req.body.id
-//           }
-//         }]
-//       }]
-//     }]
-//   }).then(function(bullets) {
-//      //bullets = _.map(bullets, function(item){ return item.bullets; });
-//      res.send(bullets);
-//   });
-// });
-
-//TODO - Attempting to fix performance issue;
-// devServer.app.post('/api/getBullets', function(req, res){
-//   dbSchema.User.findOne({
-//     where: {
-//       id: req.body.id
-//     }
-//   }).then(function(user) {
-//     user.getResumes().then(
-//       function(resume){
-//        resume.getBlocks().then(
-//         function(blocks){
-//           blocks.getBullets().then(
-//             function(bullets){
-//             res.send(bullets);
-//           });
-//         });
-//     });
-//   });
-// });
-
-const getAllResumeInfo =
-'hi';
-
-// 'SELECT
-// res.name,
-// res.profession,
-// res.city,
-// res.state,
-// res."displayEmail",
-// res.phone,
-// res."webLinkedin",
-// res."webOther",
-// res."resumeTitle",
-// res."resumeTheme",
-// res."personalStatement",
-// res."school1Name",
-// res."school1Degree",
-// res."school1EndYear",
-// res."school1Location",
-// res."school2Name",
-// res."school2Degree",
-// res."school2EndYear",
-// res."school2Location",
-// blk."jobTitle",
-// blk."blockPosition",
-// blk.years,
-// blk."companyName",
-// blk.location,
-// bul.bullet,
-// bul."bulletPosition",
-// bul.archived
-// FROM
-// "Users" u LEFT OUTER JOIN "Resumes" res ON u.id = res."UserId"
-// INNER JOIN  resume_to_block rb ON res.id = rb."ResumeId"
-// INNER JOIN "Blocks" blk ON rb."BlockId" = blk.id
-// LEFT OUTER JOIN "Bullets" bul ON blk.id = bul."BlockId"
-// WHERE u.id = 1
-// AND res.id = 6';
-
-
-devServer.app.post('/api/getAllResumeInfo', function(req, res) {
-db.query(getAllResumeInfo, { type: db.QueryTypes.SELECT}
-//{replacements: [req.body.UserId, req.body.ResumeId], type: db.QueryTypes.SELECT}
-).then(function(info){
-  console.log(info);
-  res.send('success for all info: ', info);
-})
-})
-
-
-
-// Get All Resume Info For Given User
 // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getAllResumes
+//TODO If mutliple resumes titles are required, include ._map in res.send
 devServer.app.post('/api/getAllResumes', function(req, res){
   dbSchema.User.findOne({
     where: {
