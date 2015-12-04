@@ -14,12 +14,16 @@ const bulletSource = {
     // should be the minimum amount of info, which is why why return just the ID and not the entire object
 
 
-  beginDrag(props) {
-    console.log('props: ', props)
+  beginDrag(props, monitor, component) {
+    const parentBlockId = component.props.parentBlockId;
+    const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId, true);
+
+    console.log('parentBlockIndex in beginDrag: ', parentBlockIndex)
+
     return {
       bulletId: props.bulletId,
-      parentBlockId: props.parentBlockId,
-      originalIndex: props.findBullet(props.bulletId).index,
+      parentBlockIndex: props.parentBlockIndex,
+      originalIndex: props.findBullet(props.bulletId, parentBlockIndex).index,
       text: props.text
     };
   },
@@ -48,10 +52,13 @@ const bulletTarget = {
   hover(props, monitor, component) {
     const { bulletId: draggedId } = monitor.getItem();
     const { bulletId: overId, parentBlockId: parentBlockId } = props;
+    const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId);
+
+    // how do i get parentBlockIndex without calling findBlock again
 
     if (monitor.getItemType() !== 'block')
       if (draggedId !== overId) {
-        const { bulletIndex: overIndex } = props.findBullet(overId);
+        const { bulletIndex: overIndex } = props.findBullet(overId, parentBlockIndex);
         props.moveBullet(draggedId, overIndex, parentBlockId);
       }
   }

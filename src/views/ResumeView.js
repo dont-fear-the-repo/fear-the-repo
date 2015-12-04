@@ -129,14 +129,18 @@ class ResumeView extends React.Component {
     this.props.actions.moveBlock({
       blockIndex: blockIndex,
       atIndex: atIndex,
-      block: block
+      block: block,
+      blockChildren: this.props.resumeState.blockChildren
     });
 
   }
 
-  findBlock(draggedId) {
+  findBlock(draggedId, calledByBullet) {
     const blocks = this.props.resumeState.blockChildren;
     const block = blocks.filter(b => b.blockId === draggedId)[0];
+
+    console.log('block in findBlock: ', block)
+    console.log('blockIndex in findBlock: ', blocks.indexOf(block))
 
     return {
       block,
@@ -145,29 +149,39 @@ class ResumeView extends React.Component {
   }
 
   moveBullet(draggedId, atIndex, parentBlockId) {
-    const { bullet, bulletIndex } = this.findBullet(draggedId);
     const { blockIndex } = this.findBlock(parentBlockId);
-
-    console.log('atIndex: ', atIndex)
+    const { bullet, bulletIndex } = this.findBullet(draggedId, blockIndex);
 
     this.props.actions.moveBullet({
       bulletIndex: bulletIndex,
       atIndex: atIndex,
       bullet: bullet,
-      parentBlockIndex: blockIndex
+      parentBlockIndex: blockIndex,
+      blockChildren: this.props.resumeState.blockChildren
     });
   }
 
-  findBullet(draggedId) {
-    const blocks = this.props.resumeState.blockChildren;
+  findBullet(draggedId, parentBlockIndex) {
+    // const blocks = this.props.resumeState.blockChildren;
+
+    // findBullet is getting called multiple times, we don't want that
+    // on subsequent calls, this.props.resumeState.blockChildren becomes undefined
+      // where is it being overwritten/mutated?
+
+    const block = this.props.resumeState.blockChildren[parentBlockIndex];
+    console.log('props state blockChildren in findBullet: ', this.props.resumeState.blockChildren)
+    console.log('block in findBullet: ', block)
+
     let bullets = [];
 
-    blocks.map(block =>
-      block.bulletChildren.map(bullet =>
-        bullets.push(bullet)
-      ));
+    block.bulletChildren.map(bullet =>
+      bullets.push(bullet)
+    );
+
+    console.log('bullets in findBullet: ', bullets)
 
     const bullet = bullets.filter(bu => bu.bulletId === draggedId)[0];
+    console.log('bullet in findBullet: ', bullet)
 
     return {
       bullet,
@@ -212,7 +226,8 @@ class ResumeView extends React.Component {
                             parentBlockId={bullet.parentBlockId}
                             text={bullet.text}
                             moveBullet={this.moveBullet}
-                            findBullet={this.findBullet} />
+                            findBullet={this.findBullet}
+                            findBlock={this.findBlock} />
                       );
                     })}
 
