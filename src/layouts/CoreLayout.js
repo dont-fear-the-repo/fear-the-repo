@@ -212,6 +212,7 @@ showLoginPopover(key, e) {
                 <FlatButton label='Edit Resume'
                             style={styles.resumeButton}
                             backgroundColor={styles.buttonColor}
+                            labelStyle={styles.buttonLabelStyle}
                             hoverColor={styles.buttonHoverColor} />
               </Link>
 
@@ -226,18 +227,21 @@ showLoginPopover(key, e) {
                             style={styles.loginButton}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
+                            labelStyle={styles.buttonLabelStyle}
                             onClick={e => this.handleLogout(e)} />}
               {!this.props.loggedIn &&
                 <FlatButton label='Login'
                             style={styles.loginButton}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
+                            labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showLoginPopover('pop', e)} />}
               {!this.props.loggedIn &&
                 <FlatButton label='Signup'
                             style={styles.signupButton}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
+                            labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showSignupPopover('pop', e)} />}
           </div>
 

@@ -23,23 +23,31 @@ export const styles = {
     float: 'left',
     paddingTop: '0'
   },
+  menuItemStyle: {
+    color: MasterTheme.orange,
+    fontWeight: MasterTheme.light
+  },
   resumeTitle: {
     textAlign: 'center',
     marginLeft: '50px',
     backgroundColor: MasterTheme.lightGray
   },
+  buttonLabelStyle: {
+    textTransform: 'none'
+  },
   saveButton: {
     margin: '5px',
     float: 'right',
-    marginRight: '20px',
-    marginTop: '20px',
+    marginRight: '15px',
+    marginTop: '30px',
     marginBottom: '0'
   },
   printButton: {
     margin: '5px',
     float: 'right',
-    marginTop: '20px',
-    marginBottom: '0'
+    marginTop: '30px',
+    marginBottom: '0',
+    marginRight: '20px'
   },
   textCenter: {
     margin: '20px',
