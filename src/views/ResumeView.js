@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
 import update from 'react/lib/update';
-
+import $ from 'jQuery';
 import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
@@ -118,7 +118,8 @@ class ResumeView extends React.Component {
   //// remember to pass in props from the component
 
   handleUpdateLocalState(event, textFieldName, whereFrom) {
-    const userInput = event.target.value;
+    const userInput = $(event.target).text();
+    console.log(userInput)
 
     if (whereFrom === 'header') {
       console.log('updating from header...')
