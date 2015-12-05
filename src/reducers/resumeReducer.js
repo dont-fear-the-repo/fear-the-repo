@@ -1,13 +1,14 @@
 import { createReducer } from '../utils';
 import Immutable from 'immutable';
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
-         UPDATE_LOCAL_STATE,
-         UPDATE_LOCAL_STATE_HEADER,
-         UPDATE_LOCAL_STATE_FOOTER,
-         UPDATE_LOCAL_STATE_SAVEPRINT,
-         UPDATE_LOCAL_STATE_BLOCKS,
+import { HIDE_BLOCK,
          MOVE_BLOCK,
-         MOVE_BULLET } from 'constants/resumeConstants';
+         MOVE_BULLET,
+         UPDATE_LOCAL_STATE,
+         UPDATE_LOCAL_STATE_BLOCKS,
+         UPDATE_LOCAL_STATE_FOOTER,
+         UPDATE_LOCAL_STATE_HEADER,
+         UPDATE_LOCAL_STATE_SAVEPRINT,
+         UPDATE_RESUME_WITH_SERVER_RESPONSE } from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
@@ -27,7 +28,7 @@ const initialState = {
   },
   blockChildren: [{
     blockId: 1,
-    archive: false,
+    archived: false,
     companyName: 'Company Name',
     jobTitle: 'Bossman',
     years: '2015',
@@ -36,16 +37,16 @@ const initialState = {
       bulletId: 1,
       text: 'My first bullet',
       parentBlockId: 1,
-      archive: false
+      archived: false
     }, {
       bulletId: 2,
       text: 'Then I productionalized everything, like the Bossman that I am.',
       parentBlockId: 1,
-      archive: false
+      archived: false
     }]
   }, {
     blockId: 2,
-    archive: false,
+    archived: false,
     companyName: 'Second Corp.',
     jobTitle: 'Lackey',
     years: '2014, 2013',
@@ -54,16 +55,16 @@ const initialState = {
       bulletId: 3,
       text: 'I believe in sentences that end with punctuation',
       parentBlockId: 2,
-      archive: false
+      archived: false
     }, {
       bulletId: 4,
       text: 'This is an inflexible belief.',
       parentBlockId: 2,
-      archive: false
+      archived: false
     }]
   }, {
     blockId: 3,
-    archive: false,
+    archived: false,
     companyName: 'Third Chance',
     jobTitle: 'Intern',
     years: '2012-2011',
@@ -72,12 +73,12 @@ const initialState = {
       bulletId: 5,
       text: 'Not a great life here, alas.',
       parentBlockId: 3,
-      archive: false
+      archived: false
     }, {
       bulletId: 6,
       text: 'But I played with a lot of paperclips!',
       parentBlockId: 3,
-      archive: false
+      archived: false
     }]
   }],
   resumeFooter: {
@@ -100,48 +101,11 @@ const initialState = {
 
 export default createReducer(initialState, {
 
-  [UPDATE_LOCAL_STATE]: (state, payload) => {
-    const newProperty = {};
-    newProperty[payload.textFieldName] = payload.userInput;
-    return Object.assign({}, state,
-      newProperty);
-  },
-
-  [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
+  [HIDE_BLOCK]: (state, payload) => {
     const newState = Object.assign({}, state);
-    newState.resumeHeader[payload.textFieldName] = payload.userInput;
+    const prop = newState.blockChildren.filter(child => child.blockId === payload);
+    prop[0].archived = true;
     return newState;
-  },
-
-  [UPDATE_LOCAL_STATE_FOOTER]: (state, payload) => {
-    const newState = Object.assign({}, state);
-    if (payload.textFieldName.slice(0, 6) === 'school') {
-      newState.resumeFooter[payload.textFieldName.slice(0, 7)][payload.textFieldName.slice(8)] = payload.userInput;
-    } else {
-      newState.resumeFooter[payload.textFieldName] = payload.userInput;
-    }
-    return newState;
-  },
-
-  [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
-    const newState = Object.assign({}, state);
-    newState[payload.textFieldName] = payload.userInput;
-    return newState;
-  },
-
-  [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
-    // FIXME: this function is definitely not correct yet, see Andrew's commit for truth?
-    const newState = Object.assign({}, state);
-    newState.blockChildren[0][payload.textFieldName] = payload.userInput;
-    return newState;
-  },
-
-  [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
-    console.log(payload);
-    return {
-      ...state,
-      ...payload
-    };
   },
 
   [MOVE_BLOCK]: (state, payload) => {
@@ -160,5 +124,50 @@ export default createReducer(initialState, {
     const newState = Object.assign({}, state);
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
+  },
+
+  [UPDATE_LOCAL_STATE]: (state, payload) => {
+    const newProperty = {};
+    newProperty[payload.textFieldName] = payload.userInput;
+    return Object.assign({}, state,
+      newProperty);
+  },
+
+  [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
+    // FIXME: this function is definitely not correct yet, see Andrew's commit for truth?
+    const newState = Object.assign({}, state);
+    newState.blockChildren[0][payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_FOOTER]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    if (payload.textFieldName.slice(0, 6) === 'school') {
+      newState.resumeFooter[payload.textFieldName.slice(0, 7)][payload.textFieldName.slice(8)] = payload.userInput;
+    } else {
+      newState.resumeFooter[payload.textFieldName] = payload.userInput;
+    }
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState.resumeHeader[payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState[payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
+    console.log(payload);
+    return {
+      ...state,
+      ...payload
+    };
   }
+
 });

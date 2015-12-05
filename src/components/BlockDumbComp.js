@@ -86,6 +86,10 @@ export default class BlockDumbComp extends React.Component {
     children: PropTypes.node
   }
 
+  hideBlock(event, target) {
+    this.props.actions.hideBlock(target);
+  }
+
   render() {
     const { children,
             isDragging,
@@ -136,6 +140,9 @@ export default class BlockDumbComp extends React.Component {
           <div style={resumeThemes[currentTheme].year}>
             {this.props.year}
           </div>
+
+          <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+               onClick={e => this.hideBlock(e, this.props.blockId)} />
 
           <div className='bulletContainer' style={styles.bulletContainer}>
             {bulletCollection}

@@ -10,15 +10,16 @@ import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
-import { moveBlock,
+import { hideBlock,
+         moveBlock,
          moveBullet,
-         updateResumeState,
          sendResumeToServerAsync,
          updateLocalState,
-         updateLocalStateHeader,
+         updateLocalStateBlocks,
          updateLocalStateFooter,
+         updateLocalStateHeader,
          updateLocalStateSavePrint,
-         updateLocalStateBlocks } from 'actions/resumeActions';
+         updateResumeState } from 'actions/resumeActions';
 
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
@@ -30,15 +31,16 @@ injectTapEventPlugin(); // this is some voodoo to make SelectField render correc
 
 
 const ActionCreators = {
-  updateResumeState: updateResumeState,
+  hideBlock: hideBlock,
+  moveBlock: moveBlock,
+  moveBullet: moveBullet,
   sendResumeToServerAsync: sendResumeToServerAsync,
   updateLocalState: updateLocalState,
-  updateLocalStateHeader: updateLocalStateHeader,
-  updateLocalStateFooter: updateLocalStateFooter,
   updateLocalStateBlocks: updateLocalStateBlocks,
+  updateLocalStateFooter: updateLocalStateFooter,
+  updateLocalStateHeader: updateLocalStateHeader,
   updateLocalStateSavePrint: updateLocalStateSavePrint,
-  moveBlock: moveBlock,
-  moveBullet: moveBullet
+  updateResumeState: updateResumeState
 };
 
 const mapStateToProps = (state) => ({
@@ -76,7 +78,7 @@ class ResumeView extends React.Component {
     loggedIn: React.PropTypes.bool
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.moveBlock = this.moveBlock.bind(this);
     this.findBlock = this.findBlock.bind(this);
@@ -188,7 +190,7 @@ class ResumeView extends React.Component {
                         resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
-            {this.props.resumeState.blockChildren.filter(block => block.archive === false)
+            {this.props.resumeState.blockChildren.filter(block => block.archived === false)
                                                  .map(block => {
                                                     return (
                                                       <BlockDumbComp  {...this.props}
@@ -204,7 +206,7 @@ class ResumeView extends React.Component {
                                                                       resumeThemes={resumeThemes}
                                                                       findBlock={this.findBlock} >
 
-                    {block.bulletChildren.filter(bullet => bullet.archive === false)
+                    {block.bulletChildren.filter(bullet => bullet.archived === false)
                                          .map(bullet => {
                                             return (
                                                 <Bullet key={bullet.bulletId}

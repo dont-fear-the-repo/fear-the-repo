@@ -1,12 +1,13 @@
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
-         DROP_BULLET,
-         UPDATE_LOCAL_STATE,
+import { DROP_BULLET,
+         HIDE_BLOCK,
          MOVE_BLOCK,
          MOVE_BULLET,
-         UPDATE_LOCAL_STATE_HEADER,
+         UPDATE_LOCAL_STATE,
+         UPDATE_LOCAL_STATE_BLOCKS,
          UPDATE_LOCAL_STATE_FOOTER,
+         UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
-         UPDATE_LOCAL_STATE_BLOCKS } from 'constants/resumeConstants';
+         UPDATE_RESUME_WITH_SERVER_RESPONSE } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -15,65 +16,30 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
 ////////////////////////////////////////////////////////////////////////
 
 
-export function dropBullet (payload) {
+export function dropBullet(payload) {
   return {
     type: DROP_BULLET,
     payload: payload
   };
 }
 
-export function updateLocalState (payload) {
+export function hideBlock(payload) {
   return {
-    type: UPDATE_LOCAL_STATE,
+    type: HIDE_BLOCK,
     payload: payload
   };
 }
 
-export function updateLocalStateHeader (payload) {
-  return {
-    type: UPDATE_LOCAL_STATE_HEADER,
-    payload: payload
-  };
-}
-
-export function updateLocalStateFooter (payload) {
-  return {
-    type: UPDATE_LOCAL_STATE_FOOTER,
-    payload: payload
-  };
-}
-
-export function updateLocalStateSavePrint (payload) {
-  return {
-    type: UPDATE_LOCAL_STATE_SAVEPRINT,
-    payload: payload
-  };
-}
-
-export function updateLocalStateBlocks (payload) {
-  return {
-    type: UPDATE_LOCAL_STATE_BLOCKS,
-    payload: payload
-  };
-}
-
-export function moveBlock (payload) {
+export function moveBlock(payload) {
   return {
     type: MOVE_BLOCK,
     payload: payload
   };
 }
 
-export function moveBullet (payload) {
+export function moveBullet(payload) {
   return {
     type: MOVE_BULLET,
-    payload: payload
-  };
-}
-
-export function updateResumeState (payload) { // TODO: rename to "serverupdate"
-  return {
-    type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
     payload: payload
   };
 }
@@ -98,5 +64,47 @@ export function sendResumeToServerAsync(sentResumeObj) {
       );
     // In a real world app, you also want to
     // catch any error in the network call.
+  };
+}
+
+export function updateLocalState(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE,
+    payload: payload
+  };
+}
+
+export function updateLocalStateHeader(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_HEADER,
+    payload: payload
+  };
+}
+
+export function updateLocalStateFooter(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_FOOTER,
+    payload: payload
+  };
+}
+
+export function updateLocalStateSavePrint(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_SAVEPRINT,
+    payload: payload
+  };
+}
+
+export function updateLocalStateBlocks(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_BLOCKS,
+    payload: payload
+  };
+}
+
+export function updateResumeState(payload) { // TODO: rename to "serverupdate"
+  return {
+    type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
+    payload: payload
   };
 }
