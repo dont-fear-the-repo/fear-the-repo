@@ -8,6 +8,8 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
          UPDATE_LOCAL_STATE_BLOCKS,
          UPDATE_LOCAL_STATE_BULLETS,
          MOVE_BLOCK,
+         SERVER_IS_SAVING_UPDATE,
+         CLIENT_IS_DIRTY_UPDATE,
          MOVE_BULLET } from 'constants/resumeConstants';
 
 
@@ -16,6 +18,8 @@ const initialState = {
   resumeId: 1,
   resumeTitle: 'Resume Version Name',
   resumeTheme: 'Default',
+  serverIsSaving: 'no',
+  clientFormIsDirty: false,
   resumeHeader: {
     name: 'Full Name',
     profession: 'Profession',
@@ -135,7 +139,6 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
-    console.log(payload);
     return {
       ...state,
       ...payload
@@ -158,5 +161,21 @@ export default createReducer(initialState, {
     const newState = Object.assign({}, state);
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
+  },
+
+  [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
+
+    let newState = Object.assign({}, state);
+    newState.serverIsSaving = payload;
+    return newState;
+
+  },
+
+  [CLIENT_IS_DIRTY_UPDATE]: (state, payload) => {
+
+    return Object.assign({}, state, {
+      chickens: payload.email,
+      userID: payload.id
+    });
   }
 });
