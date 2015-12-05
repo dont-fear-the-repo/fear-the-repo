@@ -19,6 +19,9 @@ export const styles = {
     marginRight: '20px',
     marginTop: '12px'
   },
+  buttonLabelStyle: {
+    textTransform: 'none'
+  },
   resumeButton: {
     fontFamily: font,
     fontSize: fontsize,

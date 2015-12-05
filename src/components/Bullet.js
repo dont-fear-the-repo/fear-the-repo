@@ -102,12 +102,20 @@ export default class Bullet extends React.Component {
         opacity: isDragging ? 0 : 1,
         cursor: 'move',
         width: '400px'
+      },
+      textField: {
+        width: '190%',
+        display: 'list-item'
       }
     };
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
-        <TextField defaultValue={this.props.text} style={{width: '200%'}} />
+        <TextField defaultValue={this.props.text}
+          style={styles.textField}
+          underlineFocusStyle={{borderColor: '#FF6925'}}
+          underlineStyle={{borderColor: '#FFFFFF'}}
+          multiLine={true} />
       </div>
     ));
   }
