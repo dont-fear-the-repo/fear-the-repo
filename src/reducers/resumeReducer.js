@@ -7,7 +7,9 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_LOCAL_STATE_BLOCKS,
-         MOVE_BLOCK } from 'constants/resumeConstants';
+         MOVE_BLOCK,
+         SERVER_IS_SAVING_UPDATE,
+         CLIENT_IS_DIRTY_UPDATE } from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
@@ -15,6 +17,8 @@ const initialState = {
   resumeId: 1,
   resumeTitle: 'Resume Version Name',
   resumeTheme: 'Default',
+  serverIsSaving: 'no',
+  clientFormIsDirty: false,
   resumeHeader: {
     name: 'Full Name',
     profession: 'Profession',
@@ -122,7 +126,6 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
-    console.log(payload);
     return {
       ...state,
       ...payload

@@ -1,4 +1,13 @@
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS } from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
+         DROP_BULLET,
+         UPDATE_LOCAL_STATE,
+         MOVE_BLOCK,
+         UPDATE_LOCAL_STATE_HEADER,
+         UPDATE_LOCAL_STATE_FOOTER,
+         UPDATE_LOCAL_STATE_SAVEPRINT,
+         UPDATE_LOCAL_STATE_BLOCKS,
+         SERVER_IS_SAVING_UPDATE,
+         CLIENT_IS_DIRTY_UPDATE } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -16,6 +25,7 @@ export function dropBullet (payload) {
     payload: payload
   };
 }
+
 
 export function updateLocalState (payload) {
   return {
@@ -59,11 +69,32 @@ export function moveBlock (payload) {
   };
 }
 
-export function updateResumeState (payload) { // rename to "serverupdate"
+export function updateResumeWithServerResponse (payload) {
   return {
     type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
     payload: payload
   };
+}
+
+export function getResumeFromServerDBAsync (payload) { // rename to "serverupdate"
+  return function(dispatch) {
+    console.log('hola mundo')
+    return fetch('http://localhost:3000/api/resume/giveMeTestResume', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(serverResponseJavascriptObject =>
+        dispatch(updateResumeWithServerResponse(serverResponseJavascriptObject))
+      )
+
+    // In a real world app, you also want to
+    // catch any error in the network call.
+  }
 }
 
 
@@ -83,7 +114,7 @@ export function sendResumeToServerAsync(sentResumeObj) {
       })
       .then(response => response.json())
       .then(serverResponseJavascriptObject =>
-        dispatch(updateResumeState(serverResponseJavascriptObject))
+        dispatch(updateResumeWithServerResponse(serverResponseJavascriptObject))
       )
 
     // In a real world app, you also want to

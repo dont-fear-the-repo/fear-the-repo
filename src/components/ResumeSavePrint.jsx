@@ -2,15 +2,20 @@ import React from 'react';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 
-
 export default class ResumeSavePrint extends React.Component {
 
+  handleLoad() {
+    let wrappedForServer = Object.assign({}, this.props.resumeState);
+    wrappedForServer.userID = this.props.userID;
+    this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
+  }
+
   handleSubmit() {
-    if (this.props.loggedIn) {
+    // if (this.props.loggedIn) {
       this.props.actions.sendResumeToServerAsync(this.props.resumeState);
-    } else {
-      alert('To save a resume, please signup above');
-    }
+    // } else {
+    //   alert('To save a resume, please signup above');
+    // }
   }
 
   handlePrint() {
@@ -29,6 +34,14 @@ export default class ResumeSavePrint extends React.Component {
     this.props.actions.updateLocalState({textFieldName, userInput});
   }
 
+  // This will cause a resume to automatically call the server and load the logged-in user's resume.
+  // Do no run unless we decied to put some logic in to deal with unlogged in users, or clientIsDirty=true conditions.
+  // componentDidMount() {
+  //   console.log("Loading resume data from server...")
+  //   this.handleLoad();
+  // }
+
+
   render() {
     const themes = Object.keys(resumeThemes)
                     .map( (value, index) => ({
@@ -39,9 +52,9 @@ export default class ResumeSavePrint extends React.Component {
     return (
       <div style={this.props.styles.headerContainer}>
 
-        <Paper>
-          {JSON.stringify(this.props.handleUpdateLocalState)}
-        </Paper>
+        <RaisedButton label='Reload Last Saved Resume'
+                      style={this.props.styles.saveButton}
+                      onClick={e => this.handleLoad(e)} />
 
         <SelectField floatingLabelText='Select a theme'
                      floatingLabelStyle={this.props.styles.floatingLabelStyle}

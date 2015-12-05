@@ -12,7 +12,9 @@ import ResumeSavePrint from 'components/ResumeSavePrint';
 import { moveBlock,
          dropBullet,
          updateResumeState,
+         updateResumeWithServerResponse,
          sendResumeToServerAsync,
+         getResumeFromServerDBAsync,
          updateLocalState,
          updateLocalStateHeader,
          updateLocalStateFooter,
@@ -30,6 +32,7 @@ injectTapEventPlugin(); // this is some voodoo to make SelectField render correc
 const ActionCreators = {
   updateResumeState: updateResumeState,
   sendResumeToServerAsync: sendResumeToServerAsync,
+  getResumeFromServerDBAsync: getResumeFromServerDBAsync,
   updateLocalState: updateLocalState,
   updateLocalStateHeader: updateLocalStateHeader,
   updateLocalStateFooter: updateLocalStateFooter,
@@ -43,7 +46,8 @@ const mapStateToProps = (state) => ({
   routerState: state.router,
   resumeState: state.resumeReducer,
   resumeTheme: state.resumeReducer.resumeTheme,
-  loggedIn: state.titleBarReducer.loggedIn
+  loggedIn: state.titleBarReducer.loggedIn,
+  userID: state.titleBarReducer.userID || null
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -107,16 +111,8 @@ class ResumeView extends React.Component {
     this.findBullet = this.findBullet.bind(this);
   }
 
-  // handleSubmit(props) {
-  //   if (props.loggedIn) {
-  //     console.log('saving...')
-  //     props.actions.sendResumeToServerAsync(props.resumeState);
-  //   } else {
-  //     alert('To save a resume, please signup above');
-  //   }
-  // }
-  //// remember to pass in props from the component
 
+  // remember to pass in props from the component
   handleUpdateLocalState(event, textFieldName, whereFrom) {
     const userInput = event.target.value;
 
@@ -192,9 +188,13 @@ class ResumeView extends React.Component {
 
         <ResumeSavePrint {...this.props}
                          styles={styles}
-                         handleUpdateLocalState={this.handleUpdateLocalState} />
+                         handleUpdateLocalState={this.handleUpdateLocalState}
+                         getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc} />
 
         <Paper style={styles.resumePaper}>
+
+        <h1> statetest: {JSON.stringify(this.props.userId)} {this.userId} </h1>
+
           <ResumeHeader {...this.props}
                         styles={styles}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
