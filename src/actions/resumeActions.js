@@ -153,6 +153,9 @@ export function sendResumeToServerAsync(sentResumeObj) {
       .then(serverResponse =>
         dispatch(serverIsSavingUpdate(serverResponse.text))
       )
+      .then(() =>
+        dispatch(clientIsDirtyUpdate(false))
+      )
     // In a real world app, you also want to
     // catch any error in the network call.
   };

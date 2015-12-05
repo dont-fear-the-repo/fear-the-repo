@@ -21,7 +21,7 @@ import { moveBlock,
          updateLocalStateSavePrint,
          updateLocalStateBlocks,
          serverIsSavingUpdate,
-         clientIsDirtyUpdate
+         clientIsDirtyUpdate,
          updateLocalStateBullets } from 'actions/resumeActions';
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
@@ -51,7 +51,7 @@ const ActionCreators = {
 const mapStateToProps = (state) => ({
   routerState: state.router,
   resumeState: state.resumeReducer,
-  resumeTheme: state.resumeReducer.resumeTheme, // maybe should be currentTheme
+  currentTheme: state.resumeReducer.resumeTheme, // maybe should be currentTheme
   loggedIn: state.titleBarReducer.loggedIn,
   userID: state.titleBarReducer.userID || null
 });
@@ -94,6 +94,7 @@ class ResumeView extends React.Component {
 
 
   handleUpdateLocalState(event, textFieldName, whereFrom, id) {
+    this.actions.clientIsDirtyUpdate(true);
     const userInput = event.target.textContent;
     // remember to pass in props from the component
     //////////////////////////////////////

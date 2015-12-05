@@ -164,18 +164,14 @@ export default createReducer(initialState, {
   },
 
   [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
-
     let newState = Object.assign({}, state);
     newState.serverIsSaving = payload;
     return newState;
-
   },
 
   [CLIENT_IS_DIRTY_UPDATE]: (state, payload) => {
-
-    return Object.assign({}, state, {
-      chickens: payload.email,
-      userID: payload.id
-    });
+    let newState = Object.assign({}, state);
+    newState.clientFormIsDirty = payload;
+    return newState;
   }
 });

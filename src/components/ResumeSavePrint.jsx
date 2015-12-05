@@ -87,17 +87,13 @@ export default class ResumeSavePrint extends React.Component {
 
         <RaisedButton label='Save Resume'
                       style={this.props.styles.saveButton}
+                      labelStyle={this.props.styles.buttonLabelStyle}
                       onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
 
         <RaisedButton label='Print Resume'
                       style={this.props.styles.printButton}
                       labelStyle={this.props.styles.buttonLabelStyle}
                       onClick={e => this.handlePrint(e)} />
-
-        <RaisedButton label='Save'
-                      style={this.props.styles.saveButton}
-                      labelStyle={this.props.styles.buttonLabelStyle}
-                      onClick={e => this.handleSubmit(e)} />
 
       </div>
     );
