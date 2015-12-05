@@ -1,7 +1,7 @@
 import React, { PropTypes }       from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import Editor from 'react-medium-editor';
 import { Paper } from 'material-ui/lib';
+import Editor from 'react-medium-editor';
 
 const Types = {
   BULLET: 'bullet',
@@ -13,7 +13,6 @@ const bulletSource = {
   // When dragging starts, beginDrag is called
   // What's returned is the only information available to the drop targets
     // should be the minimum amount of info, which is why why return just the ID and not the entire object
-
 
   beginDrag(props, monitor, component) {
     // Store the ID of the parent block of the dragged bullet
@@ -82,29 +81,28 @@ const bulletTarget = {
 
 export default class Bullet extends React.Component {
   static propTypes = {
-    // injected by react dnd
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
     bulletId: PropTypes.any.isRequired,
     moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
-    // coming from ResumeView.js (parent component) thru props
-    text: PropTypes.string.isRequired
+    parentBlockId: PropTypes.any.isRequired,
+    text: PropTypes.string.isRequired,
+    handleUpdateLocalState: PropTypes.func.isRequired
   };
 
   state = { editing: false }
-  
+
   handleBlur() {
     this.setState({editing : false})
   }
 
   handleClick() {
     this.setState({editing: true})
-  } 
+  }
 
   render() {
-    // not sure why these need to be assigned, but not companyName and jobTitle
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
 
     const styles = {
@@ -128,9 +126,12 @@ export default class Bullet extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
         <Paper>
-          <div><Editor style={styles.editorField} text={this.props.text}/></div>
+          <Editor style={styles.editorField}
+            text={this.props.text}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
         </Paper>
-      </div>  
+      </div>
     ));
   }
 }

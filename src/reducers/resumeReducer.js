@@ -6,6 +6,7 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_LOCAL_STATE_BLOCKS,
+         UPDATE_LOCAL_STATE_BULLETS,
          MOVE_BLOCK,
          MOVE_BULLET } from 'constants/resumeConstants';
 
@@ -88,7 +89,6 @@ const initialState = {
   }
 };
 
-
 export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
@@ -121,9 +121,14 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
-    // FIXME: this function is definitely not correct yet, see Andrew's commit for truth?
     const newState = Object.assign({}, state);
-    newState.blockChildren[0][payload.textFieldName] = payload.userInput;
+    newState.blockChildren[payload.blockIndex][payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_BULLETS]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState.blockChildren[payload.parentBlockIndex].bulletChildren[payload.bulletIndex][payload.textFieldName] = payload.userInput;
     return newState;
   },
 
@@ -146,7 +151,6 @@ export default createReducer(initialState, {
   [MOVE_BULLET]: (state, payload) => {
     const parentBlock = payload.blockChildren[payload.parentBlockIndex];
     const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren);
-    const parentBlockIndex = payload.parentBlockIndex;
 
     const newState = Object.assign({}, state);
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();

@@ -2,7 +2,6 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
-import $ from 'jQuery';
 
 // Components
 import BlockDumbComp from 'components/BlockDumbComp';
@@ -18,7 +17,8 @@ import { moveBlock,
          updateLocalStateHeader,
          updateLocalStateFooter,
          updateLocalStateSavePrint,
-         updateLocalStateBlocks } from 'actions/resumeActions';
+         updateLocalStateBlocks,
+         updateLocalStateBullets } from 'actions/resumeActions';
 
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
@@ -36,6 +36,7 @@ const ActionCreators = {
   updateLocalStateHeader: updateLocalStateHeader,
   updateLocalStateFooter: updateLocalStateFooter,
   updateLocalStateBlocks: updateLocalStateBlocks,
+  updateLocalStateBullets: updateLocalStateBullets,
   updateLocalStateSavePrint: updateLocalStateSavePrint,
   moveBlock: moveBlock,
   moveBullet: moveBullet
@@ -94,9 +95,28 @@ class ResumeView extends React.Component {
   // }
   //// remember to pass in props from the component
 
-  handleUpdateLocalState(event, textFieldName, whereFrom) {
-    const userInput = $(event.target).text();
-    console.log('userInput: ', userInput);
+  handleUpdateLocalState(event, textFieldName, whereFrom, id, parentBlockId) {
+    const userInput = event.target.textContent;
+
+    /*
+    To update data on a block, we must access that blockChildren via its index.
+
+    We can grab the block's id in BlockDumbComp and pass it to handleUpdateLocalState, which is where you're reading this from.
+
+    We then call findBlock with the id to get the block's index.
+
+    updateLocalStateHeaderBlocks will send blockIndex (optional 4th argument) along with the rest of payload to resumeReducer.
+    */
+    let blockIndex;
+    if (whereFrom === 'blocks') {
+      blockIndex = this.findBlock(id).blockIndex;
+    }
+
+    let bulletIndex, parentBlockIndex;
+    if (whereFrom === 'bullets') {
+      parentBlockIndex = this.findBlock(parentBlockId).blockIndex;
+      bulletIndex = this.findBullet(id, parentBlockIndex).bulletIndex;
+    }
 
     if (whereFrom === 'header') {
       console.log('updating from header...');
@@ -107,6 +127,12 @@ class ResumeView extends React.Component {
     } else if (whereFrom === 'savePrint') {
       console.log('updating from savePrint...');
       this.actions.updateLocalStateSavePrint({textFieldName, userInput, whereFrom});
+    } else if (whereFrom === 'blocks') {
+      console.log('updating from blocks...');
+      this.actions.updateLocalStateBlocks({textFieldName, userInput, whereFrom, blockIndex});
+    } else if (whereFrom === 'bullets') {
+      console.log('updating from bullets...');
+      this.actions.updateLocalStateBullets({textFieldName, userInput, whereFrom, bulletIndex, parentBlockIndex});
     } else {
       console.log('updating from main...');
       this.props.actions.updateLocalState({textFieldName, userInput});
@@ -153,9 +179,6 @@ class ResumeView extends React.Component {
   findBullet(draggedId, parentBlockIndex) {
     const block = this.props.resumeState.blockChildren[parentBlockIndex];
     const bullets = [];
-
-    console.log('[findBullet]: block --- ', block)
-    console.log('[findBullet]: draggedId --- ', draggedId)
 
     block.bulletChildren.map(bullet =>
       bullets.push(bullet)
@@ -204,17 +227,20 @@ class ResumeView extends React.Component {
                                 location={block.location}
                                 moveBlock={this.moveBlock}
                                 resumeThemes={resumeThemes}
-                                findBlock={this.findBlock} >
+                                findBlock={this.findBlock}
+                                handleUpdateLocalState={this.handleUpdateLocalState}>
 
                     {block.bulletChildren.map(bullet => {
                       return (
-                          <Bullet key={bullet.bulletId}
-                            bulletId={bullet.bulletId}
-                            parentBlockId={bullet.parentBlockId}
-                            text={bullet.text}
-                            moveBullet={this.moveBullet}
-                            findBullet={this.findBullet}
-                            findBlock={this.findBlock} />
+                          <Bullet {...this.props}
+                                  key={bullet.bulletId}
+                                  bulletId={bullet.bulletId}
+                                  parentBlockId={bullet.parentBlockId}
+                                  text={bullet.text}
+                                  moveBullet={this.moveBullet}
+                                  findBullet={this.findBullet}
+                                  findBlock={this.findBlock}
+                                  handleUpdateLocalState={this.handleUpdateLocalState} />
                       );
                     })}
 
