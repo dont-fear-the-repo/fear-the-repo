@@ -116,10 +116,10 @@ export default createReducer(initialState, {
     const newBlock = {
       blockId: Date.now(),
       archived: false,
-      companyName: 'YO SHIT WORKED',
-      jobTitle: '',
-      years: '',
-      location: '',
+      companyName: 'Company Name',
+      jobTitle: 'Job Title',
+      years: 'StartYear - EndYear',
+      location: 'City, State',
       bulletChildren: []
     };
     newState.blockChildren.push(newBlock);
@@ -130,7 +130,7 @@ export default createReducer(initialState, {
     const newState = { ...state };
     const newBullet = {
       bulletId: Date.now(),
-      text: 'YO SHIT WORKED AGAIN',
+      text: 'New Bullet',
       parentBlockId: payload,
       archived: false
     };
