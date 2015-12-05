@@ -7,8 +7,10 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_LOCAL_STATE_BLOCKS,
+         SERVER_IS_SAVING_UPDATE,
+         CLIENT_IS_DIRTY_UPDATE,
          UPDATE_LOCAL_STATE_BULLETS
-          } from 'constants/resumeConstants';
+       } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -80,20 +82,66 @@ export function moveBullet (payload) {
   };
 }
 
-export function updateResumeState (payload) { // TODO: rename to "serverupdate"
+export function updateResumeWithServerResponse (payload) {
   return {
     type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
     payload: payload
   };
 }
 
+export function serverIsSavingUpdate (payload) {
+  return {
+    type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
+    payload: payload
+  };
+}
+
+export function serverIsSavingUpdate (payload) {
+  return {
+    type: SERVER_IS_SAVING_UPDATE,
+    payload: payload
+  };
+}
+
+
+export function clientIsDirtyUpdate (payload) {
+  return {
+    type: CLIENT_IS_DIRTY_UPDATE,
+    payload: payload
+  };
+}
+
+export function getResumeFromServerDBAsync (payload) { // rename to "serverupdate"
+  return function(dispatch) {
+    console.log('ran getResumeFromServerDBAsync in resumeActions.js')
+    return fetch('http://localhost:3000/api/resume/giveMeTestResume', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(serverResponseJavascriptObject =>
+        dispatch(updateResumeWithServerResponse(serverResponseJavascriptObject))
+      ).then((action) =>
+        dispatch(serverIsSavingUpdate('resumeHeader.name of recieved Resume:' + JSON.stringify(action.payload.resumeHeader.name)))
+      ) // this needs to eventually be a server response that has {text: 'successful save!'} added to the resume body object.
+
+    // In a real world app, you also want to
+    // catch any error in the network call.
+  }
+}
+
+
 export function sendResumeToServerAsync(sentResumeObj) {
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
   return function(dispatch) {
-
-    return fetch('http://localhost:3000/api/resume/create', {
+    console.log('ran sendResumeToServerAsync in resumeActions.js')
+    return fetch('http://localhost:3000/api/resume/testSave', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -102,9 +150,12 @@ export function sendResumeToServerAsync(sentResumeObj) {
         body: JSON.stringify(sentResumeObj)
       })
       .then(response => response.json())
-      .then(serverResponseJavascriptObject =>
-        dispatch(updateResumeState(serverResponseJavascriptObject))
-      );
+      .then(serverResponse =>
+        dispatch(serverIsSavingUpdate(serverResponse.text))
+      )
+      .then(() =>
+        dispatch(clientIsDirtyUpdate(false))
+      )
     // In a real world app, you also want to
     // catch any error in the network call.
   };
