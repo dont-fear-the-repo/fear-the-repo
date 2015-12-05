@@ -93,10 +93,15 @@ export const styles = {
     fontWeight: MasterTheme.light
   },
   blockDrag: {
+    opacity: isDragging ? 0 : 1,
     cursor: 'move',
     margin: '0px'
   },
+  bulletContainer: {
+    width: '95%'
+  },
   bullet: {
-    fontSize: '14px'
+    fontSize: '16px',
+    marginTop: '10px'
   }
 };

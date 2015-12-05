@@ -79,16 +79,16 @@ export const resumeThemes = {
       marginRight: '10px'
     },
     schoolName: {
-
+      display: 'inline-block'
     },
     schoolDegree: {
-
+      display: 'inline-block'
     },
     schoolYear: {
-
+      display: 'inline-block'
     },
     schoolLocation: {
-
+      display: 'inline-block'
     },
     personalStatement: {
 

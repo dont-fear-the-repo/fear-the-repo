@@ -1,100 +1,82 @@
 import React from 'react';
 import { TextField, Paper } from 'material-ui/lib';
+import Editor from 'react-medium-editor';
 
 
 export default class ResumeFooter extends React.Component {
   render() {
     const { currentTheme, resumeThemes } = this.props;
+    const { resumeFooter } = this.props.resumeState;
 
     return (
       <div>
         <div style={resumeThemes[currentTheme].plain}>
 
-          <TextField ref='school1-name'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText={this.props.resumeState.resumeFooter.school1.name}
-                     style={resumeThemes[currentTheme].schoolName}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-name', 'footer')} />
+          <Editor text={resumeFooter.school1.name}
+                  style={resumeThemes[currentTheme].schoolName}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'school1-name', 'footer')} />
 
           <div style={resumeThemes[currentTheme].pipe}> | </div>
 
-          <TextField ref='school1-degree'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText={this.props.resumeState.resumeFooter.school1.degree}
-                     style={resumeThemes[currentTheme].schoolDegree}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-degree', 'footer')} />
+          <Editor text={resumeFooter.school1.degree}
+                  style={resumeThemes[currentTheme].schoolDegree}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'school1-degree', 'footer')} />
 
           <div style={resumeThemes[currentTheme].pipe}> | </div>
 
-          <TextField ref='school1-schoolEndYear'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText={this.props.resumeState.resumeFooter.school1.schoolEndYear}
-                     style={resumeThemes[currentTheme].schoolYear}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-schoolEndYear', 'footer')} />
+          <Editor text={resumeFooter.school1.schoolEndYear}
+                  style={resumeThemes[currentTheme].schoolYear}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'school1-schoolEndYear', 'footer')} />
 
           <div style={resumeThemes[currentTheme].pipe}> | </div>
 
-          <TextField ref='school1-location'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText={this.props.resumeState.resumeFooter.school1.location}
-                     style={resumeThemes[currentTheme].schoolLocation}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school1-location', 'footer')} />
+          <Editor style={resumeThemes[currentTheme].schoolLocation}
+                  text={this.props.resumeState.resumeFooter.school1.location}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'school1-location', 'footer')} />
+          <br/>
 
-
-          <TextField ref='school2-name'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText={this.props.resumeState.resumeFooter.school2.name}
-                     style={resumeThemes[currentTheme].schoolName}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-name', 'footer')} />
+          <Editor style={resumeThemes[currentTheme].schoolName}
+                  text={this.props.resumeState.resumeFooter.school2.name}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'school2-name', 'footer')} />
 
           <div style={resumeThemes[currentTheme].pipe}> | </div>
 
-          <TextField ref='school2-degree'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText={this.props.resumeState.resumeFooter.school2.degree}
-                     style={resumeThemes[currentTheme].schoolDegree}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-degree', 'footer')} />
+          <Editor style={resumeThemes[currentTheme].schoolDegree}
+                  text={this.props.resumeState.resumeFooter.school2.degree}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'school2-degree', 'footer')} />
 
           <div style={resumeThemes[currentTheme].pipe}> | </div>
 
-          <TextField ref='school2-schoolEndYear'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText={this.props.resumeState.resumeFooter.school2.schoolEndYear}
-                     style={resumeThemes[currentTheme].schoolYear}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-schoolEndYear', 'footer')} />
+          <Editor style={resumeThemes[currentTheme].schoolYear}
+                  text={this.props.resumeState.resumeFooter.school2.schoolEndYear}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'school2-schoolEndYear', 'footer')} />
 
           <div style={resumeThemes[currentTheme].pipe}> | </div>
 
-          <TextField ref='school2-location'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText={this.props.resumeState.resumeFooter.school2.location}
-                     style={resumeThemes[currentTheme].schoolLocation}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'school2-location', 'footer')} />
+          <Editor style={resumeThemes[currentTheme].schoolLocation}
+                  text={this.props.resumeState.resumeFooter.school2.location}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'school2-location', 'footer')} />
 
         </div>
-
 
         <div style={resumeThemes[currentTheme].plain}>
 
         </div>
 
-
         <div style={resumeThemes[currentTheme].plain}>
 
-          <TextField ref='personalStatement'
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintText='Personal Statement'
-                     style={resumeThemes[currentTheme].personalStatement}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'personalStatement', 'footer')} />
+          <Editor text='personalStatement'
+                  style={resumeThemes[currentTheme].personalStatement}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'personalStatement', 'footer')} />
 
         </div>
 
