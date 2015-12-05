@@ -8,6 +8,7 @@ import { HIDE_BLOCK,
          MOVE_BULLET,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_BLOCKS,
+         UPDATE_LOCAL_STATE_BULLETS,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
@@ -148,9 +149,15 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
-    // FIXME: this function is definitely not correct yet, see Andrew's commit for truth?
     const newState = Object.assign({}, state);
-    newState.blockChildren[0][payload.textFieldName] = payload.userInput;
+    newState.blockChildren[payload.blockIndex][payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_BULLETS]: (state, payload) => {
+    // FIXME
+    const newState = Object.assign({}, state);
+    newState.blockChildren[0][payload.textFieldName] = payload.bulletInput;
     return newState;
   },
 
@@ -173,7 +180,6 @@ export default createReducer(initialState, {
   [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
     const newState = Object.assign({}, state);
     newState[payload.textFieldName] = payload.userInput;
-    return newState;
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {

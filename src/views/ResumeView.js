@@ -2,7 +2,6 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
-import $ from 'jQuery';
 
 // Components
 import BlockDumbComp from 'components/BlockDumbComp';
@@ -17,6 +16,7 @@ import { hideBlock,
          sendResumeToServerAsync,
          updateLocalState,
          updateLocalStateBlocks,
+         updateLocalStateBullets,
          updateLocalStateFooter,
          updateLocalStateHeader,
          updateLocalStateSavePrint,
@@ -39,6 +39,7 @@ const ActionCreators = {
   sendResumeToServerAsync: sendResumeToServerAsync,
   updateLocalState: updateLocalState,
   updateLocalStateBlocks: updateLocalStateBlocks,
+  updateLocalStateBullets: updateLocalStateBullets,
   updateLocalStateFooter: updateLocalStateFooter,
   updateLocalStateHeader: updateLocalStateHeader,
   updateLocalStateSavePrint: updateLocalStateSavePrint,
@@ -98,9 +99,31 @@ class ResumeView extends React.Component {
   // }
   //// remember to pass in props from the component
 
-  handleUpdateLocalState(event, textFieldName, whereFrom) {
-    const userInput = $(event.target).text();
-    console.log('userInput: ', userInput);
+  handleUpdateLocalState(event, textFieldName, whereFrom, id) {
+    const userInput = event.target.textContent;
+
+    // bulletInput is unique because it uses Material UI
+    // If we choose to go with Editor, this can be removed and the second argument to updateLocalStateBullets below should be replaced with userInput
+      // and also in resumeReducer
+    let bulletInput, bulletIndex;
+    if (whereFrom === 'bullets') {
+      bulletInput = event.target.value;
+      bulletIndex = this.findBullet(id).bulletIndex;
+    }
+
+    /*
+    To update data on a block, we must access that blockChildren via its index.
+
+    We can grab the block's id in BlockDumbComp and pass it to handleUpdateLocalState, which is where you're reading this from.
+
+    We then call findBlock with the id to get the block's index.
+
+    updateLocalStateHeaderBlocks will send blockIndex (optional 4th argument) along with the rest of payload to resumeReducer.
+    */
+    let blockIndex;
+    if (whereFrom === 'blocks') {
+      blockIndex = this.findBlock(id).blockIndex;
+    }
 
     if (whereFrom === 'header') {
       console.log('updating from header...');
@@ -111,6 +134,12 @@ class ResumeView extends React.Component {
     } else if (whereFrom === 'savePrint') {
       console.log('updating from savePrint...');
       this.actions.updateLocalStateSavePrint({textFieldName, userInput, whereFrom});
+    } else if (whereFrom === 'blocks') {
+      console.log('updating from blocks...');
+      this.actions.updateLocalStateBlocks({textFieldName, userInput, whereFrom, blockIndex});
+    } else if (whereFrom === 'bullets') {
+      console.log('updating from bullets...');
+      this.actions.updateLocalStateBullets({textFieldName, bulletInput, whereFrom});
     } else {
       console.log('updating from main...');
       this.props.actions.updateLocalState({textFieldName, userInput});
@@ -192,6 +221,7 @@ class ResumeView extends React.Component {
                         resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
+<<<<<<< HEAD
             {blockChildren.filter(block => block.archived === false)
                           .map(block => {
                             return (
@@ -206,7 +236,8 @@ class ResumeView extends React.Component {
                                               location={block.location}
                                               moveBlock={this.moveBlock}
                                               resumeThemes={resumeThemes}
-                                              findBlock={this.findBlock} >
+                                              findBlock={this.findBlock}
+                                              handleUpdateLocalState={this.handleUpdateLocalState} >
 
                     {block.bulletChildren.filter(bullet => bullet.archived === false)
                                          .map(bullet => {
@@ -218,7 +249,8 @@ class ResumeView extends React.Component {
                                                   text={bullet.text}
                                                   moveBullet={this.moveBullet}
                                                   findBullet={this.findBullet}
-                                                  findBlock={this.findBlock} />
+                                                  findBlock={this.findBlock}
+                                                  handleUpdateLocalState={this.handleUpdateLocalState} />
                                             );
                     })}
 

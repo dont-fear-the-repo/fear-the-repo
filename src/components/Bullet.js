@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
+import Editor from 'react-medium-editor';
+import { TextField } from 'material-ui/lib';
 
 const Types = {
   BULLET: 'bullet',
@@ -88,7 +90,8 @@ export default class Bullet extends React.Component {
     moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
     // coming from ResumeView.js (parent component) thru props
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
+    handleUpdateLocalState: PropTypes.func.isRequired
   };
 
   hideBullet(event, target) {
@@ -104,13 +107,24 @@ export default class Bullet extends React.Component {
     const styles = {
       bulletDrag: {
         opacity: isDragging ? 0 : 1,
-        cursor: 'move'
+        cursor: 'move',
+        width: '400px'
+      },
+      textField: {  // FIXME: this should live in the styles file. BulletDrag is only in here because it uses the 'isDragging' property.
+        width: '190%',
+        display: 'list-item'
       }
     };
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
-        <p>{this.props.text}</p>
+        <TextField defaultValue={this.props.text}
+          style={styles.textField}
+          underlineFocusStyle={{borderColor: '#FF6925'}}
+          underlineStyle={{borderColor: '#FFFFFF'}}
+          multiLine={true}
+          onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets')} />
+
         <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
              onClick={e => this.hideBullet(e, this.props.bulletId)} />
       </div>

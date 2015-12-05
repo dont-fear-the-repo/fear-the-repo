@@ -5,6 +5,7 @@ import { DROP_BULLET,
          MOVE_BULLET,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_BLOCKS,
+         UPDATE_LOCAL_STATE_BULLETS,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
@@ -82,9 +83,16 @@ export function updateLocalState(payload) {
   };
 }
 
-export function updateLocalStateHeader(payload) {
+export function updateLocalStateBlocks(payload) {
   return {
-    type: UPDATE_LOCAL_STATE_HEADER,
+    type: UPDATE_LOCAL_STATE_BLOCKS,
+    payload: payload
+  };
+}
+
+export function updateLocalStateBullets (payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_BULLETS,
     payload: payload
   };
 }
@@ -96,16 +104,16 @@ export function updateLocalStateFooter(payload) {
   };
 }
 
-export function updateLocalStateSavePrint(payload) {
+export function updateLocalStateHeader(payload) {
   return {
-    type: UPDATE_LOCAL_STATE_SAVEPRINT,
+    type: UPDATE_LOCAL_STATE_HEADER,
     payload: payload
   };
 }
 
-export function updateLocalStateBlocks(payload) {
+export function updateLocalStateSavePrint(payload) {
   return {
-    type: UPDATE_LOCAL_STATE_BLOCKS,
+    type: UPDATE_LOCAL_STATE_SAVEPRINT,
     payload: payload
   };
 }
