@@ -80,10 +80,9 @@ devServer.app.post('/signup', (req, res) => {
             dbSchema.User.create({
               email: req.body.email,
               password: hash
-            }).then((user) => {
-                addResume(user).then((results) => {
-                utils.createSession(req, res, results);
-              })
+            }).then((results) => {
+              utils.createSession(req, res, results);
+            })
           })
       } else {
         res.status(401).send({
