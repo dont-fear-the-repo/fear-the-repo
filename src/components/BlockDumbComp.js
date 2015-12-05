@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import { Paper } from 'material-ui/lib';
+import { Paper, TextField } from 'material-ui/lib';
+import Editor from 'react-medium-editor';
 
 
 // /////////////////////////////////////// //
@@ -140,28 +141,28 @@ export default class BlockDumbComp extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={this.props.styles.blockDrag}>
         <Paper>
-          <div style={this.props.styles.jobTitle}>
-            {this.props.jobTitle}
-          </div>
+          <Editor style={this.props.styles.jobTitle}
+          text={this.props.jobTitle}
+          options={{toolbar: false}}/>
 
           <div style={this.props.styles.pipe}>
             |
           </div>
 
-          <div style={this.props.styles.companyName}>
-            {this.props.companyName}
-          </div>
-
+          <Editor style={this.props.styles.companyName}
+          text={this.props.companyName}
+          options={{toolbar: false}}/>
           <div style={this.props.styles.pipe}>
             |
           </div>
+          <Editor style={this.props.styles.location}
+          text={this.props.location}
+          options={{toolbar: false}}/>
 
-          <div style={this.props.styles.location}>
-            {this.props.location}
-          </div>
-          <div style={this.props.styles.years}>
-            {this.props.years}
-          </div>
+          <Editor style={this.props.styles.years}
+          text={this.props.years}
+          options={{toolbar: false}}/>
+
           <div className='bulletContainer' style={styles.bulletContainer}>
             {bullet}
           </div>

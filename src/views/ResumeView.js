@@ -151,6 +151,9 @@ class ResumeView extends React.Component {
     const block = this.props.resumeState.blockChildren[parentBlockIndex];
     let bullets = [];
 
+    console.log('[findBullet]: block --- ', block)
+    console.log('[findBullet]: draggedId --- ', draggedId)
+
     block.bulletChildren.map(bullet =>
       bullets.push(bullet)
     );
