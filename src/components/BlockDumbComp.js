@@ -72,20 +72,33 @@ const blockTarget = {
 
 
 export default class BlockDumbComp extends React.Component {
+
   static propTypes = {
-    connectDragSource: PropTypes.func.isRequired,
-    connectDropTarget: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
+    actions: PropTypes.object,
     blockId: PropTypes.any.isRequired,
-    moveBlock: PropTypes.func.isRequired,
-    findBlock: PropTypes.func.isRequired,
-    companyName: PropTypes.string.isRequired,
-    jobTitle: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    years: PropTypes.string.isRequired,
     bulletChildren: PropTypes.array.isRequired,
     children: PropTypes.node,
-    handleUpdateLocalState: PropTypes.func.isRequired
+    companyName: PropTypes.string.isRequired,
+    connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
+    currentTheme: PropTypes.string,
+    findBlock: PropTypes.func.isRequired,
+    handleUpdateLocalState: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    jobTitle: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    moveBlock: PropTypes.func.isRequired,
+    resumeThemes: PropTypes.object,
+    styles: PropTypes.object,
+    years: PropTypes.string.isRequired
+  }
+
+  addBullet(event, target) {
+    this.props.actions.addBullet(target);
+  }
+
+  hideBlock(event, target) {
+    this.props.actions.hideBlock(target);
   }
 
   render() {
@@ -97,10 +110,10 @@ export default class BlockDumbComp extends React.Component {
             resumeThemes,
             styles } = this.props;
 
-    const bullet = (
+    const bulletCollection = (
       <ul>
-        {this.props.children.map(item =>
-          <li key={item.key} style={styles.bullet}>{item}</li>
+        {this.props.children.map(bullet =>
+          <li key={bullet.key} style={styles.bullet}>{bullet}</li>
         )}
       </ul>
     );
@@ -143,9 +156,15 @@ export default class BlockDumbComp extends React.Component {
           options={{toolbar: false}}
           onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
 
+          <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+               onClick={e => this.hideBlock(e, this.props.blockId)} />
+
           <div className='bulletContainer' style={styles.bulletContainer}>
-            {bullet}
+            {bulletCollection}
           </div>
+
+          <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
+               onClick={e => this.addBullet(e, this.props.blockId)} />
 
         </Paper>
 

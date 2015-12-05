@@ -5,7 +5,6 @@ import $ from 'jQuery';
 import CoreLayout from 'layouts/CoreLayout';
 import HomeView from 'views/HomeView';
 import ResumeView from 'views/ResumeView';
-import UserFormView from 'views/UserFormView';
 import AboutView from 'views/AboutView';
 import SecretView from 'views/SecretView';
 
@@ -31,7 +30,6 @@ function requireAuth(nextState, replaceState) {
 export default (
   <Route path='/' component={CoreLayout}>
     <IndexRoute component={HomeView} />
-    <Route path='/userform' component={UserFormView} />
     <Route path='/resume' component={ResumeView} />
     <Route path='/about' component={AboutView} />
     <Route path='/secretpage' component={SecretView} onEnter={requireAuth} />

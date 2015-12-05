@@ -1,4 +1,4 @@
-import React, { PropTypes }       from 'react';
+import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import Editor from 'react-medium-editor';
 import { TextField } from 'material-ui/lib';
@@ -81,22 +81,30 @@ const bulletTarget = {
 }))
 
 export default class Bullet extends React.Component {
+
   static propTypes = {
     // injected by react dnd
+    bulletId: PropTypes.any.isRequired,
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    bulletId: PropTypes.any.isRequired,
-    moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    moveBullet: PropTypes.func.isRequired,
     // coming from ResumeView.js (parent component) thru props
-    text: PropTypes.string.isRequired,
-    handleUpdateLocalState: PropTypes.func.isRequired
+    actions: PropTypes.object,
+    handleUpdateLocalState: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired
   };
+
+  hideBullet(event, target) {
+    this.props.actions.hideBullet(target);
+  }
 
   render() {
     // not sure why these need to be assigned, but not companyName and jobTitle
-    const { isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { connectDragSource,
+            connectDropTarget,
+            isDragging } = this.props;
 
     const styles = {
       bulletDrag: {
@@ -104,7 +112,7 @@ export default class Bullet extends React.Component {
         cursor: 'move',
         width: '400px'
       },
-      textField: {
+      textField: {  // FIXME: this should live in the styles file. BulletDrag is only in here because it uses the 'isDragging' property.
         width: '190%',
         display: 'list-item'
       }
@@ -118,6 +126,9 @@ export default class Bullet extends React.Component {
           underlineStyle={{borderColor: '#FFFFFF'}}
           multiLine={true}
           onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets')} />
+
+        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+             onClick={e => this.hideBullet(e, this.props.bulletId)} />
       </div>
     ));
   }
