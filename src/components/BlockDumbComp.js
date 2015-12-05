@@ -84,7 +84,8 @@ export default class BlockDumbComp extends React.Component {
     location: PropTypes.string.isRequired,
     years: PropTypes.string.isRequired,
     bulletChildren: PropTypes.array.isRequired,
-    children: PropTypes.node
+    children: PropTypes.node,
+    handleUpdateLocalState: PropTypes.func.isRequired
   }
 
   render() {
@@ -116,7 +117,8 @@ export default class BlockDumbComp extends React.Component {
         <Paper>
           <Editor style={resumeThemes[currentTheme].jobTitle}
           text={this.props.jobTitle}
-          options={{toolbar: false}}/>
+          options={{toolbar: false}}
+          onBlur={e => this.props.handleUpdateLocalState(e, 'jobTitle', 'blocks', this.props.blockId)} />
 
           <div style={resumeThemes[currentTheme].pipe}>
             |
@@ -124,7 +126,8 @@ export default class BlockDumbComp extends React.Component {
 
           <Editor style={resumeThemes[currentTheme].companyName}
           text={this.props.companyName}
-          options={{toolbar: false}}/>
+          options={{toolbar: false}}
+          onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
           <div style={resumeThemes[currentTheme].pipe}>
             |
@@ -132,11 +135,13 @@ export default class BlockDumbComp extends React.Component {
 
           <Editor style={resumeThemes[currentTheme].location}
           text={this.props.location}
-          options={{toolbar: false}}/>
+          options={{toolbar: false}}
+          onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
 
           <Editor style={resumeThemes[currentTheme].jobYear}
           text={this.props.years}
-          options={{toolbar: false}}/>
+          options={{toolbar: false}}
+          onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
 
           <div className='bulletContainer' style={styles.bulletContainer}>
             {bullet}

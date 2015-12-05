@@ -90,7 +90,8 @@ export default class Bullet extends React.Component {
     moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
     // coming from ResumeView.js (parent component) thru props
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
+    handleUpdateLocalState: PropTypes.func.isRequired
   };
 
   render() {
@@ -115,7 +116,8 @@ export default class Bullet extends React.Component {
           style={styles.textField}
           underlineFocusStyle={{borderColor: '#FF6925'}}
           underlineStyle={{borderColor: '#FFFFFF'}}
-          multiLine={true} />
+          multiLine={true}
+          onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets')} />
       </div>
     ));
   }
