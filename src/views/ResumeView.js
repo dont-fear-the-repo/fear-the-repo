@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
@@ -9,20 +9,26 @@ import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
-import { moveBlock,
-         moveBullet,
-         updateResumeState,
-         updateResumeWithServerResponse,
-         sendResumeToServerAsync,
-         getResumeFromServerDBAsync,
-         updateLocalState,
-         updateLocalStateHeader,
-         updateLocalStateFooter,
-         updateLocalStateSavePrint,
-         updateLocalStateBlocks,
-         serverIsSavingUpdate,
+import { addBlock,
+         addBullet,
          clientIsDirtyUpdate,
-         updateLocalStateBullets } from 'actions/resumeActions';
+         getResumeFromServerDBAsync,
+         hideBlock,
+         hideBullet,
+         moveBlock,
+         moveBullet,
+         sendResumeToServerAsync,
+         serverIsSavingUpdate,
+         updateLocalState,
+         updateLocalStateBlocks,
+         updateLocalStateBullets,
+         updateLocalStateFooter,
+         updateLocalStateHeader,
+         updateLocalStateSavePrint,
+         updateResumeState,
+         updateResumeWithServerResponse } from 'actions/resumeActions';
+
+// Styling
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
 import { Paper } from 'material-ui/lib';
@@ -32,28 +38,32 @@ injectTapEventPlugin(); // this is some voodoo to make SelectField render correc
 
 
 const ActionCreators = {
+  addBlock,
+  addBullet,
+  clientIsDirtyUpdate,
+  getResumeFromServerDBAsync,
+  hideBlock,
+  hideBullet,
   moveBlock,
   moveBullet,
-  updateResumeState,
-  updateResumeWithServerResponse,
   sendResumeToServerAsync,
-  getResumeFromServerDBAsync,
-  updateLocalState,
-  updateLocalStateHeader,
-  updateLocalStateFooter,
-  updateLocalStateSavePrint,
-  updateLocalStateBlocks,
   serverIsSavingUpdate,
-  clientIsDirtyUpdate,
-  updateLocalStateBullets
+  updateLocalState,
+  updateLocalStateBlocks,
+  updateLocalStateBullets,
+  updateLocalStateFooter,
+  updateLocalStateHeader,
+  updateLocalStateSavePrint,
+  updateResumeState,
+  updateResumeWithServerResponse
 };
 
 const mapStateToProps = (state) => ({
-  routerState: state.router,
-  resumeState: state.resumeReducer,
-  currentTheme: state.resumeReducer.resumeTheme, // maybe should be currentTheme
+  currentTheme: state.resumeReducer.resumeTheme, // TODO: maybe should be currentTheme
   loggedIn: state.titleBarReducer.loggedIn,
-  userID: state.titleBarReducer.userID || null
+  resumeState: state.resumeReducer,
+  routerState: state.router,
+  userID: state.titleBarReducer.userID || null // FIXME: this should be 'userId'
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -78,13 +88,15 @@ const Types = {
 
 
 class ResumeView extends React.Component {
+
   static propTypes = {
-    actions: React.PropTypes.object,
-    connectDropTarget: React.PropTypes.func.isRequired,
-    loggedIn: React.PropTypes.bool
+    actions: PropTypes.object,
+    connectDropTarget: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool,
+    resumeState: PropTypes.object
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.moveBlock = this.moveBlock.bind(this);
     this.findBlock = this.findBlock.bind(this);
@@ -197,9 +209,13 @@ class ResumeView extends React.Component {
     };
   }
 
+  addBlock() {
+    this.props.actions.addBlock();
+  }
+
   render() {
     const { connectDropTarget } = this.props;
-    const { blockChildren } = this.props.resumeState.blockChildren;
+    const { blockChildren } = this.props.resumeState;
 
     return connectDropTarget(
       <div className='container'
@@ -228,39 +244,44 @@ class ResumeView extends React.Component {
                         resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
-            {this.props.resumeState.blockChildren.map(block => {
-              return (
-                <BlockDumbComp  {...this.props}
-                                styles={styles}
-                                key={block.blockId}
-                                blockId={block.blockId}
-                                companyName={block.companyName}
-                                jobTitle={block.jobTitle}
-                                years={block.years}
-                                bulletChildren={block.bulletChildren}
-                                location={block.location}
-                                moveBlock={this.moveBlock}
-                                resumeThemes={resumeThemes}
-                                findBlock={this.findBlock}
-                                handleUpdateLocalState={this.handleUpdateLocalState}>
+            {blockChildren.filter(block => block.archived === false)
+                          .map(block => {
+                            return (
+                              <BlockDumbComp  {...this.props}
+                                              styles={styles}
+                                              key={block.blockId}
+                                              blockId={block.blockId}
+                                              companyName={block.companyName}
+                                              jobTitle={block.jobTitle}
+                                              years={block.years}
+                                              bulletChildren={block.bulletChildren}
+                                              location={block.location}
+                                              moveBlock={this.moveBlock}
+                                              resumeThemes={resumeThemes}
+                                              findBlock={this.findBlock}
+                                              handleUpdateLocalState={this.handleUpdateLocalState} >
 
-                    {block.bulletChildren.map(bullet => {
-                      return (
-                          <Bullet {...this.props}
-                                  key={bullet.bulletId}
-                                  bulletId={bullet.bulletId}
-                                  parentBlockId={bullet.parentBlockId}
-                                  text={bullet.text}
-                                  moveBullet={this.moveBullet}
-                                  findBullet={this.findBullet}
-                                  findBlock={this.findBlock}
-                                  handleUpdateLocalState={this.handleUpdateLocalState} />
-                      );
+                    {block.bulletChildren.filter(bullet => bullet.archived === false)
+                                         .map(bullet => {
+                                            return (
+                                                <Bullet {...this.props}
+                                                  key={bullet.bulletId}
+                                                  bulletId={bullet.bulletId}
+                                                  parentBlockId={bullet.parentBlockId}
+                                                  text={bullet.text}
+                                                  moveBullet={this.moveBullet}
+                                                  findBullet={this.findBullet}
+                                                  findBlock={this.findBlock}
+                                                  handleUpdateLocalState={this.handleUpdateLocalState} />
+                                            );
                     })}
 
                 </BlockDumbComp>
               );
             })}
+
+          <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
+               onClick={e => this.addBlock(e)} />
 
           <ResumeFooter {...this.props}
                         styles={styles}

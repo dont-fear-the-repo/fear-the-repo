@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import counterActions from 'actions/counter';
-// import { RaisedButton } from 'mat[erial-ui/lib';
+// import { RaisedButton } from 'material-ui/lib';
 
 const mapStateToProps = (state) => ({
   counter: state.counter,
@@ -20,7 +20,7 @@ class SecretView extends React.Component {
   render() {
     return (
       <div className='landing main-body' style={{textAlign: 'center'}}>
-        "YOU FOUND THE SECRET PAGE"
+        GASP! YOU FOUND OUR SECRETS!
       </div>
     );
   }

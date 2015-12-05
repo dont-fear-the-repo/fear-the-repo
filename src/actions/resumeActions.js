@@ -1,16 +1,19 @@
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
+import { ADD_BLOCK,
+         ADD_BULLET,
+         CLIENT_IS_DIRTY_UPDATE,
          DROP_BULLET,
-         UPDATE_LOCAL_STATE,
+         HIDE_BLOCK,
+         HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
-         UPDATE_LOCAL_STATE_HEADER,
-         UPDATE_LOCAL_STATE_FOOTER,
-         UPDATE_LOCAL_STATE_SAVEPRINT,
-         UPDATE_LOCAL_STATE_BLOCKS,
          SERVER_IS_SAVING_UPDATE,
-         CLIENT_IS_DIRTY_UPDATE,
-         UPDATE_LOCAL_STATE_BULLETS
-       } from 'constants/resumeConstants';
+         UPDATE_LOCAL_STATE,
+         UPDATE_LOCAL_STATE_BLOCKS,
+         UPDATE_LOCAL_STATE_BULLETS,
+         UPDATE_LOCAL_STATE_FOOTER,
+         UPDATE_LOCAL_STATE_HEADER,
+         UPDATE_LOCAL_STATE_SAVEPRINT,
+         UPDATE_RESUME_WITH_SERVER_RESPONSE } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -19,79 +22,57 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
 ////////////////////////////////////////////////////////////////////////
 
 
-export function dropBullet (payload) {
+export function addBlock() {
+  return {
+    type: ADD_BLOCK
+  };
+}
+
+export function addBullet(payload) {
+  return {
+    type: ADD_BULLET,
+    payload
+  };
+}
+
+export function clientIsDirtyUpdate(payload) {
+  return {
+    type: CLIENT_IS_DIRTY_UPDATE,
+    payload: payload
+  };
+}
+
+export function dropBullet(payload) {
   return {
     type: DROP_BULLET,
     payload: payload
   };
 }
 
-export function updateLocalState (payload) {
+export function hideBlock(payload) {
   return {
-    type: UPDATE_LOCAL_STATE,
-    payload: payload
+    type: HIDE_BLOCK,
+    payload
   };
 }
 
-export function updateLocalStateHeader (payload) {
+export function hideBullet(payload) {
   return {
-    type: UPDATE_LOCAL_STATE_HEADER,
-    payload: payload
+    type: HIDE_BULLET,
+    payload
   };
 }
 
-export function updateLocalStateFooter (payload) {
-  return {
-    type: UPDATE_LOCAL_STATE_FOOTER,
-    payload: payload
-  };
-}
-
-export function updateLocalStateSavePrint (payload) {
-  return {
-    type: UPDATE_LOCAL_STATE_SAVEPRINT,
-    payload: payload
-  };
-}
-
-export function updateLocalStateBlocks (payload) {
-  return {
-    type: UPDATE_LOCAL_STATE_BLOCKS,
-    payload: payload
-  };
-}
-
-export function updateLocalStateBullets (payload) {
-  return {
-    type: UPDATE_LOCAL_STATE_BULLETS,
-    payload: payload
-  };
-}
-
-export function moveBlock (payload) {
+export function moveBlock(payload) {
   return {
     type: MOVE_BLOCK,
     payload: payload
   };
 }
 
-export function moveBullet (payload) {
+export function moveBullet(payload) {
   return {
     type: MOVE_BULLET,
-    payload: payload
-  };
-}
-
-export function updateResumeWithServerResponse (payload) {
-  return {
-    type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
-    payload: payload
-  };
-}
-
-export function serverIsSavingUpdate (payload) {
-  return {
-    type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
     payload: payload
   };
 }
@@ -103,13 +84,57 @@ export function serverIsSavingUpdate (payload) {
   };
 }
 
-
-export function clientIsDirtyUpdate (payload) {
+export function updateLocalState(payload) {
   return {
-    type: CLIENT_IS_DIRTY_UPDATE,
+    type: UPDATE_LOCAL_STATE,
     payload: payload
   };
 }
+
+export function updateLocalStateBlocks(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_BLOCKS,
+    payload: payload
+  };
+}
+
+export function updateLocalStateBullets(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_BULLETS,
+    payload: payload
+  };
+}
+
+export function updateLocalStateFooter(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_FOOTER,
+    payload: payload
+  };
+}
+
+export function updateLocalStateHeader(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_HEADER,
+    payload: payload
+  };
+}
+
+export function updateLocalStateSavePrint(payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_SAVEPRINT,
+    payload: payload
+  };
+}
+
+export function updateResumeWithServerResponse (payload) {
+  return {
+    type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
+    payload: payload
+  };
+}
+
+/* END ACTION CREATORS */
+
 
 export function getResumeFromServerDBAsync (payload) { // rename to "serverupdate"
   return function(dispatch) {
@@ -133,7 +158,6 @@ export function getResumeFromServerDBAsync (payload) { // rename to "serverupdat
     // catch any error in the network call.
   }
 }
-
 
 export function sendResumeToServerAsync(sentResumeObj) {
   // Thunk middleware knows how to handle functions.

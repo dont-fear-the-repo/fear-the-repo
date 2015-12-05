@@ -1,4 +1,4 @@
-import React, { PropTypes }       from 'react';
+import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
@@ -80,11 +80,13 @@ const bulletTarget = {
 }))
 
 export default class Bullet extends React.Component {
+
   static propTypes = {
+    bulletId: PropTypes.any.isRequired,
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
+    findBullet: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    bulletId: PropTypes.any.isRequired,
     moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
     parentBlockId: PropTypes.any.isRequired,
@@ -92,18 +94,14 @@ export default class Bullet extends React.Component {
     handleUpdateLocalState: PropTypes.func.isRequired
   };
 
-  state = { editing: false }
-
-  handleBlur() {
-    this.setState({editing : false})
-  }
-
-  handleClick() {
-    this.setState({editing: true})
+  hideBullet(event, target) {
+    this.props.actions.hideBullet(target);
   }
 
   render() {
-    const { isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { connectDragSource,
+            connectDropTarget,
+            isDragging } = this.props;
 
     const styles = {
       bulletDrag: {
@@ -111,7 +109,7 @@ export default class Bullet extends React.Component {
         cursor: 'default',
         width: '100%'
       },
-      paragaphField: {
+      textField: {  // FIXME: this should live in the styles file. BulletDrag is only in here because it uses the 'isDragging' property.
         width: '190%',
         cursor: 'text',
       },
@@ -125,12 +123,17 @@ export default class Bullet extends React.Component {
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
+
         <Paper>
           <Editor style={styles.editorField}
             text={this.props.text}
             options={{toolbar: false}}
             onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
         </Paper>
+
+        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+             onClick={e => this.hideBullet(e, this.props.bulletId)} />
+
       </div>
     ));
   }
