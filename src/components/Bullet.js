@@ -109,6 +109,7 @@ export default class Bullet extends React.Component {
 
     const styles = {
       bulletDrag: {
+        opacity: isDragging ? 0 : 1,
         cursor: 'default',
         width: '100%'
       },
@@ -118,6 +119,8 @@ export default class Bullet extends React.Component {
       },
       editorField :{
         cursor: 'text',
+        maxWidth: '90%',
+        minWidth: '80%',
         display: 'inline-block'
       }
     };
