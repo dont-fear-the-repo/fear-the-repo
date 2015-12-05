@@ -104,23 +104,13 @@ class ResumeView extends React.Component {
     this.findBullet = this.findBullet.bind(this);
   }
 
-
-  handleUpdateLocalState(event, textFieldName, whereFrom, id) {
+  handleUpdateLocalState(event, textFieldName, whereFrom, id, parentBlockId) {
     this.actions.clientIsDirtyUpdate(true);
     const userInput = event.target.textContent;
     // remember to pass in props from the component
     //////////////////////////////////////
     // if a user updatesLocalState, flip clientIsDirty to true.
     ////////////////////////////////////
-
-    // bulletInput is unique because it uses Material UI
-    // If we choose to go with Editor, this can be removed and the second argument to updateLocalStateBullets below should be replaced with userInput
-      // and also in resumeReducer
-    let bulletInput, bulletIndex;
-    if (whereFrom === 'bullets') {
-      bulletInput = event.target.value;
-      bulletIndex = this.findBullet(id).bulletIndex;
-    }
 
     /*
     To update data on a block, we must access that blockChildren via its index.
@@ -134,6 +124,12 @@ class ResumeView extends React.Component {
     let blockIndex;
     if (whereFrom === 'blocks') {
       blockIndex = this.findBlock(id).blockIndex;
+    }
+
+    let bulletIndex, parentBlockIndex;
+    if (whereFrom === 'bullets') {
+      parentBlockIndex = this.findBlock(parentBlockId).blockIndex;
+      bulletIndex = this.findBullet(id, parentBlockIndex).bulletIndex;
     }
 
     if (whereFrom === 'header') {
@@ -153,7 +149,7 @@ class ResumeView extends React.Component {
       this.actions.updateLocalStateBlocks({textFieldName, userInput, whereFrom, blockIndex});
     } else if (whereFrom === 'bullets') {
       console.log('updating from bullets...');
-      this.actions.updateLocalStateBullets({textFieldName, bulletInput, whereFrom});
+      this.actions.updateLocalStateBullets({textFieldName, userInput, whereFrom, bulletIndex, parentBlockIndex});
     } else {
       console.log('updating from main...');
       this.props.actions.updateLocalState({textFieldName, userInput});

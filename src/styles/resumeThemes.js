@@ -20,7 +20,8 @@ export const resumeThemes = {
     },
     location: {
       marginLeft: '10px',
-      display: 'inline-block'
+      display: 'inline-block',
+      cursor: 'text'
     },
     city: {
       width: '200px'
@@ -58,34 +59,38 @@ export const resumeThemes = {
       margin: '5px'
     },
     jobTitle: {
-      display: 'inline',
+      display: 'inline-block',
+      cursor: 'text',
       margin: '10px',
       fontWeight: '700',
       fontSize: '18px'
     },
     companyName: {
-      display: 'inline',
+      display: 'inline-block',
       margin: '10px',
+      cursor: 'text',
       fontWeight: '500',
       fontSize: '16px'
     },
     jobLocation: {
-      display: 'inline',
-      margin: '10px'
+      display: 'inline-block',
+      margin: '10px',
+      cursor: 'text'
     },
     jobYear: {
-      display: 'inline',
+      display: 'inline-block',
+      cursor: 'text',
       float: 'right',
       marginRight: '10px'
     },
     schoolName: {
-      display: 'inline-block'
+      display: 'inline-block',
     },
     schoolDegree: {
-      display: 'inline-block'
+      display: 'inline-block',
     },
     schoolYear: {
-      display: 'inline-block'
+      display: 'inline-block',
     },
     schoolLocation: {
       display: 'inline-block'
