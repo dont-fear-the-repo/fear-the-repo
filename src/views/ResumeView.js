@@ -2,7 +2,6 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
-import update from 'react/lib/update';
 import $ from 'jQuery';
 
 // Components
@@ -24,7 +23,7 @@ import { moveBlock,
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
-import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
+import { Paper } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly,
                         // check the issues on their repo for more information
@@ -97,7 +96,7 @@ class ResumeView extends React.Component {
 
   handleUpdateLocalState(event, textFieldName, whereFrom) {
     const userInput = $(event.target).text();
-    console.log(userInput)
+    console.log('userInput: ', userInput);
 
     if (whereFrom === 'header') {
       console.log('updating from header...');
@@ -153,7 +152,7 @@ class ResumeView extends React.Component {
 
   findBullet(draggedId, parentBlockIndex) {
     const block = this.props.resumeState.blockChildren[parentBlockIndex];
-    let bullets = [];
+    const bullets = [];
 
     block.bulletChildren.map(bullet =>
       bullets.push(bullet)

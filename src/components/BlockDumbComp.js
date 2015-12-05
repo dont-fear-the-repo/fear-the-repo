@@ -103,8 +103,14 @@ export default class BlockDumbComp extends React.Component {
       </ul>
     );
 
+    const blockDrag = {
+      opacity: isDragging ? 0 : 1,
+      cursor: 'move',
+      margin: '0px'
+    };
+
     return connectDragSource(connectDropTarget(
-      <div style={styles.blockDrag}>
+      <div style={blockDrag}>
 
         <Paper>
           <div style={resumeThemes[currentTheme].jobTitle}>

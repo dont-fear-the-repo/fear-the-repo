@@ -66,7 +66,7 @@ class CoreLayout extends React.Component {
       userAlreadyExists: false,
       spinning: true
     });
-    let userLoginInfo = {
+    const userLoginInfo = {
       email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
     };
@@ -116,7 +116,7 @@ class CoreLayout extends React.Component {
       failedAttempted: false,
       spinning: true
     });
-    let userSignupInfo = {
+    const userSignupInfo = {
       email: this.refs.email.getValue(),
       password: this.refs.password.getValue()
     };

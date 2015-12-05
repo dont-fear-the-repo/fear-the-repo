@@ -14,14 +14,14 @@ export const styles = {
   },
   headerContainer: {
     textAlign: 'center',
-    width: '98%',
+    width: '90%',
     marginBottom: '10px',
     fontFamily: font
   },
   themeSelectDropdown: {
     backgroundColor: MasterTheme.lightGray,
     fontFamily: font,
-    marginLeft: '40px',
+    marginLeft: '80px',
     float: 'left',
     paddingTop: '0'
   },
@@ -91,11 +91,6 @@ export const styles = {
     color: MasterTheme.orange,
     fontFamily: font,
     fontWeight: MasterTheme.light
-  },
-  blockDrag: {
-    opacity: isDragging ? 0 : 1,
-    cursor: 'move',
-    margin: '0px'
   },
   bulletContainer: {
     width: '95%'
