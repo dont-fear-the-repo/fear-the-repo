@@ -11,6 +11,7 @@ import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
 import { hideBlock,
+         hideBullet,
          moveBlock,
          moveBullet,
          sendResumeToServerAsync,
@@ -32,6 +33,7 @@ injectTapEventPlugin(); // this is some voodoo to make SelectField render correc
 
 const ActionCreators = {
   hideBlock: hideBlock,
+  hideBullet: hideBullet,
   moveBlock: moveBlock,
   moveBullet: moveBullet,
   sendResumeToServerAsync: sendResumeToServerAsync,
@@ -170,7 +172,7 @@ class ResumeView extends React.Component {
 
   render() {
     const { connectDropTarget } = this.props;
-    const { blockChildren } = this.props.resumeState.blockChildren;
+    const { blockChildren } = this.props.resumeState;
 
     return connectDropTarget(
       <div className='container'
@@ -190,26 +192,27 @@ class ResumeView extends React.Component {
                         resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
-            {this.props.resumeState.blockChildren.filter(block => block.archived === false)
-                                                 .map(block => {
-                                                    return (
-                                                      <BlockDumbComp  {...this.props}
-                                                                      styles={styles}
-                                                                      key={block.blockId}
-                                                                      blockId={block.blockId}
-                                                                      companyName={block.companyName}
-                                                                      jobTitle={block.jobTitle}
-                                                                      years={block.years}
-                                                                      bulletChildren={block.bulletChildren}
-                                                                      location={block.location}
-                                                                      moveBlock={this.moveBlock}
-                                                                      resumeThemes={resumeThemes}
-                                                                      findBlock={this.findBlock} >
+            {blockChildren.filter(block => block.archived === false)
+                          .map(block => {
+                            return (
+                              <BlockDumbComp  {...this.props}
+                                              styles={styles}
+                                              key={block.blockId}
+                                              blockId={block.blockId}
+                                              companyName={block.companyName}
+                                              jobTitle={block.jobTitle}
+                                              years={block.years}
+                                              bulletChildren={block.bulletChildren}
+                                              location={block.location}
+                                              moveBlock={this.moveBlock}
+                                              resumeThemes={resumeThemes}
+                                              findBlock={this.findBlock} >
 
                     {block.bulletChildren.filter(bullet => bullet.archived === false)
                                          .map(bullet => {
                                             return (
-                                                <Bullet key={bullet.bulletId}
+                                                <Bullet {...this.props}
+                                                  key={bullet.bulletId}
                                                   bulletId={bullet.bulletId}
                                                   parentBlockId={bullet.parentBlockId}
                                                   text={bullet.text}

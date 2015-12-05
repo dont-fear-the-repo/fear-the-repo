@@ -1,5 +1,6 @@
 import { DROP_BULLET,
          HIDE_BLOCK,
+         HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
          UPDATE_LOCAL_STATE,
@@ -27,6 +28,13 @@ export function hideBlock(payload) {
   return {
     type: HIDE_BLOCK,
     payload: payload
+  };
+}
+
+export function hideBullet(payload) {
+  return {
+    type: HIDE_BULLET,
+    payload
   };
 }
 

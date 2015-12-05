@@ -2,6 +2,7 @@ import { createConstants } from '../utils';
 
 export default createConstants(
   'HIDE_BLOCK',
+  'HIDE_BULLET',
   'MOVE_BLOCK',
   'MOVE_BULLET',
   'SAVE_RESUME',

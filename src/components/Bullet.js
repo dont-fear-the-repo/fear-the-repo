@@ -1,4 +1,4 @@
-import React, { PropTypes }       from 'react';
+import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 
 const Types = {
@@ -91,9 +91,15 @@ export default class Bullet extends React.Component {
     text: PropTypes.string.isRequired
   };
 
+  hideBullet(event, target) {
+    this.props.actions.hideBullet(target);
+  }
+
   render() {
     // not sure why these need to be assigned, but not companyName and jobTitle
-    const { isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { isDragging,
+            connectDragSource,
+            connectDropTarget } = this.props;
 
     const styles = {
       bulletDrag: {
@@ -105,6 +111,8 @@ export default class Bullet extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
         <p>{this.props.text}</p>
+        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+             onClick={e => this.hideBullet(e, this.props.bulletId)} />
       </div>
     ));
   }
