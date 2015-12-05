@@ -3,14 +3,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
 import update from 'react/lib/update';
-
+import $ from 'jQuery';
 import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
 import { moveBlock,
-         dropBullet,
+         moveBullet,
          updateResumeState,
          updateResumeWithServerResponse,
          sendResumeToServerAsync,
@@ -20,7 +20,6 @@ import { moveBlock,
          updateLocalStateFooter,
          updateLocalStateSavePrint,
          updateLocalStateBlocks } from 'actions/resumeActions';
-
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
@@ -39,7 +38,7 @@ const ActionCreators = {
   updateLocalStateBlocks: updateLocalStateBlocks,
   updateLocalStateSavePrint: updateLocalStateSavePrint,
   moveBlock: moveBlock,
-  dropBullet: dropBullet
+  moveBullet: moveBullet
 };
 
 const mapStateToProps = (state) => ({
@@ -62,28 +61,7 @@ const Types = {
   BULLET: 'bullet'
 };
 
-const blockTarget = {
-  drop(props, monitor, component) {
-    const bulletProps = {
-      bulletId: monitor.getItem().bulletId,
-      text: monitor.getItem().text
-    };
-
-    const blockProps = {
-      blockId: monitor.getItem().blockId
-    };
-
-    if (monitor.getItemType() === 'bullet') {
-      props.actions.dropBullet({
-        // blocks: component.state.blocks,
-        targetBlock: monitor.getDropResult(),
-        droppedBullet: bulletProps
-      });
-    }
-  }
-};
-
-@DropTarget([Types.BLOCK, Types.BULLET], blockTarget, (connect) => ({
+@DropTarget([Types.BLOCK, Types.BULLET], {}, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 
@@ -99,11 +77,7 @@ class ResumeView extends React.Component {
     loggedIn: React.PropTypes.bool
   }
 
-  static contextTypes = {
-    store: React.PropTypes.object
-  }
-
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.moveBlock = this.moveBlock.bind(this);
     this.findBlock = this.findBlock.bind(this);
@@ -114,63 +88,74 @@ class ResumeView extends React.Component {
 
   // remember to pass in props from the component
   handleUpdateLocalState(event, textFieldName, whereFrom) {
-    const userInput = event.target.value;
+    const userInput = $(event.target).text();
+    console.log(userInput)
 
     if (whereFrom === 'header') {
-      console.log('updating from header...')
+      console.log('updating from header...');
       this.actions.updateLocalStateHeader({textFieldName, userInput, whereFrom});
     } else if (whereFrom === 'footer') {
-      console.log('updating from footer...')
+      console.log('updating from footer...');
       this.actions.updateLocalStateFooter({textFieldName, userInput, whereFrom});
     } else if (whereFrom === 'savePrint') {
-      console.log('updating from savePrint...')
+      console.log('updating from savePrint...');
       this.actions.updateLocalStateSavePrint({textFieldName, userInput, whereFrom});
     } else {
-      console.log('updating from main...')
+      console.log('updating from main...');
       this.props.actions.updateLocalState({textFieldName, userInput});
     }
   }
 
-  moveBlock(id, atIndex) {
-    const { block, index } = this.findBlock(id);
+  moveBlock(draggedId, atIndex) {
+    const { block, blockIndex } = this.findBlock(draggedId);
 
     this.props.actions.moveBlock({
-      index: index,
+      blockIndex: blockIndex,
       atIndex: atIndex,
       block: block,
       blockChildren: this.props.resumeState.blockChildren
     });
   }
 
-  findBlock(id) {
+  findBlock(draggedId) {
+    // For bullet drag:
+      // First time called is on beginDrag, so that bullet has knowledge of its parent block's index (position on the resume)
+
     const blocks = this.props.resumeState.blockChildren;
-    const block = blocks.filter(b => b.blockId === id)[0];
+    const block = blocks.filter(b => b.blockId === draggedId)[0];
 
     return {
       block,
-      index: blocks.indexOf(block)
+      blockIndex: blocks.indexOf(block)
     };
   }
 
-  moveBullet(id, atIndex) {
-    const { bullet, index } = this.findBullet(id);
-    this.setState(update(this.state, {
-      bullets: {
-        $splice: [
-          [index, 1],
-          [atIndex, 0, bullet]
-        ]
-      }
-    }));
+  moveBullet(draggedId, atIndex, parentBlockId) {
+    const { blockIndex } = this.findBlock(parentBlockId);
+    const { bullet, bulletIndex } = this.findBullet(draggedId, blockIndex);
+
+    this.props.actions.moveBullet({
+      bulletIndex: bulletIndex,
+      atIndex: atIndex,
+      bullet: bullet,
+      parentBlockIndex: blockIndex,
+      blockChildren: this.props.resumeState.blockChildren
+    });
   }
 
-  findBullet(id) {
-    const bullets = this.props.resumeState.blockChildren.bulletChildren;
-    const bullet = bullets.filter(bu => bu.id === id)[0];
+  findBullet(draggedId, parentBlockIndex) {
+    const block = this.props.resumeState.blockChildren[parentBlockIndex];
+    let bullets = [];
+
+    block.bulletChildren.map(bullet =>
+      bullets.push(bullet)
+    );
+
+    const bullet = bullets.filter(bu => bu.bulletId === draggedId)[0];
 
     return {
       bullet,
-      index: bullets.indexOf(bullet)
+      bulletIndex: bullets.indexOf(bullet)
     };
   }
 
@@ -193,7 +178,7 @@ class ResumeView extends React.Component {
 
         <Paper style={styles.resumePaper}>
 
-        <h1> statetest: {JSON.stringify(this.props.userId)} {this.userId} </h1>
+        <h1> statetest: {JSON.stringify(this.props.userID)} {this.userID} </h1>
 
           <ResumeHeader {...this.props}
                         styles={styles}
@@ -207,12 +192,26 @@ class ResumeView extends React.Component {
                                 blockId={block.blockId}
                                 companyName={block.companyName}
                                 jobTitle={block.jobTitle}
-                                year={block.year}
+                                years={block.years}
                                 bulletChildren={block.bulletChildren}
                                 location={block.location}
                                 moveBlock={this.moveBlock}
-                                findBlock={this.findBlock}> {block.blockId} </BlockDumbComp>
-              );
+                                findBlock={this.findBlock} >
+
+                    {block.bulletChildren.map(bullet => {
+                      return (
+                          <Bullet key={bullet.bulletId}
+                            bulletId={bullet.bulletId}
+                            parentBlockId={bullet.parentBlockId}
+                            text={bullet.text}
+                            moveBullet={this.moveBullet}
+                            findBullet={this.findBullet}
+                            findBlock={this.findBlock} />
+                      );
+                    })}
+
+                                 </BlockDumbComp>
+                );
             })}
 
           <ResumeFooter {...this.props}
@@ -223,9 +222,90 @@ class ResumeView extends React.Component {
                style={styles.marginBottom} />
         </Paper>
 
+
+        <ResumeSavePrint {...this.props}
+                         styles={styles}
+                         handleUpdateLocalState={this.handleUpdateLocalState}
+                         handleSubmit={this.handleSubmit}
+                         handlePrint={this.handlePrint}
+                         handleChangeTheme={this.handleChangeTheme}/>
+
       </div>
     );
   }
-}
+} // end react component ResumeView
+
+
+// /////////////////////////////////////////////////////////////////////////////////////
+// //    Resume Footer, super dumb comp is here instead of being a separate file      //
+// /////////////////////////////////////////////////////////////////////////////////////
+// class ResumeFooter extends React.Component {
+//   render() {
+//     return (
+//       <div>
+//         <div style={this.props.styles.plain}>
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='school1-name'
+//                      hintText={this.props.resumeState.resumeFooter.school1.name}
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'school1-name', 'footer')} />
+//           <div style={this.props.styles.pipe}> | </div>
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='school1-degree'
+//                      hintText={this.props.resumeState.resumeFooter.school1.degree}
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'school1-degree', 'footer')} />
+//           <div style={this.props.styles.pipe}> | </div>
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='school1-schoolEndYear'
+//                      hintText={this.props.resumeState.resumeFooter.school1.schoolEndYear}
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'school1-schoolEndYear', 'footer')} />
+//           <div style={this.props.styles.pipe}> | </div>
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='school1-location'
+//                      hintText={this.props.resumeState.resumeFooter.school1.location}
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'school1-location', 'footer')} />
+
+
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='school2-name'
+//                      hintText={this.props.resumeState.resumeFooter.school2.name}
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'school2-name', 'footer')} />
+//           <div style={this.props.styles.pipe}> | </div>
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='school2-degree'
+//                      hintText={this.props.resumeState.resumeFooter.school2.degree}
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'school2-degree', 'footer')} />
+//           <div style={this.props.styles.pipe}> | </div>
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='school2-schoolEndYear'
+//                      hintText={this.props.resumeState.resumeFooter.school2.schoolEndYear}
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'school2-schoolEndYear', 'footer')} />
+//           <div style={this.props.styles.pipe}> | </div>
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='school2-location'
+//                      hintText={this.props.resumeState.resumeFooter.school2.location}
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'school2-location', 'footer')} />
+//         </div>
+//         <div style={this.props.styles.plain}>
+
+//         </div>
+//         <div style={this.props.styles.plain}>
+//           <TextField underlineStyle={this.props.styles.underlineStyle}
+//                      underlineFocusStyle={this.props.styles.underlineFocusStyle}
+//                      ref='personalStatement'
+//                      hintText='Personal Statement'
+//                      onBlur={e => this.props.handleUpdateLocalState(e, 'personalStatement', 'footer')} />
+//         </div>
+//       </div>
+//     );
+//   }
+// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);

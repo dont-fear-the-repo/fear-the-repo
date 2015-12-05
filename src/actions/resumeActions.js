@@ -7,7 +7,8 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
          UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_LOCAL_STATE_BLOCKS,
          SERVER_IS_SAVING_UPDATE,
-         CLIENT_IS_DIRTY_UPDATE } from 'constants/resumeConstants';
+         CLIENT_IS_DIRTY_UPDATE
+       } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -65,6 +66,14 @@ export function updateLocalStateBlocks (payload) {
 export function moveBlock (payload) {
   return {
     type: MOVE_BLOCK,
+    payload: payload
+  };
+}
+
+
+export function moveBullet (payload) {
+  return {
+    type: MOVE_BULLET,
     payload: payload
   };
 }
