@@ -95,10 +95,10 @@ export default class BlockDumbComp extends React.Component {
             resumeThemes,
             styles } = this.props;
 
-    const bullet = (
+    const bulletCollection = (
       <ul>
-        {this.props.children.map(item =>
-          <li key={item.key} style={styles.bullet}>{item}</li>
+        {this.props.children.map(bullet =>
+          <li key={bullet.key} style={styles.bullet}>{bullet}</li>
         )}
       </ul>
     );
@@ -138,7 +138,7 @@ export default class BlockDumbComp extends React.Component {
           </div>
 
           <div className='bulletContainer' style={styles.bulletContainer}>
-            {bullet}
+            {bulletCollection}
           </div>
 
         </Paper>

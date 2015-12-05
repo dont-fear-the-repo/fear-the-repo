@@ -188,31 +188,33 @@ class ResumeView extends React.Component {
                         resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
-            {this.props.resumeState.blockChildren.map(block => {
-              return (
-                <BlockDumbComp  {...this.props}
-                                styles={styles}
-                                key={block.blockId}
-                                blockId={block.blockId}
-                                companyName={block.companyName}
-                                jobTitle={block.jobTitle}
-                                years={block.years}
-                                bulletChildren={block.bulletChildren}
-                                location={block.location}
-                                moveBlock={this.moveBlock}
-                                resumeThemes={resumeThemes}
-                                findBlock={this.findBlock} >
+            {this.props.resumeState.blockChildren.filter(block => block.archive === false)
+                                                 .map(block => {
+                                                    return (
+                                                      <BlockDumbComp  {...this.props}
+                                                                      styles={styles}
+                                                                      key={block.blockId}
+                                                                      blockId={block.blockId}
+                                                                      companyName={block.companyName}
+                                                                      jobTitle={block.jobTitle}
+                                                                      years={block.years}
+                                                                      bulletChildren={block.bulletChildren}
+                                                                      location={block.location}
+                                                                      moveBlock={this.moveBlock}
+                                                                      resumeThemes={resumeThemes}
+                                                                      findBlock={this.findBlock} >
 
-                    {block.bulletChildren.map(bullet => {
-                      return (
-                          <Bullet key={bullet.bulletId}
-                            bulletId={bullet.bulletId}
-                            parentBlockId={bullet.parentBlockId}
-                            text={bullet.text}
-                            moveBullet={this.moveBullet}
-                            findBullet={this.findBullet}
-                            findBlock={this.findBlock} />
-                      );
+                    {block.bulletChildren.filter(bullet => bullet.archive === false)
+                                         .map(bullet => {
+                                            return (
+                                                <Bullet key={bullet.bulletId}
+                                                  bulletId={bullet.bulletId}
+                                                  parentBlockId={bullet.parentBlockId}
+                                                  text={bullet.text}
+                                                  moveBullet={this.moveBullet}
+                                                  findBullet={this.findBullet}
+                                                  findBlock={this.findBlock} />
+                                            );
                     })}
 
                 </BlockDumbComp>
