@@ -2,7 +2,8 @@ import { createReducer } from '../utils';
 import Immutable from 'immutable';
 import _ from 'underscore';
 
-import { HIDE_BLOCK,
+import { ADD_BLOCK,
+         HIDE_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
@@ -104,6 +105,21 @@ const initialState = {
 
 
 export default createReducer(initialState, {
+
+  [ADD_BLOCK]: (state) => {
+    const newState = { ...state };
+    const newBlock = {
+      blockId: Date.now(),
+      archived: false,
+      companyName: 'YO SHIT WORKED',
+      jobTitle: '',
+      years: '',
+      location: '',
+      bulletChildren: []
+    };
+    newState.blockChildren.push(newBlock);
+    return newState;
+  },
 
   [HIDE_BLOCK]: (state, payload) => {
     const newState = { ...state };

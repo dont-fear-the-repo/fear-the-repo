@@ -9,7 +9,8 @@ import Bullet from 'components/Bullet';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
-import { hideBlock,
+import { addBlock,
+         hideBlock,
          hideBullet,
          moveBlock,
          moveBullet,
@@ -32,6 +33,7 @@ injectTapEventPlugin(); // this is some voodoo to make SelectField render correc
 
 
 const ActionCreators = {
+  addBlock: addBlock,
   hideBlock: hideBlock,
   hideBullet: hideBullet,
   moveBlock: moveBlock,
@@ -199,6 +201,10 @@ class ResumeView extends React.Component {
     };
   }
 
+  addBlock() {
+    this.props.actions.addBlock();
+  }
+
   render() {
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState;
@@ -256,6 +262,9 @@ class ResumeView extends React.Component {
                 </BlockDumbComp>
               );
             })}
+
+          <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
+               onClick={e => this.addBlock(e)} />
 
           <ResumeFooter {...this.props}
                         styles={styles}

@@ -1,6 +1,7 @@
 import { createConstants } from '../utils';
 
 export default createConstants(
+  'ADD_BLOCK',
   'HIDE_BLOCK',
   'HIDE_BULLET',
   'MOVE_BLOCK',

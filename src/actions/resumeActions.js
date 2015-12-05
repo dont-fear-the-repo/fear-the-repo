@@ -1,4 +1,5 @@
-import { DROP_BULLET,
+import { ADD_BLOCK,
+         DROP_BULLET,
          HIDE_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
@@ -18,6 +19,12 @@ import { DROP_BULLET,
 ////////////////////////////////////////////////////////////////////////
 
 
+export function addBlock() {
+  return {
+    type: ADD_BLOCK
+  };
+}
+
 export function dropBullet(payload) {
   return {
     type: DROP_BULLET,
@@ -28,7 +35,7 @@ export function dropBullet(payload) {
 export function hideBlock(payload) {
   return {
     type: HIDE_BLOCK,
-    payload: payload
+    payload
   };
 }
 
