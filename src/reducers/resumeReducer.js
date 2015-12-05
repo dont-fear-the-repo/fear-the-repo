@@ -1,4 +1,4 @@
-import {  createReducer } from '../utils';
+import { createReducer } from '../utils';
 import Immutable from 'immutable';
 import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
          UPDATE_LOCAL_STATE,
@@ -99,15 +99,15 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
     newState.resumeHeader[payload.textFieldName] = payload.userInput;
     return newState;
   },
 
   [UPDATE_LOCAL_STATE_FOOTER]: (state, payload) => {
-    let newState = Object.assign({}, state);
-    if (payload.textFieldName.slice(0, 6) === 'school'){
-      newState.resumeFooter[payload.textFieldName.slice(0,7)][payload.textFieldName.slice(8)] = payload.userInput;
+    const newState = Object.assign({}, state);
+    if (payload.textFieldName.slice(0, 6) === 'school') {
+      newState.resumeFooter[payload.textFieldName.slice(0, 7)][payload.textFieldName.slice(8)] = payload.userInput;
     } else {
       newState.resumeFooter[payload.textFieldName] = payload.userInput;
     }
@@ -115,14 +115,14 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
     newState[payload.textFieldName] = payload.userInput;
     return newState;
   },
 
   [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
     // FIXME: this function is definitely not correct yet, see Andrew's commit for truth?
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
     newState.blockChildren[0][payload.textFieldName] = payload.userInput;
     return newState;
   },
@@ -148,7 +148,7 @@ export default createReducer(initialState, {
     const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren);
     const parentBlockIndex = payload.parentBlockIndex;
 
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
   }

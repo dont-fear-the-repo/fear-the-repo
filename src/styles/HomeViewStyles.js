@@ -10,8 +10,7 @@ export const styles = {
     fontFamily: muli
   },
   heroImg: {
-    width: '100%',
-    // marginTop: '20px'
+    width: '100%'
   },
   heroDiv: {
     height: '200px',

@@ -1,9 +1,10 @@
-import React, { PropTypes }       from 'react';
-import Paper                      from 'material-ui/lib/paper';
+import React, { PropTypes } from 'react';
+import { Paper } from 'material-ui/lib';
 import { DragSource, DropTarget } from 'react-dnd';
-import { saveResume }             from 'actions/resumeActions';
-import { bindActionCreators }     from 'redux';
-import { connect }                from 'react-redux';
+import { saveResume } from 'actions/resumeActions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 
 const blockSource = {
   beginDrag(props) {
@@ -26,7 +27,7 @@ const blockSource = {
 const blockTarget = {
   drop(props) {
     // Simply return an object to make certain props available to the bullet being dropped on it via monitor.getDropResult. See ResumeView's blockTarget for the dispatching of that action.
-    console.log('props: ', props)
+    console.log('props: ', props);
     return {
       body: props.body,
       blockId: props.blockId
@@ -132,17 +133,16 @@ export class Block extends React.Component {
       }
     };
 
-    let bullet;
-      bullet = (
-        <ul>
-          {this.props.children.map(item =>
-            // <li style={styles.bullet} key=>{item}</li>
-            <li key={item.bulletId}>{item.text}</li>  // this is block id
-              // how do I get bullet id?
-              // throws console error, but still behaves as it should
-          )}
-        </ul>
-      );
+    const bullet = (
+      <ul>
+        {this.props.children.map(item =>
+          // <li style={styles.bullet} key=>{item}</li>
+          <li key={item.bulletId}>{item.text}</li>  // this is block id
+            // how do I get bullet id?
+            // throws console error, but still behaves as it should
+        )}
+      </ul>
+    );
 
     return connectDragSource(connectDropTarget(
       <div style={styles.blockDrag}>
