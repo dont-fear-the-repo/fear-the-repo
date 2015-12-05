@@ -11,18 +11,22 @@ import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
 import { addBlock,
          addBullet,
+         clientIsDirtyUpdate,
+         getResumeFromServerDBAsync,
          hideBlock,
          hideBullet,
          moveBlock,
          moveBullet,
          sendResumeToServerAsync,
+         serverIsSavingUpdate,
          updateLocalState,
          updateLocalStateBlocks,
          updateLocalStateBullets,
          updateLocalStateFooter,
          updateLocalStateHeader,
          updateLocalStateSavePrint,
-         updateResumeState } from 'actions/resumeActions';
+         updateResumeState,
+         updateResumeWithServerResponse } from 'actions/resumeActions';
 
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
@@ -34,27 +38,32 @@ injectTapEventPlugin(); // this is some voodoo to make SelectField render correc
 
 
 const ActionCreators = {
-  addBlock: addBlock,
-  addBullet: addBullet,
-  hideBlock: hideBlock,
-  hideBullet: hideBullet,
-  moveBlock: moveBlock,
-  moveBullet: moveBullet,
-  sendResumeToServerAsync: sendResumeToServerAsync,
-  updateLocalState: updateLocalState,
-  updateLocalStateBlocks: updateLocalStateBlocks,
-  updateLocalStateBullets: updateLocalStateBullets,
-  updateLocalStateFooter: updateLocalStateFooter,
-  updateLocalStateHeader: updateLocalStateHeader,
-  updateLocalStateSavePrint: updateLocalStateSavePrint,
-  updateResumeState: updateResumeState
+  addBlock,
+  addBullet,
+  clientIsDirtyUpdate,
+  getResumeFromServerDBAsync,
+  hideBlock,
+  hideBullet,
+  moveBlock,
+  moveBullet,
+  sendResumeToServerAsync,
+  serverIsSavingUpdate,
+  updateLocalState,
+  updateLocalStateBlocks,
+  updateLocalStateBullets,
+  updateLocalStateFooter,
+  updateLocalStateHeader,
+  updateLocalStateSavePrint,
+  updateResumeState,
+  updateResumeWithServerResponse
 };
 
 const mapStateToProps = (state) => ({
-  routerState: state.router,
+  currentTheme: state.resumeReducer.resumeTheme, // TODO: maybe should be currentTheme
+  loggedIn: state.titleBarReducer.loggedIn,
   resumeState: state.resumeReducer,
-  currentTheme: state.resumeReducer.resumeTheme,
-  loggedIn: state.titleBarReducer.loggedIn
+  routerState: state.router,
+  userID: state.titleBarReducer.userID || null // FIXME: this should be 'userId'
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -95,18 +104,14 @@ class ResumeView extends React.Component {
     this.findBullet = this.findBullet.bind(this);
   }
 
-  // handleSubmit(props) {
-  //   if (props.loggedIn) {
-  //     console.log('saving...')
-  //     props.actions.sendResumeToServerAsync(props.resumeState);
-  //   } else {
-  //     alert('To save a resume, please signup above');
-  //   }
-  // }
-  //// remember to pass in props from the component
 
   handleUpdateLocalState(event, textFieldName, whereFrom, id) {
+    this.actions.clientIsDirtyUpdate(true);
     const userInput = event.target.textContent;
+    // remember to pass in props from the component
+    //////////////////////////////////////
+    // if a user updatesLocalState, flip clientIsDirty to true.
+    ////////////////////////////////////
 
     // bulletInput is unique because it uses Material UI
     // If we choose to go with Editor, this can be removed and the second argument to updateLocalStateBullets below should be replaced with userInput
@@ -134,6 +139,9 @@ class ResumeView extends React.Component {
     if (whereFrom === 'header') {
       console.log('updating from header...');
       this.actions.updateLocalStateHeader({textFieldName, userInput, whereFrom});
+      // this.actions.serverIsSavingUpdate({text: 'win'});
+
+
     } else if (whereFrom === 'footer') {
       console.log('updating from footer...');
       this.actions.updateLocalStateFooter({textFieldName, userInput, whereFrom});
@@ -221,11 +229,20 @@ class ResumeView extends React.Component {
         <div className='marginTop'
              style={styles.marginTop} />
 
-        <ResumeSavePrint {...this.props}
+       <ResumeSavePrint {...this.props}
                          styles={styles}
-                         handleUpdateLocalState={this.handleUpdateLocalState} />
+                         handleUpdateLocalState={this.handleUpdateLocalState}
+                         handleSubmit={this.handleSubmit}
+                         handlePrint={this.handlePrint}
+                         handleChangeTheme={this.handleChangeTheme}
+                         handleUpdateLocalState={this.handleUpdateLocalState}
+                         handleSaveState={this.handleSaveState}
+                         getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc}
+                         serverIsSavingUpdate={this.serverIsSavingUpdate}
+                         clientIsDirtyUpdate={this.clientIsDirtyUpdate} />
 
         <Paper style={styles.resumePaper}>
+
           <ResumeHeader {...this.props}
                         styles={styles}
                         resumeThemes={resumeThemes}

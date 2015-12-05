@@ -336,3 +336,86 @@ devServer.app.post('/api/getAllResumes', function(req, res){
 });
 
 
+
+// Mel Test Endpoint
+// curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
+devServer.app.post('/api/resume/testSave', function(req, res){
+console.log('userID is:', req.body.userID)
+  const response = {text: 'successful save!'};
+  res.send(response);
+});
+
+
+// Mel Test Endpoint
+// curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
+devServer.app.post('/api/resume/giveMeTestResume', function(req, res){
+console.log('userID is:', req.body.userID)
+  const yourTestResume = {
+    resumeHeader: {
+      name: 'TROLOLROLRO     Full Name',
+      profession: 'TROLOLROLRO     Profession',
+      city: 'TROLOLROLRO     City',
+      state: 'TROLOLROLRO     State',
+      displayEmail: 'TROLOLROLRO     email@email.com',
+      phone: 'TROLOLROLRO     (124) 125-4737',
+      webLinkedin: 'TROLOLROLRO     linkedin.com/myname',
+      webOther: 'TROLOLROLRO     github.com/number23'
+    },
+    blockChildren: [{
+      blockId: 1,
+      companyName: 'TROLOLROLRO     Company Name',
+      jobTitle: 'TROLOLROLRO     Bossman',
+      years: 'TROLOLROLRO     2015',
+      location: 'TROLOLROLRO     San Francisco, CA',
+      bulletChildren: [{
+        bulletId: 1,
+        text: 'TROLOLROLRO     My first bullet'
+      }, {
+        bulletId: 2,
+        text: 'TROLOLROLRO     Then I productionalized everything, like the Bossman that I am.'
+      }]
+    }, {
+      blockId: 2,
+      companyName: 'TROLOLROLRO     Second Corp.',
+      jobTitle: 'TROLOLROLRO     Lackey',
+      years: 'TROLOLROLRO     2014, 2013',
+      location: 'TROLOLROLRO     San Francisco, CA',
+      bulletChildren: [{
+        bulletId: 1,
+        text: 'TROLOLROLRO     I believe in sentences that end with punctuation'
+      }, {
+        bulletId: 2,
+        text: 'TROLOLROLRO     This is an inflexible belief.'
+      }]
+    }, {
+      blockId: 3,
+      companyName: 'TROLOLROLRO     Third Chance',
+      jobTitle: 'TROLOLROLRO     Intern',
+      years: 'TROLOLROLRO     2012-2011',
+      location: 'TROLOLROLRO     San Francisco, CA',
+      bulletChildren: [{
+        bulletId: 1,
+        text: 'TROLOLROLRO     Not a great life here, alas.'
+      }, {
+        bulletId: 2,
+        text: 'TROLOLROLRO     But I played with a lot of paperclips!'
+      }]
+    }],
+    resumeFooter: {
+      school1: {
+        name: 'TROLOLROLRO     School Name',
+        degree: 'TROLOLROLRO     Degree',
+        schoolEndYear: 'TROLOLROLRO     Year',
+        location: 'TROLOLROLRO     City'
+      },
+      school2: {
+        name: 'TROLOLROLRO     School Name',
+        degree: 'TROLOLROLRO     Degree',
+        schoolEndYear: 'TROLOLROLRO     Year',
+        location: 'TROLOLROLRO     City'
+      },
+      personalStatement: 'kittens are great, I love them'
+    }
+  };
+  res.send(yourTestResume);
+});

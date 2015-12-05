@@ -4,10 +4,12 @@ import _ from 'underscore';
 
 import { ADD_BLOCK,
          ADD_BULLET,
+         CLIENT_IS_DIRTY_UPDATE,
          HIDE_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
+         SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_BLOCKS,
          UPDATE_LOCAL_STATE_BULLETS,
@@ -22,6 +24,8 @@ const initialState = {
   resumeId: 1,
   resumeTitle: 'Resume Version Name',
   resumeTheme: 'Default',
+  serverIsSaving: 'no',
+  clientFormIsDirty: false,
   resumeHeader: {
     name: 'Full Name',
     profession: 'Profession',
@@ -135,6 +139,12 @@ export default createReducer(initialState, {
     return newState;
   },
 
+  [CLIENT_IS_DIRTY_UPDATE]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    newState.clientFormIsDirty = payload;
+    return newState;
+  },
+
   [HIDE_BLOCK]: (state, payload) => {
     const newState = { ...state };
     const targetBlock = _.filter(newState.blockChildren, child => child.blockId === payload);
@@ -168,6 +178,12 @@ export default createReducer(initialState, {
 
     const newState = Object.assign({}, state);
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
+    return newState;
+  },
+
+  [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    newState.serverIsSaving = payload;
     return newState;
   },
 
@@ -213,7 +229,6 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
-    console.log(payload);
     return {
       ...state,
       ...payload
