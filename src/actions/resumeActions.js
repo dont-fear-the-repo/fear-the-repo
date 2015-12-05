@@ -22,9 +22,10 @@ import { ADD_BLOCK,
 ////////////////////////////////////////////////////////////////////////
 
 
-export function addBlock() {
+export function addBlock(payload) {
   return {
-    type: ADD_BLOCK
+    type: ADD_BLOCK,
+    payload
   };
 }
 

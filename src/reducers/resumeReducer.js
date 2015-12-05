@@ -43,6 +43,7 @@ const initialState = {
     jobTitle: 'Bossman',
     years: '2015',
     location: 'San Francisco, CA',
+    displayAddBullets: true,
     bulletChildren: [{
       bulletId: 1,
       text: 'My first bullet',
@@ -61,6 +62,7 @@ const initialState = {
     jobTitle: 'Lackey',
     years: '2014, 2013',
     location: 'San Francisco, CA',
+    displayAddBullets: true,
     bulletChildren: [{
       bulletId: 3,
       text: 'I believe in sentences that end with punctuation',
@@ -79,6 +81,7 @@ const initialState = {
     jobTitle: 'Intern',
     years: '2012-2011',
     location: 'San Francisco, CA',
+    displayAddBullets: true,
     bulletChildren: [{
       bulletId: 5,
       text: 'Not a great life here, alas.',
@@ -111,17 +114,32 @@ const initialState = {
 
 export default createReducer(initialState, {
 
-  [ADD_BLOCK]: (state) => {
+  [ADD_BLOCK]: (state, payload) => {
     const newState = { ...state };
-    const newBlock = {
-      blockId: Date.now(),
-      archived: false,
-      companyName: 'Company Name',
-      jobTitle: 'Job Title',
-      years: 'StartYear - EndYear',
-      location: 'City, State',
-      bulletChildren: []
-    };
+    let newBlock;
+
+    if (payload === 'bullets') {
+      newBlock = {
+        blockId: Date.now(),
+        archived: false,
+        companyName: 'Company/Project/School Name',
+        jobTitle: 'Job Title / Project Role / Degree',
+        years: 'StartYear - EndYear, if applicable',
+        location: 'City, State / Project URL',
+        bulletChildren: [],
+        displayAddBullets: true
+      };
+    } else {
+      newBlock = {
+        blockId: Date.now(),
+        archived: false,
+        companyName: 'Heading',
+        location: 'text, if applicable',
+        bulletChildren: [],
+        displayAddBullets: false
+      }
+    }
+
     newState.blockChildren.push(newBlock);
     return newState;
   },

@@ -78,19 +78,19 @@ export default class BlockDumbComp extends React.Component {
     blockId: PropTypes.any.isRequired,
     bulletChildren: PropTypes.array.isRequired,
     children: PropTypes.node,
-    companyName: PropTypes.string.isRequired,
+    companyName: PropTypes.string,
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     currentTheme: PropTypes.string,
     findBlock: PropTypes.func.isRequired,
     handleUpdateLocalState: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    jobTitle: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
+    jobTitle: PropTypes.string,
+    location: PropTypes.string,
     moveBlock: PropTypes.func.isRequired,
     resumeThemes: PropTypes.object,
     styles: PropTypes.object,
-    years: PropTypes.string.isRequired
+    years: PropTypes.string
   }
 
   addBullet(event, target) {
@@ -124,51 +124,78 @@ export default class BlockDumbComp extends React.Component {
       margin: '0px'
     };
 
-    return connectDragSource(connectDropTarget(
-      <div style={blockDrag}>
+    if (this.props.displayAddBullets) {
+      return connectDragSource(connectDropTarget(
+        <div style={blockDrag}>
 
-        <Paper>
-          <Editor style={resumeThemes[currentTheme].jobTitle}
-          text={this.props.jobTitle}
-          options={{toolbar: false}}
-          onBlur={e => this.props.handleUpdateLocalState(e, 'jobTitle', 'blocks', this.props.blockId)} />
+          <Paper>
+            <Editor style={resumeThemes[currentTheme].jobTitle}
+            text={this.props.jobTitle}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'jobTitle', 'blocks', this.props.blockId)} />
 
-          <div style={resumeThemes[currentTheme].pipe}>
-            |
-          </div>
+            <div style={resumeThemes[currentTheme].pipe}>
+              |
+            </div>
 
-          <Editor style={resumeThemes[currentTheme].companyName}
-          text={this.props.companyName}
-          options={{toolbar: false}}
-          onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
+            <Editor style={resumeThemes[currentTheme].companyName}
+            text={this.props.companyName}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
-          <div style={resumeThemes[currentTheme].pipe}>
-            |
-          </div>
+            <div style={resumeThemes[currentTheme].pipe}>
+              |
+            </div>
 
-          <Editor style={resumeThemes[currentTheme].location}
-          text={this.props.location}
-          options={{toolbar: false}}
-          onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
+            <Editor style={resumeThemes[currentTheme].location}
+            text={this.props.location}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
 
-          <Editor style={resumeThemes[currentTheme].jobYear}
-          text={this.props.years}
-          options={{toolbar: false}}
-          onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
+            <Editor style={resumeThemes[currentTheme].jobYear}
+            text={this.props.years}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
 
-          <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
-               onClick={e => this.hideBlock(e, this.props.blockId)} />
+            <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+                 onClick={e => this.hideBlock(e, this.props.blockId)} />
 
-          <div className='bulletContainer' style={styles.bulletContainer}>
-            {bulletCollection}
-          </div>
+            <div className='bulletContainer' style={styles.bulletContainer}>
+              {bulletCollection}
+            </div>
 
-          <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
-               onClick={e => this.addBullet(e, this.props.blockId)} />
+            {this.props.displayAddBullets ?
+              <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
+                   onClick={e => this.addBullet(e, this.props.blockId)} />
+              : '' }
 
-        </Paper>
+          </Paper>
 
-      </div>
-    ));
+        </div>
+      ));
+    } else {
+      return connectDragSource(connectDropTarget(
+        <div style={blockDrag}>
+
+          <Paper>
+
+            <Editor style={resumeThemes[currentTheme].companyName}
+            text={this.props.companyName}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
+
+            <Editor style={resumeThemes[currentTheme].location}
+            text={this.props.location}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
+
+          </Paper>
+
+        </div>
+      ));
+    }
   }
 }
+            // <div className='bulletContainer' style={styles.bulletContainer}>
+            //   {bulletCollection}
+            // </div>

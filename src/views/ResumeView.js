@@ -213,8 +213,8 @@ class ResumeView extends React.Component {
     };
   }
 
-  addBlock() {
-    this.props.actions.addBlock();
+  addBlock(event, type) {
+    this.props.actions.addBlock(type);
   }
 
   render() {
@@ -263,6 +263,7 @@ class ResumeView extends React.Component {
                                               moveBlock={this.moveBlock}
                                               resumeThemes={resumeThemes}
                                               findBlock={this.findBlock}
+                                              displayAddBullets={block.displayAddBullets}
                                               handleUpdateLocalState={this.handleUpdateLocalState} >
 
                     {block.bulletChildren.filter(bullet => bullet.archived === false)
@@ -284,8 +285,10 @@ class ResumeView extends React.Component {
               );
             })}
 
+          <img src='styles/assets/ic_playlist_add_black_24px.svg'
+               onClick={e => this.addBlock(e, 'bullets')} />
           <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
-               onClick={e => this.addBlock(e)} />
+               onClick={e => this.addBlock(e, 'plain')} />
 
           <ResumeFooter {...this.props}
                         styles={styles}
