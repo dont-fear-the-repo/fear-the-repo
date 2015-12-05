@@ -221,7 +221,6 @@ class ResumeView extends React.Component {
                         resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
-<<<<<<< HEAD
             {blockChildren.filter(block => block.archived === false)
                           .map(block => {
                             return (
