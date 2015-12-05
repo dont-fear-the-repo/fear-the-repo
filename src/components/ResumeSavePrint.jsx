@@ -6,13 +6,18 @@ export default class ResumeSavePrint extends React.Component {
 
   handleLoad() {
     let wrappedForServer = Object.assign({}, this.props.resumeState);
+    this.props.actions.serverIsSavingUpdate('loading');
     wrappedForServer.userID = this.props.userID;
     this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
+    console.log('clicked LOAD btn in ResumeSavePrint')
+
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
     // if (this.props.loggedIn) {
-      this.props.actions.sendResumeToServerAsync(this.props.resumeState);
+    this.props.actions.serverIsSavingUpdate('saving');
+    this.props.actions.sendResumeToServerAsync(this.props.resumeState);
+    console.log('clicked SAVE btn in ResumeSavePrint')
     // } else {
     //   alert('To save a resume, please signup above');
     // }
@@ -35,7 +40,7 @@ export default class ResumeSavePrint extends React.Component {
   }
 
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
-  // Do no run unless we decied to put some logic in to deal with unlogged in users, or clientIsDirty=true conditions.
+  // Do no run unless we decied to put some logic in to deal with unlogged in users, or clientIsDirty=true
   // componentDidMount() {
   //   console.log("Loading resume data from server...")
   //   this.handleLoad();
@@ -48,10 +53,14 @@ export default class ResumeSavePrint extends React.Component {
                       'index': index,
                       'text': value
                     }));
-
+// the mystery text is not coming from the returned JSX of ResumeSavePrint
+// but if you comment out all of the component ResumeSavePrint, then it does go away...
     return (
       <div style={this.props.styles.headerContainer}>
+      <h4>ClientIsDirty: {JSON.stringify(this.props.resumeState.clientFormIsDirty)}</h4>
 
+      <h4>Server is saving: {this.props.resumeState.serverIsSaving}</h4>
+      <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
         <RaisedButton label='Reload Last Saved Resume'
                       style={this.props.styles.saveButton}
                       onClick={e => this.handleLoad(e)} />
@@ -75,7 +84,7 @@ export default class ResumeSavePrint extends React.Component {
 
         <RaisedButton label='Save Resume'
                       style={this.props.styles.saveButton}
-                      onClick={e => this.handleSubmit(e)} />
+                      onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
 
         <RaisedButton label='Print Resume'
                       style={this.props.styles.printButton}

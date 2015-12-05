@@ -19,7 +19,9 @@ import { moveBlock,
          updateLocalStateHeader,
          updateLocalStateFooter,
          updateLocalStateSavePrint,
-         updateLocalStateBlocks } from 'actions/resumeActions';
+         updateLocalStateBlocks,
+         serverIsSavingUpdate,
+         clientIsDirtyUpdate } from 'actions/resumeActions';
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
@@ -29,16 +31,19 @@ injectTapEventPlugin(); // this is some voodoo to make SelectField render correc
 
 
 const ActionCreators = {
-  updateResumeState: updateResumeState,
-  sendResumeToServerAsync: sendResumeToServerAsync,
-  getResumeFromServerDBAsync: getResumeFromServerDBAsync,
-  updateLocalState: updateLocalState,
-  updateLocalStateHeader: updateLocalStateHeader,
-  updateLocalStateFooter: updateLocalStateFooter,
-  updateLocalStateBlocks: updateLocalStateBlocks,
-  updateLocalStateSavePrint: updateLocalStateSavePrint,
-  moveBlock: moveBlock,
-  moveBullet: moveBullet
+  moveBlock,
+  moveBullet,
+  updateResumeState,
+  updateResumeWithServerResponse,
+  sendResumeToServerAsync,
+  getResumeFromServerDBAsync,
+  updateLocalState,
+  updateLocalStateHeader,
+  updateLocalStateFooter,
+  updateLocalStateSavePrint,
+  updateLocalStateBlocks,
+  serverIsSavingUpdate,
+  clientIsDirtyUpdate
 };
 
 const mapStateToProps = (state) => ({
@@ -90,10 +95,19 @@ class ResumeView extends React.Component {
   handleUpdateLocalState(event, textFieldName, whereFrom) {
     const userInput = $(event.target).text();
     console.log(userInput)
+//////////////////////////////////////
+// if a user updatesLocalState, flip clientIsDirty to true.
+////////////////////////////////////
 
     if (whereFrom === 'header') {
       console.log('updating from header...');
       this.actions.updateLocalStateHeader({textFieldName, userInput, whereFrom});
+      // this.actions.serverIsSavingUpdate({text: 'win'});
+
+/// this is where you were
+
+
+
     } else if (whereFrom === 'footer') {
       console.log('updating from footer...');
       this.actions.updateLocalStateFooter({textFieldName, userInput, whereFrom});
@@ -171,14 +185,19 @@ class ResumeView extends React.Component {
         <div className='marginTop'
              style={styles.marginTop} />
 
-        <ResumeSavePrint {...this.props}
+       <ResumeSavePrint {...this.props}
                          styles={styles}
                          handleUpdateLocalState={this.handleUpdateLocalState}
-                         getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc} />
+                         handleSubmit={this.handleSubmit}
+                         handlePrint={this.handlePrint}
+                         handleChangeTheme={this.handleChangeTheme}
+                         handleUpdateLocalState={this.handleUpdateLocalState}
+                         handleSaveState={this.handleSaveState}
+                         getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc}
+                         serverIsSavingUpdate={this.serverIsSavingUpdate}
+                         clientIsDirtyUpdate={this.clientIsDirtyUpdate} />
 
         <Paper style={styles.resumePaper}>
-
-        <h1> statetest: {JSON.stringify(this.props.userID)} {this.userID} </h1>
 
           <ResumeHeader {...this.props}
                         styles={styles}
@@ -221,14 +240,6 @@ class ResumeView extends React.Component {
           <div className='marginBottom'
                style={styles.marginBottom} />
         </Paper>
-
-
-        <ResumeSavePrint {...this.props}
-                         styles={styles}
-                         handleUpdateLocalState={this.handleUpdateLocalState}
-                         handleSubmit={this.handleSubmit}
-                         handlePrint={this.handlePrint}
-                         handleChangeTheme={this.handleChangeTheme}/>
 
       </div>
     );

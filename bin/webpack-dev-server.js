@@ -337,11 +337,19 @@ devServer.app.post('/api/getAllResumes', function(req, res){
 
 
 
+// Mel Test Endpoint
+// curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
+devServer.app.post('/api/resume/testSave', function(req, res){
+console.log('userID is:', req.body.userID)
+  const response = {text: 'successful save!'};
+  res.send(response);
+});
+
 
 // Mel Test Endpoint
 // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
 devServer.app.post('/api/resume/giveMeTestResume', function(req, res){
-console.log(req.body.userID)
+console.log('userID is:', req.body.userID)
   const yourTestResume = {
     resumeHeader: {
       name: 'TROLOLROLRO     Full Name',

@@ -154,5 +154,21 @@ export default createReducer(initialState, {
     let newState = Object.assign({}, state);
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
+  },
+
+  [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
+
+    let newState = Object.assign({}, state);
+    newState.serverIsSaving = payload;
+    return newState;
+
+  },
+
+  [CLIENT_IS_DIRTY_UPDATE]: (state, payload) => {
+
+    return Object.assign({}, state, {
+      chickens: payload.email,
+      userID: payload.id
+    });
   }
 });
