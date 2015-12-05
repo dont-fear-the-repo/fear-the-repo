@@ -49,16 +49,18 @@ export const Bullet = db.define('Bullet', {
 
 // set up foreign keys
 
-User.hasMany(Resume);
+User.hasMany(Resume, {onDelete: 'cascade'});
+Resume.hasMany(Block, {onDelete: 'cascade'});
+Block.hasMany(Bullet, {onDelete: 'cascade'});
 
-Block.hasMany(Bullet);
-
-Resume.belongsToMany(Block, {
-  through: 'resume_to_block'
-});
-Block.belongsToMany(Resume, {
-  through: 'resume_to_block'
-});
+// Resume.belongsToMany(Block, {
+//   through: 'resume_to_block',
+//   onDelete: 'cascade'
+// });
+// Block.belongsToMany(Resume, {
+//   through: 'resume_to_block',
+//   onDelete: 'cascade'
+// });
 
 /////////////////////////////////////////////////////////////////
 //                                                             //
@@ -84,8 +86,8 @@ Block.belongsToMany(Resume, {
 //   })
 //   .then(function() {
 //     return User.create({
-//       email: 'test@gmail.com',
-//       password: 'testHASH'
+//       email: 'batman@gmail.com',
+//       password: 'anarchy'
 //     }).then(function(testUser) {
 //       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
 //       console.log(testUser.get({
