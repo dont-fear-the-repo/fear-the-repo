@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import { Paper } from 'material-ui/lib';
+import { Paper, TextField } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
 
 
-// /////////////////////////////////////// //
-//        Begin DnD requirements           //
-// /////////////////////////////////////// //
+/******************************/
+/*   Begin DnD requirements   */
+/******************************/
 
 const Types = {
   BLOCK: 'block',
@@ -33,7 +33,9 @@ const blockSource = {
 
 const blockTarget = {
   drop(props) {
-    // Simply return an object to make certain props available to the bullet being dropped on it via monitor.getDropResult. See ResumeView's blockTarget for the dispatching of that action.
+    // Simply return an object to make certain props available to the bullet
+    // being dropped on it via monitor.getDropResult. See ResumeView's
+    // blockTarget for the dispatching of that action.
     return {
       bulletChildren: props.bulletChildren,
       blockId: props.blockId
@@ -45,7 +47,8 @@ const blockTarget = {
     const { blockId: overId } = props;
 
     if (monitor.getItemType() === 'block') {
-      // This is responsible for reordering the blocks when a block is dragged around the list of blocks
+      // This is responsible for reordering the blocks when a block is dragged
+      // around the list of blocks
       if (draggedId !== overId) {
         const { blockIndex: overIndex } = props.findBlock(overId);
         props.moveBlock(draggedId, overIndex);
@@ -63,9 +66,9 @@ const blockTarget = {
   isDragging: monitor.isDragging()
 }))
 
-///////////////////////////////////////////
-//        End DnD requirements           //
-///////////////////////////////////////////
+/****************************/
+/*   End DnD requirements   */
+/****************************/
 
 
 export default class BlockDumbComp extends React.Component {
@@ -82,90 +85,65 @@ export default class BlockDumbComp extends React.Component {
     years: PropTypes.string.isRequired,
     bulletChildren: PropTypes.array.isRequired,
     children: PropTypes.node
-  };
+  }
 
   render() {
     const { children,
             isDragging,
             connectDragSource,
-            connectDropTarget } = this.props;
-
-    const styles = {
-      blockDrag: {
-        opacity: isDragging ? 0 : 1,
-        cursor: 'move',
-        margin: '0px'
-      },
-      jobTitle: {
-        display: 'inline',
-        margin: '10px',
-        fontWeight: '700',
-        fontSize: '20px'
-      },
-      pipe: {
-        display: 'inline',
-        margin: '5px'
-      },
-      companyName: {
-        display: 'inline',
-        margin: '10px',
-        fontWeight: '500',
-        fontSize: '18px'
-      },
-      location: {
-        display: 'inline',
-        margin: '10px'
-      },
-      years: {
-        display: 'inline',
-        float: 'right',
-        marginRight: '10px'
-      },
-      bulletContainer: {
-        width: '95%'
-      },
-      bullet: {
-        fontSize: '16px',
-        marginTop: '10px'
-      }
-    };
+            connectDropTarget,
+            currentTheme,
+            resumeThemes,
+            styles } = this.props;
 
     const bullet = (
-        <ul>
-          {this.props.children.map(item =>
-            <li key={item.key} style={styles.bullet}>{item}</li>
-          )}
-        </ul>
-      );
+      <ul>
+        {this.props.children.map(item =>
+          <li key={item.key} style={styles.bullet}>{item}</li>
+        )}
+      </ul>
+    );
+
+    const blockDrag = {
+      opacity: isDragging ? 0 : 1,
+      cursor: 'move',
+      margin: '0px'
+    };
 
     return connectDragSource(connectDropTarget(
-      <div style={this.props.styles.blockDrag}>
+      <div style={blockDrag}>
 
-          <Editor style={this.props.styles.jobTitle} 
-          text={this.props.jobTitle} 
+        <Paper>
+          <Editor style={resumeThemes[currentTheme].jobTitle}
+          text={this.props.jobTitle}
           options={{toolbar: false}}/>
 
-          <div style={this.props.styles.pipe}>
+          <div style={resumeThemes[currentTheme].pipe}>
             |
           </div>
 
-          <Editor style={this.props.styles.companyName} 
-          text={this.props.companyName} 
-          options={{toolbar: false}}/>
-          <div style={this.props.styles.pipe}>
-            |
-          </div>
-          <Editor style={this.props.styles.location} 
-          text={this.props.location} 
+          <Editor style={resumeThemes[currentTheme].companyName}
+          text={this.props.companyName}
           options={{toolbar: false}}/>
 
-          <Editor style={this.props.styles.years} 
-          text={this.props.years} 
+          <div style={resumeThemes[currentTheme].pipe}>
+            |
+          </div>
+
+          <Editor style={resumeThemes[currentTheme].location}
+          text={this.props.location}
+          options={{toolbar: false}}/>
+
+          <Editor style={resumeThemes[currentTheme].jobYear}
+          text={this.props.years}
           options={{toolbar: false}}/>
 
           <div className='bulletContainer' style={styles.bulletContainer}>
             {bullet}
           </div>
+
+        </Paper>
+
       </div>
     ));
   }

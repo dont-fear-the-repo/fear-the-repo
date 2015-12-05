@@ -9,6 +9,9 @@ export const styles = {
     textAlign: 'center',
     backgroundColor: MasterTheme.darkGray
   },
+  buttonLabelStyle: {
+    textTransform: 'none'
+  },
   buttonColor: MasterTheme.white,
   buttonHoverColor: MasterTheme.orange,
   aboutButton: {

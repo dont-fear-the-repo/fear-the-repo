@@ -1,13 +1,18 @@
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE, DROP_BULLET, UPDATE_LOCAL_STATE, MOVE_BLOCK, MOVE_BULLET, UPDATE_LOCAL_STATE_HEADER, UPDATE_LOCAL_STATE_FOOTER, UPDATE_LOCAL_STATE_SAVEPRINT, UPDATE_LOCAL_STATE_BLOCKS } from 'constants/resumeConstants';
+import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
+         DROP_BULLET,
+         UPDATE_LOCAL_STATE,
+         MOVE_BLOCK,
+         MOVE_BULLET,
+         UPDATE_LOCAL_STATE_HEADER,
+         UPDATE_LOCAL_STATE_FOOTER,
+         UPDATE_LOCAL_STATE_SAVEPRINT,
+         UPDATE_LOCAL_STATE_BLOCKS } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
 // TODO: needs to catch errors from the server, and set state flags   //
 //                                                                    //
 ////////////////////////////////////////////////////////////////////////
-
-
-
 
 
 export function dropBullet (payload) {
@@ -66,13 +71,12 @@ export function moveBullet (payload) {
   };
 }
 
-export function updateResumeState (payload) { // rename to "serverupdate"
+export function updateResumeState (payload) { // TODO: rename to "serverupdate"
   return {
     type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
     payload: payload
   };
 }
-
 
 export function sendResumeToServerAsync(sentResumeObj) {
   // Thunk middleware knows how to handle functions.
@@ -91,9 +95,8 @@ export function sendResumeToServerAsync(sentResumeObj) {
       .then(response => response.json())
       .then(serverResponseJavascriptObject =>
         dispatch(updateResumeState(serverResponseJavascriptObject))
-      )
-
+      );
     // In a real world app, you also want to
     // catch any error in the network call.
-  }
+  };
 }

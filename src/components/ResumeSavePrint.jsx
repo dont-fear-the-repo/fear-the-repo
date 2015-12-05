@@ -44,11 +44,14 @@ export default class ResumeSavePrint extends React.Component {
         </Paper>
 
         <SelectField floatingLabelText='Select a theme'
+                     style={this.props.styles.themeSelectDropdown}
                      floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                     underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
                      menuItems={themes}
+                     menuItemStyle={this.props.styles.menuItemStyle}
                      value={this.props.resumeState.resumeTheme}
                      valueMember='text'
-                     style={this.props.styles.themeSelectDropdown}
                      onChange={(e, index) => this.handleChangeTheme(e, index)} />
 
         <TextField floatingLabelText='Resume Version Name'
@@ -60,13 +63,15 @@ export default class ResumeSavePrint extends React.Component {
                    hintText={this.props.resumeState.resumeTitle}
                    onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
 
-        <RaisedButton label='Save Resume'
-                      style={this.props.styles.saveButton}
-                      onClick={e => this.handleSubmit(e)} />
-
-        <RaisedButton label='Print Resume'
+        <RaisedButton label='Print'
                       style={this.props.styles.printButton}
+                      labelStyle={this.props.styles.buttonLabelStyle}
                       onClick={e => this.handlePrint(e)} />
+
+        <RaisedButton label='Save'
+                      style={this.props.styles.saveButton}
+                      labelStyle={this.props.styles.buttonLabelStyle}
+                      onClick={e => this.handleSubmit(e)} />
 
       </div>
     );
