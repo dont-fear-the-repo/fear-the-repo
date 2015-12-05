@@ -112,76 +112,20 @@ devServer.app.post('/logout', (req, res) => {
 //                                                             //
 /////////////////////////////////////////////////////////////////
 
-
-/*
-To test the API, try this:
-  NOTE : To add information to USER table create a new user from web application
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "name":"sujay", "profession":"batman", "resumeTitle":"test", "city":"gothom"}' http://localhost:3000/api/resume/create
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "resumeTitle":"test", "jobTitle":"bossman", "blockPosition":"2", "startDate":"2014", "endDate":"2015"}' http://localhost:3000/api/block/create
-
-*/
-
-
-/*
-TODO: make these work!
-// Make me a resume
-devServer.app.post('/api/makemearesume', function(req, res) {
-  // TODO: call this funciton when making a new user
-  // user logs in for first time, we immediately call this API endpoint to assign them a new resume
-  // that resume is born with a block, and all blocks are born with a bullet
-
-  // users can also call this function to add a resume, so if they already have one, we'll ask sequelize to auto-insert one
-
-  // RETURNS the new resume's unique sequelize ID, and also the block and bullet_id
-  // ...and something stores it on the state, next to the userName
-
-  // this whole effort is so that when they load ResumeView, we can ask the state for this resume info to display.
-})
-
-
-// Save Bullets
-devServer.app.post('/api/savebulletsonresume', function(req, res) {
-  // we have the userName and the RESUME_ID, and the BLOCK_ID, and the BULLET_ID
-  // .... if the user adds BLOCKS and BULLETS, then we'll ship those back to the server here
-  // and update the view.
-
-})
-*/
-
-// Retrieve All Resume Info For Given User
-
+//Retrieve resume for existing user
+//Input : userId
+//Output : One complete resume in denormalized structure
 devServer.app.post('/api/getAllResumeInfo', function(req, res) {
 db.query( "SELECT u.id as \"UserId\", res.id as \"ResumeId\", blk.id as \"BlkId\", bul.id as \"BulletId\", res.name, res.profession, res.\"displayEmail\", res.phone, res.\"webLinkedin\", res.\"webOther\", res.\"resumeTitle\", res.\"resumeTheme\", res.\"personalStatement\", res.\"school1Name\", res.\"school1Degree\", res.\"school1EndYear\",res.\"school1Location\", res.\"school2Name\", res.\"school2Degree\", res.\"school2EndYear\", res.\"school2Location\", blk.\"jobTitle\", blk.\"blockPosition\", blk.years, blk.\"companyName\", blk.location, bul.bullet, bul.\"bulletPosition\", bul.archived FROM \"Users\" u LEFT OUTER JOIN \"Resumes\" res ON u.id = res.\"UserId\" INNER JOIN  resume_to_block rb ON res.id = rb.\"ResumeId\" INNER JOIN \"Blocks\" blk ON rb.\"BlockId\" = blk.id LEFT OUTER JOIN \"Bullets\" bul ON blk.id = bul.\"BlockId\" WHERE u.id = ? AND res.id = ?", { replacements: [req.body.UserId, req.body.ResumeId] , type: db.QueryTypes.SELECT}
-//{replacements: [req.body.UserId, req.body.ResumeId], type: db.QueryTypes.SELECT}
 ).then(function(info){
   console.log(info);
   res.send('success for all info: ', info);
 })
 })
 
-// Find a user
-devServer.app.post('/api/findauser', (req, res) => {
-  console.log("You looked for userId: " + req.body.id);
-  dbSchema.User.findOne({
-    where: {
-      id: req.body.id
-    }
-  })
-  .then( (results) => {
-    res.send(results.dataValues);
-  });
-});
-
-// All users please
-devServer.app.post('/api/allusers', (req, res) => {
-  dbSchema.User.findAll()
-  .then( (results) => {
-    // const userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
-    res.send(results);
-  });
-});
-
-// Create resume for given user
+// Create resume for a new user
+// Input : userId
+// Output : userID, resumeID, blockID
 devServer.app.post('/api/resume/create', (req, res) => {
   dbSchema.Resume.create({
     name: req.body.resumeHeader.name,
@@ -212,91 +156,27 @@ devServer.app.post('/api/resume/create', (req, res) => {
     })
     .then( (user) => {
       user.addResume(resume);
-      res.send('successfully added resume. Here is the resume.id: ', resume.id);
-    });
-  });
-});
-
-////Create block for given resume
-devServer.app.post('/api/block/create', (req, res) => {
-  const lastIndex = req.body.blockChildren.length-1;
-  dbSchema.Block.create({
-    jobTitle: req.body.blockChildren[lastIndex].jobTitle,
-    blockPosition: req.body.blockChildren[lastIndex].blockPosition,
-    years: req.body.blockChildren[lastIndex].years,
-    companyName: req.body.blockChildren[lastIndex].companyName,
-    location: req.body.blockChildren[lastIndex].location
-  })
-  .then( (block) => {
-    dbSchema.User.findOne({
-        where: {
-          id: req.body.userId
-        }
-    })
-    .then( (user) => {
-      dbSchema.Resume.findOne({
-          where: {
-            id: req.body.resumeId
-          }
+      dbSchema.Block.create({
+        jobTitle: req.body.blockChildren[0].jobTitle,
+        blockPosition: req.body.blockChildren[0].blockPosition,
+        years: req.body.blockChildren[0].years,
+        companyName: req.body.blockChildren[0].companyName,
+        location: req.body.blockChildren[0].location
       })
-      .then( (resume) => {
+      .then( (block) => {
         resume.addBlock(block);
-        res.status(200).send('successfully added block. Here is the block.id: ', block.id);
-      });
-    });
-  });
-});
-
-//Create bullets for given block
-devServer.app.post('/api/bullet/create', (req, res) => {
-  //create bullet for newest block
-  const lastIndexBlock= req.body.blockChildren.length-1;
-  const lastIndexBullet = req.body.blockChildren[lastIndexBlock].bulletChildren.length-1;
-  dbSchema.Bullet.create({
-    bullet: req.body.blockChildren[lastIndex].bulletChildren[lastIndexBullet].text,
-    bulletPosition: req.body.blockChildren[lastIndex].bulletChildren[lastIndexBullet].bulletPosition
-  })
-  .then( (bullet) => {
-    dbSchema.User.findOne({
-      where: {
-        id: req.body.userId
-      }
-    })
-    .then( (user) => {
-      dbSchema.Resume.findOne({
-        where: {
-          id: req.body.resumeId
-        }
-      })
-      .then( (resume) => {
-        dbSchema.Block.findOne({
-            where: {
-              id: req.body.blockId
-            }
-        })
-        .then( (block) => {
+        dbSchema.Bullet.create({
+          bullet: req.body.blockChildren[0].bulletChildren[0].bullet,
+          bulletPosition: req.body.blockChildren[0].bulletChildren[0].bulletPosition
+        }).then( (bullet) => {
           block.addBullet(bullet);
-          res.status(200).send('successfully added bullet: ', bullet.id);
+          res.send('successfully added resume. Here is resumeId, blockId, bulletId: ',
+          { userID: req.body.userId,
+            resumeID : resume.id,
+            blockID : block.id,
+            bulletID : bullet.id });
         });
       });
     });
   });
 });
-
-// curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getAllResumes
-//TODO If mutliple resumes titles are required, include ._map in res.send
-devServer.app.post('/api/getAllResumes', function(req, res){
-  dbSchema.User.findOne({
-    where: {
-      id: req.body.id
-    }
-  }).then(function(user) {
-    user.getResumes()
-    .then(
-      function(resume){
-        res.send({userId : resume[0].UserId})//, resume[0].id, resume[0].resumeTitle});
-    });
-  });
-});
-
-
