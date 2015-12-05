@@ -1,5 +1,6 @@
 import React, { PropTypes }       from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
+import Editor from 'react-medium-editor';
 
 const Types = {
   BULLET: 'bullet',
@@ -104,7 +105,7 @@ export default class Bullet extends React.Component {
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
-        <p>{this.props.text}</p>
+        <Editor text={this.props.text}/>
       </div>
     ));
   }
