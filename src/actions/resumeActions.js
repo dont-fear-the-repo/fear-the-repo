@@ -6,7 +6,9 @@ import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
-         UPDATE_LOCAL_STATE_BLOCKS } from 'constants/resumeConstants';
+         UPDATE_LOCAL_STATE_BLOCKS,
+         UPDATE_LOCAL_STATE_BULLETS
+          } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -53,6 +55,13 @@ export function updateLocalStateSavePrint (payload) {
 export function updateLocalStateBlocks (payload) {
   return {
     type: UPDATE_LOCAL_STATE_BLOCKS,
+    payload: payload
+  };
+}
+
+export function updateLocalStateBullets (payload) {
+  return {
+    type: UPDATE_LOCAL_STATE_BULLETS,
     payload: payload
   };
 }
