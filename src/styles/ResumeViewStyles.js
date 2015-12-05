@@ -32,6 +32,7 @@ export const styles = {
   resumeTitle: {
     textAlign: 'center',
     marginLeft: '50px',
+    display: 'inline-block',
     backgroundColor: MasterTheme.lightGray
   },
   buttonLabelStyle: {
