@@ -1,7 +1,7 @@
 import React, { PropTypes }       from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import Editor from 'react-medium-editor';
-import { TextField } from 'material-ui/lib';
+import { Paper } from 'material-ui/lib';
 
 const Types = {
   BULLET: 'bullet',
@@ -109,9 +109,8 @@ export default class Bullet extends React.Component {
 
     const styles = {
       bulletDrag: {
-        opacity: isDragging ? 0 : 1,
-        cursor: 'move',
-        width: '400px'
+        cursor: 'default',
+        width: '100%'
       },
       paragaphField: {
         width: '190%',
@@ -124,9 +123,11 @@ export default class Bullet extends React.Component {
     };
 
     return connectDragSource(connectDropTarget(
-        <div>
+      <div style={styles.bulletDrag}>
+        <Paper>
           <div><Editor style={styles.editorField} text={this.props.text}/></div>
-        </div>
+        </Paper>
+      </div>  
     ));
   }
 }
