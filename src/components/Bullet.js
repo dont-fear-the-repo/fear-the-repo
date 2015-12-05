@@ -1,5 +1,7 @@
 import React, { PropTypes }       from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
+import Editor from 'react-medium-editor';
+import { TextField } from 'material-ui/lib';
 
 const Types = {
   BULLET: 'bullet',
@@ -98,13 +100,22 @@ export default class Bullet extends React.Component {
     const styles = {
       bulletDrag: {
         opacity: isDragging ? 0 : 1,
-        cursor: 'move'
+        cursor: 'move',
+        width: '400px'
+      },
+      textField: {
+        width: '190%',
+        display: 'list-item'
       }
     };
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
-        <p>{this.props.text}</p>
+        <TextField defaultValue={this.props.text}
+          style={styles.textField}
+          underlineFocusStyle={{borderColor: '#FF6925'}}
+          underlineStyle={{borderColor: '#FFFFFF'}}
+          multiLine={true} />
       </div>
     ));
   }
