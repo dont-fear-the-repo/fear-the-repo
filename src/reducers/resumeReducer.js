@@ -89,7 +89,6 @@ const initialState = {
   }
 };
 
-
 export default createReducer(initialState, {
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
@@ -128,9 +127,8 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_LOCAL_STATE_BULLETS]: (state, payload) => {
-    // FIXME
     const newState = Object.assign({}, state);
-    newState.blockChildren[0][payload.textFieldName] = payload.bulletInput;
+    newState.blockChildren[payload.parentBlockIndex].bulletChildren[payload.bulletIndex][payload.textFieldName] = payload.userInput;
     return newState;
   },
 
@@ -153,7 +151,6 @@ export default createReducer(initialState, {
   [MOVE_BULLET]: (state, payload) => {
     const parentBlock = payload.blockChildren[payload.parentBlockIndex];
     const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren);
-    const parentBlockIndex = payload.parentBlockIndex;
 
     const newState = Object.assign({}, state);
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();

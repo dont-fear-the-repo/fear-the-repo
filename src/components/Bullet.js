@@ -1,7 +1,7 @@
 import React, { PropTypes }       from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
+import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
-import { TextField } from 'material-ui/lib';
 
 const Types = {
   BULLET: 'bullet',
@@ -13,7 +13,6 @@ const bulletSource = {
   // When dragging starts, beginDrag is called
   // What's returned is the only information available to the drop targets
     // should be the minimum amount of info, which is why why return just the ID and not the entire object
-
 
   beginDrag(props, monitor, component) {
     // Store the ID of the parent block of the dragged bullet
@@ -82,42 +81,46 @@ const bulletTarget = {
 
 export default class Bullet extends React.Component {
   static propTypes = {
-    // injected by react dnd
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
     bulletId: PropTypes.any.isRequired,
     moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
-    // coming from ResumeView.js (parent component) thru props
+    parentBlockId: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
     handleUpdateLocalState: PropTypes.func.isRequired
   };
 
   render() {
-    // not sure why these need to be assigned, but not companyName and jobTitle
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
 
     const styles = {
       bulletDrag: {
         opacity: isDragging ? 0 : 1,
         cursor: 'move',
-        width: '400px'
+        width: '95%'
       },
-      textField: {
+      paragraphField: {
         width: '190%',
-        display: 'list-item'
+        cursor: 'text'
+      },
+      editorField: {
+        cursor: 'text',
+        maxWidth: '90%',
+        minWidth: '60%',
+        display: 'inline-block'
       }
     };
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
-        <TextField defaultValue={this.props.text}
-          style={styles.textField}
-          underlineFocusStyle={{borderColor: '#FF6925'}}
-          underlineStyle={{borderColor: '#FFFFFF'}}
-          multiLine={true}
-          onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets')} />
+        <Paper>
+          <Editor style={styles.editorField}
+            text={this.props.text}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
+        </Paper>
       </div>
     ));
   }
