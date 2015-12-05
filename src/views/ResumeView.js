@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
@@ -10,6 +10,7 @@ import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
 import { addBlock,
+         addBullet,
          hideBlock,
          hideBullet,
          moveBlock,
@@ -34,6 +35,7 @@ injectTapEventPlugin(); // this is some voodoo to make SelectField render correc
 
 const ActionCreators = {
   addBlock: addBlock,
+  addBullet: addBullet,
   hideBlock: hideBlock,
   hideBullet: hideBullet,
   moveBlock: moveBlock,
@@ -77,10 +79,12 @@ const Types = {
 
 
 class ResumeView extends React.Component {
+
   static propTypes = {
-    actions: React.PropTypes.object,
-    connectDropTarget: React.PropTypes.func.isRequired,
-    loggedIn: React.PropTypes.bool
+    actions: PropTypes.object,
+    connectDropTarget: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool,
+    resumeState: PropTypes.object
   }
 
   constructor(props) {

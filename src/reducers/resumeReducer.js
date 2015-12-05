@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import _ from 'underscore';
 
 import { ADD_BLOCK,
+         ADD_BULLET,
          HIDE_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
@@ -121,21 +122,34 @@ export default createReducer(initialState, {
     return newState;
   },
 
+  [ADD_BULLET]: (state, payload) => {
+    const newState = { ...state };
+    const newBullet = {
+      bulletId: Date.now(),
+      text: 'YO SHIT WORKED AGAIN',
+      parentBlockId: payload,
+      archived: false
+    };
+    const targetBlock = _.filter(newState.blockChildren, child => child.blockId === payload);
+    targetBlock[0].bulletChildren.push(newBullet);
+    return newState;
+  },
+
   [HIDE_BLOCK]: (state, payload) => {
     const newState = { ...state };
-    const prop = _.filter(newState.blockChildren, child => child.blockId === payload);
-    prop[0].archived = true;
+    const targetBlock = _.filter(newState.blockChildren, child => child.blockId === payload);
+    targetBlock[0].archived = true;
     return newState;
   },
 
   [HIDE_BULLET]: (state, payload) => {
     const newState = { ...state };
-    const prop = _.chain(newState.blockChildren)
+    const targetBullet = _.chain(newState.blockChildren)
                   .map(block => block.bulletChildren)
                   .flatten()
                   .filter(bullet => bullet.bulletId === payload)
                   .value();
-    prop[0].archived = true;
+    targetBullet[0].archived = true;
     return newState;
   },
 

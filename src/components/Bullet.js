@@ -81,17 +81,19 @@ const bulletTarget = {
 }))
 
 export default class Bullet extends React.Component {
+
   static propTypes = {
     // injected by react dnd
+    bulletId: PropTypes.any.isRequired,
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    bulletId: PropTypes.any.isRequired,
-    moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    moveBullet: PropTypes.func.isRequired,
     // coming from ResumeView.js (parent component) thru props
-    text: PropTypes.string.isRequired,
-    handleUpdateLocalState: PropTypes.func.isRequired
+    actions: PropTypes.object,
+    handleUpdateLocalState: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired
   };
 
   hideBullet(event, target) {
@@ -100,9 +102,9 @@ export default class Bullet extends React.Component {
 
   render() {
     // not sure why these need to be assigned, but not companyName and jobTitle
-    const { isDragging,
-            connectDragSource,
-            connectDropTarget } = this.props;
+    const { connectDragSource,
+            connectDropTarget,
+            isDragging } = this.props;
 
     const styles = {
       bulletDrag: {

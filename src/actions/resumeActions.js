@@ -1,4 +1,5 @@
 import { ADD_BLOCK,
+         ADD_BULLET,
          DROP_BULLET,
          HIDE_BLOCK,
          HIDE_BULLET,
@@ -22,6 +23,13 @@ import { ADD_BLOCK,
 export function addBlock() {
   return {
     type: ADD_BLOCK
+  };
+}
+
+export function addBullet(payload) {
+  return {
+    type: ADD_BULLET,
+    payload
   };
 }
 
@@ -57,29 +65,6 @@ export function moveBullet(payload) {
   return {
     type: MOVE_BULLET,
     payload: payload
-  };
-}
-
-export function sendResumeToServerAsync(sentResumeObj) {
-  // Thunk middleware knows how to handle functions.
-  // It passes the dispatch method as an argument to the function,
-  // thus making it able to dispatch actions itself.
-  return function(dispatch) {
-
-    return fetch('http://localhost:3000/api/resume/create', {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(sentResumeObj)
-      })
-      .then(response => response.json())
-      .then(serverResponseJavascriptObject =>
-        dispatch(updateResumeState(serverResponseJavascriptObject))
-      );
-    // In a real world app, you also want to
-    // catch any error in the network call.
   };
 }
 
@@ -129,5 +114,31 @@ export function updateResumeState(payload) { // TODO: rename to "serverupdate"
   return {
     type: UPDATE_RESUME_WITH_SERVER_RESPONSE,
     payload: payload
+  };
+}
+
+/* END ACTION CREATORS */
+
+
+export function sendResumeToServerAsync(sentResumeObj) {
+  // Thunk middleware knows how to handle functions.
+  // It passes the dispatch method as an argument to the function,
+  // thus making it able to dispatch actions itself.
+  return function(dispatch) {
+
+    return fetch('http://localhost:3000/api/resume/create', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sentResumeObj)
+      })
+      .then(response => response.json())
+      .then(serverResponseJavascriptObject =>
+        dispatch(updateResumeState(serverResponseJavascriptObject))
+      );
+    // In a real world app, you also want to
+    // catch any error in the network call.
   };
 }

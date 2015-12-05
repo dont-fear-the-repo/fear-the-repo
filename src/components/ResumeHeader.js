@@ -5,6 +5,13 @@ import Editor from 'react-medium-editor';
 
 export default class ResumeHeader extends React.Component {
 
+  static propTypes = {
+    currentTheme: PropTypes.string,
+    handleUpdateLocalState: PropTypes.func,
+    resumeThemes: PropTypes.object,
+    resumeState: PropTypes.object
+  }
+
   render() {
     const { currentTheme, resumeThemes } = this.props;
 
