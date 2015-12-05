@@ -93,6 +93,16 @@ export default class Bullet extends React.Component {
     text: PropTypes.string.isRequired
   };
 
+  state = { editing: false }
+  
+  handleBlur() {
+    this.setState({editing : false})
+  }
+
+  handleClick() {
+    this.setState({editing: true})
+  } 
+
   render() {
     // not sure why these need to be assigned, but not companyName and jobTitle
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
@@ -103,20 +113,20 @@ export default class Bullet extends React.Component {
         cursor: 'move',
         width: '400px'
       },
-      textField: {
+      paragaphField: {
         width: '190%',
-        display: 'list-item'
+        cursor: 'text',
+      },
+      editorField :{
+        cursor: 'text',
+        display: 'inline-block'
       }
     };
 
     return connectDragSource(connectDropTarget(
-      <div style={styles.bulletDrag}>
-        <TextField defaultValue={this.props.text}
-          style={styles.textField}
-          underlineFocusStyle={{borderColor: '#FF6925'}}
-          underlineStyle={{borderColor: '#FFFFFF'}}
-          multiLine={true} />
-      </div>
+        <div>
+          <div><Editor style={styles.editorField} text={this.props.text}/></div>
+        </div>
     ));
   }
 }
