@@ -113,15 +113,19 @@ export default class Bullet extends React.Component {
         width: '190%',
         cursor: 'text',
       },
-      editorField :{
+      editorField: {
         cursor: 'text',
         maxWidth: '90%',
         minWidth: '80%',
         display: 'inline-block'
+      },
+      handle: {
+        cursor: 'move',
+        float: 'right'
       }
     };
 
-    return connectDragSource(connectDropTarget(
+    return connectDropTarget(
       <div style={styles.bulletDrag}>
 
         <Paper>
@@ -129,12 +133,17 @@ export default class Bullet extends React.Component {
             text={this.props.text}
             options={{toolbar: false}}
             onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
+
+          {connectDragSource(
+          <img src='styles/assets/drag-vertical.png' style={styles.handle} />
+          )}
+
         </Paper>
 
         <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
              onClick={e => this.hideBullet(e, this.props.bulletId)} />
 
       </div>
-    ));
+    );
   }
 }
