@@ -1,13 +1,22 @@
 import { createReducer } from '../utils';
 import Immutable from 'immutable';
-import { UPDATE_RESUME_WITH_SERVER_RESPONSE,
-         DROP_BULLET,
+import _ from 'underscore';
+
+import { ADD_BLOCK,
+         ADD_BULLET,
+         CLIENT_IS_DIRTY_UPDATE,
+         HIDE_BLOCK,
+         HIDE_BULLET,
+         MOVE_BLOCK,
+         MOVE_BULLET,
+         SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
-         UPDATE_LOCAL_STATE_HEADER,
-         UPDATE_LOCAL_STATE_FOOTER,
-         UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_LOCAL_STATE_BLOCKS,
-         MOVE_BLOCK } from 'constants/resumeConstants';
+         UPDATE_LOCAL_STATE_BULLETS,
+         UPDATE_LOCAL_STATE_FOOTER,
+         UPDATE_LOCAL_STATE_HEADER,
+         UPDATE_LOCAL_STATE_SAVEPRINT,
+         UPDATE_RESUME_WITH_SERVER_RESPONSE } from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
@@ -15,6 +24,8 @@ const initialState = {
   resumeId: 1,
   resumeTitle: 'Resume Version Name',
   resumeTheme: 'Default',
+  serverIsSaving: 'no',
+  clientFormIsDirty: false,
   resumeHeader: {
     name: 'Full Name',
     profession: 'Profession',
@@ -27,42 +38,57 @@ const initialState = {
   },
   blockChildren: [{
     blockId: 1,
+    archived: false,
     companyName: 'Company Name',
     jobTitle: 'Bossman',
     years: '2015',
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 1,
-      text: 'My first bullet'
+      text: 'My first bullet',
+      parentBlockId: 1,
+      archived: false
     }, {
       bulletId: 2,
-      text: 'Then I productionalized everything, like the Bossman that I am.'
+      text: 'Then I productionalized everything, like the Bossman that I am.',
+      parentBlockId: 1,
+      archived: false
     }]
   }, {
     blockId: 2,
+    archived: false,
     companyName: 'Second Corp.',
     jobTitle: 'Lackey',
     years: '2014, 2013',
     location: 'San Francisco, CA',
     bulletChildren: [{
-      bulletId: 1,
-      text: 'I believe in sentences that end with punctuation'
+      bulletId: 3,
+      text: 'I believe in sentences that end with punctuation',
+      parentBlockId: 2,
+      archived: false
     }, {
-      bulletId: 2,
-      text: 'This is an inflexible belief.'
+      bulletId: 4,
+      text: 'This is an inflexible belief.',
+      parentBlockId: 2,
+      archived: false
     }]
   }, {
     blockId: 3,
+    archived: false,
     companyName: 'Third Chance',
     jobTitle: 'Intern',
     years: '2012-2011',
     location: 'San Francisco, CA',
     bulletChildren: [{
-      bulletId: 1,
-      text: 'Not a great life here, alas.'
+      bulletId: 5,
+      text: 'Not a great life here, alas.',
+      parentBlockId: 3,
+      archived: false
     }, {
-      bulletId: 2,
-      text: 'But I played with a lot of paperclips!'
+      bulletId: 6,
+      text: 'But I played with a lot of paperclips!',
+      parentBlockId: 3,
+      archived: false
     }]
   }],
   resumeFooter: {
@@ -82,8 +108,82 @@ const initialState = {
   }
 };
 
-
 export default createReducer(initialState, {
+
+  [ADD_BLOCK]: (state) => {
+    const newState = { ...state };
+    const newBlock = {
+      blockId: Date.now(),
+      archived: false,
+      companyName: 'Company Name',
+      jobTitle: 'Job Title',
+      years: 'StartYear - EndYear',
+      location: 'City, State',
+      bulletChildren: []
+    };
+    newState.blockChildren.push(newBlock);
+    return newState;
+  },
+
+  [ADD_BULLET]: (state, payload) => {
+    const newState = { ...state };
+    const newBullet = {
+      bulletId: Date.now(),
+      text: 'New Bullet',
+      parentBlockId: payload,
+      archived: false
+    };
+    const targetBlock = _.filter(newState.blockChildren, child => child.blockId === payload);
+    targetBlock[0].bulletChildren.push(newBullet);
+    return newState;
+  },
+
+  [CLIENT_IS_DIRTY_UPDATE]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    newState.clientFormIsDirty = payload;
+    return newState;
+  },
+
+  [HIDE_BLOCK]: (state, payload) => {
+    const newState = { ...state };
+    const targetBlock = _.filter(newState.blockChildren, child => child.blockId === payload);
+    targetBlock[0].archived = true;
+    return newState;
+  },
+
+  [HIDE_BULLET]: (state, payload) => {
+    const newState = { ...state };
+    const targetBullet = _.chain(newState.blockChildren)
+                  .map(block => block.bulletChildren)
+                  .flatten()
+                  .filter(bullet => bullet.bulletId === payload)
+                  .value();
+    targetBullet[0].archived = true;
+    return newState;
+  },
+
+  [MOVE_BLOCK]: (state, payload) => {
+    const immutableBlockChildren = Immutable.List(state.blockChildren);
+
+    return Object.assign({}, state, {
+      blockChildren: immutableBlockChildren.splice(payload.blockIndex, 1).splice(payload.atIndex, 0, payload.block).toJS()
+    });
+  },
+
+  [MOVE_BULLET]: (state, payload) => {
+    const parentBlock = payload.blockChildren[payload.parentBlockIndex];
+    const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren);
+
+    const newState = Object.assign({}, state);
+    newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
+    return newState;
+  },
+
+  [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
+    let newState = Object.assign({}, state);
+    newState.serverIsSaving = payload;
+    return newState;
+  },
 
   [UPDATE_LOCAL_STATE]: (state, payload) => {
     const newProperty = {};
@@ -92,64 +192,44 @@ export default createReducer(initialState, {
       newProperty);
   },
 
-  [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
-    let newState = Object.assign({}, state);
-    newState.resumeHeader[payload.textFieldName] = payload.userInput;
+  [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState.blockChildren[payload.blockIndex][payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_LOCAL_STATE_BULLETS]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState.blockChildren[payload.parentBlockIndex].bulletChildren[payload.bulletIndex][payload.textFieldName] = payload.userInput;
     return newState;
   },
 
   [UPDATE_LOCAL_STATE_FOOTER]: (state, payload) => {
-    let newState = Object.assign({}, state);
-    if (payload.textFieldName.slice(0,6) === 'school'){
-      newState.resumeFooter[payload.textFieldName.slice(0,7)][payload.textFieldName.slice(8)] = payload.userInput;
+    const newState = Object.assign({}, state);
+    if (payload.textFieldName.slice(0, 6) === 'school') {
+      newState.resumeFooter[payload.textFieldName.slice(0, 7)][payload.textFieldName.slice(8)] = payload.userInput;
     } else {
       newState.resumeFooter[payload.textFieldName] = payload.userInput;
     }
     return newState;
   },
 
-  [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
-    let newState = Object.assign({}, state);
-    newState[payload.textFieldName] = payload.userInput;
+  [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState.resumeHeader[payload.textFieldName] = payload.userInput;
     return newState;
   },
 
-  [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
-    // FIXME: this function is definitely not correct yet, see Andrew's commit for truth?
-    let newState = Object.assign({}, state);
-    newState.blockChildren[0][payload.textFieldName] = payload.userInput;
-    return newState;
+  [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState[payload.textFieldName] = payload.userInput;
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
-    console.log(payload);
     return {
       ...state,
       ...payload
     };
-  },
-
-  [DROP_BULLET]: (state, payload) => {
-    const targetIndex = () => { // FIXME: refactor to use functional iteration instead of for loop
-      for (let index = 0; index < state.blockChildren.length; index++) {
-        if (state.blockChildren[index].blockId === state.targetBlock.blockId) {
-          return index;
-        }
-      }
-    }();
-
-    return Object.assign({}, state, {
-      blockChildren: state.blockChildren,
-      droppedBullet: state.blockChildren[targetIndex].body.push(state.droppedBullet.body)
-    });
-  },
-
-  [MOVE_BLOCK]: (state, payload) => {
-    const immutableBlockChildren = Immutable.List(state.blockChildren);
-    return Object.assign({}, state, {
-      blockChildren: immutableBlockChildren.splice(payload.index, 1)
-                                           .splice(payload.atIndex, 0, payload.block)
-                                           .toJS()
-    });
   }
+
 });

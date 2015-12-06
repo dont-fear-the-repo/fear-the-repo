@@ -2,51 +2,59 @@ import { MasterTheme } from 'styles/MasterTheme';
 
 const font = MasterTheme.muli;
 const merriweather = MasterTheme.merriweather;
+const resumePaperWidth = 612; // 8.5" @ 72dpi
+const viewMultiplier = 1.5; // this adjusts resumePaper dimensions and container height
 
 export const styles = {
   container: {
     backgroundColor: MasterTheme.lightGray,
-    height: '1000px',
+    height: (resumePaperWidth * viewMultiplier * 1.45).toString() + 'px',
     width: '100%',
     fontFamily: font
   },
   headerContainer: {
     textAlign: 'center',
-    width: '98%',
+    width: '90%',
     marginBottom: '10px',
     fontFamily: font
   },
   themeSelectDropdown: {
     backgroundColor: MasterTheme.lightGray,
     fontFamily: font,
-    marginLeft: '40px',
+    marginLeft: '80px',
     float: 'left',
     paddingTop: '0'
+  },
+  menuItemStyle: {
+    color: MasterTheme.orange,
+    fontWeight: MasterTheme.light
   },
   resumeTitle: {
     textAlign: 'center',
     marginLeft: '50px',
+    display: 'inline-block',
     backgroundColor: MasterTheme.lightGray
+  },
+  buttonLabelStyle: {
+    textTransform: 'none'
   },
   saveButton: {
     margin: '5px',
     float: 'right',
-    marginRight: '20px',
-    marginTop: '20px',
+    marginRight: '15px',
+    marginTop: '30px',
     marginBottom: '0'
   },
   printButton: {
     margin: '5px',
     float: 'right',
-    marginTop: '20px',
-    marginBottom: '0'
+    marginTop: '30px',
+    marginBottom: '0',
+    marginRight: '20px'
   },
   textCenter: {
     margin: '20px',
     backgroundColor: MasterTheme.lightGray
-  },
-  hintStyle: {
-    paddingLeft: '8px'
   },
   marginTop: {
     height: '20px'
@@ -60,8 +68,8 @@ export const styles = {
     height: '20px'
   },
   resumePaper: {
-    height: '800px',
-    width: '95%',
+    height: (resumePaperWidth * (11 / 8.5) * viewMultiplier).toString() + 'px',
+    width: (resumePaperWidth * viewMultiplier).toString() + 'px',
     marginLeft: 'auto',
     marginRight: 'auto'
   },
@@ -77,80 +85,19 @@ export const styles = {
     borderWidth: '1px'
   },
   hintStyle: {
-    color: MasterTheme.lightGray
+    color: MasterTheme.lightGray,
+    paddingLeft: '8px'
   },
   floatingLabelStyle: {
     color: MasterTheme.orange,
     fontFamily: font,
     fontWeight: MasterTheme.light
   },
-  firstLine: {
-
-  },
-  name: {
-    fontWeight: '700',
-    fontSize: '32px',
-    textAlign: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    display: 'inline-block'
-  },
-  profession: {
-    textAlign: 'center'
-  },
-  email: {
-    color: 'blue',
-    fontSize: '16px',
-    marginLeft: '10px'
-  },
-  phone: {
-    fontSize: '16px',
-    marginLeft: '10px'
-  },
-  location: {
-    marginLeft: '10px',
-    display: 'inline-block'
-  },
-  city: {
-    width: '200px'
-  },
-  state: {
-    width: '50px'
-  },
-  url: {
-    textAlign: 'left',
-    marginLeft: '10px'
-  },
-  blockDrag: {
-    cursor: 'move',
-    margin: '0px'
-  },
-  jobTitle: {
-    display: 'inline',
-    margin: '10px',
-    fontWeight: '700',
-    fontSize: '18px'
-  },
-  pipe: {
-    display: 'inline',
-    margin: '5px'
-  },
-  companyName: {
-    display: 'inline',
-    margin: '10px',
-    fontWeight: '500',
-    fontSize: '16px'
-  },
-  location: {
-    display: 'inline',
-    margin: '10px'
-  },
-  year: {
-    display: 'inline',
-    float: 'right',
-    marginRight: '10px'
+  bulletContainer: {
+    width: '95%'
   },
   bullet: {
-    fontSize: '14px'
+    fontSize: '16px',
+    marginTop: '10px'
   }
 };

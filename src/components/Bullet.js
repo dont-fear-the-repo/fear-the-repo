@@ -1,6 +1,7 @@
-import React, { PropTypes }       from 'react';
-import Paper                      from 'material-ui/lib/paper';
+import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
+import { Paper } from 'material-ui/lib';
+import Editor from 'react-medium-editor';
 
 const Types = {
   BULLET: 'bullet',
@@ -12,19 +13,27 @@ const bulletSource = {
   // When dragging starts, beginDrag is called
   // What's returned is the only information available to the drop targets
     // should be the minimum amount of info, which is why why return just the ID and not the entire object
-  beginDrag (props) {
+
+  beginDrag(props, monitor, component) {
+    // Store the ID of the parent block of the dragged bullet
+    const parentBlockId = component.props.parentBlockId;
+    // Get the index of the parent block
+    const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId);
+
     return {
-      id: props.id,
-      originalIndex: props.findBullet(props.id).index,
-      body: props.body
+      bulletId: props.bulletId,
+      parentBlockId: parentBlockId,
+      parentBlockIndex: parentBlockIndex,
+      originalIndex: props.findBullet(props.bulletId, parentBlockIndex).index,
+      text: props.text
     };
   },
 
   // When dragging stops, endDrag is called
-  endDrag (props, monitor) {
+  endDrag(props, monitor) {
     // Monitors allow you to get info about the drag state
     // getItem() returns a plain obj representing the currently dragged item, specified in the return statement of its beginDrag() method
-    const { id: droppedId, originalIndex } = monitor.getItem();
+    const { bulletId: droppedId, originalIndex } = monitor.getItem();
     // Check whether or not the drop was handled by a compatible drop target
     const didDrop = monitor.didDrop();
 
@@ -34,25 +43,30 @@ const bulletSource = {
     }
   },
 
-  isDragging (props, monitor) {
+  isDragging(props, monitor) {
     // Our bullet gets unmounted while dragged, so this keeps its appearance dragged
-    return props.id === monitor.getItem().id;
+    return props.bulletId === monitor.getItem().bulletId;
   }
 };
 
 const bulletTarget = {
-  hover (props, monitor) {
-    const { id: draggedId } = monitor.getItem();
-    const { id: overId } = props;
+  hover(props, monitor) {
+    const { bulletId: draggedId } = monitor.getItem();
+    const { bulletId: overId, parentBlockId: parentBlockId } = props;
+    const { blockIndex: parentBlockIndex } = props.findBlock(parentBlockId);
 
-    if (draggedId !== overId) {
-      const { index: overIndex } = props.findBullet(overId);
-      props.moveBullet(draggedId, overIndex);
+    if (monitor.getItemType() !== 'block') {
+      if (monitor.getItem().parentBlockId === props.parentBlockId) {
+        if (draggedId !== overId) {
+          const { bulletIndex: overIndex } = props.findBullet(overId, parentBlockIndex);
+          props.moveBullet(draggedId, overIndex, parentBlockId);
+        }
+      }
     }
   }
 };
 
-@DropTarget([Types.BLOCK, Types.BULLET], bulletTarget, connect => ({
+@DropTarget([Types.BULLET, Types.BLOCK], bulletTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 // DragSource takes 3 parameters:
@@ -66,35 +80,60 @@ const bulletTarget = {
 }))
 
 export default class Bullet extends React.Component {
+
   static propTypes = {
-    // injected by react dnd
+    bulletId: PropTypes.any.isRequired,
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
+    findBullet: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    bulletId: PropTypes.any.isRequired,
     moveBullet: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
-    // coming from ResumeView.js (parent component) thru props
-    text: PropTypes.string.isRequired
+    parentBlockId: PropTypes.any.isRequired,
+    text: PropTypes.string.isRequired,
+    handleUpdateLocalState: PropTypes.func.isRequired
   };
 
+  hideBullet(event, target) {
+    this.props.actions.hideBullet(target);
+  }
 
-  render () {
-    // not sure why these need to be assigned, but not companyName and jobTitle
-    const { isDragging, connectDragSource, connectDropTarget } = this.props;
+  render() {
+    const { connectDragSource,
+            connectDropTarget,
+            isDragging } = this.props;
 
     const styles = {
       bulletDrag: {
         opacity: isDragging ? 0 : 1,
-        cursor: 'move'
+        cursor: 'default',
+        width: '100%'
+      },
+      textField: {  // FIXME: this should live in the styles file. BulletDrag is only in here because it uses the 'isDragging' property.
+        width: '190%',
+        cursor: 'text',
+      },
+      editorField :{
+        cursor: 'text',
+        maxWidth: '90%',
+        minWidth: '80%',
+        display: 'inline-block'
       }
     };
 
     return connectDragSource(connectDropTarget(
       <div style={styles.bulletDrag}>
+
         <Paper>
-          <h1>{this.props.body}</h1>
+          <Editor style={styles.editorField}
+            text={this.props.text}
+            options={{toolbar: false}}
+            onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
         </Paper>
+
+        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+             onClick={e => this.hideBullet(e, this.props.bulletId)} />
+
       </div>
     ));
   }

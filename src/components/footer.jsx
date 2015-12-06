@@ -18,6 +18,7 @@ export class Footer extends React.Component {
           <Link to='/about'>
             <FlatButton label='About Us'
                         style={styles.aboutButton}
+                        labelStyle={styles.buttonLabelStyle}
                         backgroundColor={styles.buttonColor}
                         hoverColor={styles.buttonHoverColor} />
           </Link>
@@ -25,6 +26,7 @@ export class Footer extends React.Component {
           <a href='https://github.com/dont-fear-the-repo/fear-the-repo'>
             <FlatButton label='Check us out on Github'
                         style={styles.githubButton}
+                        labelStyle={styles.buttonLabelStyle}
                         backgroundColor={styles.buttonColor}
                         hoverColor={styles.buttonHoverColor} />
 
