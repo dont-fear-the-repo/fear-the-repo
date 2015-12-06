@@ -80,26 +80,26 @@ Block.hasMany(Bullet, {onDelete: 'cascade'});
  It is currently being called only in /bin/webpack-dev-server.js
 */
 
-export function buildATestUser() {
-  db.sync({
-    force: true
-  })
-  .then(function() {
-    return User.create({
-      email: 'batman@gmail.com',
-      password: 'anarchy'
-    }).then(function(testUser) {
-      console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
-      console.log(testUser.get({
-        plain: true
-      }));
-    });
-  });
-  return {
-    User : User
-  }
-}
+// export function buildATestUser() {
+//   db.sync({
+//     force: true
+//   })
+//   .then(function() {
+//     return User.create({
+//       email: 'batman@gmail.com',
+//       password: 'anarchy'
+//     }).then(function(testUser) {
+//       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
+//       console.log(testUser.get({
+//         plain: true
+//       }));
+//     });
+//   });
+//   return {
+//     User : User
+//   }
+// }
 
-buildATestUser();
+// buildATestUser();
 
 console.log('database/dbSchema.js was run.')

@@ -117,7 +117,7 @@ devServer.app.post('/logout', (req, res) => {
 //Input : userId
 //Output : One complete resume in denormalized structure
 devServer.app.post('/api/resume/get', function(req, res) {
-db.query( "SELECT u.id as \"UserId\", res.id as \"ResumeId\", blk.id as \"BlkId\", bul.id as \"BulletId\", res.name, res.profession, res.\"displayEmail\", res.phone, res.\"webLinkedin\", res.\"webOther\", res.\"resumeTitle\", res.\"resumeTheme\", res.\"personalStatement\", res.\"school1Name\", res.\"school1Degree\", res.\"school1EndYear\",res.\"school1Location\", res.\"school2Name\", res.\"school2Degree\", res.\"school2EndYear\", res.\"school2Location\", blk.\"jobTitle\", blk.\"blockPosition\", blk.years, blk.\"companyName\", blk.location, bul.bullet, bul.\"bulletPosition\", bul.archived FROM \"Users\" u LEFT OUTER JOIN \"Resumes\" res ON u.id = res.\"UserId\" LEFT OUTER JOIN \"Blocks\" blk ON res.\"id\" = blk.\"ResumeId\" LEFT OUTER JOIN \"Bullets\" bul ON blk.id = bul.\"BlockId\" WHERE u.id = ?", { replacements: [req.body.userID] , type: db.QueryTypes.SELECT}
+db.query( "SELECT u.id as \"UserId\", res.id as \"ResumeId\", blk.id as \"BlkId\", bul.id as \"BulletId\", res.name, res.profession, res.city, res.state, res.\"displayEmail\", res.phone, res.\"webLinkedin\", res.\"webOther\", res.\"resumeTitle\", res.\"resumeTheme\", res.\"personalStatement\", res.\"school1Name\", res.\"school1Degree\", res.\"school1EndYear\",res.\"school1Location\", res.\"school2Name\", res.\"school2Degree\", res.\"school2EndYear\", res.\"school2Location\", blk.\"jobTitle\", blk.\"blockPosition\", blk.years, blk.\"companyName\", blk.location, bul.bullet, bul.\"bulletPosition\", bul.archived FROM \"Users\" u LEFT OUTER JOIN \"Resumes\" res ON u.id = res.\"UserId\" LEFT OUTER JOIN \"Blocks\" blk ON res.\"id\" = blk.\"ResumeId\" LEFT OUTER JOIN \"Bullets\" bul ON blk.id = bul.\"BlockId\" WHERE u.id = ?", { replacements: [req.body.userID] , type: db.QueryTypes.SELECT}
 )
   .then(function(info){
     console.log(info);
@@ -270,73 +270,73 @@ console.log('userID is:', req.body.userID)
 // Mel Test Endpoint
 // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
 devServer.app.post('/api/resume/giveMeTestResume', function(req, res){
-console.log('userID is:', req.body.userID)
-  const yourTestResume = {
-    resumeHeader: {
-      name: 'TROLOLROLRO     Full Name',
-      profession: 'TROLOLROLRO     Profession',
-      city: 'TROLOLROLRO     City',
-      state: 'TROLOLROLRO     State',
-      displayEmail: 'TROLOLROLRO     email@email.com',
-      phone: 'TROLOLROLRO     (124) 125-4737',
-      webLinkedin: 'TROLOLROLRO     linkedin.com/myname',
-      webOther: 'TROLOLROLRO     github.com/number23'
-    },
-    blockChildren: [{
-      blockId: 1,
-      companyName: 'TROLOLROLRO     Company Name',
-      jobTitle: 'TROLOLROLRO     Bossman',
-      years: 'TROLOLROLRO     2015',
-      location: 'TROLOLROLRO     San Francisco, CA',
-      bulletChildren: [{
-        bulletId: 1,
-        text: 'TROLOLROLRO     My first bullet'
-      }, {
-        bulletId: 2,
-        text: 'TROLOLROLRO     Then I productionalized everything, like the Bossman that I am.'
-      }]
-    }, {
-      blockId: 2,
-      companyName: 'TROLOLROLRO     Second Corp.',
-      jobTitle: 'TROLOLROLRO     Lackey',
-      years: 'TROLOLROLRO     2014, 2013',
-      location: 'TROLOLROLRO     San Francisco, CA',
-      bulletChildren: [{
-        bulletId: 1,
-        text: 'TROLOLROLRO     I believe in sentences that end with punctuation'
-      }, {
-        bulletId: 2,
-        text: 'TROLOLROLRO     This is an inflexible belief.'
-      }]
-    }, {
-      blockId: 3,
-      companyName: 'TROLOLROLRO     Third Chance',
-      jobTitle: 'TROLOLROLRO     Intern',
-      years: 'TROLOLROLRO     2012-2011',
-      location: 'TROLOLROLRO     San Francisco, CA',
-      bulletChildren: [{
-        bulletId: 1,
-        text: 'TROLOLROLRO     Not a great life here, alas.'
-      }, {
-        bulletId: 2,
-        text: 'TROLOLROLRO     But I played with a lot of paperclips!'
-      }]
-    }],
-    resumeFooter: {
-      school1: {
-        name: 'TROLOLROLRO     School Name',
-        degree: 'TROLOLROLRO     Degree',
-        schoolEndYear: 'TROLOLROLRO     Year',
-        location: 'TROLOLROLRO     City'
-      },
-      school2: {
-        name: 'TROLOLROLRO     School Name',
-        degree: 'TROLOLROLRO     Degree',
-        schoolEndYear: 'TROLOLROLRO     Year',
-        location: 'TROLOLROLRO     City'
-      },
-      personalStatement: 'kittens are great, I love them'
-    }
-  };
-  res.send(yourTestResume);
+// console.log('userID is:', req.body.userID)
+//   const yourTestResume = {
+//     resumeHeader: {
+//       name: 'TROLOLROLRO     Full Name',
+//       profession: 'TROLOLROLRO     Profession',
+//       city: 'TROLOLROLRO     City',
+//       state: 'TROLOLROLRO     State',
+//       displayEmail: 'TROLOLROLRO     email@email.com',
+//       phone: 'TROLOLROLRO     (124) 125-4737',
+//       webLinkedin: 'TROLOLROLRO     linkedin.com/myname',
+//       webOther: 'TROLOLROLRO     github.com/number23'
+//     },
+//     blockChildren: [{
+//       blockId: 1,
+//       companyName: 'TROLOLROLRO     Company Name',
+//       jobTitle: 'TROLOLROLRO     Bossman',
+//       years: 'TROLOLROLRO     2015',
+//       location: 'TROLOLROLRO     San Francisco, CA',
+//       bulletChildren: [{
+//         bulletId: 1,
+//         text: 'TROLOLROLRO     My first bullet'
+//       }, {
+//         bulletId: 2,
+//         text: 'TROLOLROLRO     Then I productionalized everything, like the Bossman that I am.'
+//       }]
+//     }, {
+//       blockId: 2,
+//       companyName: 'TROLOLROLRO     Second Corp.',
+//       jobTitle: 'TROLOLROLRO     Lackey',
+//       years: 'TROLOLROLRO     2014, 2013',
+//       location: 'TROLOLROLRO     San Francisco, CA',
+//       bulletChildren: [{
+//         bulletId: 1,
+//         text: 'TROLOLROLRO     I believe in sentences that end with punctuation'
+//       }, {
+//         bulletId: 2,
+//         text: 'TROLOLROLRO     This is an inflexible belief.'
+//       }]
+//     }, {
+//       blockId: 3,
+//       companyName: 'TROLOLROLRO     Third Chance',
+//       jobTitle: 'TROLOLROLRO     Intern',
+//       years: 'TROLOLROLRO     2012-2011',
+//       location: 'TROLOLROLRO     San Francisco, CA',
+//       bulletChildren: [{
+//         bulletId: 1,
+//         text: 'TROLOLROLRO     Not a great life here, alas.'
+//       }, {
+//         bulletId: 2,
+//         text: 'TROLOLROLRO     But I played with a lot of paperclips!'
+//       }]
+//     }],
+//     resumeFooter: {
+//       school1: {
+//         name: 'TROLOLROLRO     School Name',
+//         degree: 'TROLOLROLRO     Degree',
+//         schoolEndYear: 'TROLOLROLRO     Year',
+//         location: 'TROLOLROLRO     City'
+//       },
+//       school2: {
+//         name: 'TROLOLROLRO     School Name',
+//         degree: 'TROLOLROLRO     Degree',
+//         schoolEndYear: 'TROLOLROLRO     Year',
+//         location: 'TROLOLROLRO     City'
+//       },
+//       personalStatement: 'kittens are great, I love them'
+//     }
+//   };
+//   res.send(yourTestResume);
 });
