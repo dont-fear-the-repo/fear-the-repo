@@ -69,10 +69,9 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
 
-<<<<<<< HEAD
-////////////////////////////////////
-//    React DnD functions below   //
-////////////////////////////////////
+/**********************************/
+/*    React DnD functions below   */
+/**********************************/
 
 const Types = {
   BLOCK: 'block',
