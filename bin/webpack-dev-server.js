@@ -269,7 +269,7 @@ console.log('userID is:', req.body.userID)
 
 // Mel Test Endpoint
 // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
-devServer.app.post('/api/resume/giveMeTestResume', function(req, res){
+// devServer.app.post('/api/resume/giveMeTestResume', function(req, res){
 // console.log('userID is:', req.body.userID)
 //   const yourTestResume = {
 //     resumeHeader: {
