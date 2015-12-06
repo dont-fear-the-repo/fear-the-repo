@@ -1,5 +1,5 @@
 import React from 'react';
-import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
+import { RaisedButton, TextField, Paper, SelectField, CircularProgress } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 
 export default class ResumeSavePrint extends React.Component {
@@ -46,21 +46,27 @@ export default class ResumeSavePrint extends React.Component {
   //   this.handleLoad();
   // }
 
-
   render() {
+    const saveAnimation = <CircularProgress mode="indeterminate" color={"orange"} size={.3} />;
+    const savedConfirm = 'Changes saved!'
+
     const themes = Object.keys(resumeThemes)
                     .map( (value, index) => ({
                       'index': index,
                       'text': value
                     }));
-// the mystery text is not coming from the returned JSX of ResumeSavePrint
-// but if you comment out all of the component ResumeSavePrint, then it does go away...
+
     return (
       <div style={this.props.styles.headerContainer}>
-      <h4>ClientIsDirty: {JSON.stringify(this.props.resumeState.clientFormIsDirty)}</h4>
 
+<h1>{this.props.resumeState.clientFormIsDirty ? savedConfirm : saveAnimation} </h1>
+
+
+
+      <h4>ClientIsDirty: {JSON.stringify(this.props.resumeState.clientFormIsDirty)}</h4>
       <h4>Server is saving: {this.props.resumeState.serverIsSaving}</h4>
       <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
+
         <RaisedButton label='Reload Last Saved Resume'
                       style={this.props.styles.saveButton}
                       onClick={e => this.handleLoad(e)} />
