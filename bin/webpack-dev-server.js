@@ -12,6 +12,7 @@ const utils = require('./lib/utils');
 const bcrypt = require('bcrypt-nodejs')
 const Promise = require('bluebird');
 const db = require('../database/dbConfig.js');
+const _ = require('underscore');
 
 devServer.listen(port, host, () => {
   console.log(chalk.green(
@@ -117,11 +118,12 @@ devServer.app.post('/logout', (req, res) => {
 //Output : One complete resume in denormalized structure
 devServer.app.post('/api/resume/get', function(req, res) {
 db.query( "SELECT u.id as \"UserId\", res.id as \"ResumeId\", blk.id as \"BlkId\", bul.id as \"BulletId\", res.name, res.profession, res.\"displayEmail\", res.phone, res.\"webLinkedin\", res.\"webOther\", res.\"resumeTitle\", res.\"resumeTheme\", res.\"personalStatement\", res.\"school1Name\", res.\"school1Degree\", res.\"school1EndYear\",res.\"school1Location\", res.\"school2Name\", res.\"school2Degree\", res.\"school2EndYear\", res.\"school2Location\", blk.\"jobTitle\", blk.\"blockPosition\", blk.years, blk.\"companyName\", blk.location, bul.bullet, bul.\"bulletPosition\", bul.archived FROM \"Users\" u LEFT OUTER JOIN \"Resumes\" res ON u.id = res.\"UserId\" LEFT OUTER JOIN \"Blocks\" blk ON res.\"id\" = blk.\"ResumeId\" LEFT OUTER JOIN \"Bullets\" bul ON blk.id = bul.\"BlockId\" WHERE u.id = ?", { replacements: [req.body.userID] , type: db.QueryTypes.SELECT}
-).then(function(info){
-  console.log(info);
-  res.send('success for all info: ', info);
-})
-})
+)
+  .then(function(info){
+    console.log(info);
+    res.send('success for all info: ', info);
+  });
+});
 
 // Create resume for a new user
 // Input : userId
@@ -190,7 +192,8 @@ devServer.app.post('/api/resume/update', (req, res) => {
     where: {
       UserId: req.body.userID
     }
-  }).then( () => {
+  })
+  .then( () => {
     dbSchema.Resume.create({
       name: req.body.resumeHeader.name,
       profession: req.body.resumeHeader.profession,
@@ -220,89 +223,37 @@ devServer.app.post('/api/resume/update', (req, res) => {
       })
       .then( (user) => {
         user.addResume(resume);
-        dbSchema.Block.create({
-          jobTitle: req.body.blockChildren[0].jobTitle,
-          blockPosition: req.body.blockChildren[0].blockPosition,
-          years: req.body.blockChildren[0].years,
-          companyName: req.body.blockChildren[0].companyName,
-          location: req.body.blockChildren[0].location
+        _.each(req.body.blockChildren, (blockArr) => {
+            dbSchema.Block.create({
+              jobTitle: blockArr.jobTitle,
+              blockPosition: _.indexOf(req.body.blockChildren, blockArr),
+              years: blockArr.years,
+              companyName: blockArr.companyName,
+              location: blockArr.location
+            })
+            .then( (block) => {
+              resume.addBlock(block);
+              _.each(blockArr.bulletChildren, (bulletArr) => {
+                  dbSchema.Bullet.create({
+                    bullet: bulletArr.bullet,
+                    bulletPosition: _.indexOf(blockArr.bulletChildren, bulletArr),
+                    archived: bulletArr.archived
+                  })
+                  .then( (bullet) => {
+                      block.addBullet(bullet);
+                      res.send('successfully updated saved resume. Information: ', bullet);
+                  })
+              })
+            })
+          })
         })
-        .then( (block) => {
-          resume.addBlock(block);
-          dbSchema.Bullet.create({
-            bullet: req.body.blockChildren[0].bulletChildren[0].bullet,
-            bulletPosition: req.body.blockChildren[0].bulletChildren[0].bulletPosition
-          }).then( (bullet) => {
-            block.addBullet(bullet);
-            res.send('successfully added resume. Here is resumeId, blockId, bulletId: ',
-            { userID: req.body.userId,
-              resumeID : resume.id,
-              blockID : block.id,
-              bulletID : bullet.id });
-          });
-        });
-      });
-    });
-  });
-});
-
-devServer.app.post('/api/resume/update', (req, res) => {
-  dbSchema.Resume.destroy({
-    where: {
-      UserId: req.body.userID
-    }
-  }).then( () => {
-    dbSchema.Resume.create({
-      name: req.body.resumeHeader.name,
-      profession: req.body.resumeHeader.profession,
-      city: req.body.resumeHeader.city,
-      state: req.body.resumeHeader.state,
-      displayEmail: req.body.resumeHeader.displayEmail,
-      phone: req.body.resumeHeader.phone,
-      webLinkedin: req.body.resumeHeader.webLinkedin,
-      webOther: req.body.resumeHeader.webOther,
-      resumeTitle: req.body.resumeTitle,
-      resumeTheme: req.body.resumeTheme,
-      personalStatement: req.body.resumeFooter.personalStatement,
-      school1Name: req.body.resumeFooter.school1.school1Name,
-      school1Degree: req.body.resumeFooter.school1.school1Degree,
-      school1EndYear: req.body.resumeFooter.school1.school1EndYear,
-      school1Location: req.body.resumeFooter.school1.school1Location,
-      school2Name: req.body.resumeFooter.school2.school2Name,
-      school2Degree: req.body.resumeFooter.school2.school2Degree,
-      school2EndYear: req.body.resumeFooter.school2.school2EndYear,
-      school2Location: req.body.resumeFooter.school2.school2Location
-    })
-    .then( (resume) => {
-      dbSchema.User.findOne({
-        where: {
-          id: req.body.userID
-        }
+    // .then( (info) => {
+    //     res.send('successfully added resume. Here is resumeId, blockId, bulletId: ',
+    //     { userID: req.body.userId,
+    //       resumeID : resume.id,
+    //       blockID : block.id,
+    //       bulletID : bullet.id });
+    // });
       })
-      .then( (user) => {
-        user.addResume(resume);
-        dbSchema.Block.create({
-          jobTitle: req.body.blockChildren[0].jobTitle,
-          blockPosition: req.body.blockChildren[0].blockPosition,
-          years: req.body.blockChildren[0].years,
-          companyName: req.body.blockChildren[0].companyName,
-          location: req.body.blockChildren[0].location
-        })
-        .then( (block) => {
-          resume.addBlock(block);
-          dbSchema.Bullet.create({
-            bullet: req.body.blockChildren[0].bulletChildren[0].bullet,
-            bulletPosition: req.body.blockChildren[0].bulletChildren[0].bulletPosition
-          }).then( (bullet) => {
-            block.addBullet(bullet);
-            res.send('successfully added resume. Here is resumeId, blockId, bulletId: ',
-            { userID: req.body.userId,
-              resumeID : resume.id,
-              blockID : block.id,
-              bulletID : bullet.id });
-          });
-        });
-      });
-    });
-  });
+    })
 });
