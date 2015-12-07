@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
+import Radium from 'radium';
 
 const Types = {
   BULLET: 'bullet',
@@ -79,6 +80,7 @@ const bulletTarget = {
   isDragging: monitor.isDragging()
 }))
 
+@Radium
 export default class Bullet extends React.Component {
 
   static propTypes = {
@@ -107,7 +109,8 @@ export default class Bullet extends React.Component {
       bulletDrag: {
         opacity: isDragging ? 0 : 1,
         cursor: 'default',
-        width: '100%'
+        width: '100%',
+        ':hover': {}
       },
       textField: {  // FIXME: this should live in the styles file. BulletDrag is only in here because it uses the 'isDragging' property.
         width: '190%',
@@ -121,29 +124,26 @@ export default class Bullet extends React.Component {
       },
       handle: {
         cursor: 'move',
-        float: 'right'
+        float: 'right',
       }
     };
 
-    return connectDropTarget(
-      <div style={styles.bulletDrag}>
+    return connectDragSource(connectDropTarget(
+      <div style={styles.bulletDrag} key='bullet'>
 
-        <Paper>
-          <Editor style={styles.editorField}
-            text={this.props.text}
-            options={{toolbar: false}}
-            onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
-
-          {connectDragSource(
-          <img src='styles/assets/drag-vertical.png' style={styles.handle} />
-          )}
-
-        </Paper>
+        <Editor style={styles.editorField}
+          text={this.props.text}
+          options={{toolbar: false}}
+          onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
 
         <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
              onClick={e => this.hideBullet(e, this.props.bulletId)} />
 
+        {Radium.getState(this.state, 'bullet', ':hover') ? (
+          <img src='styles/assets/drag-vertical.png' style={styles.handle} />
+          ) : null}
+
       </div>
-    );
+    ));
   }
 }
