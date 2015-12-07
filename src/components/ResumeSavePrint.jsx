@@ -18,7 +18,7 @@ export default class ResumeSavePrint extends React.Component {
     this.props.actions.serverIsSavingUpdate('saving');
     let wrappedForServer = Object.assign({}, this.props.resumeState);
     wrappedForServer.userID = this.props.userID;
-    this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
+    this.props.actions.sendResumeToServerAsync(wrappedForServer);
     console.log('clicked SAVE btn in ResumeSavePrint')
     } else {
       alert('To save a resume, please signup above');

@@ -11,6 +11,8 @@ const session = require('express-session');
 const utils = require('./lib/utils');
 const bcrypt = require('bcrypt-nodejs')
 const Promise = require('bluebird');
+const db = require('../database/dbConfig.js');
+const _ = require('underscore');
 
 devServer.listen(port, host, () => {
   console.log(chalk.green(
@@ -41,11 +43,12 @@ devServer.app.use(session({
 
 devServer.app.post('/authentication', utils.checkUser);
 
+//Login
 devServer.app.post('/login', (req, res) => {
   console.log("On my way");
   dbSchema.User.findOne({
       where: {
-        email: req.body.email,
+        email: req.body.email
       }
     })
     .then( (results) => {
@@ -63,10 +66,11 @@ devServer.app.post('/login', (req, res) => {
     });
 });
 
+//Signup
 devServer.app.post('/signup', (req, res) => {
   dbSchema.User.findOne({
       where: {
-        email: req.body.email //change me to id
+        email: req.body.email
       }
     })
     .then((results) => {
@@ -89,6 +93,7 @@ devServer.app.post('/signup', (req, res) => {
     });
 });
 
+//Logout
 devServer.app.post('/logout', (req, res) => {
   req.session.destroy( (err) => {
     if (err) {
@@ -144,198 +149,87 @@ devServer.app.post('/api/savebulletsonresume', function(req, res) {
 })
 */
 
-// Find a user
-devServer.app.post('/api/findauser', (req, res) => {
-  console.log("You looked for userId: " + req.body.id);
-  dbSchema.User.findOne({
+//Retrieve resume for existing user
+//Input : userId
+//Output : One complete resume in denormalized structure
+devServer.app.post('/api/resume/get', function(req, res) {
+db.query( "SELECT u.id as \"UserId\", res.id as \"resumeId\", blk.id as \"blockId\", bul.id as \"bulletId\", res.name, res.profession, res.city, res.state, res.\"displayEmail\", res.phone, res.\"webLinkedin\", res.\"webOther\", res.\"resumeTitle\", res.\"resumeTheme\", res.\"personalStatement\", res.\"school1Name\", res.\"school1Degree\", res.\"school1EndYear\",res.\"school1Location\", res.\"school2Name\", res.\"school2Degree\", res.\"school2EndYear\", res.\"school2Location\", blk.\"jobTitle\", blk.\"blockPosition\", blk.years, blk.\"companyName\", blk.location, blk.\"blockArchived\", blk.\"blockType\", bul.bullet, bul.\"bulletPosition\", bul.\"bulletArchived\" FROM \"Users\" u LEFT OUTER JOIN \"Resumes\" res ON u.id = res.\"UserId\" LEFT OUTER JOIN \"Blocks\" blk ON res.\"id\" = blk.\"ResumeId\" LEFT OUTER JOIN \"Bullets\" bul ON blk.id = bul.\"BlockId\" WHERE u.id = ?", { replacements: [req.body.userID] , type: db.QueryTypes.SELECT}
+)
+  .then(function(info){
+    console.log(info);
+    res.send('success for all info: ', info);
+  });
+});
+
+//Update existing resume a. Delete existing informaiton b. Save new information
+//Input : userId, resumeId
+// Output : userID, resumeID, blockID
+
+devServer.app.post('/api/resume/update', (req, res) => {
+  dbSchema.Resume.destroy({
     where: {
-      id: req.body.id
+      UserId: req.body.userID
     }
   })
-  .then( (results) => {
-    res.send(results.dataValues);
-  });
-});
-
-// All users please
-devServer.app.post('/api/allusers', (req, res) => {
-  dbSchema.User.findAll()
-  .then( (results) => {
-    // const userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
-    res.send(results);
-  });
-});
-
-// Create resume for given user
-devServer.app.post('/api/resume/create', (req, res) => {
-  dbSchema.Resume.create({
-    name: req.body.resumeHeader.name,
-    profession: req.body.resumeHeader.profession,
-    city: req.body.resumeHeader.city,
-    state: req.body.resumeHeader.state,
-    displayEmail: req.body.resumeHeader.displayEmail,
-    phone: req.body.resumeHeader.phone,
-    webLinkedin: req.body.resumeHeader.webLinkedin,
-    webOther: req.body.resumeHeader.webOther,
-    resumeTitle: req.body.resumeTitle,
-    resumeTheme: req.body.resumeTheme,
-    personalStatement: req.body.resumeFooter.personalStatement,
-    school1Name: req.body.resumeFooter.school1.school1Name,
-    school1Degree: req.body.resumeFooter.school1.school1Degree,
-    school1EndYear: req.body.resumeFooter.school1.school1EndYear,
-    school1Location: req.body.resumeFooter.school1.school1Location,
-    school2Name: req.body.resumeFooter.school2.school2Name,
-    school2Degree: req.body.resumeFooter.school2.school2Degree,
-    school2EndYear: req.body.resumeFooter.school2.school2EndYear,
-    school2Location: req.body.resumeFooter.school2.school2Location
-  })
-  .then( (resume) => {
-    dbSchema.User.findOne({
-      where: {
-        email: req.body.email
-      }
+  .then( () => {
+    dbSchema.Resume.create({
+      name: req.body.resumeHeader.name,
+      profession: req.body.resumeHeader.profession,
+      city: req.body.resumeHeader.city,
+      state: req.body.resumeHeader.state,
+      displayEmail: req.body.resumeHeader.displayEmail,
+      phone: req.body.resumeHeader.phone,
+      webLinkedin: req.body.resumeHeader.webLinkedin,
+      webOther: req.body.resumeHeader.webOther,
+      resumeTitle: req.body.resumeTitle,
+      resumeTheme: req.body.resumeTheme,
+      personalStatement: req.body.resumeFooter.personalStatement,
+      school1Name: req.body.resumeFooter.school1.school1Name,
+      school1Degree: req.body.resumeFooter.school1.school1Degree,
+      school1EndYear: req.body.resumeFooter.school1.school1EndYear,
+      school1Location: req.body.resumeFooter.school1.school1Location,
+      school2Name: req.body.resumeFooter.school2.school2Name,
+      school2Degree: req.body.resumeFooter.school2.school2Degree,
+      school2EndYear: req.body.resumeFooter.school2.school2EndYear,
+      school2Location: req.body.resumeFooter.school2.school2Location
     })
-    .then( (user) => {
-      user.addResume(resume);
-      res.send('successfully added resume: ', resume);
-    });
-  });
-});
-
-////Create block for given resume
-devServer.app.post('/api/block/create', (req, res) => {
-  dbSchema.Block.create({
-    jobTitle: req.body.jobTitle,
-    blockPosition: req.body.blockPosition,
-    years: req.body.years,
-    companyName: req.body.companyName,
-    location: req.body.location
-  })
-  .then( (block) => {
-    dbSchema.User.findOne({
+    .then( (resume) => {
+      dbSchema.User.findOne({
         where: {
-          email: req.body.email
-        }
-    })
-    .then( (user) => {
-      dbSchema.Resume.findOne({
-          where: {
-            resumeTitle: req.body.resumeTitle
-          }
-      })
-      .then( (resume) => {
-        resume.addBlock(block);
-        res.send('successfully added block: ', block);
-      });
-    });
-  });
-});
-
-//Create bullets for given block
-devServer.app.post('/api/bullet/create', (req, res) => {
-  dbSchema.Bullet.create({
-    bullet: req.body.bullet,
-    bulletPosition: req.body.bulletPosition
-  })
-  .then( (bullet) => {
-    dbSchema.User.findOne({
-      where: {
-        email: req.body.email
-      }
-    })
-    .then( (user) => {
-      dbSchema.Resume.findOne({
-        where: {
-          theme: req.body.resumeTitle
+          id: req.body.userID
         }
       })
-      .then( (resume) => {
-        dbSchema.Block.findOne({
-            where: {
-              jobTitle: req.body.jobTitle
-            }
-        })
-        .then( (block) => {
-          block.addBullet(bullet);
-          res.send('successfully added bullet: ', bullet);
-        });
-      });
-    });
-  });
-});
-
-// temp end point, for testing front-to-back data. Sujay will replace.
-devServer.app.post('/api/resumeheader', function(req, res) {
-  console.log("Hello, this is dog!");
-  console.log(req.body)
-  res.send(req.body);
-});
-
-
-
-//Retrieve all Bullets for given user
-
-//TODO - Attempting to fix performance issue
-//curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getBullets
-devServer.app.post('/api/getBullets', function(req, res){
-  dbSchema.Bullet.findAll({
-    include: [{
-      model: dbSchema.Block,
-      include: [{
-        model: dbSchema.Resume,
-        include: [{
-          model: dbSchema.User,
-          where: {
-            email: req.body.email
-          }
-        }]
-      }]
-    }]
-  }).then(function(bullets) {
-     //bullets = _.map(bullets, function(item){ return item.bullets; });
-     res.send(bullets);
-  });
-});
-
-//TODO - Attempting to fix performance issue;
-devServer.app.post('/api/getBullets', function(req, res){
-  dbSchema.User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then(function(user) {
-    user.getResumes().then(
-      function(resume){
-       resume.getBlocks().then(
-        function(blocks){
-          blocks.getBullets().then(
-            function(bullets){
-            res.send(bullets);
+      .then( (user) => {
+        user.addResume(resume);
+        _.each(req.body.blockChildren, (blockArr) => {
+            dbSchema.Block.create({
+              jobTitle: blockArr.jobTitle,
+              blockPosition: _.indexOf(req.body.blockChildren, blockArr),
+              years: blockArr.years,
+              companyName: blockArr.companyName,
+              location: blockArr.location,
+              blockArchived: blockArr.blockArchived,
+              blockType: blockArr.blockType
+            })
+            .then( (block) => {
+              resume.addBlock(block);
+              _.each(blockArr.bulletChildren, (bulletArr) => {
+                  dbSchema.Bullet.create({
+                    bullet: bulletArr.bullet,
+                    bulletPosition: _.indexOf(blockArr.bulletChildren, bulletArr),
+                    bulletArchived: bulletArr.bulletArchived
+                  })
+                  .then( (bullet) => {
+                      block.addBullet(bullet);
+                      res.send('successfully updated saved resume. Information: ', bullet);
+                  });
+              });
+            });
           });
         });
+      });
     });
-  });
-});
-
-
-
-// Get All Resume Info For Given User
-// curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getAllResumes
-devServer.app.post('/api/getAllResumes', function(req, res){
-  dbSchema.User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then(function(user) {
-    user.getResumes()
-    .then(
-      function(resume){
-        res.send(resume);
-    });
-  });
-});
-
-
+});;
 
 // Mel Test Endpoint
 // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
