@@ -2,6 +2,8 @@
 *.log
 
 node_modules
+*.pdf
+localPWD_ES5.js
 
 dist
 coverage
