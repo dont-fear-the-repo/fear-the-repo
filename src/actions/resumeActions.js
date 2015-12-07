@@ -165,7 +165,7 @@ export function sendResumeToServerAsync(sentResumeObj) {
   // thus making it able to dispatch actions itself.
   return function(dispatch) {
     console.log('ran sendResumeToServerAsync in resumeActions.js')
-    return fetch('http://localhost:3000/api/resume/testSave', {
+    return fetch('http://localhost:3000/api/resume/update', {
         method: 'post',
         headers: {
           'Accept': 'application/json',

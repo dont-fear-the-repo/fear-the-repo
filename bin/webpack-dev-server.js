@@ -11,6 +11,8 @@ const session = require('express-session');
 const utils = require('./lib/utils');
 const bcrypt = require('bcrypt-nodejs')
 const Promise = require('bluebird');
+const db = require('../database/dbConfig.js');
+const _ = require('underscore');
 
 devServer.listen(port, host, () => {
   console.log(chalk.green(
@@ -41,11 +43,12 @@ devServer.app.use(session({
 
 devServer.app.post('/authentication', utils.checkUser);
 
+//Login In
 devServer.app.post('/login', (req, res) => {
   console.log("On my way");
   dbSchema.User.findOne({
       where: {
-        email: req.body.email,
+        email: req.body.email
       }
     })
     .then( (results) => {
@@ -63,10 +66,11 @@ devServer.app.post('/login', (req, res) => {
     });
 });
 
+//Sign Up
 devServer.app.post('/signup', (req, res) => {
   dbSchema.User.findOne({
       where: {
-        email: req.body.email //change me to id
+        email: req.body.email
       }
     })
     .then((results) => {
@@ -89,6 +93,7 @@ devServer.app.post('/signup', (req, res) => {
     });
 });
 
+//Log Out
 devServer.app.post('/logout', (req, res) => {
   req.session.destroy( (err) => {
     if (err) {
@@ -108,65 +113,21 @@ devServer.app.post('/logout', (req, res) => {
 //                                                             //
 /////////////////////////////////////////////////////////////////
 
-
-/*
-To test the API, try this:
-  NOTE : To add information to USER table create a new user from web application
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "name":"sujay", "profession":"batman", "resumeTitle":"test", "city":"gothom"}' http://localhost:3000/api/resume/create
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "resumeTitle":"test", "jobTitle":"bossman", "blockPosition":"2", "startDate":"2014", "endDate":"2015"}' http://localhost:3000/api/block/create
-
-*/
-
-
-/*
-TODO: make these work!
-// Make me a resume
-devServer.app.post('/api/makemearesume', function(req, res) {
-  // TODO: call this funciton when making a new user
-  // user logs in for first time, we immediately call this API endpoint to assign them a new resume
-  // that resume is born with a block, and all blocks are born with a bullet
-
-  // users can also call this function to add a resume, so if they already have one, we'll ask sequelize to auto-insert one
-
-  // RETURNS the new resume's unique sequelize ID, and also the block and bullet_id
-  // ...and something stores it on the state, next to the userName
-
-  // this whole effort is so that when they load ResumeView, we can ask the state for this resume info to display.
-})
-
-
-// Save Bullets
-devServer.app.post('/api/savebulletsonresume', function(req, res) {
-  // we have the userName and the RESUME_ID, and the BLOCK_ID, and the BULLET_ID
-  // .... if the user adds BLOCKS and BULLETS, then we'll ship those back to the server here
-  // and update the view.
-
-})
-*/
-
-// Find a user
-devServer.app.post('/api/findauser', (req, res) => {
-  console.log("You looked for userId: " + req.body.id);
-  dbSchema.User.findOne({
-    where: {
-      id: req.body.id
-    }
-  })
-  .then( (results) => {
-    res.send(results.dataValues);
+//Retrieve resume for existing user
+//Input : userId
+//Output : One complete resume in denormalized structure
+devServer.app.post('/api/resume/get', function(req, res) {
+db.query( "SELECT u.id as \"UserId\", res.id as \"ResumeId\", blk.id as \"BlkId\", bul.id as \"BulletId\", res.name, res.profession, res.city, res.state, res.\"displayEmail\", res.phone, res.\"webLinkedin\", res.\"webOther\", res.\"resumeTitle\", res.\"resumeTheme\", res.\"personalStatement\", res.\"school1Name\", res.\"school1Degree\", res.\"school1EndYear\",res.\"school1Location\", res.\"school2Name\", res.\"school2Degree\", res.\"school2EndYear\", res.\"school2Location\", blk.\"jobTitle\", blk.\"blockPosition\", blk.years, blk.\"companyName\", blk.location, bul.bullet, bul.\"bulletPosition\", bul.archived FROM \"Users\" u LEFT OUTER JOIN \"Resumes\" res ON u.id = res.\"UserId\" LEFT OUTER JOIN \"Blocks\" blk ON res.\"id\" = blk.\"ResumeId\" LEFT OUTER JOIN \"Bullets\" bul ON blk.id = bul.\"BlockId\" WHERE u.id = ?", { replacements: [req.body.userID] , type: db.QueryTypes.SELECT}
+)
+  .then(function(info){
+    console.log(info);
+    res.send('success for all info: ', info);
   });
 });
 
-// All users please
-devServer.app.post('/api/allusers', (req, res) => {
-  dbSchema.User.findAll()
-  .then( (results) => {
-    // const userList = results.map(function(user){return "id: "+ user.id + " email: " + user.email});
-    res.send(results);
-  });
-});
-
-// Create resume for given user
+// Create resume for a new user
+// Input : userId
+// Output : userID, resumeID, blockID
 devServer.app.post('/api/resume/create', (req, res) => {
   dbSchema.Resume.create({
     name: req.body.resumeHeader.name,
@@ -192,150 +153,110 @@ devServer.app.post('/api/resume/create', (req, res) => {
   .then( (resume) => {
     dbSchema.User.findOne({
       where: {
-        email: req.body.email
+        id: req.body.userID
       }
     })
     .then( (user) => {
       user.addResume(resume);
-      res.send('successfully added resume: ', resume);
-    });
-  });
-});
-
-////Create block for given resume
-devServer.app.post('/api/block/create', (req, res) => {
-  dbSchema.Block.create({
-    jobTitle: req.body.jobTitle,
-    blockPosition: req.body.blockPosition,
-    years: req.body.years,
-    companyName: req.body.companyName,
-    location: req.body.location
-  })
-  .then( (block) => {
-    dbSchema.User.findOne({
-        where: {
-          email: req.body.email
-        }
-    })
-    .then( (user) => {
-      dbSchema.Resume.findOne({
-          where: {
-            resumeTitle: req.body.resumeTitle
-          }
+      dbSchema.Block.create({
+        jobTitle: req.body.blockChildren[0].jobTitle,
+        blockPosition: req.body.blockChildren[0].blockPosition,
+        years: req.body.blockChildren[0].years,
+        companyName: req.body.blockChildren[0].companyName,
+        location: req.body.blockChildren[0].location
       })
-      .then( (resume) => {
+      .then( (block) => {
         resume.addBlock(block);
-        res.send('successfully added block: ', block);
+        dbSchema.Bullet.create({
+          bullet: req.body.blockChildren[0].bulletChildren[0].bullet,
+          bulletPosition: req.body.blockChildren[0].bulletChildren[0].bulletPosition
+        }).then( (bullet) => {
+          block.addBullet(bullet);
+          res.send('successfully added resume. Here is resumeId, blockId, bulletId: ',
+          { userID: req.body.userId,
+            resumeId : resume.id,
+            blockId : block.id,
+            bulletId : bullet.id });
+        });
       });
     });
   });
 });
 
-//Create bullets for given block
-devServer.app.post('/api/bullet/create', (req, res) => {
-  dbSchema.Bullet.create({
-    bullet: req.body.bullet,
-    bulletPosition: req.body.bulletPosition
+//Update existing resume a. Delete existing informaiton b. Save new information
+//Input : userId, resumeId
+// Output : userID, resumeID, blockID
+
+devServer.app.post('/api/resume/update', (req, res) => {
+  dbSchema.Resume.destroy({
+    where: {
+      UserId: req.body.userID
+    }
   })
-  .then( (bullet) => {
-    dbSchema.User.findOne({
-      where: {
-        email: req.body.email
-      }
+  .then( () => {
+    dbSchema.Resume.create({
+      name: req.body.resumeHeader.name,
+      profession: req.body.resumeHeader.profession,
+      city: req.body.resumeHeader.city,
+      state: req.body.resumeHeader.state,
+      displayEmail: req.body.resumeHeader.displayEmail,
+      phone: req.body.resumeHeader.phone,
+      webLinkedin: req.body.resumeHeader.webLinkedin,
+      webOther: req.body.resumeHeader.webOther,
+      resumeTitle: req.body.resumeTitle,
+      resumeTheme: req.body.resumeTheme,
+      personalStatement: req.body.resumeFooter.personalStatement,
+      school1Name: req.body.resumeFooter.school1.school1Name,
+      school1Degree: req.body.resumeFooter.school1.school1Degree,
+      school1EndYear: req.body.resumeFooter.school1.school1EndYear,
+      school1Location: req.body.resumeFooter.school1.school1Location,
+      school2Name: req.body.resumeFooter.school2.school2Name,
+      school2Degree: req.body.resumeFooter.school2.school2Degree,
+      school2EndYear: req.body.resumeFooter.school2.school2EndYear,
+      school2Location: req.body.resumeFooter.school2.school2Location
     })
-    .then( (user) => {
-      dbSchema.Resume.findOne({
+    .then( (resume) => {
+      dbSchema.User.findOne({
         where: {
-          theme: req.body.resumeTitle
+          id: req.body.userID
         }
       })
-      .then( (resume) => {
-        dbSchema.Block.findOne({
-            where: {
-              jobTitle: req.body.jobTitle
-            }
+      .then( (user) => {
+        user.addResume(resume);
+        _.each(req.body.blockChildren, (blockArr) => {
+            dbSchema.Block.create({
+              jobTitle: blockArr.jobTitle,
+              blockPosition: _.indexOf(req.body.blockChildren, blockArr),
+              years: blockArr.years,
+              companyName: blockArr.companyName,
+              location: blockArr.location
+            })
+            .then( (block) => {
+              resume.addBlock(block);
+              _.each(blockArr.bulletChildren, (bulletArr) => {
+                  dbSchema.Bullet.create({
+                    bullet: bulletArr.bullet,
+                    bulletPosition: _.indexOf(blockArr.bulletChildren, bulletArr),
+                    archived: bulletArr.archived
+                  })
+                  .then( (bullet) => {
+                      block.addBullet(bullet);
+                      res.send('successfully updated saved resume. Information: ', bullet);
+                  })
+              })
+            })
+          })
         })
-        .then( (block) => {
-          block.addBullet(bullet);
-          res.send('successfully added bullet: ', bullet);
-        });
-      });
-    });
-  });
+    // .then( (info) => {
+    //     res.send('successfully added resume. Here is resumeId, blockId, bulletId: ',
+    //     { userID: req.body.userId,
+    //       resumeID : resume.id,
+    //       blockID : block.id,
+    //       bulletID : bullet.id });
+    // });
+      })
+    })
 });
-
-// temp end point, for testing front-to-back data. Sujay will replace.
-devServer.app.post('/api/resumeheader', function(req, res) {
-  console.log("Hello, this is dog!");
-  console.log(req.body)
-  res.send(req.body);
-});
-
-
-
-//Retrieve all Bullets for given user
-
-//TODO - Attempting to fix performance issue
-//curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getBullets
-devServer.app.post('/api/getBullets', function(req, res){
-  dbSchema.Bullet.findAll({
-    include: [{
-      model: dbSchema.Block,
-      include: [{
-        model: dbSchema.Resume,
-        include: [{
-          model: dbSchema.User,
-          where: {
-            email: req.body.email
-          }
-        }]
-      }]
-    }]
-  }).then(function(bullets) {
-     //bullets = _.map(bullets, function(item){ return item.bullets; });
-     res.send(bullets);
-  });
-});
-
-//TODO - Attempting to fix performance issue;
-devServer.app.post('/api/getBullets', function(req, res){
-  dbSchema.User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then(function(user) {
-    user.getResumes().then(
-      function(resume){
-       resume.getBlocks().then(
-        function(blocks){
-          blocks.getBullets().then(
-            function(bullets){
-            res.send(bullets);
-          });
-        });
-    });
-  });
-});
-
-
-
-// Get All Resume Info For Given User
-// curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/getAllResumes
-devServer.app.post('/api/getAllResumes', function(req, res){
-  dbSchema.User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then(function(user) {
-    user.getResumes()
-    .then(
-      function(resume){
-        res.send(resume);
-    });
-  });
-});
-
-
 
 // Mel Test Endpoint
 // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
@@ -348,74 +269,74 @@ console.log('userID is:', req.body.userID)
 
 // Mel Test Endpoint
 // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
-devServer.app.post('/api/resume/giveMeTestResume', function(req, res){
-console.log('userID is:', req.body.userID)
-  const yourTestResume = {
-    resumeHeader: {
-      name: 'TROLOLROLRO     Full Name',
-      profession: 'TROLOLROLRO     Profession',
-      city: 'TROLOLROLRO     City',
-      state: 'TROLOLROLRO     State',
-      displayEmail: 'TROLOLROLRO     email@email.com',
-      phone: 'TROLOLROLRO     (124) 125-4737',
-      webLinkedin: 'TROLOLROLRO     linkedin.com/myname',
-      webOther: 'TROLOLROLRO     github.com/number23'
-    },
-    blockChildren: [{
-      blockId: 1,
-      companyName: 'TROLOLROLRO     Company Name',
-      jobTitle: 'TROLOLROLRO     Bossman',
-      years: 'TROLOLROLRO     2015',
-      location: 'TROLOLROLRO     San Francisco, CA',
-      bulletChildren: [{
-        bulletId: 1,
-        text: 'TROLOLROLRO     My first bullet'
-      }, {
-        bulletId: 2,
-        text: 'TROLOLROLRO     Then I productionalized everything, like the Bossman that I am.'
-      }]
-    }, {
-      blockId: 2,
-      companyName: 'TROLOLROLRO     Second Corp.',
-      jobTitle: 'TROLOLROLRO     Lackey',
-      years: 'TROLOLROLRO     2014, 2013',
-      location: 'TROLOLROLRO     San Francisco, CA',
-      bulletChildren: [{
-        bulletId: 1,
-        text: 'TROLOLROLRO     I believe in sentences that end with punctuation'
-      }, {
-        bulletId: 2,
-        text: 'TROLOLROLRO     This is an inflexible belief.'
-      }]
-    }, {
-      blockId: 3,
-      companyName: 'TROLOLROLRO     Third Chance',
-      jobTitle: 'TROLOLROLRO     Intern',
-      years: 'TROLOLROLRO     2012-2011',
-      location: 'TROLOLROLRO     San Francisco, CA',
-      bulletChildren: [{
-        bulletId: 1,
-        text: 'TROLOLROLRO     Not a great life here, alas.'
-      }, {
-        bulletId: 2,
-        text: 'TROLOLROLRO     But I played with a lot of paperclips!'
-      }]
-    }],
-    resumeFooter: {
-      school1: {
-        name: 'TROLOLROLRO     School Name',
-        degree: 'TROLOLROLRO     Degree',
-        schoolEndYear: 'TROLOLROLRO     Year',
-        location: 'TROLOLROLRO     City'
-      },
-      school2: {
-        name: 'TROLOLROLRO     School Name',
-        degree: 'TROLOLROLRO     Degree',
-        schoolEndYear: 'TROLOLROLRO     Year',
-        location: 'TROLOLROLRO     City'
-      },
-      personalStatement: 'kittens are great, I love them'
-    }
-  };
-  res.send(yourTestResume);
+// devServer.app.post('/api/resume/giveMeTestResume', function(req, res){
+// console.log('userID is:', req.body.userID)
+//   const yourTestResume = {
+//     resumeHeader: {
+//       name: 'TROLOLROLRO     Full Name',
+//       profession: 'TROLOLROLRO     Profession',
+//       city: 'TROLOLROLRO     City',
+//       state: 'TROLOLROLRO     State',
+//       displayEmail: 'TROLOLROLRO     email@email.com',
+//       phone: 'TROLOLROLRO     (124) 125-4737',
+//       webLinkedin: 'TROLOLROLRO     linkedin.com/myname',
+//       webOther: 'TROLOLROLRO     github.com/number23'
+//     },
+//     blockChildren: [{
+//       blockId: 1,
+//       companyName: 'TROLOLROLRO     Company Name',
+//       jobTitle: 'TROLOLROLRO     Bossman',
+//       years: 'TROLOLROLRO     2015',
+//       location: 'TROLOLROLRO     San Francisco, CA',
+//       bulletChildren: [{
+//         bulletId: 1,
+//         text: 'TROLOLROLRO     My first bullet'
+//       }, {
+//         bulletId: 2,
+//         text: 'TROLOLROLRO     Then I productionalized everything, like the Bossman that I am.'
+//       }]
+//     }, {
+//       blockId: 2,
+//       companyName: 'TROLOLROLRO     Second Corp.',
+//       jobTitle: 'TROLOLROLRO     Lackey',
+//       years: 'TROLOLROLRO     2014, 2013',
+//       location: 'TROLOLROLRO     San Francisco, CA',
+//       bulletChildren: [{
+//         bulletId: 1,
+//         text: 'TROLOLROLRO     I believe in sentences that end with punctuation'
+//       }, {
+//         bulletId: 2,
+//         text: 'TROLOLROLRO     This is an inflexible belief.'
+//       }]
+//     }, {
+//       blockId: 3,
+//       companyName: 'TROLOLROLRO     Third Chance',
+//       jobTitle: 'TROLOLROLRO     Intern',
+//       years: 'TROLOLROLRO     2012-2011',
+//       location: 'TROLOLROLRO     San Francisco, CA',
+//       bulletChildren: [{
+//         bulletId: 1,
+//         text: 'TROLOLROLRO     Not a great life here, alas.'
+//       }, {
+//         bulletId: 2,
+//         text: 'TROLOLROLRO     But I played with a lot of paperclips!'
+//       }]
+//     }],
+//     resumeFooter: {
+//       school1: {
+//         name: 'TROLOLROLRO     School Name',
+//         degree: 'TROLOLROLRO     Degree',
+//         schoolEndYear: 'TROLOLROLRO     Year',
+//         location: 'TROLOLROLRO     City'
+//       },
+//       school2: {
+//         name: 'TROLOLROLRO     School Name',
+//         degree: 'TROLOLROLRO     Degree',
+//         schoolEndYear: 'TROLOLROLRO     Year',
+//         location: 'TROLOLROLRO     City'
+//       },
+//       personalStatement: 'kittens are great, I love them'
+//     }
+//   };
+//   res.send(yourTestResume);
 });

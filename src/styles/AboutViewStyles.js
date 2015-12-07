@@ -24,7 +24,7 @@ export const styles = {
     textAlign: 'center',
     margin: '15px',
     display: 'inline-block',
-    fontSize: '12pt'
+    fontSize: '12pt',
   },
   teamCardDepth: 1,
   teamMemberName: {
