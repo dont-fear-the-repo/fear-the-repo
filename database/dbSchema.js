@@ -17,7 +17,7 @@ export const Resume = db.define('Resume', {
   city: Sequelize.STRING,
   state: Sequelize.STRING,
   displayEmail: Sequelize.STRING,
-  phone: Sequelize.INTEGER,
+  phone: Sequelize.STRING,
   webLinkedin: Sequelize.STRING,
   webOther: Sequelize.STRING,
   resumeTitle: Sequelize.STRING,

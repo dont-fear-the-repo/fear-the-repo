@@ -278,21 +278,14 @@ devServer.app.post('/api/resume/update', (req, res) => {
                   .then( (bullet) => {
                       block.addBullet(bullet);
                       res.send('successfully updated saved resume. Information: ', bullet);
-                  })
-              })
-            })
-          })
-        })
-    // .then( (info) => {
-    //     res.send('successfully added resume. Here is resumeId, blockId, bulletId: ',
-    //     { userID: req.body.userId,
-    //       resumeID : resume.id,
-    //       blockID : block.id,
-    //       bulletID : bullet.id });
-    // });
-      })
-    })
-});
+                  });
+              });
+            });
+          });
+        });
+      });
+    });
+});;
 
 // Mel Test Endpoint
 // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
