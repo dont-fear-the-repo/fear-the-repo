@@ -6,6 +6,7 @@ import { DropTarget } from 'react-dnd';
 // Components
 import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
+import Heading from 'components/Heading';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
@@ -75,10 +76,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Types = {
   BLOCK: 'block',
-  BULLET: 'bullet'
+  BULLET: 'bullet',
+  HEADING: 'heading'
 };
 
-@DropTarget([Types.BLOCK, Types.BULLET], {}, (connect) => ({
+@DropTarget([Types.BLOCK, Types.BULLET, Types.HEADING], {}, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 
@@ -156,7 +158,7 @@ class ResumeView extends React.Component {
 
   moveBlock(draggedId, atIndex) {
     const { block, blockIndex } = this.findBlock(draggedId);
-
+console.log('moveBlock')
     this.props.actions.moveBlock({
       blockIndex: blockIndex,
       atIndex: atIndex,
@@ -168,9 +170,9 @@ class ResumeView extends React.Component {
   findBlock(draggedId) {
     // For bullet drag:
       // First time called is on beginDrag, so that bullet has knowledge of its parent block's index (position on the resume)
-
     const blocks = this.props.resumeState.blockChildren;
     const block = blocks.filter(b => b.blockId === draggedId)[0];
+console.log('findBlock')
 
     return {
       block,
@@ -244,6 +246,7 @@ class ResumeView extends React.Component {
 
             {blockChildren.filter(block => block.archived === false)
                           .map(block => {
+                            if (block.displayAddBullets) {
                             return (
                               <BlockDumbComp  {...this.props}
                                               styles={styles}
@@ -275,8 +278,26 @@ class ResumeView extends React.Component {
                                             );
                     })}
 
-                </BlockDumbComp>
-              );
+                            </BlockDumbComp>
+                            );
+                          } else {
+                            return (
+                            <Heading {...this.props}
+                                     styles={styles}
+                                     key={block.blockId}
+                                     blockId={block.blockId}
+                                     companyName={block.companyName}
+                                     jobTitle={block.jobTitle}
+                                     years={block.years}
+                                     bulletChildren={block.bulletChildren}
+                                     location={block.location}
+                                     moveBlock={this.moveBlock}
+                                     resumeThemes={resumeThemes}
+                                     findBlock={this.findBlock}
+                                     displayAddBullets={block.displayAddBullets}
+                                     handleUpdateLocalState={this.handleUpdateLocalState} />
+                                     )
+                          }
             })}
 
           <img src='styles/assets/ic_playlist_add_black_24px.svg'

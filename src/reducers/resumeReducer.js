@@ -115,26 +115,48 @@ export default createReducer(initialState, {
 
   [ADD_BLOCK]: (state, payload) => {
     const newState = { ...state };
+    const blockId = Date.now();
+    const bulletId = Date.now() + 1;
     let newBlock;
 
     if (payload === 'bullets') {
       newBlock = {
-        blockId: Date.now(),
+        blockId: blockId,
         archived: false,
         companyName: 'Company/Project/School Name',
         jobTitle: 'Job Title / Project Role / Degree',
         years: 'StartYear - EndYear, if applicable',
         location: 'City, State / Project URL',
-        bulletChildren: [],
+        bulletChildren: [{
+          bulletId: bulletId + 1,
+          text: 'New bullet',
+          parentBlockId: blockId,
+          archived: false
+        }, {
+          bulletId: bulletId + 2,
+          text: 'New bullet',
+          parentBlockId: blockId,
+          archived: false
+        }],
         displayAddBullets: true
       };
     } else {
       newBlock = {
-        blockId: Date.now(),
+        blockId: blockId,
         archived: false,
         companyName: 'Heading',
         location: 'text, if applicable',
-        bulletChildren: [],
+        bulletChildren: [{
+          bulletId: bulletId + 1,
+          text: 'This won\'t be seen',
+          parentBlockId: blockId,
+          archived: false
+        }, {
+          bulletId: bulletId + 2,
+          text: 'This won\'t be seen',
+          parentBlockId: blockId,
+          archived: false
+        }],
         displayAddBullets: false
       }
     }
@@ -182,7 +204,7 @@ export default createReducer(initialState, {
 
   [MOVE_BLOCK]: (state, payload) => {
     const immutableBlockChildren = Immutable.List(state.blockChildren);
-
+console.log('payload: ', payload)
     return Object.assign({}, state, {
       blockChildren: immutableBlockChildren.splice(payload.blockIndex, 1).splice(payload.atIndex, 0, payload.block).toJS()
     });
