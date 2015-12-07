@@ -5,8 +5,8 @@ import { resumeThemes } from 'styles/resumeThemes';
 export default class ResumeSavePrint extends React.Component {
 
   handleLoad() {
-    let wrappedForServer = Object.assign({}, this.props.resumeState);
     this.props.actions.serverIsSavingUpdate('loading');
+    let wrappedForServer = Object.assign({}, this.props.resumeState);
     wrappedForServer.userID = this.props.userID;
     this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
     console.log('clicked LOAD btn in ResumeSavePrint')
@@ -16,7 +16,9 @@ export default class ResumeSavePrint extends React.Component {
   handleSubmit(e) {
     // if (this.props.loggedIn) {
     this.props.actions.serverIsSavingUpdate('saving');
-    this.props.actions.sendResumeToServerAsync(this.props.resumeState);
+    let wrappedForServer = Object.assign({}, this.props.resumeState);
+    wrappedForServer.userID = this.props.userID;
+    this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
     console.log('clicked SAVE btn in ResumeSavePrint')
     // } else {
     //   alert('To save a resume, please signup above');

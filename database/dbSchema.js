@@ -44,21 +44,21 @@ export const Block = db.define('Block', {
 export const Bullet = db.define('Bullet', {
   bullet: Sequelize.STRING,
   bulletPosition: Sequelize.INTEGER,
-  archived: {type : Sequelize.STRING, defaultValue: 'N'}
+  archived: {type : Sequelize.STRING, defaultValue: 'false'}
 });
 
 // set up foreign keys
 
-User.hasMany(Resume);
+User.hasMany(Resume, {onDelete: 'cascade'});
+Resume.hasMany(Block, {onDelete: 'cascade'});
+Block.hasMany(Bullet, {onDelete: 'cascade'});
 
-Block.hasMany(Bullet);
-
-Resume.belongsToMany(Block, {
-  through: 'resume_to_block'
-});
-Block.belongsToMany(Resume, {
-  through: 'resume_to_block'
-});
+// Resume.belongsToMany(Block, {
+//   through: 'resume_to_block'
+// });
+// Block.belongsToMany(Resume, {
+//   through: 'resume_to_block'
+// });
 
 /////////////////////////////////////////////////////////////////
 //                                                             //
@@ -84,8 +84,8 @@ Block.belongsToMany(Resume, {
 //   })
 //   .then(function() {
 //     return User.create({
-//       email: 'test@gmail.com',
-//       password: 'testHASH'
+//       email: 'batman@gmail.com',
+//       password: 'anarchy'
 //     }).then(function(testUser) {
 //       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
 //       console.log(testUser.get({
