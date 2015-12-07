@@ -228,3 +228,63 @@ AND res.id = ?'
 //      res.send(resume.resumeTitle);
 //   });
 // });
+
+
+
+// Create resume for a new user
+// Input : userId
+// Output : userID, resumeID, blockID
+devServer.app.post('/api/resume/create', (req, res) => {
+  dbSchema.Resume.create({
+    name: req.body.resumeHeader.name,
+    profession: req.body.resumeHeader.profession,
+    city: req.body.resumeHeader.city,
+    state: req.body.resumeHeader.state,
+    displayEmail: req.body.resumeHeader.displayEmail,
+    phone: req.body.resumeHeader.phone,
+    webLinkedin: req.body.resumeHeader.webLinkedin,
+    webOther: req.body.resumeHeader.webOther,
+    resumeTitle: req.body.resumeTitle,
+    resumeTheme: req.body.resumeTheme,
+    personalStatement: req.body.resumeFooter.personalStatement,
+    school1Name: req.body.resumeFooter.school1.school1Name,
+    school1Degree: req.body.resumeFooter.school1.school1Degree,
+    school1EndYear: req.body.resumeFooter.school1.school1EndYear,
+    school1Location: req.body.resumeFooter.school1.school1Location,
+    school2Name: req.body.resumeFooter.school2.school2Name,
+    school2Degree: req.body.resumeFooter.school2.school2Degree,
+    school2EndYear: req.body.resumeFooter.school2.school2EndYear,
+    school2Location: req.body.resumeFooter.school2.school2Location
+  })
+  .then( (resume) => {
+    dbSchema.User.findOne({
+      where: {
+        id: req.body.userID
+      }
+    })
+    .then( (user) => {
+      user.addResume(resume);
+      dbSchema.Block.create({
+        jobTitle: req.body.blockChildren[0].jobTitle,
+        blockPosition: req.body.blockChildren[0].blockPosition,
+        years: req.body.blockChildren[0].years,
+        companyName: req.body.blockChildren[0].companyName,
+        location: req.body.blockChildren[0].location
+      })
+      .then( (block) => {
+        resume.addBlock(block);
+        dbSchema.Bullet.create({
+          bullet: req.body.blockChildren[0].bulletChildren[0].bullet,
+          bulletPosition: req.body.blockChildren[0].bulletChildren[0].bulletPosition
+        }).then( (bullet) => {
+          block.addBullet(bullet);
+          res.send('successfully added resume. Here is resumeId, blockId, bulletId: ',
+          { userID: req.body.userId,
+            resumeId : resume.id,
+            blockId : block.id,
+            bulletId : bullet.id });
+        });
+      });
+    });
+  });
+});

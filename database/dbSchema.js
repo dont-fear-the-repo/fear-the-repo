@@ -38,13 +38,15 @@ export const Block = db.define('Block', {
   blockPosition: Sequelize.INTEGER,
   years: Sequelize.STRING,
   companyName: Sequelize.STRING,
-  location: Sequelize.STRING
+  location: Sequelize.STRING,
+  blockArchived: {type : Sequelize.STRING, defaultValue: 'false'},
+  blockType: Sequelize.STRING
 });
 
 export const Bullet = db.define('Bullet', {
   bullet: Sequelize.STRING,
   bulletPosition: Sequelize.INTEGER,
-  archived: {type : Sequelize.STRING, defaultValue: 'false'}
+  bulletArchived: {type : Sequelize.STRING, defaultValue: 'false'}
 });
 
 // set up foreign keys
@@ -78,26 +80,26 @@ Block.hasMany(Bullet, {onDelete: 'cascade'});
  It is currently being called only in /bin/webpack-dev-server.js
 */
 
-// export function buildATestUser() {
-//   db.sync({
-//     force: true
-//   })
-//   .then(function() {
-//     return User.create({
-//       email: 'batman@gmail.com',
-//       password: 'anarchy'
-//     }).then(function(testUser) {
-//       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
-//       console.log(testUser.get({
-//         plain: true
-//       }));
-//     });
-//   });
-//   return {
-//     User : User
-//   }
-// }
+export function buildATestUser() {
+  db.sync({
+    force: true
+  })
+  .then(function() {
+    return User.create({
+      email: 'joker@gmail.com',
+      password: 'anarchy'
+    }).then(function(testUser) {
+      console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
+      console.log(testUser.get({
+        plain: true
+      }));
+    });
+  });
+  return {
+    User : User
+  }
+}
 
-// buildATestUser();
+buildATestUser();
 
 console.log('database/dbSchema.js was run.')
