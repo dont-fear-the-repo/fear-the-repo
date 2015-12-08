@@ -1,15 +1,33 @@
-import { ENABLE_SUBMIT, DISABLE_SUBMIT } from 'constants/validationConstants';
+import { DISABLE_SUBMIT,
+         DISPLAY_ERROR_MESSAGE,
+         ENABLE_SUBMIT,
+         HIDE_ERROR_MESSAGE } from 'constants/validationConstants';
 
-export function enableSubmit(payload) {
-  return {
-    type: ENABLE_SUBMIT,
-    payload: payload
-  };
-}
 
 export function disableSubmit(payload) {
   return {
     type: DISABLE_SUBMIT,
-    payload: payload
+    payload
+  };
+}
+
+export function displayErrorMessage(payload) {
+  return {
+    type: DISPLAY_ERROR_MESSAGE,
+    payload
+  };
+}
+
+export function enableSubmit(payload) {
+  return {
+    type: ENABLE_SUBMIT,
+    payload
+  };
+}
+
+export function hideErrorMessage(payload) {
+  return {
+    type: HIDE_ERROR_MESSAGE,
+    payload
   };
 }
