@@ -158,7 +158,7 @@ class ResumeView extends React.Component {
 
   moveBlock(draggedId, atIndex) {
     const { block, blockIndex } = this.findBlock(draggedId);
-console.log('moveBlock')
+
     this.props.actions.moveBlock({
       blockIndex: blockIndex,
       atIndex: atIndex,
@@ -172,7 +172,7 @@ console.log('moveBlock')
       // First time called is on beginDrag, so that bullet has knowledge of its parent block's index (position on the resume)
     const blocks = this.props.resumeState.blockChildren;
     const block = blocks.filter(b => b.blockId === draggedId)[0];
-console.log('findBlock')
+
 
     return {
       block,
@@ -225,7 +225,7 @@ console.log('findBlock')
         <div className='marginTop'
              style={styles.marginTop} />
 
-       <ResumeSavePrint {...this.props}
+        <ResumeSavePrint {...this.props}
                          styles={styles}
                          handleUpdateLocalState={this.handleUpdateLocalState}
                          handleSubmit={this.handleSubmit}
@@ -244,44 +244,44 @@ console.log('findBlock')
                         resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
-            {blockChildren.filter(block => block.archived === false)
-                          .map(block => {
-                            if (block.displayAddBullets) {
-                            return (
-                              <BlockDumbComp  {...this.props}
-                                              styles={styles}
-                                              key={block.blockId}
-                                              blockId={block.blockId}
-                                              companyName={block.companyName}
-                                              jobTitle={block.jobTitle}
-                                              years={block.years}
-                                              bulletChildren={block.bulletChildren}
-                                              location={block.location}
-                                              moveBlock={this.moveBlock}
-                                              resumeThemes={resumeThemes}
-                                              findBlock={this.findBlock}
-                                              displayAddBullets={block.displayAddBullets}
-                                              handleUpdateLocalState={this.handleUpdateLocalState} >
+          {blockChildren.filter(block => block.archived === false)
+                        .map(block => {
+                          if (block.blockType === 'bullets') {
+                          return (
+                            <BlockDumbComp  {...this.props}
+                                            styles={styles}
+                                            key={block.blockId}
+                                            blockId={block.blockId}
+                                            companyName={block.companyName}
+                                            jobTitle={block.jobTitle}
+                                            years={block.years}
+                                            bulletChildren={block.bulletChildren}
+                                            location={block.location}
+                                            moveBlock={this.moveBlock}
+                                            resumeThemes={resumeThemes}
+                                            findBlock={this.findBlock}
+                                            displayAddBullets={block.displayAddBullets}
+                                            handleUpdateLocalState={this.handleUpdateLocalState} >
 
-                    {block.bulletChildren.filter(bullet => bullet.archived === false)
-                                         .map(bullet => {
-                                            return (
-                                                <Bullet {...this.props}
-                                                  key={bullet.bulletId}
-                                                  bulletId={bullet.bulletId}
-                                                  parentBlockId={bullet.parentBlockId}
-                                                  text={bullet.text}
-                                                  moveBullet={this.moveBullet}
-                                                  findBullet={this.findBullet}
-                                                  findBlock={this.findBlock}
-                                                  handleUpdateLocalState={this.handleUpdateLocalState} />
-                                            );
-                    })}
+                            {block.bulletChildren.filter(bullet => bullet.archived === false)
+                                                 .map(bullet => {
+                                                    return (
+                                                      <Bullet {...this.props}
+                                                              key={bullet.bulletId}
+                                                              bulletId={bullet.bulletId}
+                                                              parentBlockId={bullet.parentBlockId}
+                                                              text={bullet.text}
+                                                              moveBullet={this.moveBullet}
+                                                              findBullet={this.findBullet}
+                                                              findBlock={this.findBlock}
+                                                              handleUpdateLocalState={this.handleUpdateLocalState} />
+                                                    );
+                            })}
 
                             </BlockDumbComp>
-                            );
-                          } else {
-                            return (
+                          );
+                        } else if (block.blockType === 'no bullets') {
+                          return (
                             <Heading {...this.props}
                                      styles={styles}
                                      key={block.blockId}
@@ -296,14 +296,14 @@ console.log('findBlock')
                                      findBlock={this.findBlock}
                                      displayAddBullets={block.displayAddBullets}
                                      handleUpdateLocalState={this.handleUpdateLocalState} />
-                                     )
-                          }
-            })}
+                          );
+                        } else {} // define additional block types here
+          })}
 
           <img src='styles/assets/ic_playlist_add_black_24px.svg'
                onClick={e => this.addBlock(e, 'bullets')} />
           <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
-               onClick={e => this.addBlock(e, 'plain')} />
+               onClick={e => this.addBlock(e, 'no bullets')} />
 
           <ResumeFooter {...this.props}
                         styles={styles}
@@ -312,6 +312,7 @@ console.log('findBlock')
 
           <div className='marginBottom'
                style={styles.marginBottom} />
+
         </Paper>
 
       </div>

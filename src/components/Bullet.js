@@ -82,16 +82,16 @@ const bulletTarget = {
 export default class Bullet extends React.Component {
 
   static propTypes = {
+    actions: PropTypes.object,
     bulletId: PropTypes.any.isRequired,
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     findBullet: PropTypes.func.isRequired,
+    handleUpdateLocalState: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
     moveBullet: PropTypes.func.isRequired,
-    findBullet: PropTypes.func.isRequired,
     parentBlockId: PropTypes.any.isRequired,
-    text: PropTypes.string.isRequired,
-    handleUpdateLocalState: PropTypes.func.isRequired
+    text: PropTypes.string.isRequired
   };
 
   hideBullet(event, target) {

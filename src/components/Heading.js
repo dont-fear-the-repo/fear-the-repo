@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import { Paper, TextField } from 'material-ui/lib';
+import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
 
 
@@ -9,13 +9,12 @@ import Editor from 'react-medium-editor';
 /******************************/
 
 const Types = {
-  BLOCK: 'block'
-  // HEADING: 'heading'
+  BLOCK: 'block',
+  HEADING: 'heading'
 };
 
 const headingSource = {
   beginDrag(props) {
-    console.log('heading beginDrag')
     return {
       blockId: props.blockId,
       originalIndex: props.findBlock(props.blockId).index
@@ -25,7 +24,7 @@ const headingSource = {
   endDrag(props, monitor) {
     const { blockId: droppedId, originalIndex } = monitor.getItem();
     const didDrop = monitor.didDrop();
-console.log('Heading endDrag')
+
     if (!didDrop) {
       props.moveBlock(droppedId, originalIndex);
     }
@@ -44,10 +43,8 @@ const headingTarget = {
     const { blockId: draggedId } = monitor.getItem();
     const { blockId: overId } = props;
 
-    if (/*monitor.getItemType() === 'heading' || */monitor.getItemType() === 'block') {
-        console.log('heading - draggedId: ', draggedId, 'overId: ', overId)
+    if (monitor.getItemType() === 'heading' || monitor.getItemType() === 'block') {
       if (draggedId !== overId) {
-
         const { blockIndex: overIndex } = props.findBlock(overId);
         props.moveBlock(draggedId, overIndex);
       }
@@ -55,11 +52,11 @@ const headingTarget = {
   }
 };
 
-@DropTarget([Types.BLOCK], headingTarget, connect => ({
+@DropTarget([Types.BLOCK, Types.HEADING], headingTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 
-@DragSource(Types.BLOCK, headingSource, (connect, monitor) => ({
+@DragSource(Types.HEADING, headingSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
 }))
@@ -72,7 +69,18 @@ const headingTarget = {
 export default class Heading extends React.Component {
 
   static propTypes = {
-
+    actions: PropTypes.object,
+    blockId: PropTypes.any,
+    children: PropTypes.node,
+    companyName: PropTypes.string,
+    connectDragSource: PropTypes.func,
+    connectDropTarget: PropTypes.func,
+    currentTheme: PropTypes.string,
+    handleUpdateLocalState: PropTypes.func,
+    isDragging: PropTypes.bool,
+    location: PropTypes.string,
+    resumeThemes: PropTypes.object,
+    styles: PropTypes.object
   }
 
   hideBlock(event, target) {
@@ -80,7 +88,8 @@ export default class Heading extends React.Component {
   }
 
   render() {
-    const { isDragging,
+    const { children,
+            isDragging,
             connectDragSource,
             connectDropTarget,
             currentTheme,

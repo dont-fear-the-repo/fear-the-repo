@@ -38,60 +38,60 @@ const initialState = {
   },
   blockChildren: [{
     blockId: 1,
+    blockType: 'bullets',
     archived: false,
     companyName: 'Company Name',
     jobTitle: 'Bossman',
     years: '2015',
     location: 'San Francisco, CA',
-    displayAddBullets: true,
     bulletChildren: [{
       bulletId: 1,
-      text: 'My first bullet',
+      archived: false,
       parentBlockId: 1,
-      archived: false
+      text: 'My first bullet'
     }, {
       bulletId: 2,
-      text: 'Then I productionalized everything, like the Bossman that I am.',
+      archived: false,
       parentBlockId: 1,
-      archived: false
+      text: 'Then I productionalized everything, like the Bossman that I am.'
     }]
   }, {
     blockId: 2,
+    blockType: 'bullets',
     archived: false,
     companyName: 'Second Corp.',
     jobTitle: 'Lackey',
     years: '2014, 2013',
     location: 'San Francisco, CA',
-    displayAddBullets: true,
     bulletChildren: [{
       bulletId: 3,
-      text: 'I believe in sentences that end with punctuation',
+      archived: false,
       parentBlockId: 2,
-      archived: false
+      text: 'I believe in sentences that end with punctuation'
     }, {
       bulletId: 4,
-      text: 'This is an inflexible belief.',
+      archived: false,
       parentBlockId: 2,
-      archived: false
+      text: 'This is an inflexible belief.'
     }]
   }, {
     blockId: 3,
+    blockType: 'bullets',
     archived: false,
     companyName: 'Third Chance',
     jobTitle: 'Intern',
     years: '2012-2011',
     location: 'San Francisco, CA',
-    displayAddBullets: true,
     bulletChildren: [{
       bulletId: 5,
-      text: 'Not a great life here, alas.',
+      archived: false,
       parentBlockId: 3,
-      archived: false
+      text: 'Not a great life here, alas.'
     }, {
       bulletId: 6,
-      text: 'But I played with a lot of paperclips!',
+      archived: false,
       parentBlockId: 3,
-      archived: false
+      text: 'But I played with a lot of paperclips!'
     }]
   }],
   resumeFooter: {
@@ -122,6 +122,7 @@ export default createReducer(initialState, {
     if (payload === 'bullets') {
       newBlock = {
         blockId: blockId,
+        blockType: 'bullets',
         archived: false,
         companyName: 'Company/Project/School Name',
         jobTitle: 'Job Title / Project Role / Degree',
@@ -129,37 +130,36 @@ export default createReducer(initialState, {
         location: 'City, State / Project URL',
         bulletChildren: [{
           bulletId: bulletId + 1,
-          text: 'New bullet',
+          archived: false,
           parentBlockId: blockId,
-          archived: false
+          text: 'New bullet'
         }, {
           bulletId: bulletId + 2,
-          text: 'New bullet',
+          archived: false,
           parentBlockId: blockId,
-          archived: false
-        }],
-        displayAddBullets: true
+          text: 'New bullet'
+        }]
       };
-    } else {
+    } else if (payload === 'no bullets') {
       newBlock = {
         blockId: blockId,
+        blockType: 'no bullets',
         archived: false,
         companyName: 'Heading',
         location: 'text, if applicable',
         bulletChildren: [{
           bulletId: bulletId + 1,
-          text: 'This won\'t be seen',
+          archived: false,
           parentBlockId: blockId,
-          archived: false
+          text: 'This won\'t be seen'
         }, {
           bulletId: bulletId + 2,
-          text: 'This won\'t be seen',
+          archived: false,
           parentBlockId: blockId,
-          archived: false
-        }],
-        displayAddBullets: false
-      }
-    }
+          text: 'This won\'t be seen'
+        }]
+      };
+    } else {} // define additional block types here
 
     newState.blockChildren.push(newBlock);
     return newState;
@@ -169,9 +169,9 @@ export default createReducer(initialState, {
     const newState = { ...state };
     const newBullet = {
       bulletId: Date.now(),
-      text: 'New Bullet',
+      archived: false,
       parentBlockId: payload,
-      archived: false
+      text: 'New Bullet'
     };
     const targetBlock = _.filter(newState.blockChildren, child => child.blockId === payload);
     targetBlock[0].bulletChildren.push(newBullet);
@@ -179,7 +179,7 @@ export default createReducer(initialState, {
   },
 
   [CLIENT_IS_DIRTY_UPDATE]: (state, payload) => {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
     newState.clientFormIsDirty = payload;
     return newState;
   },
@@ -204,7 +204,7 @@ export default createReducer(initialState, {
 
   [MOVE_BLOCK]: (state, payload) => {
     const immutableBlockChildren = Immutable.List(state.blockChildren);
-console.log('payload: ', payload)
+
     return Object.assign({}, state, {
       blockChildren: immutableBlockChildren.splice(payload.blockIndex, 1).splice(payload.atIndex, 0, payload.block).toJS()
     });
@@ -220,7 +220,7 @@ console.log('payload: ', payload)
   },
 
   [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
     newState.serverIsSaving = payload;
     return newState;
   },
