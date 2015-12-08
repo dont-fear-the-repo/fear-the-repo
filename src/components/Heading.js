@@ -10,11 +10,10 @@ import Editor from 'react-medium-editor';
 
 const Types = {
   BLOCK: 'block',
-  BULLET: 'bullet',
   HEADING: 'heading'
 };
 
-const blockSource = {
+const headingSource = {
   beginDrag(props) {
     return {
       blockId: props.blockId,
@@ -32,11 +31,8 @@ const blockSource = {
   }
 };
 
-const blockTarget = {
+const headingTarget = {
   drop(props) {
-    // Simply return an object to make certain props available to the bullet
-    // being dropped on it via monitor.getDropResult. See ResumeView's
-    // blockTarget for the dispatching of that action.
     return {
       bulletChildren: props.bulletChildren,
       blockId: props.blockId
@@ -47,9 +43,7 @@ const blockTarget = {
     const { blockId: draggedId } = monitor.getItem();
     const { blockId: overId } = props;
 
-    if (monitor.getItemType() === 'block' || monitor.getItemType() === 'heading') {
-      // This is responsible for reordering the blocks when a block is dragged
-      // around the list of blocks
+    if (monitor.getItemType() === 'heading' || monitor.getItemType() === 'block') {
       if (draggedId !== overId) {
         const { blockIndex: overIndex } = props.findBlock(overId);
         props.moveBlock(draggedId, overIndex);
@@ -58,11 +52,11 @@ const blockTarget = {
   }
 };
 
-@DropTarget([Types.BLOCK, Types.BULLET, Types.HEADING], blockTarget, connect => ({
+@DropTarget([Types.BLOCK, Types.HEADING], headingTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 
-@DragSource(Types.BLOCK, blockSource, (connect, monitor) => ({
+@DragSource(Types.HEADING, headingSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
 }))
@@ -72,30 +66,21 @@ const blockTarget = {
 /****************************/
 
 
-export default class BlockDumbComp extends React.Component {
+export default class Heading extends React.Component {
 
   static propTypes = {
     actions: PropTypes.object,
-    blockId: PropTypes.any.isRequired,
-    bulletChildren: PropTypes.array.isRequired,
+    blockId: PropTypes.any,
     children: PropTypes.node,
     companyName: PropTypes.string,
-    connectDragSource: PropTypes.func.isRequired,
-    connectDropTarget: PropTypes.func.isRequired,
+    connectDragSource: PropTypes.func,
+    connectDropTarget: PropTypes.func,
     currentTheme: PropTypes.string,
-    findBlock: PropTypes.func.isRequired,
-    handleUpdateLocalState: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    jobTitle: PropTypes.string,
+    handleUpdateLocalState: PropTypes.func,
+    isDragging: PropTypes.bool,
     location: PropTypes.string,
-    moveBlock: PropTypes.func.isRequired,
     resumeThemes: PropTypes.object,
-    styles: PropTypes.object,
-    years: PropTypes.string
-  }
-
-  addBullet(event, target) {
-    this.props.actions.addBullet(target);
+    styles: PropTypes.object
   }
 
   hideBlock(event, target) {
@@ -111,18 +96,10 @@ export default class BlockDumbComp extends React.Component {
             resumeThemes,
             styles } = this.props;
 
-    const bulletCollection = (
-      <ul>
-        {this.props.children.map(bullet =>
-          <li key={bullet.key} style={styles.bullet}>{bullet}</li>
-        )}
-      </ul>
-    );
-
     const blockDrag = {
       opacity: isDragging ? 0 : 1,
       cursor: 'move',
-      margin: '0px'
+      margin: '0'
     };
 
     return connectDragSource(connectDropTarget(
@@ -130,47 +107,19 @@ export default class BlockDumbComp extends React.Component {
 
         <Paper>
 
-            <Editor style={resumeThemes[currentTheme].jobTitle}
-                    text={this.props.jobTitle}
-                    options={{toolbar: false}}
-                    onBlur={e => this.props.handleUpdateLocalState(e, 'jobTitle', 'blocks', this.props.blockId)} />
-
-            <div style={resumeThemes[currentTheme].pipe}>
-              |
-            </div>
-
           <Editor style={resumeThemes[currentTheme].companyName}
                   text={this.props.companyName}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
-
-            <div style={resumeThemes[currentTheme].pipe}>
-              |
-            </div>
 
           <Editor style={resumeThemes[currentTheme].location}
                   text={this.props.location}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
 
-            <Editor style={resumeThemes[currentTheme].jobYear}
-                    text={this.props.years}
-                    options={{toolbar: false}}
-                    onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
-
-          <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
-               onClick={e => this.hideBlock(e, this.props.blockId)} />
-
-            <div className='bulletContainer' style={styles.bulletContainer}>
-              {bulletCollection}
-            </div>
-
-            <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
-                 onClick={e => this.addBullet(e, this.props.blockId)} />
-
         </Paper>
 
       </div>
-    ));
+      ));
   }
 }
