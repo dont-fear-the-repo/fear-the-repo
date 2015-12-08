@@ -61,7 +61,12 @@ devServer.app.post('/login', (req, res) => {
               }
             })
             .then( (resume) => {
+                if(resume){
                 utils.createSession(req, res, {id : results.id, resumeId: resume.id});
+                }
+                else{
+                utils.createSession(req, res, {id : results.id, resumeId: 'NA'});
+                }
             })
           } else {
             res.status(401).send({
