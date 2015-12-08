@@ -6,8 +6,7 @@ import Editor from 'react-medium-editor';
 import { exactLength,
          isDefined,
          isInteger,
-         isValidEmail,
-         isValidPhoneNumber } from 'utils/validation';
+         isValidEmail } from 'utils/validation';
 
 
 export default class ResumeHeader extends React.Component {
