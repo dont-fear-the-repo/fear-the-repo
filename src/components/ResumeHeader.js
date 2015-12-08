@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { RaisedButton, TextField, Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
 
-
 export default class ResumeHeader extends React.Component {
 
   static propTypes = {
@@ -61,18 +60,19 @@ export default class ResumeHeader extends React.Component {
                 text={this.props.resumeState.resumeHeader.displayEmail}
                 onBlur={e => this.props.handleUpdateLocalState(e, 'email', 'header')} />
 
-</div>
-</div>
+      </div>
 
-        // <Editor style={resumeThemes[currentTheme].url}
-        //         options={{toolbar: false}}
-        //         text={this.props.resumeState.resumeHeader.url}
-        //         onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
+        <Editor style={resumeThemes[currentTheme].url}
+                options={{toolbar: false}}
+                text={this.props.resumeState.resumeHeader.webLinkedin}
+                onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
 
+        <Editor style={resumeThemes[currentTheme].url}
+                options={{toolbar: false}}
+                text={this.props.resumeState.resumeHeader.webOther}
+                onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
 
-        // <Editor style={resumeThemes[currentTheme].url}
-        //         options={{toolbar: false}}
-        //         onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
+      </div>
 
       // </div>
     );

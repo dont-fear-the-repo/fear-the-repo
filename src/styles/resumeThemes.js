@@ -16,7 +16,7 @@ export const resumeThemes = {
 
   'Default': {
     headerDiv: {
-      paddingBottom: '8%'
+      paddingBottom: '3%'
     },
     plain: {
       marginLeft: '10px'
@@ -53,7 +53,7 @@ export const resumeThemes = {
       float: 'left',
       fontSize: '16px',
       marginLeft: '3%',
-      marginTop: '2%',
+      marginTop: '22px',
       position: 'relative'
     },
     email: {
@@ -62,13 +62,14 @@ export const resumeThemes = {
       float: 'left',
       fontSize: '16px',
       marginLeft: '2%',
-      marginTop: '17px',
+      marginTop: '22px',
       position: 'relative'
     },
     url: {
       color: 'blue',
-      textAlign: 'left',
-      marginLeft: '10px'
+      fontSize: '14px',
+      marginRight: '3%',
+      textAlign: 'right'
     },
     pipe: {
       display: 'inline',
@@ -79,7 +80,7 @@ export const resumeThemes = {
       float: 'left',
       fontSize: '16px',
       marginLeft: '7px',
-      marginTop: '18px',
+      marginTop: '22px',
       position: 'absolute'
     },
     jobTitle: {
@@ -105,7 +106,7 @@ export const resumeThemes = {
       display: 'inline-block',
       cursor: 'text',
       float: 'right',
-      marginRight: '10px'
+      marginRight: '3%'
     },
     schoolName: {
       display: 'inline-block',

@@ -27,14 +27,14 @@ const initialState = {
   serverIsSaving: 'no',
   clientFormIsDirty: false,
   resumeHeader: {
-    name: 'Full Name',
+    name: 'Your Name',
     // profession: 'Profession',
-    city: 'Location',
+    city: 'City, St',
     // state: 'State',
-    displayEmail: 'your@email.com',
+    displayEmail: 'YourEmail@website.com',
     phone: '123.456.7890',
-    webLinkedin: 'linkedin.com/in/myname',
-    webOther: 'github.com/number23'
+    webLinkedin: 'linkedin.com/in/YourLinkedIn',
+    webOther: 'github.com/YourGithub'
   },
   blockChildren: [{
     blockType: 'bullets',
