@@ -1,7 +1,8 @@
 import React from 'react';
 import { RaisedButton, TextField, Paper, SelectField } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
-
+import { printStyles }  from 'styles/PrinterStyles'
+import $ from 'jquery'
 export default class ResumeSavePrint extends React.Component {
 
   handleLoad() {
@@ -24,9 +25,10 @@ export default class ResumeSavePrint extends React.Component {
   }
 
   handlePrint() {
+    console.log(document.getElementById('resumeContainer'))
     const prtContent = document.getElementById('resumeContainer');
     const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-    WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
+    WinPrint.document.write(prtContent.innerHTML +  printStyles);
     WinPrint.document.close();
     WinPrint.focus();
     WinPrint.print();
@@ -46,7 +48,21 @@ export default class ResumeSavePrint extends React.Component {
   //   this.handleLoad();
   // }
 
-
+  handleExport() {
+  const prtContent = { resume: document.getElementById('resumeContainer').innerHTML + printStyles };
+  $.ajax({
+      url: '/api/resume/export',
+      method: 'post',
+      contentType: 'application/json',
+      data: JSON.stringify(prtContent),
+      success: function(data) {
+        var link=document.createElement('a');
+        link.href= data.filename.slice(-25);
+        link.download="My_resume.pdf";
+        link.click();
+      }
+    })
+}
   render() {
     const themes = Object.keys(resumeThemes)
                     .map( (value, index) => ({
@@ -94,6 +110,12 @@ export default class ResumeSavePrint extends React.Component {
                       style={this.props.styles.printButton}
                       labelStyle={this.props.styles.buttonLabelStyle}
                       onClick={e => this.handlePrint(e)} />
+
+        <RaisedButton label='Export Resume'
+                      style={this.props.styles.ExportButton}
+                      labelStyle={this.props.styles.buttonLabelStyle}
+                      onClick={e => this.handleExport(e)} />                      
+
 
       </div>
     );

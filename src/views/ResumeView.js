@@ -219,8 +219,7 @@ class ResumeView extends React.Component {
 
     return connectDropTarget(
       <div className='container'
-           style={styles.container}
-           id='resumeContainer'>
+           style={styles.container}>
 
         <div className='marginTop'
              style={styles.marginTop} />
@@ -236,8 +235,7 @@ class ResumeView extends React.Component {
                          getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc}
                          serverIsSavingUpdate={this.serverIsSavingUpdate}
                          clientIsDirtyUpdate={this.clientIsDirtyUpdate} />
-
-        <Paper style={styles.resumePaper}>
+        <Paper style={styles.resumePaper} id='resumeContainer'>
 
           <ResumeHeader {...this.props}
                         styles={styles}
@@ -291,8 +289,7 @@ class ResumeView extends React.Component {
           <div className='marginBottom'
                style={styles.marginBottom} />
         </Paper>
-
-      </div>
+        </div>
     );
   }
 }
