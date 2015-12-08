@@ -1,16 +1,15 @@
 import { createReducer } from '../utils';
 import { errorMessages } from 'utils/errorMessages';
 import { DISABLE_SUBMIT,
-         DISPLAY_ERROR_MESSAGE,
+         DISPLAY_AUTH_MESSAGE,
          ENABLE_SUBMIT,
-         HIDE_ERROR_MESSAGE,
          UPDATE_ERROR_MESSAGE } from 'constants/validationConstants';
 
 
 const initialState = {
   canSubmitAuth: false,
   canSubmitResume: false,
-  displayErrorMessage: false,
+  currentAuthMessage: '',
   currentErrorMessage: ''
 };
 
@@ -23,10 +22,10 @@ export default createReducer(initialState, {
     return newState;
   },
 
-  [DISPLAY_ERROR_MESSAGE]: (state, payload) => {
+  [DISPLAY_AUTH_MESSAGE]: (state, payload) => {
     return {
       ...state,
-      displayErrorMessage: payload
+      currentAuthMessage: errorMessages[payload]
     };
   },
 
@@ -35,13 +34,6 @@ export default createReducer(initialState, {
     const newState = { ...state };
     newState['canSubmit' + payload] = true;
     return newState;
-  },
-
-  [HIDE_ERROR_MESSAGE]: (state) => {
-    return {
-      ...state,
-      displayErrorMessage: false
-    };
   },
 
   [UPDATE_ERROR_MESSAGE]: (state, payload) => {

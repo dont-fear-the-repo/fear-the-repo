@@ -7,24 +7,33 @@ import _ from 'underscore';
 
 import { Footer } from 'components/footer';
 import { loginUser, signupUser, logout } from 'actions/titleBarActions';
-import { enableSubmit, disableSubmit } from 'actions/validationActions';
-import { isDefined, isValidEmail, matches } from 'utils/validation';
+import { enableSubmit,
+         disableSubmit,
+         displayAuthMessage } from 'actions/validationActions';
+import { isDefined,
+         isValidEmail,
+         matches } from 'utils/validation';
 
-import { FlatButton, Popover, TextField, RefreshIndicator } from 'material-ui/lib';
+import { FlatButton,
+         Popover,
+         TextField,
+         RefreshIndicator } from 'material-ui/lib';
 import { styles } from 'styles/CoreLayoutStyles';
 
 
 const ActionCreators = {
-  loginUser: loginUser,
-  signupUser: signupUser,
-  logout: logout,
-  enableSubmit: enableSubmit,
-  disableSubmit: disableSubmit
+  disableSubmit,
+  displayAuthMessage,
+  enableSubmit,
+  loginUser,
+  logout,
+  signupUser
 };
 const mapStateToProps = (state) => ({
-  userLoginInfo: state.email,
+  canSubmitAuth: state.validationReducer.canSubmitAuth,
+  currentAuthMessage: state.validationReducer.currentAuthMessage,
   loggedIn: state.titleBarReducer.loggedIn,
-  canSubmitAuth: state.validationReducer.canSubmitAuth
+  userLoginInfo: state.email
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -32,11 +41,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 class CoreLayout extends React.Component {
     static propTypes = {
-      children: React.PropTypes.element,
       actions: React.PropTypes.object,
+      canSubmitAuth: React.PropTypes.bool,
+      currentAuthMessage: React.PropTypes.string,
+      children: React.PropTypes.element,
       loggedIn: React.PropTypes.bool,
-      userLoginInfo: React.PropTypes.string,
-      canSubmitAuth: React.PropTypes.bool
+      userLoginInfo: React.PropTypes.string
     };
 
     state = {
@@ -180,8 +190,10 @@ showLoginPopover(key, e) {
                           validator => validator(value) );
     if (validEntry) {
       this.state.validations[this.state.loginOrSignup][key] = true;
+      this.props.actions.displayAuthMessage('');
     } else if (!validEntry) {
       this.state.validations[this.state.loginOrSignup][key] = false;
+      this.props.actions.displayAuthMessage(key);
     }
 
     const shouldEnable = _.every(this.state.validations[this.state.loginOrSignup],
@@ -198,7 +210,7 @@ showLoginPopover(key, e) {
   }
 
   render() {
-    const { canSubmitAuth } = this.props;
+    const { canSubmitAuth, currentAuthMessage, loggedIn } = this.props;
 
     return (
       <div className='page-container'>
@@ -207,7 +219,7 @@ showLoginPopover(key, e) {
             <div className='header' style={styles.mainContainer}>
 
               <Link to='/' style={styles.name}>
-                [insert logo here]
+                Rezable
               </Link>
 
               <Link to='/resume'>
@@ -218,21 +230,21 @@ showLoginPopover(key, e) {
                             hoverColor={styles.buttonHoverColor} />
               </Link>
 
-              {this.props.loggedIn &&
+              {loggedIn &&
                 <FlatButton label='Logout'
                             style={styles.loginButton}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={e => this.handleLogout(e)} />}
-              {!this.props.loggedIn &&
+              {!loggedIn &&
                 <FlatButton label='Login'
                             style={styles.loginButton}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showLoginPopover('pop', e)} />}
-              {!this.props.loggedIn &&
+              {!loggedIn &&
                 <FlatButton label='Signup'
                             style={styles.signupButton}
                             backgroundColor={styles.buttonColor}
@@ -251,7 +263,7 @@ showLoginPopover(key, e) {
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'
-                         onChange={e => this.validateField(e, [isDefined, isValidEmail], 'email')}
+                         onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email')}
                          />
               <TextField ref='password'
                          hintText='Password'
@@ -277,22 +289,10 @@ showLoginPopover(key, e) {
                               e => this.handleLogin(e) :
                               e => this.handleSignup(e)} />}
 
-              {this.state.userAlreadyExists ?
-                <p className='userAlreadyExists'
-                   style={styles.errorText}>
-                  Account already exists for this email.<br/>
-                  Perhaps you meant to sign up?
-                </p> : ''}
-              {this.state.failedAttempted ?
+              {currentAuthMessage ?
                 <p className='failedAttempted'
                    style={styles.errorText}>
-                  Incorrect email or password - please try again.<br/>
-                  Perhaps you meant to sign up?
-                </p> : ''}
-              {!canSubmitAuth ?
-                <p className='disabled-text'
-                   style={styles.disabledText}>
-                  Please enter valid email and password
+                  {currentAuthMessage}
                 </p> : ''}
 
             </div>
