@@ -17,7 +17,7 @@ export const Resume = db.define('Resume', {
   city: Sequelize.STRING,
   state: Sequelize.STRING,
   displayEmail: Sequelize.STRING,
-  phone: Sequelize.INTEGER,
+  phone: Sequelize.STRING,
   webLinkedin: Sequelize.STRING,
   webOther: Sequelize.STRING,
   resumeTitle: Sequelize.STRING,
@@ -38,27 +38,29 @@ export const Block = db.define('Block', {
   blockPosition: Sequelize.INTEGER,
   years: Sequelize.STRING,
   companyName: Sequelize.STRING,
-  location: Sequelize.STRING
+  location: Sequelize.STRING,
+  blockArchived: {type : Sequelize.STRING, defaultValue: 'false'},
+  blockType: Sequelize.STRING
 });
 
 export const Bullet = db.define('Bullet', {
   bullet: Sequelize.STRING,
   bulletPosition: Sequelize.INTEGER,
-  archived: {type : Sequelize.STRING, defaultValue: 'N'}
+  bulletArchived: {type : Sequelize.STRING, defaultValue: 'false'}
 });
 
 // set up foreign keys
 
-User.hasMany(Resume);
+User.hasMany(Resume, {onDelete: 'cascade'});
+Resume.hasMany(Block, {onDelete: 'cascade'});
+Block.hasMany(Bullet, {onDelete: 'cascade'});
 
-Block.hasMany(Bullet);
-
-Resume.belongsToMany(Block, {
-  through: 'resume_to_block'
-});
-Block.belongsToMany(Resume, {
-  through: 'resume_to_block'
-});
+// Resume.belongsToMany(Block, {
+//   through: 'resume_to_block'
+// });
+// Block.belongsToMany(Resume, {
+//   through: 'resume_to_block'
+// });
 
 /////////////////////////////////////////////////////////////////
 //                                                             //
@@ -75,7 +77,6 @@ Block.belongsToMany(Resume, {
  ! It will not work without a localPWD.js in the root of your repo.
 
  Try calling this function from anywhere!
- It is currently being called only in /bin/webpack-dev-server.js
 */
 
 // export function buildATestUser() {
@@ -84,8 +85,8 @@ Block.belongsToMany(Resume, {
 //   })
 //   .then(function() {
 //     return User.create({
-//       email: 'test@gmail.com',
-//       password: 'testHASH'
+//       email: 'joker@gmail.com',
+//       password: 'anarchy'
 //     }).then(function(testUser) {
 //       console.log('\nHere is the test user you just made! :) \nIt was created by buildATestUser() in database/dbSchema.js\n')
 //       console.log(testUser.get({
