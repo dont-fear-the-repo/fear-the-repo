@@ -135,7 +135,7 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
 
 
-          <SelectField floatingLabelText='Select a theme'
+          <SelectField floatingLabelText='Theme'
                        style={this.props.styles.themeSelectDropdown}
                        floatingLabelStyle={this.props.styles.floatingLabelStyle}
                        underlineStyle={this.props.styles.underlineStyle}
@@ -149,7 +149,7 @@ export default class ResumeSavePrint extends React.Component {
                        <br />
                        <br />
                        <br />
-          <TextField floatingLabelText='Resume Version Name'
+          <TextField floatingLabelText='Version'
                      floatingLabelStyle={this.props.styles.floatingLabelStyle}
                      style={this.props.styles.resumeTitle}
                      underlineStyle={this.props.styles.underlineStyle}
