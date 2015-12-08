@@ -37,6 +37,7 @@ const initialState = {
     webOther: 'github.com/number23'
   },
   blockChildren: [{
+    blockType: 'bullets',
     blockId: 1,
     blockType: 'bullets',
     archived: false,
@@ -263,6 +264,7 @@ export default createReducer(initialState, {
   [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
     const newState = Object.assign({}, state);
     newState[payload.textFieldName] = payload.userInput;
+    return newState;
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
