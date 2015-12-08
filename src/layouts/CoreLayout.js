@@ -24,7 +24,7 @@ const ActionCreators = {
 const mapStateToProps = (state) => ({
   userLoginInfo: state.email,
   loggedIn: state.titleBarReducer.loggedIn,
-  canSubmit: state.validationReducer.canSubmit
+  canSubmitAuth: state.validationReducer.canSubmitAuth
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -36,7 +36,7 @@ class CoreLayout extends React.Component {
       actions: React.PropTypes.object,
       loggedIn: React.PropTypes.bool,
       userLoginInfo: React.PropTypes.string,
-      canSubmit: React.PropTypes.bool
+      canSubmitAuth: React.PropTypes.bool
     };
 
     state = {
@@ -185,9 +185,9 @@ showLoginPopover(key, e) {
     const shouldEnable = _.every(this.state.validations[this.state.loginOrSignup],
                             validation => validation === true );
     if (shouldEnable) {
-      this.props.actions.enableSubmit();
+      this.props.actions.enableSubmit('Auth');
     } else {
-      this.props.actions.disableSubmit();
+      this.props.actions.disableSubmit('Auth');
     }
   }
 
@@ -196,7 +196,7 @@ showLoginPopover(key, e) {
   }
 
   render() {
-    const { canSubmit } = this.props;
+    const { canSubmitAuth } = this.props;
 
     return (
       <div className='page-container'>
@@ -270,7 +270,7 @@ showLoginPopover(key, e) {
                                   left={250}
                                   loadingColor={styles.spinnerColor} /> :
                 <FlatButton label='Submit'
-                            disabled={!canSubmit}
+                            disabled={!canSubmitAuth}
                             onClick={this.state.loginOrSignup === 'login' ?
                               e => this.handleLogin(e) :
                               e => this.handleSignup(e)} />}
@@ -287,7 +287,7 @@ showLoginPopover(key, e) {
                   Incorrect email or password - please try again.<br/>
                   Perhaps you meant to sign up?
                 </p> : ''}
-              {!canSubmit ?
+              {!canSubmitAuth ?
                 <p className='disabled-text'
                    style={styles.disabledText}>
                   Please enter valid email and password

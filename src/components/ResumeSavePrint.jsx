@@ -10,7 +10,6 @@ export default class ResumeSavePrint extends React.Component {
     wrappedForServer.userID = this.props.userID;
     this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
     console.log('clicked LOAD btn in ResumeSavePrint')
-
   }
 
   handleSubmit(e) {
@@ -53,11 +52,11 @@ export default class ResumeSavePrint extends React.Component {
     const savedConfirm = 'Changes saved!'
 
     const themes = Object.keys(resumeThemes)
-                    .map( (value, index) => ({
-                      'index': index,
-                      'text': value
-                    }));
-
+                         .map( (value, index) => ({
+                            'index': index,
+                            'text': value
+                         }));
+console.log('canSubmitResume: ', this.props.canSubmitResume)
     return (
       <div style={this.props.styles.headerContainer}>
 
@@ -93,9 +92,16 @@ export default class ResumeSavePrint extends React.Component {
                    hintText={this.props.resumeState.resumeTitle}
                    onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
 
+        {this.props.canSubmitResume ?
+          <p>
+            {this.props.errorMessages[this.props.currentErrorMessage]}
+          </p>
+          : '' }
+
         <RaisedButton label='Save Resume'
                       style={this.props.styles.saveButton}
                       labelStyle={this.props.styles.buttonLabelStyle}
+                      disabled={!this.props.canSubmitResume}
                       onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
 
         <RaisedButton label='Print Resume'

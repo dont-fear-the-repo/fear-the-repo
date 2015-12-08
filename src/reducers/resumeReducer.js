@@ -33,13 +33,12 @@ const initialState = {
     state: 'State',
     displayEmail: 'email@email.com',
     phone: '(124) 125-4737',
-    webLinkedin: 'linkedin.com/myname',
-    webOther: 'github.com/number23'
+    webLinkedin: 'LinkedIn.com/in/<myname>',
+    webOther: 'Github.com/<myrepo>'
   },
   blockChildren: [{
     blockType: 'bullets',
     blockId: 1,
-    blockType: 'bullets',
     archived: false,
     companyName: 'Company Name',
     jobTitle: 'Bossman',
@@ -160,7 +159,7 @@ export default createReducer(initialState, {
           text: 'This won\'t be seen'
         }]
       };
-    } else {} // define additional block types here
+    }
 
     newState.blockChildren.push(newBlock);
     return newState;

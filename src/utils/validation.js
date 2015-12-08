@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 export function isDefined(value) {
   if (value !== undefined && value !== null && value !== '') {
     return true;
@@ -61,3 +63,14 @@ export function matches(target) {
     }
   };
 }
+
+export function isValidPhoneNumber(value) {  // not currently functional
+  if (value.length < 7) {
+    return false;
+  }
+  const valueArray = value.split('');
+  return _.every(valueArray, digit =>
+    /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/gi.test(value));
+}
+
+// TODO: simplify these
