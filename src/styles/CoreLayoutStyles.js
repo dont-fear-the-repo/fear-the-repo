@@ -51,5 +51,6 @@ export const styles = {
   disabledText: {
     margin: errorTextMargin,
     color: MasterTheme.midGray
-  }
+  },
+  spinnerColor: MasterTheme.orange
 };

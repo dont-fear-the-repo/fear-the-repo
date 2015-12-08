@@ -216,12 +216,6 @@ showLoginPopover(key, e) {
                             hoverColor={styles.buttonHoverColor} />
               </Link>
 
-              {this.props.loggedIn ?
-                <Link to='/secretpage'>
-                  <FlatButton label='Secret Page' />
-                </Link>
-              : '' }
-
               {this.props.loggedIn &&
                 <FlatButton label='Logout'
                             style={styles.loginButton}
@@ -274,7 +268,7 @@ showLoginPopover(key, e) {
                                   size={80}
                                   top={30}
                                   left={250}
-                                  loadingColor={'#009040'} /> :
+                                  loadingColor={styles.spinnerColor} /> :
                 <FlatButton label='Submit'
                             disabled={!canSubmit}
                             onClick={this.state.loginOrSignup === 'login' ?

@@ -7,3 +7,4 @@ dist
 coverage
 
 localPWD.js
+localPWD_ES5.js
