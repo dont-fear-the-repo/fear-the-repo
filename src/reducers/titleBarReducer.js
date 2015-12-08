@@ -7,6 +7,7 @@ const initialState = {
   anchorEl: '',
   loggedIn: false,
   email: '',
+  resumeId: '',
   userID: ''
 };
 
@@ -16,6 +17,7 @@ export default createReducer(initialState, {
     return Object.assign({}, state, {
       email: payload.email,
       loggedIn: true,
+      resumeId: payload.resumeId,
       userID: payload.id
     });
   },
@@ -24,6 +26,7 @@ export default createReducer(initialState, {
     // TODO: signup user!
     return Object.assign({}, state, {
       email: payload.email,
+      resumeId: payload.resumeId,
       userID: payload.id
     });
   },
@@ -32,6 +35,7 @@ export default createReducer(initialState, {
     return Object.assign({}, state, {
       loggedIn: false,
       email: 'guest',
+      resumeId:'',
       userID: ''
     });
   }
