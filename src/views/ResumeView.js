@@ -6,6 +6,7 @@ import { DropTarget } from 'react-dnd';
 // Components
 import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
+import Heading from 'components/Heading';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
@@ -75,10 +76,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Types = {
   BLOCK: 'block',
-  BULLET: 'bullet'
+  BULLET: 'bullet',
+  HEADING: 'heading'
 };
 
-@DropTarget([Types.BLOCK, Types.BULLET], {}, (connect) => ({
+@DropTarget([Types.BLOCK, Types.BULLET, Types.HEADING], {}, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 
@@ -136,8 +138,6 @@ class ResumeView extends React.Component {
       console.log('updating from header...');
       this.actions.updateLocalStateHeader({textFieldName, userInput, whereFrom});
       // this.actions.serverIsSavingUpdate({text: 'win'});
-
-
     } else if (whereFrom === 'footer') {
       console.log('updating from footer...');
       this.actions.updateLocalStateFooter({textFieldName, userInput, whereFrom});
@@ -170,9 +170,9 @@ class ResumeView extends React.Component {
   findBlock(draggedId) {
     // For bullet drag:
       // First time called is on beginDrag, so that bullet has knowledge of its parent block's index (position on the resume)
-
     const blocks = this.props.resumeState.blockChildren;
     const block = blocks.filter(b => b.blockId === draggedId)[0];
+
 
     return {
       block,
@@ -209,8 +209,8 @@ class ResumeView extends React.Component {
     };
   }
 
-  addBlock() {
-    this.props.actions.addBlock();
+  addBlock(event, type) {
+    this.props.actions.addBlock(type);
   }
 
   render() {
@@ -225,7 +225,7 @@ class ResumeView extends React.Component {
         <div className='marginTop'
              style={styles.marginTop} />
 
-       <ResumeSavePrint {...this.props}
+        <ResumeSavePrint {...this.props}
                          styles={styles}
                          handleUpdateLocalState={this.handleUpdateLocalState}
                          handleSubmit={this.handleSubmit}
@@ -244,44 +244,66 @@ class ResumeView extends React.Component {
                         resumeThemes={resumeThemes}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
-            {blockChildren.filter(block => block.archived === false)
-                          .map(block => {
-                            return (
-                              <BlockDumbComp  {...this.props}
-                                              styles={styles}
-                                              key={block.blockId}
-                                              blockId={block.blockId}
-                                              companyName={block.companyName}
-                                              jobTitle={block.jobTitle}
-                                              years={block.years}
-                                              bulletChildren={block.bulletChildren}
-                                              location={block.location}
-                                              moveBlock={this.moveBlock}
-                                              resumeThemes={resumeThemes}
-                                              findBlock={this.findBlock}
-                                              handleUpdateLocalState={this.handleUpdateLocalState} >
+          {blockChildren.filter(block => block.archived === false)
+                        .map(block => {
+                          if (block.blockType === 'bullets') {
+                          return (
+                            <BlockDumbComp  {...this.props}
+                                            styles={styles}
+                                            key={block.blockId}
+                                            blockId={block.blockId}
+                                            companyName={block.companyName}
+                                            jobTitle={block.jobTitle}
+                                            years={block.years}
+                                            bulletChildren={block.bulletChildren}
+                                            location={block.location}
+                                            moveBlock={this.moveBlock}
+                                            resumeThemes={resumeThemes}
+                                            findBlock={this.findBlock}
+                                            displayAddBullets={block.displayAddBullets}
+                                            handleUpdateLocalState={this.handleUpdateLocalState} >
 
-                    {block.bulletChildren.filter(bullet => bullet.archived === false)
-                                         .map(bullet => {
-                                            return (
-                                                <Bullet {...this.props}
-                                                  key={bullet.bulletId}
-                                                  bulletId={bullet.bulletId}
-                                                  parentBlockId={bullet.parentBlockId}
-                                                  text={bullet.text}
-                                                  moveBullet={this.moveBullet}
-                                                  findBullet={this.findBullet}
-                                                  findBlock={this.findBlock}
-                                                  handleUpdateLocalState={this.handleUpdateLocalState} />
-                                            );
-                    })}
+                            {block.bulletChildren.filter(bullet => bullet.archived === false)
+                                                 .map(bullet => {
+                                                    return (
+                                                      <Bullet {...this.props}
+                                                              key={bullet.bulletId}
+                                                              bulletId={bullet.bulletId}
+                                                              parentBlockId={bullet.parentBlockId}
+                                                              text={bullet.text}
+                                                              moveBullet={this.moveBullet}
+                                                              findBullet={this.findBullet}
+                                                              findBlock={this.findBlock}
+                                                              handleUpdateLocalState={this.handleUpdateLocalState} />
+                                                    );
+                            })}
 
-                </BlockDumbComp>
-              );
-            })}
+                            </BlockDumbComp>
+                          );
+                        } else if (block.blockType === 'no bullets') {
+                          return (
+                            <Heading {...this.props}
+                                     styles={styles}
+                                     key={block.blockId}
+                                     blockId={block.blockId}
+                                     companyName={block.companyName}
+                                     jobTitle={block.jobTitle}
+                                     years={block.years}
+                                     bulletChildren={block.bulletChildren}
+                                     location={block.location}
+                                     moveBlock={this.moveBlock}
+                                     resumeThemes={resumeThemes}
+                                     findBlock={this.findBlock}
+                                     displayAddBullets={block.displayAddBullets}
+                                     handleUpdateLocalState={this.handleUpdateLocalState} />
+                          );
+                        } else {} // define additional block types here
+          })}
 
+          <img src='styles/assets/ic_playlist_add_black_24px.svg'
+               onClick={e => this.addBlock(e, 'bullets')} />
           <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
-               onClick={e => this.addBlock(e)} />
+               onClick={e => this.addBlock(e, 'no bullets')} />
 
           <ResumeFooter {...this.props}
                         styles={styles}
@@ -290,6 +312,7 @@ class ResumeView extends React.Component {
 
           <div className='marginBottom'
                style={styles.marginBottom} />
+
         </Paper>
 
       </div>
