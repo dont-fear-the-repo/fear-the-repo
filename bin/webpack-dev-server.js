@@ -55,7 +55,14 @@ devServer.app.post('/login', (req, res) => {
       if (results) {
         bcrypt.compare(req.body.password, results.password, (err, success) => {
           if (success) {
-            utils.createSession(req, res, results);
+            dbSchema.Resume.findOne({
+              where: {
+                UserId: results.id
+              }
+            })
+            .then( (resume) => {
+                utils.createSession(req, res, {id : results.id, resumeId: resume.id});
+            })
           } else {
             res.status(401).send({
               error: 'incorrect password'
@@ -86,7 +93,7 @@ devServer.app.post('/signup', (req, res) => {
               email: req.body.email,
               password: hash
             }).then((results) => {
-              utils.createSession(req, res, results);
+              utils.createSession(req, res, {id: results.id, resumeId: 'NA'});
             })
           })
       } else {
