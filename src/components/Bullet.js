@@ -131,7 +131,7 @@ export default class Bullet extends React.Component {
             onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
         </Paper>
 
-        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+        <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
              onClick={e => this.hideBullet(e, this.props.bulletId)} />
 
       </div>
