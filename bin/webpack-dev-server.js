@@ -127,35 +127,8 @@ To test the API, try this:
   NOTE : To add information to USER table create a new user from web application
   curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "name":"sujay", "profession":"batman", "resumeTitle":"test", "city":"gothom"}' http://localhost:3000/api/resume/create
   curl -H "Content-Type: application/json" -X POST -d '{"email":"wo@gmail.com", "resumeTitle":"test", "jobTitle":"bossman", "blockPosition":"2", "startDate":"2014", "endDate":"2015"}' http://localhost:3000/api/block/create
-
 */
 
-
-/*
-TODO: make these work!
-// Make me a resume
-devServer.app.post('/api/makemearesume', function(req, res) {
-  // TODO: call this funciton when making a new user
-  // user logs in for first time, we immediately call this API endpoint to assign them a new resume
-  // that resume is born with a block, and all blocks are born with a bullet
-
-  // users can also call this function to add a resume, so if they already have one, we'll ask sequelize to auto-insert one
-
-  // RETURNS the new resume's unique sequelize ID, and also the block and bullet_id
-  // ...and something stores it on the state, next to the userName
-
-  // this whole effort is so that when they load ResumeView, we can ask the state for this resume info to display.
-})
-
-
-// Save Bullets
-devServer.app.post('/api/savebulletsonresume', function(req, res) {
-  // we have the userName and the RESUME_ID, and the BLOCK_ID, and the BULLET_ID
-  // .... if the user adds BLOCKS and BULLETS, then we'll ship those back to the server here
-  // and update the view.
-
-})
-*/
 
 //Retrieve resume for existing user
 //Input : userId
@@ -238,7 +211,9 @@ devServer.app.post('/api/resume/update', (req, res) => {
                         .then((bullet) => {
                           block.addBullet(bullet);
 
-                          res.send({ text: 'successful save!' });
+                          res.send({
+                            text: 'successful save!'
+                          });
                         });
                     });
                   });
@@ -279,7 +254,7 @@ function serverResponseToNewResumeState(serverResponse) {
   var newResumeState = {};
 
   if (serverResponse[0]) {
-    newResumeState.resumeId = serverResponse[0].resumeId,
+      newResumeState.resumeId = serverResponse[0].resumeId,
       newResumeState.resumeTitle = serverResponse[0].resumeTitle,
       newResumeState.resumeTheme = serverResponse[0].resumeTheme,
       newResumeState.serverIsSaving = 'no',
@@ -325,13 +300,13 @@ function serverResponseToNewResumeState(serverResponse) {
         location: bullet.location,
         bulletChildrenTempObj: {},
         blockPosition: bullet.blockPosition,
-        blockArchived: bullet.blockArchived
+        archived: bullet.blockArchived
       };
     }
 
     newResumeState.blockChildrenTempObj[bullet.blockPosition].bulletChildrenTempObj[bullet.bulletPosition] = {
       bullet: bullet.bullet, // best line ever
-      bulletArchived: bullet.archived
+      archived: bullet.archived
     };
   })
 

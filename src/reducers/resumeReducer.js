@@ -39,7 +39,7 @@ const initialState = {
   blockChildren: [{
     blockType: 'bullets',
     blockId: 1,
-    BlockArchived: false,
+    archived: false,
     companyName: 'Company Name',
     jobTitle: 'Bossman',
     years: '2015',
@@ -48,17 +48,17 @@ const initialState = {
       bulletId: 1,
       text: 'My first bullet',
       parentBlockId: 1,
-      bulletArchived: false
+      archived: false
     }, {
       bulletId: 2,
       text: 'Then I productionalized everything, like the Bossman that I am.',
       parentBlockId: 1,
-      bulletArchived: false
+      archived: false
     }]
   }, {
     blockId: 2,
     blockType: 'bullets',
-    blockArchived: false,
+    archived: false,
     companyName: 'Second Corp.',
     jobTitle: 'Lackey',
     years: '2014, 2013',
@@ -67,12 +67,12 @@ const initialState = {
       bulletId: 3,
       text: 'I believe in sentences that end with punctuation',
       parentBlockId: 2,
-      bulletArchived: false
+      archived: false
     }, {
       bulletId: 4,
       text: 'This is an inflexible belief.',
       parentBlockId: 2,
-      bulletArchived: false
+      archived: false
     }]
   }, {
     blockId: 3,
@@ -86,12 +86,12 @@ const initialState = {
       bulletId: 5,
       text: 'Not a great life here, alas.',
       parentBlockId: 3,
-      bulletArchived: false
+      archived: false
     }, {
       bulletId: 6,
       text: 'But I played with a lot of paperclips!',
       parentBlockId: 3,
-      bulletArchived: false
+      archived: false
     }]
   }],
   resumeFooter: {
