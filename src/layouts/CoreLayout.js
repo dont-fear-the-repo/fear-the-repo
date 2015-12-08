@@ -78,6 +78,7 @@ class CoreLayout extends React.Component {
       contentType: 'application/json',
       success: (data) => {
         userLoginInfo.id = data.id;
+        userLoginInfo.resumeId = data.resumeId;
         localStorage.setItem('email', userLoginInfo.email);
         this.closePopover('pop');
         this.props.actions.loginUser(userLoginInfo);
@@ -128,6 +129,7 @@ class CoreLayout extends React.Component {
       contentType: 'application/json',
       success: (data) => {
         userSignupInfo.id = data.id;
+        userSignupInfo.resumeId = data.resumeId;
         this.closePopover('pop');
         this.props.actions.loginUser(userSignupInfo);
         this.setState({
