@@ -15,39 +15,55 @@ const { muli,
 export const resumeThemes = {
 
   'Default': {
+    headerDiv: {
+      paddingBottom: '8%'
+    },
     plain: {
       marginLeft: '10px'
     },
     location: {
-      marginLeft: '10px',
-      display: 'inline-block',
-      cursor: 'text'
+      fontSize: '16px',
+      display: 'block',
+      float: 'left',
+      marginLeft: '29px',
+      marginTop: '20px',
+      position: 'absolute'
     },
     city: {
-      width: '200px'
+      // width: '200px'
     },
     state: {
       width: '50px'
     },
     name: {
+      display: 'inline-block',
       fontWeight: '700',
       fontSize: '32px',
-      textAlign: 'center',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      display: 'inline-block'
+      marginLeft: '3%',
+      paddingRight: '3%',
+      paddingTop: '3%',
+      textAlign: 'left'
     },
     profession: {
       textAlign: 'center'
     },
     phone: {
+      cursor: 'text',
+      display: 'block',
+      float: 'left',
       fontSize: '16px',
-      marginLeft: '10px'
+      marginLeft: '3%',
+      marginTop: '2%',
+      position: 'relative'
     },
     email: {
       color: 'blue',
+      display: 'block',
+      float: 'left',
       fontSize: '16px',
-      marginLeft: '10px'
+      marginLeft: '2%',
+      marginTop: '17px',
+      position: 'relative'
     },
     url: {
       color: 'blue',
@@ -57,6 +73,14 @@ export const resumeThemes = {
     pipe: {
       display: 'inline',
       margin: '5px'
+    },
+    headerPipe: {
+      display: 'inline',
+      float: 'left',
+      fontSize: '16px',
+      marginLeft: '7px',
+      marginTop: '18px',
+      position: 'absolute'
     },
     jobTitle: {
       display: 'inline-block',
@@ -101,7 +125,104 @@ export const resumeThemes = {
   },
 
   'Corporate': {
-    // copy/paste above properties and update accordingly
+    plain: {
+      marginLeft: '10px'
+    },
+    location: {
+      marginTop: '2%',
+      float: 'left',
+      marginRight: '2%',
+      display: 'block',
+      cursor: 'text',
+      position: 'relative',
+      top: '20%'
+    },
+    city: {
+      textAlign: 'left',
+
+    },
+    state: {
+      textAlign: 'right'
+    },
+    name: {
+      fontWeight: '700',
+      fontSize: '32px',
+      textAlign: 'left',
+      marginLeft: '2%',
+      marginTop: '2%',
+      display: 'inline-block',
+      float: 'left'
+    },
+    profession: {
+      textAlign: 'center'
+    },
+    phone: {
+      fontSize: '16px',
+      marginLeft: '10px'
+    },
+    email: {
+      color: 'blue',
+      fontSize: '16px',
+      marginLeft: '10px'
+    },
+    url: {
+      color: 'blue',
+      textAlign: 'left',
+      marginLeft: '10px'
+    },
+    pipe: {
+      display: 'inline',
+      margin: '5px'
+    },
+    headerPipe: {
+      display: 'inline',
+      float: 'left',
+      fontSize: '16px',
+      marginLeft: '1%',
+      marginTop: '2%',
+      position: 'relative'
+    },
+    jobTitle: {
+      display: 'inline-block',
+      cursor: 'text',
+      margin: '10px',
+      fontWeight: '700',
+      fontSize: '18px'
+    },
+    companyName: {
+      display: 'inline-block',
+      margin: '10px',
+      cursor: 'text',
+      fontWeight: '500',
+      fontSize: '16px',
+      color: 'red'
+    },
+    jobLocation: {
+      display: 'inline-block',
+      margin: '10px',
+      cursor: 'text'
+    },
+    jobYear: {
+      display: 'inline-block',
+      cursor: 'text',
+      float: 'right',
+      marginRight: '10px'
+    },
+    schoolName: {
+      display: 'inline-block',
+    },
+    schoolDegree: {
+      display: 'inline-block',
+    },
+    schoolYear: {
+      display: 'inline-block',
+    },
+    schoolLocation: {
+      display: 'inline-block'
+    },
+    personalStatement: {
+
+    }
   },
 
   'Party': {

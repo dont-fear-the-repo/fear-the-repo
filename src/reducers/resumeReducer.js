@@ -28,12 +28,12 @@ const initialState = {
   clientFormIsDirty: false,
   resumeHeader: {
     name: 'Full Name',
-    profession: 'Profession',
-    city: 'City',
-    state: 'State',
-    displayEmail: 'email@email.com',
-    phone: '(124) 125-4737',
-    webLinkedin: 'linkedin.com/myname',
+    // profession: 'Profession',
+    city: 'Location',
+    // state: 'State',
+    displayEmail: 'your@email.com',
+    phone: '123.456.7890',
+    webLinkedin: 'linkedin.com/in/myname',
     webOther: 'github.com/number23'
   },
   blockChildren: [{
@@ -49,12 +49,14 @@ const initialState = {
       bulletId: 1,
       archived: false,
       parentBlockId: 1,
-      text: 'My first bullet'
+      text: 'My first bullet',
+      archived: false
     }, {
       bulletId: 2,
       archived: false,
       parentBlockId: 1,
-      text: 'Then I productionalized everything, like the Bossman that I am.'
+      text: 'Then I productionalized everything, like the Bossman that I am.',
+      archived: false
     }]
   }, {
     blockId: 2,
@@ -68,12 +70,14 @@ const initialState = {
       bulletId: 3,
       archived: false,
       parentBlockId: 2,
-      text: 'I believe in sentences that end with punctuation'
+      text: 'I believe in sentences that end with punctuation',
+      archived: false
     }, {
       bulletId: 4,
       archived: false,
       parentBlockId: 2,
-      text: 'This is an inflexible belief.'
+      text: 'This is an inflexible belief.',
+      archived: false
     }]
   }, {
     blockId: 3,
@@ -87,12 +91,14 @@ const initialState = {
       bulletId: 5,
       archived: false,
       parentBlockId: 3,
-      text: 'Not a great life here, alas.'
+      text: 'Not a great life here, alas.',
+      archived: false
     }, {
       bulletId: 6,
       archived: false,
       parentBlockId: 3,
-      text: 'But I played with a lot of paperclips!'
+      text: 'But I played with a lot of paperclips!',
+      archived: false
     }]
   }],
   resumeFooter: {

@@ -16,9 +16,18 @@ export default class ResumeHeader extends React.Component {
     const { currentTheme, resumeThemes } = this.props;
 
     return (
-      <div>
+      <div style={resumeThemes[currentTheme].headerDiv}>
 
         <div>
+
+          <div style={resumeThemes[currentTheme].name}>
+
+            <Editor
+                  text={this.props.resumeState.resumeHeader.name}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'name', 'header')} />
+
+          </div>
 
           <div style={resumeThemes[currentTheme].location}>
 
@@ -26,18 +35,8 @@ export default class ResumeHeader extends React.Component {
                     text={this.props.resumeState.resumeHeader.city}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'city', 'header')} />
-
-            <Editor style={resumeThemes[currentTheme].state}
-                    text={this.props.resumeState.resumeHeader.state}
-                    options={{toolbar: false}}
-                    onBlur={e => this.props.handleUpdateLocalState(e, 'state', 'header')} />
-
           </div>
 
-          <Editor style={resumeThemes[currentTheme].name}
-                  text={this.props.resumeState.resumeHeader.name}
-                  options={{toolbar: false}}
-                  onBlur={e => this.props.handleUpdateLocalState(e, 'name', 'header')} />
 
         </div>
 
@@ -46,29 +45,36 @@ export default class ResumeHeader extends React.Component {
                 text={this.props.resumeState.resumeHeader.profession}
                 onBlur={e => this.props.handleUpdateLocalState(e, 'profession', 'header')} />
 
-        <Editor style={resumeThemes[currentTheme].email}
-                options={{toolbar: false}}
-                text={this.props.resumeState.resumeHeader.email}
-                onBlur={e => this.props.handleUpdateLocalState(e, 'email', 'header')} />
-
-
+<div>
         <Editor style={resumeThemes[currentTheme].phone}
                 options={{toolbar: false}}
                 text={this.props.resumeState.resumeHeader.phone}
                 onBlur={e => this.props.handleUpdateLocalState(e, 'phone', 'header')} />
 
 
-        <Editor style={resumeThemes[currentTheme].url}
+          <div style={resumeThemes[currentTheme].headerPipe}>
+            |
+          </div>
+
+        <Editor style={resumeThemes[currentTheme].email}
                 options={{toolbar: false}}
-                text={this.props.resumeState.resumeHeader.url}
-                onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
+                text={this.props.resumeState.resumeHeader.displayEmail}
+                onBlur={e => this.props.handleUpdateLocalState(e, 'email', 'header')} />
+
+</div>
+</div>
+
+        // <Editor style={resumeThemes[currentTheme].url}
+        //         options={{toolbar: false}}
+        //         text={this.props.resumeState.resumeHeader.url}
+        //         onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
 
 
-        <Editor style={resumeThemes[currentTheme].url}
-                options={{toolbar: false}}
-                onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
+        // <Editor style={resumeThemes[currentTheme].url}
+        //         options={{toolbar: false}}
+        //         onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
 
-      </div>
+      // </div>
     );
   }
 }

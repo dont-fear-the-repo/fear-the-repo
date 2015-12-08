@@ -148,7 +148,7 @@ export default class BlockDumbComp extends React.Component {
               |
             </div>
 
-          <Editor style={resumeThemes[currentTheme].location}
+          <Editor style={resumeThemes[currentTheme].jobLocation}
                   text={this.props.location}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />

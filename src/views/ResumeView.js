@@ -242,6 +242,12 @@ class ResumeView extends React.Component {
           <ResumeHeader {...this.props}
                         styles={styles}
                         resumeThemes={resumeThemes}
+                        name={this.props.name}
+                        city={this.props.city}
+                        displayEmail={this.props.displayEmail}
+                        phone={this.props.phone}
+                        webLinkedin={this.props.webLinkedin}
+                        webOther={this.props.webOther}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
           {blockChildren.filter(block => block.archived === false)

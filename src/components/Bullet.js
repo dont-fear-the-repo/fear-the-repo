@@ -118,8 +118,8 @@ export default class Bullet extends React.Component {
       },
       editorField: {
         cursor: 'text',
-        maxWidth: '90%',
-        minWidth: '80%',
+        // maxWidth: '90%',
+        // minWidth: '80%',
         display: 'inline-block'
       },
       handle: {
