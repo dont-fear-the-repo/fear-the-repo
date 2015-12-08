@@ -37,8 +37,9 @@ const initialState = {
     webOther: 'github.com/number23'
   },
   blockChildren: [{
+    blockType: 'bullets',
     blockId: 1,
-    archived: false,
+    BlockArchived: false,
     companyName: 'Company Name',
     jobTitle: 'Bossman',
     years: '2015',
@@ -47,16 +48,17 @@ const initialState = {
       bulletId: 1,
       text: 'My first bullet',
       parentBlockId: 1,
-      archived: false
+      bulletArchived: false
     }, {
       bulletId: 2,
       text: 'Then I productionalized everything, like the Bossman that I am.',
       parentBlockId: 1,
-      archived: false
+      bulletArchived: false
     }]
   }, {
     blockId: 2,
-    archived: false,
+    blockType: 'bullets',
+    blockArchived: false,
     companyName: 'Second Corp.',
     jobTitle: 'Lackey',
     years: '2014, 2013',
@@ -65,15 +67,16 @@ const initialState = {
       bulletId: 3,
       text: 'I believe in sentences that end with punctuation',
       parentBlockId: 2,
-      archived: false
+      bulletArchived: false
     }, {
       bulletId: 4,
       text: 'This is an inflexible belief.',
       parentBlockId: 2,
-      archived: false
+      bulletArchived: false
     }]
   }, {
     blockId: 3,
+    blockType: 'bullets',
     archived: false,
     companyName: 'Third Chance',
     jobTitle: 'Intern',
@@ -83,12 +86,12 @@ const initialState = {
       bulletId: 5,
       text: 'Not a great life here, alas.',
       parentBlockId: 3,
-      archived: false
+      bulletArchived: false
     }, {
       bulletId: 6,
       text: 'But I played with a lot of paperclips!',
       parentBlockId: 3,
-      archived: false
+      bulletArchived: false
     }]
   }],
   resumeFooter: {
@@ -223,6 +226,7 @@ export default createReducer(initialState, {
   [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
     const newState = Object.assign({}, state);
     newState[payload.textFieldName] = payload.userInput;
+    return newState;
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
