@@ -56,7 +56,7 @@ export default class ResumeSavePrint extends React.Component {
                             'index': index,
                             'text': value
                          }));
-console.log('canSubmitResume: ', this.props.canSubmitResume)
+
     return (
       <div style={this.props.styles.headerContainer}>
 

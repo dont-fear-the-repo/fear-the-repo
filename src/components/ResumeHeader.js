@@ -5,7 +5,6 @@ import Editor from 'react-medium-editor';
 
 import { exactLength,
          isDefined,
-         isInteger,
          isValidEmail } from 'utils/validation';
 
 
@@ -27,9 +26,10 @@ export default class ResumeHeader extends React.Component {
     if (validEntry) {
       this.props.validations[key] = true;
       this.props.handleUpdateLocalState(event, key, whereFrom);
+      this.props.actions.updateErrorMessage('');
     } else {
       this.props.validations[key] = false;
-      // this.props.currentErrorMessage = this.props.errorMessages[key];
+      this.props.actions.updateErrorMessage(key);
     }
 
     const shouldEnable = _.every(this.props.validations,

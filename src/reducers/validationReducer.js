@@ -1,14 +1,17 @@
 import { createReducer } from '../utils';
+import { errorMessages } from 'utils/errorMessages';
 import { DISABLE_SUBMIT,
          DISPLAY_ERROR_MESSAGE,
          ENABLE_SUBMIT,
-         HIDE_ERROR_MESSAGE } from 'constants/validationConstants';
+         HIDE_ERROR_MESSAGE,
+         UPDATE_ERROR_MESSAGE } from 'constants/validationConstants';
 
 
 const initialState = {
   canSubmitAuth: false,
   canSubmitResume: false,
-  displayErrorMessage: false
+  displayErrorMessage: false,
+  currentErrorMessage: ''
 };
 
 export default createReducer(initialState, {
@@ -38,6 +41,13 @@ export default createReducer(initialState, {
     return {
       ...state,
       displayErrorMessage: false
+    };
+  },
+
+  [UPDATE_ERROR_MESSAGE]: (state, payload) => {
+    return {
+      ...state,
+      currentErrorMessage: errorMessages[payload]
     };
   }
 
