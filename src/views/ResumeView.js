@@ -125,7 +125,7 @@ class ResumeView extends React.Component {
       name: false,
       email: false,
       city: false,
-      state: false,
+      // state: false,  // Using just one location field that includes City, ST will be much easier to format in resumeHeader. We can repurpose 'city' for that
       phone: false
     }
   }
@@ -270,6 +270,12 @@ class ResumeView extends React.Component {
                         styles={styles}
                         validations={this.state.validations}
                         resumeThemes={resumeThemes}
+                        name={this.props.name}
+                        city={this.props.city}
+                        displayEmail={this.props.displayEmail}
+                        phone={this.props.phone}
+                        webLinkedin={this.props.webLinkedin}
+                        webOther={this.props.webOther}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
           {blockChildren.filter(block => block.archived === false)
@@ -296,6 +302,7 @@ class ResumeView extends React.Component {
                                                     return (
                                                       <Bullet {...this.props}
                                                               key={bullet.bulletId}
+                                                              styles={styles}
                                                               bulletId={bullet.bulletId}
                                                               parentBlockId={bullet.parentBlockId}
                                                               text={bullet.text}
@@ -333,10 +340,7 @@ class ResumeView extends React.Component {
           <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
                onClick={e => this.addBlock(e, 'no bullets')} />
 
-          <ResumeFooter {...this.props}
-                        styles={styles}
-                        resumeThemes={resumeThemes}
-                        handleUpdateLocalState={this.handleUpdateLocalState} />
+
 
           <div className='marginBottom'
                style={styles.marginBottom} />
@@ -350,3 +354,9 @@ class ResumeView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
+
+// YE OLDE FOOTER:
+// <ResumeFooter {...this.props}
+//               styles={styles}
+//               resumeThemes={resumeThemes}
+//               handleUpdateLocalState={this.handleUpdateLocalState} />

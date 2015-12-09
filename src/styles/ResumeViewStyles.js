@@ -103,6 +103,16 @@ export const styles = {
   bullet: {
     fontSize: '16px',
     marginTop: '10px'
+  },
+  editorField: {
+    cursor: 'text',
+    // maxWidth: '90%',
+    // minWidth: '80%',
+    display: 'inline-block'
+  },
+  handle: {
+    cursor: 'move',
+    float: 'right',
   }
   // ,
   // leftNav: {
