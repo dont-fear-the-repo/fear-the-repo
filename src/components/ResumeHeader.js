@@ -57,12 +57,12 @@ export default class ResumeHeader extends React.Component {
         <div style={resumeThemes[currentTheme].headerLeft}>
 
           <Editor style={resumeThemes[currentTheme].name}
-                text={this.props.resumeState.resumeHeader.name}
+                text={resumeHeader.name || 'Your Full Name'}
                 options={{toolbar: false}}
                 onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
 
           <Editor style={resumeThemes[currentTheme].location}
-                  text={this.props.resumeState.resumeHeader.city}
+                  text={resumeHeader.city || 'Your City, ST'}
                   options={{toolbar: false}}
                   onBlur={e => this.validateField(e, [isDefined], 'city', 'header')} />
 
