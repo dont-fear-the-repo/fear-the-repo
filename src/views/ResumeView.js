@@ -360,10 +360,7 @@ class ResumeView extends React.Component {
           <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
                onClick={e => this.addBlock(e, 'no bullets')} />
 
-          <ResumeFooter {...this.props}
-                        styles={styles}
-                        resumeThemes={resumeThemes}
-                        handleUpdateLocalState={this.handleUpdateLocalState} />
+
 
           <div className='marginBottom'
                style={styles.marginBottom} />
@@ -377,3 +374,9 @@ class ResumeView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
+
+// YE OLDE FOOTER:
+// <ResumeFooter {...this.props}
+//               styles={styles}
+//               resumeThemes={resumeThemes}
+//               handleUpdateLocalState={this.handleUpdateLocalState} />

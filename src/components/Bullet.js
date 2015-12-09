@@ -93,6 +93,7 @@ export default class Bullet extends React.Component {
     isDragging: PropTypes.bool.isRequired,
     moveBullet: PropTypes.func.isRequired,
     parentBlockId: PropTypes.any.isRequired,
+    styles: PropTypes.object,
     text: PropTypes.string.isRequired
   };
 
