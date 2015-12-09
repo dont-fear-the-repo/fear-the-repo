@@ -37,12 +37,6 @@ export const resumeThemes = {
       marginTop: '2px',
       position: 'absolute'
     },
-    city: {
-      // width: '200px'
-    },
-    state: {
-      width: '50px'
-    },
     name: {
       display: 'inline-block',
       fontWeight: '700',
@@ -51,9 +45,6 @@ export const resumeThemes = {
       marginBottom: '1%',
       marginTop: '3%',
       textAlign: 'left'
-    },
-    profession: {
-      textAlign: 'center'
     },
     phone: {
       cursor: 'text',
@@ -144,50 +135,70 @@ export const resumeThemes = {
   },
 
   'Corporate': {
+    headerDiv: {
+      paddingBottom: '7%'
+    },
+    headerLeft: {
+      position: 'relative',
+      left: 0
+    },
+    headerRight: {
+      position: 'relative',
+      right: 0
+    },
     plain: {
       marginLeft: '10px'
     },
     location: {
-      marginTop: '2%',
-      float: 'left',
-      marginRight: '2%',
+      fontSize: '16px',
       display: 'block',
-      cursor: 'text',
-      position: 'relative',
-      top: '20%'
-    },
-    city: {
-      textAlign: 'left',
-
-    },
-    state: {
-      textAlign: 'right'
+      float: 'left',
+      marginLeft: '35px',
+      marginTop: '2px',
+      position: 'absolute'
     },
     name: {
+      display: 'inline-block',
       fontWeight: '700',
       fontSize: '32px',
-      textAlign: 'left',
-      marginLeft: '2%',
-      marginTop: '2%',
-      display: 'inline-block',
-      float: 'left'
-    },
-    profession: {
-      textAlign: 'center'
+      marginLeft: '3%',
+      marginBottom: '1%',
+      marginTop: '3%',
+      textAlign: 'left'
     },
     phone: {
+      cursor: 'text',
+      display: 'block',
+      float: 'left',
       fontSize: '16px',
-      marginLeft: '10px'
+      marginLeft: '35px',
+      marginTop: '22px',
+      position: 'relative'
     },
     email: {
       color: 'blue',
+      display: 'block',
+      float: 'left',
       fontSize: '16px',
-      marginLeft: '10px'
+      marginLeft: '2%',
+      marginTop: '22px',
+      position: 'relative'
     },
-    url: {
+    webLinkedin: {
       color: 'blue',
-      textAlign: 'left',
-      marginLeft: '10px'
+      display: 'inline-block',
+      fontSize: '14px',
+      marginRight: '3%',
+      float: 'right'
+    },
+    webOther: {
+      color: 'blue',
+      display: 'inline-block',
+      fontSize: '14px',
+      marginTop: '22px',
+      marginRight: '-180px',
+      position: 'static',
+      float: 'right'
     },
     pipe: {
       display: 'inline',
@@ -197,9 +208,9 @@ export const resumeThemes = {
       display: 'inline',
       float: 'left',
       fontSize: '16px',
-      marginLeft: '1%',
-      marginTop: '2%',
-      position: 'relative'
+      marginLeft: '7px',
+      marginTop: '22px',
+      position: 'absolute'
     },
     jobTitle: {
       display: 'inline-block',
@@ -225,7 +236,7 @@ export const resumeThemes = {
       display: 'inline-block',
       cursor: 'text',
       float: 'right',
-      marginRight: '10px'
+      marginRight: '3%'
     },
     schoolName: {
       display: 'inline-block',

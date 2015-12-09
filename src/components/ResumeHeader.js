@@ -94,6 +94,7 @@ export default class ResumeHeader extends React.Component {
                     options={{toolbar: false}}
                     text={this.props.resumeState.resumeHeader.webOther}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
+          </div>
         </div>
       </div>
     );
