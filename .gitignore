@@ -5,6 +5,6 @@ node_modules
 
 dist
 coverage
-
+*.pdf
 localPWD.js
 localPWD_ES5.js
