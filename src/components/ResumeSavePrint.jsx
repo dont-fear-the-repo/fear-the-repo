@@ -110,29 +110,27 @@ export default class ResumeSavePrint extends React.Component {
 
         <Paper style={{float:'left'}}>
 
-
-
-
-        <RaisedButton label='Save Resume'
-                      style={this.props.styles.saveButton}
-                      labelStyle={this.props.styles.buttonLabelStyle}
-                      disabled={!this.props.canSubmitResume}
-                      onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
-
-        <RaisedButton label='Print Resume'
-                      style={this.props.styles.printButton}
-                      labelStyle={this.props.styles.buttonLabelStyle}
-                      onClick={e => this.handlePrint(e)} />
-
-          <RaisedButton label='Reload Resume'
+          <RaisedButton label='Save Resume'
                         style={this.props.styles.saveButton}
                         labelStyle={this.props.styles.buttonLabelStyle}
-                        onClick={e => this.handleLoad(e)} />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
+                        disabled={!this.props.canSubmitResume}
+                        onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
 
+          <RaisedButton label='Print Resume'
+                        style={this.props.styles.printButton}
+                        labelStyle={this.props.styles.buttonLabelStyle}
+                        onClick={e => this.handlePrint(e)} />
+          { this.props.resumeId &&
+            <div><RaisedButton label='Reload Resume'
+                          style={this.props.styles.saveButton}
+                          labelStyle={this.props.styles.buttonLabelStyle}
+                          onClick={e => this.handleLoad(e)} />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+            </div>
+          }
 
           <SelectField floatingLabelText='Theme'
                        style={this.props.styles.themeSelectDropdown}
@@ -164,6 +162,11 @@ export default class ResumeSavePrint extends React.Component {
         <h4>ClientIsDirty: {JSON.stringify(this.props.resumeState.clientFormIsDirty)}</h4>
         <h4>Server is saving: {this.props.resumeState.serverIsSaving}</h4>
         <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
+        {this.props.resumeId &&
+         <h4> you have a resume! </h4>
+        }
+         <h4> resumeId: {JSON.stringify(this.props.resumeId)}  </h4>
+         <h4> userID: {JSON.stringify(this.props.userID)}  </h4>
           */}
 
 
