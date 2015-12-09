@@ -2,7 +2,6 @@
 // connect to database.
 const dbSchema = require('../database/dbSchema.js');
 const historyApiFallback = require('connect-history-api-fallback');
-const devServer = require('../build/webpack-dev-server');
 const express = require('express')
 const parser = require('body-parser');
 const config = require('../config');

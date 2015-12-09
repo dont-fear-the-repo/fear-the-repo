@@ -37,6 +37,7 @@
     "body-parser": "^1.14.1",
     "chalk": "^1.1.1",
     "connect-history-api-fallback": "^1.1.0",
+    "cssnano": "^3.4.0",
     "debug": "^2.2.0",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
@@ -46,7 +47,7 @@
     "formsy-react": "^0.17.0",
     "history": "^1.9.0",
     "immutable": "^3.7.5",
-    "jquery": "^2.1.4",
+    "jQuery": "^2.1.4",
     "material-ui": "^0.14.0-rc1",
     "morgan": "^1.6.1",
     "pg": "^4.4.3",
@@ -107,6 +108,8 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.11.0",
-    "webpack-dev-server": "^1.10.1"
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-dev-server": "^1.10.1",
+    "webpack-hot-middleware": "^2.6.0"
   }
 }

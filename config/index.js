@@ -1,56 +1,54 @@
-/* eslint-disable */
-import path from 'path';
+import fs       from 'fs';
+import path     from 'path';
 import { argv } from 'yargs';
-import dotenv from 'dotenv';
-import chalk from 'chalk';
-import pkg from '../package.json';
 
-dotenv.load();
-const config = new Map();
+const debug = require('debug')('kit:config');
+debug('Create configuration.');
 
-// ------------------------------------
-// User Configuration
-// ------------------------------------
-config.set('dir_src',  'src');
-config.set('dir_dist', 'dist');
-config.set('dir_test', 'tests');
+const config = {
+  env : process.env.NODE_ENV,
 
-config.set('coverage_enabled', !argv.watch);
-config.set('coverage_reporters', [
-  {
-    type: 'text-summary'
-  },
-  {
-    type: 'html',
-    dir: 'coverage'
-  }
-]);
+  // ----------------------------------
+  // Project Structure
+  // ----------------------------------
+  path_base  : path.resolve(__dirname, '../'),
+  dir_client : 'src',
+  dir_dist   : 'dist',
+  dir_server : 'server',
+  dir_test   : 'tests',
 
-config.set('webpack_host', 'localhost');
-config.set('webpack_port', process.env.PORT || 3000);
+  // ----------------------------------
+  // Server Configuration
+  // ----------------------------------
+  server_host : 'localhost',
+  server_port : process.env.PORT || 3000,
 
-// Define what dependencies we'd like to treat as vendor dependencies,
-// but only include the ones that actually exist in package.json. This
-// makes it easier to remove dependencies without breaking the
-// vendor bundle.
-config.set('vendor_dependencies', [
-  'history',
-  'react',
-  'react-redux',
-  'react-router',
-  'redux',
-  'redux-router'
-].filter(dep => {
-  if (pkg.dependencies[dep]) return true;
+  // ----------------------------------
+  // Compiler Configuration
+  // ----------------------------------
+  compiler_source_maps     : true,
+  compiler_fail_on_warning : false,
+  compiler_quiet           : false,
+  compiler_vendor          : [
+    'history',
+    'react',
+    'react-redux',
+    'react-router',
+    'redux',
+    'redux-simple-router'
+  ],
 
-  console.log(chalk.yellow(
-    `Package "${dep}" was not found as an npm dependency and won't be ` +
-    `included in the vendor bundle.\n` +
-    `Consider removing it from vendor_dependencies in ~/config/index.js`
-  ));
-}));
+  // ----------------------------------
+  // Test Configuration
+  // ----------------------------------
+  coverage_enabled   : !!argv.coverage,
+  coverage_reporters : [
+    { type : 'text-summary' },
+    { type : 'html', dir : 'coverage' }
+  ]
+};
 
-/*  *********************************************
+/************************************************
 -------------------------------------------------
 
 All Internal Configuration Below
@@ -58,51 +56,54 @@ Edit at Your Own Risk
 
 -------------------------------------------------
 ************************************************/
+
 // ------------------------------------
 // Environment
 // ------------------------------------
-config.set('env', process.env.NODE_ENV);
-config.set('globals', {
+config.globals = {
   'process.env'  : {
-    'NODE_ENV' : JSON.stringify(config.get('env'))
+    'NODE_ENV' : JSON.stringify(config.env)
   },
-  'NODE_ENV'     : config.get('env'),
-  '__DEV__'      : config.get('env') === 'development',
-  '__PROD__'     : config.get('env') === 'production',
-  '__DEBUG__'    : config.get('env') === 'development' && !argv.no_debug,
+  'NODE_ENV'     : config.env,
+  '__DEV__'      : config.env === 'development',
+  '__PROD__'     : config.env === 'production',
+  '__DEBUG__'    : config.env === 'development' && !argv.no_debug,
   '__DEBUG_NW__' : !!argv.nw
-});
+};
 
 // ------------------------------------
-// Webpack
+// Validate Vendor Dependencies
 // ------------------------------------
-config.set('webpack_public_path',
-  `http://${config.get('webpack_host')}:${config.get('webpack_port')}/`
-);
+const pkg = require('../package.json');
 
-// ------------------------------------
-// Project
-// ------------------------------------
-config.set('path_project', path.resolve(__dirname, '../'));
+config.compiler_vendor = config.compiler_vendor
+  .filter(dep => {
+    if (pkg.dependencies[dep]) return true;
+
+    debug(
+      `Package "${dep}" was not found as an npm dependency in package.json; ` +
+      `it won't be included in the webpack vendor bundle.\n` +
+      `Consider removing it from vendor_dependencies in ~/config/index.js`
+    );
+  });
 
 // ------------------------------------
 // Utilities
 // ------------------------------------
-const paths = (() => {
-  const base = [config.get('path_project')];
-  const resolve = path.resolve;
+config.utils_paths = (() => {
+  const resolve  = path.resolve;
 
-  const project = (...args) => resolve.apply(resolve, [...base, ...args]);
+  const base = (...args) =>
+    resolve.apply(resolve, [config.path_base, ...args]);
 
   return {
-    project: project,
-    src: project.bind(null, config.get('dir_src')),
-    dist: project.bind(null, config.get('dir_dist'))
+    base   : base,
+    client : base.bind(null, config.dir_client),
+    dist   : base.bind(null, config.dir_dist)
   };
 })();
 
-config.set('utils_paths', paths);
-config.set('utils_aliases', [
+config.utils_aliases = [
   'actions',
   'components',
   'constants',
@@ -115,7 +116,25 @@ config.set('utils_aliases', [
   'styles',
   'utils',
   'views'
-].reduce((acc, dir) => ((acc[dir] = paths.src(dir)) && acc), {}));
+].reduce((acc, dir) => {
+  acc[dir] = config.utils_paths.client(dir);
+  return acc;
+}, {});
 
-export default config;
-/* eslint-enable */
+// ------------------------------------
+// Apply Environment Overrides
+// ------------------------------------
+debug('Apply environment overrides.');
+
+const targetConfig = argv.config || config.env;
+let overrides;
+
+try {
+  overrides = require(`./_${targetConfig}`);
+} catch (e) {
+  debug(
+    `No configuration overrides found for NODE_ENV "${targetConfig}"`
+  );
+}
+
+export default Object.assign({}, config, overrides);
