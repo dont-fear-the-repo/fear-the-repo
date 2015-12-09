@@ -27,14 +27,14 @@ const initialState = {
   serverIsSaving: 'no',
   clientFormIsDirty: false,
   resumeHeader: {
-    name: 'Full Name',
-    profession: 'Profession',
-    city: 'City',
-    state: 'State',
-    displayEmail: 'email@email.com',
-    phone: '(124) 125-4737',
-    webLinkedin: 'LinkedIn.com/in/<myname>',
-    webOther: 'Github.com/<myrepo>'
+    name: 'Your Name',
+    // profession: 'Profession',
+    city: 'Location', // repurposed as City, ST location
+    // state: 'State',  // removed to avoid having to format the comma
+    displayEmail: 'YourEmail@website.com',
+    phone: '123.456.7890',
+    webLinkedin: 'linkedin.com/in/YourLinkedIn',
+    webOther: 'github.com/YourGithub'
   },
   blockChildren: [{
     blockType: 'bullets',
@@ -48,12 +48,14 @@ const initialState = {
       bulletId: 1,
       archived: false,
       parentBlockId: 1,
-      text: 'My first bullet'
+      text: 'My first bullet',
+      archived: false
     }, {
       bulletId: 2,
       archived: false,
       parentBlockId: 1,
-      text: 'Then I productionalized everything, like the Bossman that I am.'
+      text: 'Then I productionalized everything, like the Bossman that I am.',
+      archived: false
     }]
   }, {
     blockId: 2,
@@ -61,18 +63,20 @@ const initialState = {
     archived: false,
     companyName: 'Second Corp.',
     jobTitle: 'Lackey',
-    years: '2014, 2013',
+    years: '2013-2014',
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 3,
       archived: false,
       parentBlockId: 2,
-      text: 'I believe in sentences that end with punctuation'
+      text: 'I believe in sentences that end with punctuation',
+      archived: false
     }, {
       bulletId: 4,
       archived: false,
       parentBlockId: 2,
-      text: 'This is an inflexible belief.'
+      text: 'This is an inflexible belief.',
+      archived: false
     }]
   }, {
     blockId: 3,
@@ -80,34 +84,36 @@ const initialState = {
     archived: false,
     companyName: 'Third Chance',
     jobTitle: 'Intern',
-    years: '2012-2011',
+    years: '2011-2012',
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 5,
       archived: false,
       parentBlockId: 3,
-      text: 'Not a great life here, alas.'
+      text: 'Not a great life here, alas.',
+      archived: false
     }, {
       bulletId: 6,
       archived: false,
       parentBlockId: 3,
-      text: 'But I played with a lot of paperclips!'
+      text: 'But I played with a lot of paperclips!',
+      archived: false
     }]
   }],
   resumeFooter: {
     school1: {
-      name: 'School Name',
-      degree: 'Degree',
-      schoolEndYear: 'Year',
-      location: 'City'
+      name: 'MakerSquare',
+      degree: 'Advanced Software Engineering Immersive',
+      schoolEndYear: '2015',
+      location: 'San Francisco, CA'
     },
     school2: {
-      name: 'School Name',
-      degree: 'Degree',
-      schoolEndYear: 'Year',
-      location: 'City'
+      name: 'UC Berkeley',
+      degree: 'BS in Computer Science',
+      schoolEndYear: '2014',
+      location: 'Berkeley, CA'
     },
-    personalStatement: 'Personal Statement / Hobbies'
+    personalStatement: 'I really dislike writing my resume, so I could not be happier with Rezable!'
   }
 };
 

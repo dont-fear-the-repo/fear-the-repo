@@ -125,7 +125,7 @@ class ResumeView extends React.Component {
       name: false,
       email: false,
       city: false,
-      state: false,
+      // state: false,  // Using just one location field that includes City, ST will be much easier to format in resumeHeader. We can repurpose 'city' for that
       phone: false
     }
   }
@@ -297,6 +297,12 @@ class ResumeView extends React.Component {
                         styles={styles}
                         validations={this.state.validations}
                         resumeThemes={resumeThemes}
+                        name={this.props.name}
+                        city={this.props.city}
+                        displayEmail={this.props.displayEmail}
+                        phone={this.props.phone}
+                        webLinkedin={this.props.webLinkedin}
+                        webOther={this.props.webOther}
                         handleUpdateLocalState={this.handleUpdateLocalState} />
 
           {blockChildren.filter(block => block.archived === false)

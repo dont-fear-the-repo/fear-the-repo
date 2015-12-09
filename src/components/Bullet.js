@@ -118,8 +118,8 @@ export default class Bullet extends React.Component {
       },
       editorField: {
         cursor: 'text',
-        maxWidth: '90%',
-        minWidth: '80%',
+        // maxWidth: '90%',
+        // minWidth: '80%',
         display: 'inline-block'
       },
       handle: {
@@ -136,11 +136,14 @@ export default class Bullet extends React.Component {
           options={{toolbar: false}}
           onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', this.props.bulletId, this.props.parentBlockId)} />
 
-        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
-             onClick={e => this.hideBullet(e, this.props.bulletId)} />
 
         {Radium.getState(this.state, 'bullet', ':hover') ? (
-          <img src='styles/assets/drag-vertical.png' style={styles.handle} />
+        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+             onClick={e => this.hideBullet(e, this.props.bulletId)} />
+          ) : null}
+
+        {Radium.getState(this.state, 'bullet', ':hover') ? (
+        <img src='styles/assets/drag-vertical.png' style={styles.handle} />
           ) : null}
 
       </div>
