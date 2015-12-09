@@ -131,7 +131,7 @@ export default class BlockDumbComp extends React.Component {
         <Paper>
 
             <Editor style={resumeThemes[currentTheme].jobTitle}
-                    text={this.props.jobTitle}
+                    text={this.props.jobTitle || 'Title/Role/Degree'}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'jobTitle', 'blocks', this.props.blockId)} />
 
@@ -140,7 +140,7 @@ export default class BlockDumbComp extends React.Component {
             </div>
 
           <Editor style={resumeThemes[currentTheme].companyName}
-                  text={this.props.companyName}
+                  text={this.props.companyName || 'Company/Project/School Name'}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
@@ -149,12 +149,12 @@ export default class BlockDumbComp extends React.Component {
             </div>
 
           <Editor style={resumeThemes[currentTheme].location}
-                  text={this.props.location}
+                  text={this.props.location || 'Location / Project URL'}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
 
             <Editor style={resumeThemes[currentTheme].jobYear}
-                    text={this.props.years}
+                    text={this.props.years || 'Timespan, if applicable'}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
 

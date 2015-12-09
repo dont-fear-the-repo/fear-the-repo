@@ -322,6 +322,7 @@ class ResumeView extends React.Component {
                                                     return (
                                                       <Bullet {...this.props}
                                                               key={bullet.bulletId}
+                                                              styles={styles}
                                                               bulletId={bullet.bulletId}
                                                               parentBlockId={bullet.parentBlockId}
                                                               text={bullet.text}

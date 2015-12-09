@@ -48,7 +48,7 @@ const initialState = {
       bulletId: 1,
       archived: false,
       parentBlockId: 1,
-      text: 'My first bullet'
+      text: ''
     }, {
       bulletId: 2,
       archived: false,
@@ -124,20 +124,20 @@ export default createReducer(initialState, {
         blockId: blockId,
         blockType: 'bullets',
         archived: false,
-        companyName: 'Company/Project/School Name',
-        jobTitle: 'Job Title / Project Role / Degree',
-        years: 'StartYear - EndYear, if applicable',
-        location: 'City, State / Project URL',
+        companyName: '',
+        jobTitle: '',
+        years: '',
+        location: '',
         bulletChildren: [{
           bulletId: bulletId + 1,
           archived: false,
           parentBlockId: blockId,
-          text: 'New bullet'
+          text: ''
         }, {
           bulletId: bulletId + 2,
           archived: false,
           parentBlockId: blockId,
-          text: 'New bullet'
+          text: ''
         }]
       };
     } else if (payload === 'no bullets') {
@@ -151,12 +151,12 @@ export default createReducer(initialState, {
           bulletId: bulletId + 1,
           archived: false,
           parentBlockId: blockId,
-          text: 'This won\'t be seen'
+          text: 'fake bullet for UI bug'
         }, {
           bulletId: bulletId + 2,
           archived: false,
           parentBlockId: blockId,
-          text: 'This won\'t be seen'
+          text: 'fake bullet for UI bug'
         }]
       };
     }
