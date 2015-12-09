@@ -10,7 +10,6 @@ import Heading from 'components/Heading';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
-import { errorMessages } from 'utils/errorMessages';
 import { addBlock,
          addBullet,
          clientIsDirtyUpdate,
@@ -32,12 +31,13 @@ import { addBlock,
 import { disableSubmit,
          displayErrorMessage,
          enableSubmit,
-         hideErrorMessage } from 'actions/validationActions';
+         hideErrorMessage,
+         updateErrorMessage } from 'actions/validationActions';
 
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
-import { Paper } from 'material-ui/lib';
+import { Paper, LeftNav, IconButton, IconMenu, MoreVertIcon, MenuItem, FlatButton } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly,
                         // check the issues on their repo for more information
@@ -58,6 +58,7 @@ const ActionCreators = {
   moveBullet,
   sendResumeToServerAsync,
   serverIsSavingUpdate,
+  updateErrorMessage,
   updateLocalState,
   updateLocalStateBlocks,
   updateLocalStateBullets,
@@ -70,6 +71,7 @@ const ActionCreators = {
 
 const mapStateToProps = (state) => ({
   canSubmitResume: state.validationReducer.canSubmitResume,
+  currentErrorMessage: state.validationReducer.currentErrorMessage,
   currentTheme: state.resumeReducer.resumeTheme, // TODO: maybe should be currentTheme
   loggedIn: state.titleBarReducer.loggedIn,
   resumeState: state.resumeReducer,
@@ -104,6 +106,7 @@ class ResumeView extends React.Component {
   static propTypes = {
     actions: PropTypes.object,
     connectDropTarget: PropTypes.func.isRequired,
+    currentErrorMessage: PropTypes.string,
     loggedIn: PropTypes.bool,
     resumeState: PropTypes.object
   }
@@ -123,8 +126,7 @@ class ResumeView extends React.Component {
       city: false,
       // state: false,  // Using just one location field that includes City, ST will be much easier to format in resumeHeader. We can repurpose 'city' for that
       phone: false
-    },
-    currentErrorMessage: ''
+    }
   }
 
   handleUpdateLocalState(event, textFieldName, whereFrom, id, parentBlockId) {
@@ -233,40 +235,60 @@ class ResumeView extends React.Component {
   addBlock(event, type) {
     this.props.actions.addBlock(type);
   }
+/*
 
-  displayErrorMessage(type) {
-    this.props.actions.displayErrorMessage(type);
-  }
+{
+          <IconMenu iconButtonElement={
+            <IconButton><MoreVertIcon /></IconButton>
+          }>
+            <MenuItem primaryText="Refresh" />
+            <MenuItem primaryText="Help" />
+            <MenuItem primaryText="Sign out" />
+          </IconMenu>
 
-  hideErrorMessage(type) {
-    this.props.actions.hideErrorMessage(type);
-  }
+        }
+
+{
+          <IconMenu iconButtonElement={
+            <IconButton>HolaMundo</IconButton>
+          }>
+            <MenuItem primaryText="Refresh" />
+            <MenuItem primaryText="Help" />
+            <MenuItem primaryText="Sign out" />
+          </IconMenu>
+
+        }
+
+
+
+*/
 
   render() {
+
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState;
 
     return connectDropTarget(
+    <div>
+
       <div className='container'
            style={styles.container}
            id='resumeContainer'>
-
+           <ResumeSavePrint {...this.props}
+                            styles={styles}
+                            validations={this.state.validations}
+                            handleUpdateLocalState={this.handleUpdateLocalState}
+                            handleSubmit={this.handleSubmit}
+                            handlePrint={this.handlePrint}
+                            handleChangeTheme={this.handleChangeTheme}
+                            handleUpdateLocalState={this.handleUpdateLocalState}
+                            handleSaveState={this.handleSaveState}
+                            getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc}
+                            serverIsSavingUpdate={this.serverIsSavingUpdate}
+                            clientIsDirtyUpdate={this.clientIsDirtyUpdate} />
         <div className='marginTop'
              style={styles.marginTop} />
 
-        <ResumeSavePrint {...this.props}
-                         styles={styles}
-                         errorMessages={errorMessages}
-                         validations={this.state.validations}
-                         handleUpdateLocalState={this.handleUpdateLocalState}
-                         handleSubmit={this.handleSubmit}
-                         handlePrint={this.handlePrint}
-                         handleChangeTheme={this.handleChangeTheme}
-                         handleUpdateLocalState={this.handleUpdateLocalState}
-                         handleSaveState={this.handleSaveState}
-                         getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc}
-                         serverIsSavingUpdate={this.serverIsSavingUpdate}
-                         clientIsDirtyUpdate={this.clientIsDirtyUpdate} />
 
         <Paper style={styles.resumePaper}>
 
@@ -353,6 +375,7 @@ class ResumeView extends React.Component {
 
         </Paper>
 
+      </div>
       </div>
     );
   }

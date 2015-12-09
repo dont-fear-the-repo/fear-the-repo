@@ -1,5 +1,3 @@
-import _ from 'underscore';
-
 export function isDefined(value) {
   return value !== undefined && value !== null && value !== '';
 }

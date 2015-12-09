@@ -93,6 +93,13 @@ export const styles = {
     fontFamily: font,
     fontWeight: MasterTheme.light
   },
+  errorMessageStyle: {
+    color: MasterTheme.orange,
+    fontFamily: font,
+    fontWeight: MasterTheme.bold,
+    textAlign: 'center',
+    marginTop: '10px'
+  },
   bulletContainer: {
     width: '95%'
   },

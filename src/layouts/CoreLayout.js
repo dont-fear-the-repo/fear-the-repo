@@ -7,24 +7,40 @@ import _ from 'underscore';
 
 import { Footer } from 'components/footer';
 import { loginUser, signupUser, logout } from 'actions/titleBarActions';
-import { enableSubmit, disableSubmit } from 'actions/validationActions';
-import { isDefined, isValidEmail, matches } from 'utils/validation';
+import { enableSubmit,
+         disableSubmit,
+         displayAuthMessage } from 'actions/validationActions';
+import { isDefined,
+         isValidEmail,
+         matches } from 'utils/validation';
 
-import { FlatButton, Popover, TextField, RefreshIndicator } from 'material-ui/lib';
+import { FlatButton,
+         Popover,
+         TextField,
+         RefreshIndicator,
+         LeftNav,
+         AppBar,
+         IconButton,
+         IconMenu,
+         MoreVertIcon,
+         MenuItem } from 'material-ui/lib';
+
 import { styles } from 'styles/CoreLayoutStyles';
 
 
 const ActionCreators = {
-  loginUser: loginUser,
-  signupUser: signupUser,
-  logout: logout,
-  enableSubmit: enableSubmit,
-  disableSubmit: disableSubmit
+  disableSubmit,
+  displayAuthMessage,
+  enableSubmit,
+  loginUser,
+  logout,
+  signupUser
 };
 const mapStateToProps = (state) => ({
-  userLoginInfo: state.email,
+  canSubmitAuth: state.validationReducer.canSubmitAuth,
+  currentAuthMessage: state.validationReducer.currentAuthMessage,
   loggedIn: state.titleBarReducer.loggedIn,
-  canSubmitAuth: state.validationReducer.canSubmitAuth
+  userLoginInfo: state.email
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -32,11 +48,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 class CoreLayout extends React.Component {
     static propTypes = {
-      children: React.PropTypes.element,
       actions: React.PropTypes.object,
+      canSubmitAuth: React.PropTypes.bool,
+      currentAuthMessage: React.PropTypes.string,
+      children: React.PropTypes.element,
       loggedIn: React.PropTypes.bool,
-      userLoginInfo: React.PropTypes.string,
-      canSubmitAuth: React.PropTypes.bool
+      userLoginInfo: React.PropTypes.string
     };
 
     state = {
@@ -180,8 +197,10 @@ showLoginPopover(key, e) {
                           validator => validator(value) );
     if (validEntry) {
       this.state.validations[this.state.loginOrSignup][key] = true;
+      this.props.actions.displayAuthMessage('');
     } else if (!validEntry) {
       this.state.validations[this.state.loginOrSignup][key] = false;
+      this.props.actions.displayAuthMessage(key);
     }
 
     const shouldEnable = _.every(this.state.validations[this.state.loginOrSignup],
@@ -196,50 +215,66 @@ showLoginPopover(key, e) {
   saveTempPassword(event) {
     this.state.tempPassword = event.target.value;
   }
+  /*iconClassNameRight="muidocs-icon-navigation-expand-more"*/
+
 
   render() {
-    const { canSubmitAuth } = this.props;
+    const { canSubmitAuth, currentAuthMessage, loggedIn } = this.props;
 
     return (
       <div className='page-container'>
         <div className='view-container'>
-          <div>
-            <div className='header' style={styles.mainContainer}>
-
-              <Link to='/' style={styles.name}>
-                [insert logo here]
-              </Link>
+        <AppBar
+          title={<Link to='/' style={styles.name}>Rezable</Link>}
+          style={styles.mainContainer}
+          iconElementLeft={
+                <Link to='/' style={styles.name}>
+                  <img src={require('styles/assets/resumeLogo2.svg')}
+                       style={styles.logo}/>
+                </Link>
+            }
+          iconElementRight={
+            <div>
 
               <Link to='/resume'>
                 <FlatButton label='Edit Resume'
-                            style={styles.resumeButton}
-                            backgroundColor={styles.buttonColor}
+                            style={styles.button}
                             labelStyle={styles.buttonLabelStyle}
                             hoverColor={styles.buttonHoverColor} />
               </Link>
 
-              {this.props.loggedIn &&
+
+              {this.props.loggedIn ?
+                <Link to='/secretpage'>
+                  <FlatButton label='Logged In Only'
+                              style={styles.button} />
+                </Link>
+              : '' }
+
+              {loggedIn &&
                 <FlatButton label='Logout'
-                            style={styles.loginButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={e => this.handleLogout(e)} />}
-              {!this.props.loggedIn &&
+              {!loggedIn &&
                 <FlatButton label='Login'
-                            style={styles.loginButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showLoginPopover('pop', e)} />}
-              {!this.props.loggedIn &&
+              {!loggedIn &&
                 <FlatButton label='Signup'
-                            style={styles.signupButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showSignupPopover('pop', e)} />}
-          </div>
+            </div>
+            } />
+          <div>
 
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
@@ -247,11 +282,11 @@ showLoginPopover(key, e) {
                    anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')}
-                   canAutoPosition={false} >
+                   canAutoPosition={true} >
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'
-                         onChange={e => this.validateField(e, [isDefined, isValidEmail], 'email')}
+                         onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email')}
                          />
               <TextField ref='password'
                          hintText='Password'
@@ -289,10 +324,10 @@ showLoginPopover(key, e) {
                   Incorrect email or password - please try again.<br/>
                   Perhaps you meant to sign up?
                 </p> : ''}
-              {!canSubmitAuth ?
+              {currentAuthMessage ?
                 <p className='disabled-text'
-                   style={styles.disabledText}>
-                  Please enter valid email and password
+                   style={styles.errorText}>
+                  {currentAuthMessage}
                 </p> : ''}
 
             </div>
