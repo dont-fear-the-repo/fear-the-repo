@@ -242,14 +242,17 @@ showLoginPopover(key, e) {
                             hoverColor={styles.buttonHoverColor} />
               </Link>
 
-
+            {/*
               {this.props.loggedIn ?
                 <Link to='/secretpage'>
                   <FlatButton label='Logged In Only'
-                              style={styles.button} />
+                              style={styles.button}
+                              backgroundColor={styles.buttonColor}
+                              hoverColor={styles.buttonHoverColor}
+                              labelStyle={styles.buttonLabelStyle} />
                 </Link>
               : '' }
-
+            */}
               {loggedIn &&
                 <FlatButton label='Logout'
                             style={styles.button}
