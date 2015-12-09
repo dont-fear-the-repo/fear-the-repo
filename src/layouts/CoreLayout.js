@@ -276,16 +276,23 @@ showLoginPopover(key, e) {
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showSignupPopover('pop', e)} />}
             </div>
-            } />
+            } /> {/* End of the AppBar */}
+
+
+
+
+
+
           <div>
 
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
                    anchorEl={this.state.anchorEl}
-                   anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')}
-                   canAutoPosition={false} >
+                   canAutoPosition={false}
+                   style={{width: '300px' , marginTop: '16px'}} >
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'

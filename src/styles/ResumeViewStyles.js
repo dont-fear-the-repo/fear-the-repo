@@ -104,4 +104,16 @@ export const styles = {
     fontSize: '16px',
     marginTop: '10px'
   }
+  // ,
+  // leftNav: {
+  //   marginTop: '65px',
+  //   paddingTop: '200px'
+    // position: 'fixed',
+    // zIndex: 10,
+    // top: 0,
+    // transform: 'translate3d(' + x + 'px, 0, 0)',
+    // transition: !this.state.swiping && _stylesTransitions2['default'].easeOut(),
+    // backgroundColor: this.getTheme().color,
+    // overflow: 'hidden'
+  // }
 };

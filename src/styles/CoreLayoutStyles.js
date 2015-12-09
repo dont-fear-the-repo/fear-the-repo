@@ -7,7 +7,8 @@ const errorTextMargin = '20px 0 0 30px';
 
 export const styles = {
   mainContainer: {
-    backgroundColor: MasterTheme.darkGray
+    backgroundColor: MasterTheme.darkGray,
+    zIndex: 100
   },
   buttonColor: MasterTheme.white,
   buttonHoverColor: MasterTheme.orange,

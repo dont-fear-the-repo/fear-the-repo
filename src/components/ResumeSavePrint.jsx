@@ -1,5 +1,18 @@
 import React from 'react';
-import { RaisedButton, TextField, Paper, SelectField, CircularProgress, LeftNav, Dialog } from 'material-ui/lib';
+import { RaisedButton,
+         Paper,
+         FlatButton,
+         Popover,
+         TextField,
+         RefreshIndicator,
+         LeftNav,
+         AppBar,
+         IconButton,
+         IconMenu,
+         MoreVertIcon,
+         MenuItem,
+         SelectField,
+         CircularProgress } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 
 export default class ResumeSavePrint extends React.Component {
@@ -107,7 +120,21 @@ export default class ResumeSavePrint extends React.Component {
     // <LeftNav ref="leftNav" docked={true} menuItems={menuItems} />
     const saveAnimation = <CircularProgress mode="indeterminate" color={"orange"} size={.3} />;
     const savedConfirm = 'Changes saved!'
-
+    const menuItems = [
+      { route: 'get-started', text: 'Get Started' },
+      { route: 'customization', text: 'Customization' },
+      { route: 'components', text: 'Components' },
+      { type: MenuItem.Types.SUBHEADER, text: 'Themes' },
+      {
+         type: MenuItem.Types.LINK,
+         payload: 'https://github.com/callemall/material-ui',
+         text: 'GitHub'
+      },
+      {
+         text: 'Save',
+         disabled: true
+      }
+    ];
     const themes = Object.keys(resumeThemes)
                          .map( (value, index) => ({
                             'index': index,
@@ -115,6 +142,13 @@ export default class ResumeSavePrint extends React.Component {
                          }));
 
     return (
+    <div>
+    <LeftNav  ref="leftNav"
+              docked={false}
+              menuItems={menuItems}
+              style={{paddingTop: '58px', width: '150px'}}/>
+
+
       <div style={this.props.styles.headerContainer}>
 
         <Paper style={{float:'left'}}>
@@ -204,7 +238,7 @@ export default class ResumeSavePrint extends React.Component {
 
 
       </div>
-
+    </div>
     );
   }
 }
