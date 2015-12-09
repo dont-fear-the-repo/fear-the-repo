@@ -236,33 +236,7 @@ class ResumeView extends React.Component {
   addBlock(event, type) {
     this.props.actions.addBlock(type);
   }
-/*
 
-{
-          <IconMenu iconButtonElement={
-            <IconButton><MoreVertIcon /></IconButton>
-          }>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help" />
-            <MenuItem primaryText="Sign out" />
-          </IconMenu>
-
-        }
-
-{
-          <IconMenu iconButtonElement={
-            <IconButton>HolaMundo</IconButton>
-          }>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help" />
-            <MenuItem primaryText="Sign out" />
-          </IconMenu>
-
-        }
-
-
-
-*/
 
   render() {
 
@@ -271,7 +245,6 @@ class ResumeView extends React.Component {
 
     return connectDropTarget(
     <div>
-
       <div className='container'
            style={styles.container}
            id='resumeContainer'>
