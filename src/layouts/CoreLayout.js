@@ -10,7 +10,7 @@ import { loginUser, signupUser, logout } from 'actions/titleBarActions';
 import { enableSubmit, disableSubmit } from 'actions/validationActions';
 import { isDefined, isValidEmail, matches } from 'utils/validation';
 
-import { FlatButton, Popover, TextField, RefreshIndicator } from 'material-ui/lib';
+import { FlatButton, Popover, TextField, RefreshIndicator, LeftNav, AppBar, IconButton, IconMenu, MoreVertIcon, MenuItem } from 'material-ui/lib';
 import { styles } from 'styles/CoreLayoutStyles';
 
 
@@ -196,6 +196,8 @@ showLoginPopover(key, e) {
   saveTempPassword(event) {
     this.state.tempPassword = event.target.value;
   }
+  /*iconClassNameRight="muidocs-icon-navigation-expand-more"*/
+
 
   render() {
     const { canSubmit } = this.props;
@@ -203,49 +205,56 @@ showLoginPopover(key, e) {
     return (
       <div className='page-container'>
         <div className='view-container'>
-          <div>
-            <div className='header' style={styles.mainContainer}>
-
-              <Link to='/' style={styles.name}>
-                [insert logo here]
-              </Link>
-
+        <AppBar
+          title={<Link to='/' style={styles.name}>Rezable</Link>}
+          style={styles.mainContainer}
+          iconElementLeft={
+                <Link to='/' style={styles.name}>
+                  <img src={require('styles/assets/resumeLogo2.svg')}
+                       style={styles.logo}/>
+                </Link>
+            }
+          iconElementRight={
+            <div>
               <Link to='/resume'>
                 <FlatButton label='Edit Resume'
-                            style={styles.resumeButton}
-                            backgroundColor={styles.buttonColor}
+                            style={styles.button}
                             labelStyle={styles.buttonLabelStyle}
                             hoverColor={styles.buttonHoverColor} />
               </Link>
 
+
               {this.props.loggedIn ?
                 <Link to='/secretpage'>
-                  <FlatButton label='Secret Page' />
+                  <FlatButton label='Logged In Only'
+                              style={styles.button} />
                 </Link>
               : '' }
 
               {this.props.loggedIn &&
                 <FlatButton label='Logout'
-                            style={styles.loginButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={e => this.handleLogout(e)} />}
               {!this.props.loggedIn &&
                 <FlatButton label='Login'
-                            style={styles.loginButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showLoginPopover('pop', e)} />}
               {!this.props.loggedIn &&
                 <FlatButton label='Signup'
-                            style={styles.signupButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showSignupPopover('pop', e)} />}
-          </div>
+            </div>
+            } />
+          <div>
 
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
@@ -253,7 +262,7 @@ showLoginPopover(key, e) {
                    anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')}
-                   canAutoPosition={false} >
+                   canAutoPosition={true} >
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'

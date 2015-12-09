@@ -32,7 +32,7 @@ import { addBlock,
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
-import { Paper, LeftNav, AppBar, IconButton, IconMenu, MoreVertIcon, MenuItem, FlatButton } from 'material-ui/lib';
+import { Paper, LeftNav, IconButton, IconMenu, MoreVertIcon, MenuItem, FlatButton } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly,
                         // check the issues on their repo for more information
@@ -236,10 +236,7 @@ class ResumeView extends React.Component {
 
         }
 
-    <AppBar
-      title="Title"
-      iconClassNameRight="muidocs-icon-navigation-expand-more"
-      iconElementRight={<FlatButton label="Save" />} />
+
 
 */
 
