@@ -289,8 +289,20 @@ showLoginPopover(key, e) {
                               e => this.handleLogin(e) :
                               e => this.handleSignup(e)} />}
 
-              {currentAuthMessage ?
+              {this.state.userAlreadyExists ?
+                <p className='userAlreadyExists'
+                   style={styles.errorText}>
+                  Account already exists for this email.<br/>
+                  Perhaps you meant to sign up?
+                </p> : ''}
+              {this.state.failedAttempted ?
                 <p className='failedAttempted'
+                   style={styles.errorText}>
+                  Incorrect email or password - please try again.<br/>
+                  Perhaps you meant to sign up?
+                </p> : ''}
+              {currentAuthMessage ?
+                <p className='disabled-text'
                    style={styles.errorText}>
                   {currentAuthMessage}
                 </p> : ''}
