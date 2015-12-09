@@ -124,11 +124,14 @@ export default class Bullet extends React.Component {
                 options={{ toolbar: false }}
                 onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', bulletId, parentBlockId)} />
 
-        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
-             onClick={e => this.hideBullet(e, bulletId)} />
 
         {Radium.getState(this.state, 'bullet', ':hover') ? (
-          <img src='styles/assets/drag-vertical.png' style={styles.handle} />
+        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+             onClick={e => this.hideBullet(e, bulletId)} />
+          ) : null}
+
+        {Radium.getState(this.state, 'bullet', ':hover') ? (
+        <img src='styles/assets/drag-vertical.png' style={styles.handle} />
           ) : null}
 
       </div>
