@@ -3,8 +3,6 @@ require('babel/register');
 const dbSchema = require('../database/dbSchema.js');
 const historyApiFallback = require('connect-history-api-fallback');
 const config = require('../config');
-const host = config.get('webpack_host');
-const port = config.get('webpack_port');
 const parser = require('body-parser');
 const session = require('express-session');
 const utils = require('./lib/utils');
@@ -12,7 +10,7 @@ const bcrypt = require('bcrypt-nodejs')
 const Promise = require('bluebird');
 const db = require('../database/dbConfig.js');
 const _ = require('underscore');
-const app = express();
+const app = require('express')();
 
 // Enable webpack middleware if the application is being
 // run in development mode.
@@ -31,11 +29,6 @@ if (config.env === 'development') {
 } else {
     app.use(express.static(__dirname.slice(0, -6) + 'dist'));
 }
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////
 // TODO: All of this Auth and API will need to be refactored someday  //
 // to an external file so that a deployment server can use them       //
@@ -49,7 +42,7 @@ if (config.env === 'development') {
 /////////////////////////////////////////////////////////////////
 
 
-devServer.app.use(parser.json());
+app.use(parser.json());
 
 app.use(session({
   secret: "Backend is fun because I don't have to deal with React",
@@ -126,7 +119,7 @@ app.post('/signup', (req, res) => {
 });
 
 //Logout
-devServer.app.post('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error(err);
@@ -356,3 +349,4 @@ function serverResponseToNewResumeState(serverResponse) {
 
   return newResumeState;
 };
+export default app;
