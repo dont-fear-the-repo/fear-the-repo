@@ -91,6 +91,15 @@ export default class ResumeSavePrint extends React.Component {
   //         onRequestClose={this._handleRequestClose}>
   //         The actions in this window are created from the json thats passed in.
   //       </Dialog>
+  showLoadButtonIf(loggedIn, resumeId, serverIsSaving){
+    let results = false;
+    if ( loggedIn && resumeId !== 'NA' ){
+      results = true;
+    } else if ( serverIsSaving === 'successful save!' ){
+      results = true;
+    }
+    return results;
+  }
 
   render() {
 
@@ -110,30 +119,6 @@ export default class ResumeSavePrint extends React.Component {
 
         <Paper style={{float:'left'}}>
 
-
-
-
-        <RaisedButton label='Save Resume'
-                      style={this.props.styles.saveButton}
-                      labelStyle={this.props.styles.buttonLabelStyle}
-                      disabled={!this.props.canSubmitResume}
-                      onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
-
-        <RaisedButton label='Print Resume'
-                      style={this.props.styles.printButton}
-                      labelStyle={this.props.styles.buttonLabelStyle}
-                      onClick={e => this.handlePrint(e)} />
-
-          <RaisedButton label='Reload Resume'
-                        style={this.props.styles.saveButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
-                        onClick={e => this.handleLoad(e)} />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-
-
           <SelectField floatingLabelText='Theme'
                        style={this.props.styles.themeSelectDropdown}
                        floatingLabelStyle={this.props.styles.floatingLabelStyle}
@@ -143,27 +128,78 @@ export default class ResumeSavePrint extends React.Component {
                        menuItemStyle={this.props.styles.menuItemStyle}
                        value={this.props.resumeState.resumeTheme}
                        valueMember='text'
+                       fullWidth={false}
                        onChange={(e, index) => this.handleChangeTheme(e, index)} />
                        <br />
                        <br />
                        <br />
                        <br />
-          <TextField floatingLabelText='Version'
-                     floatingLabelStyle={this.props.styles.floatingLabelStyle}
-                     style={this.props.styles.resumeTitle}
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintStyle={this.props.styles.hintStyle}
-                     hintText={this.props.resumeState.resumeTitle}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
+
+
+
+          <RaisedButton label='Save Resume'
+                        style={this.props.styles.saveButton}
+                        labelStyle={this.props.styles.buttonLabelStyle}
+                        disabled={!this.props.canSubmitResume}
+                        onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+
+          <RaisedButton label='Print Resume'
+                        style={this.props.styles.printButton}
+                        labelStyle={this.props.styles.buttonLabelStyle}
+                        onClick={e => this.handlePrint(e)} />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+
+          { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
+            <div><RaisedButton label='Reload Resume'
+                          style={this.props.styles.saveButton}
+                          labelStyle={this.props.styles.buttonLabelStyle}
+                          onClick={e => this.handleLoad(e)} />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+            </div>
+          }
+
         </Paper>
 
           {/*
+
+        <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
+        <h4> serverIsSaving: {JSON.stringify(this.props.resumeState.serverIsSaving)} </h4>
+        <h4> resumeId: {JSON.stringify(this.props.resumeId)} </h4>
+
+            <TextField floatingLabelText='ResumeName'
+                       floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                       style={this.props.styles.resumeTitle}
+                       underlineStyle={this.props.styles.underlineStyle}
+                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                       backgroundColor={'white'}
+                       fullWidth={false}
+                       hintStyle={this.props.styles.hintStyle}
+                       hintText={this.props.resumeState.resumeTitle}
+                       onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
+                       <br />
+                       <br />
+                       <br />
+                       <br />
 
         <h1>{this.props.resumeState.clientFormIsDirty ? savedConfirm : saveAnimation} </h1>
         <h4>ClientIsDirty: {JSON.stringify(this.props.resumeState.clientFormIsDirty)}</h4>
         <h4>Server is saving: {this.props.resumeState.serverIsSaving}</h4>
         <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
+        {this.props.resumeId &&
+         <h4> you have a resume! </h4>
+        }
+         <h4> resumeId: {JSON.stringify(this.props.resumeId)}  </h4>
+         <h4> userID: {JSON.stringify(this.props.userID)}  </h4>
           */}
 
 

@@ -19,21 +19,18 @@ export const styles = {
     fontFamily: font
   },
   themeSelectDropdown: {
-    backgroundColor: MasterTheme.lightGray,
+    backgroundColor: MasterTheme.white,
     fontFamily: font,
-    marginLeft: '80px',
-    float: 'left',
-    paddingTop: '0'
+    paddingTop: '0',
+    display: 'block'
   },
   menuItemStyle: {
     color: MasterTheme.orange,
     fontWeight: MasterTheme.light
   },
   resumeTitle: {
-    textAlign: 'center',
-    marginLeft: '50px',
-    display: 'inline-block',
-    backgroundColor: MasterTheme.lightGray
+    display: 'block',
+    backgroundColor: MasterTheme.white
   },
   buttonLabelStyle: {
     textTransform: 'none'

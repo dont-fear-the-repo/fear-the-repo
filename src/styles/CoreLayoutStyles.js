@@ -36,8 +36,7 @@ export const styles = {
   },
   logo: {
     fill: MasterTheme.orange,  // this not working. I wish it did.
-    width: '40px',
-    height: '40px'
+    width: '45px'
   },
   spinnerColor: MasterTheme.orange
 };
