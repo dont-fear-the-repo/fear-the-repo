@@ -151,10 +151,10 @@ export default class ResumeSavePrint extends React.Component {
 
       <div style={this.props.styles.headerContainer}>
 
-        <Paper style={{float:'left'}}>
+        <Paper style={{width:'150px', position: 'absolute', left: '0px', top: '65px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
 
           <SelectField floatingLabelText='Theme'
-                       style={this.props.styles.themeSelectDropdown}
+                       style={{width: '150px'}}
                        floatingLabelStyle={this.props.styles.floatingLabelStyle}
                        underlineStyle={this.props.styles.underlineStyle}
                        underlineFocusStyle={this.props.styles.underlineFocusStyle}
