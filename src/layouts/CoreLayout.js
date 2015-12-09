@@ -238,6 +238,7 @@ showLoginPopover(key, e) {
               <Link to='/resume'>
                 <FlatButton label='Edit Resume'
                             style={styles.button}
+                            backgroundColor={styles.buttonColor}
                             labelStyle={styles.buttonLabelStyle}
                             hoverColor={styles.buttonHoverColor} />
               </Link>
