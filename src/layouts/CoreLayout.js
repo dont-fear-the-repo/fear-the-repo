@@ -282,10 +282,10 @@ showLoginPopover(key, e) {
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
                    anchorEl={this.state.anchorEl}
-                   anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                   anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')}
-                   canAutoPosition={true} >
+                   canAutoPosition={false} >
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'

@@ -109,17 +109,58 @@ export default class ResumeSavePrint extends React.Component {
       <div style={this.props.styles.headerContainer}>
 
         <Paper style={{float:'left'}}>
+          <TextField floatingLabelText='ResumeName'
+                     floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                     style={this.props.styles.resumeTitle}
+                     underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     backgroundColor={'white'}
+                     fullWidth={false}
+                     hintStyle={this.props.styles.hintStyle}
+                     hintText={this.props.resumeState.resumeTitle}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
+                     <br />
+                     <br />
+                     <br />
+                     <br />
+
+          <SelectField floatingLabelText='Theme'
+                       style={this.props.styles.themeSelectDropdown}
+                       floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                       underlineStyle={this.props.styles.underlineStyle}
+                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                       menuItems={themes}
+                       menuItemStyle={this.props.styles.menuItemStyle}
+                       value={this.props.resumeState.resumeTheme}
+                       valueMember='text'
+                       fullWidth={false}
+                       onChange={(e, index) => this.handleChangeTheme(e, index)} />
+                       <br />
+                       <br />
+                       <br />
+                       <br />
+
+
 
           <RaisedButton label='Save Resume'
                         style={this.props.styles.saveButton}
                         labelStyle={this.props.styles.buttonLabelStyle}
                         disabled={!this.props.canSubmitResume}
                         onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
 
           <RaisedButton label='Print Resume'
                         style={this.props.styles.printButton}
                         labelStyle={this.props.styles.buttonLabelStyle}
                         onClick={e => this.handlePrint(e)} />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+
           { this.props.resumeId &&
             <div><RaisedButton label='Reload Resume'
                           style={this.props.styles.saveButton}
@@ -132,28 +173,6 @@ export default class ResumeSavePrint extends React.Component {
             </div>
           }
 
-          <SelectField floatingLabelText='Theme'
-                       style={this.props.styles.themeSelectDropdown}
-                       floatingLabelStyle={this.props.styles.floatingLabelStyle}
-                       underlineStyle={this.props.styles.underlineStyle}
-                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                       menuItems={themes}
-                       menuItemStyle={this.props.styles.menuItemStyle}
-                       value={this.props.resumeState.resumeTheme}
-                       valueMember='text'
-                       onChange={(e, index) => this.handleChangeTheme(e, index)} />
-                       <br />
-                       <br />
-                       <br />
-                       <br />
-          <TextField floatingLabelText='Version'
-                     floatingLabelStyle={this.props.styles.floatingLabelStyle}
-                     style={this.props.styles.resumeTitle}
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     hintStyle={this.props.styles.hintStyle}
-                     hintText={this.props.resumeState.resumeTitle}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
         </Paper>
 
           {/*
