@@ -91,6 +91,15 @@ export default class ResumeSavePrint extends React.Component {
   //         onRequestClose={this._handleRequestClose}>
   //         The actions in this window are created from the json thats passed in.
   //       </Dialog>
+  showLoadButtonIf(loggedIn, resumeId, serverIsSaving){
+    let results = false;
+    if ( loggedIn && resumeId !== 'NA' ){
+      results = true;
+    } else if ( serverIsSaving === 'successful save!' ){
+      results = true;
+    }
+    return results;
+  }
 
   render() {
 
@@ -147,7 +156,7 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
                         <br />
 
-          { this.props.loggedIn && (this.props.serverIsSaving === "successful save!") &&
+          { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
                           style={this.props.styles.saveButton}
                           labelStyle={this.props.styles.buttonLabelStyle}
@@ -163,6 +172,9 @@ export default class ResumeSavePrint extends React.Component {
 
           {/*
 
+        <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
+        <h4> serverIsSaving: {JSON.stringify(this.props.resumeState.serverIsSaving)} </h4>
+        <h4> resumeId: {JSON.stringify(this.props.resumeId)} </h4>
 
             <TextField floatingLabelText='ResumeName'
                        floatingLabelStyle={this.props.styles.floatingLabelStyle}

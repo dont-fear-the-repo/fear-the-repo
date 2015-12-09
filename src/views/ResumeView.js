@@ -77,8 +77,7 @@ const mapStateToProps = (state) => ({
   resumeState: state.resumeReducer,
   routerState: state.router,
   userID: state.titleBarReducer.userID || null,
-  resumeId: state.titleBarReducer.resumeId || null,
-  serverIsSavingUpdate : state.resumeReducer.serverIsSavingUpdate
+  resumeId: state.titleBarReducer.resumeId || null
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
