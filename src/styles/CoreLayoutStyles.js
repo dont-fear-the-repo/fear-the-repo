@@ -13,13 +13,13 @@ export const styles = {
     position: 'relative',
     marginRight: '30px',
     marginTop: '4px',
-    padding: '8px 20px 10px 20px',
+    padding: '6px 20px 10px 20px',
     borderColor: MasterTheme.orange,
     borderStyle: 'solid',
     borderWidth: '2px',
     fontSize: '18px',
     height: '40px',
-    width: '150px',
+    width: '160px',
     textAlign: 'center',
     fontFamily: font
   },
@@ -29,13 +29,13 @@ export const styles = {
     cursor: 'pointer',
     display: 'inline-block',
     position: 'relative',
-    marginRight: '20px',
+    marginRight: '10px',
     marginTop: '4px',
     padding: '8px 20px 10px 20px',
     borderColor: 'white',
     borderStyle: 'solid',
     borderWidth: '2px',
-    fontSize: '18px',
+    fontSize: '16px',
     height: '40px',
     width: '100px',
     textAlign: 'center',
@@ -53,7 +53,7 @@ export const styles = {
     borderColor: 'white',
     borderStyle: 'solid',
     borderWidth: '2px',
-    fontSize: '18px',
+    fontSize: '16px',
     height: '40px',
     width: '100px',
     textAlign: 'center',
@@ -66,7 +66,8 @@ export const styles = {
   buttonHoverColor: MasterTheme.orange,
   name: {
     fontFamily: font,
-    color: MasterTheme.orange
+    color: MasterTheme.orange,
+    marginLeft: '30px'
   },
   buttonLabelStyle: {
     textTransform: 'none'
@@ -89,7 +90,8 @@ export const styles = {
   },
   logo: {
     fill: MasterTheme.orange,  // this not working. I wish it did.
-    width: '45px'
+    width: '45px',
+    marginRight: '-20px'  // this brings the name closer to the logo
   },
   spinnerColor: MasterTheme.orange
 };

@@ -26,7 +26,7 @@ class HomeView extends React.Component {
       <div className='landing main-body'
            style={styles.mainBody}>
 
-        <img src={require('styles/assets/writing-resume.jpg')}
+        <img src={require('styles/assets/splash2-text.png')}
              style={styles.heroImg} />
 
         <div style={styles.heroDiv}>
