@@ -51,7 +51,7 @@ export default class ResumeHeader extends React.Component {
             <Editor style={resumeThemes[currentTheme].name}
                   text={this.props.resumeState.resumeHeader.name}
                   options={{toolbar: false}}
-                  onBlur={e => this.props.handleUpdateLocalState(e, 'name', 'header')} />
+                  onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
 
         {currentErrorMessage ?
           <div style={this.props.styles.errorMessageStyle}>
@@ -64,11 +64,6 @@ export default class ResumeHeader extends React.Component {
                     text={this.props.resumeState.resumeHeader.city}
                     options={{toolbar: false}}
                     onBlur={e => this.validateField(e, [isDefined], 'city', 'header')} />
-
-             <Editor style={resumeThemes[currentTheme].state}
-                    text={this.props.resumeState.resumeHeader.state}
-                    options={{toolbar: false}}
-                    onBlur={e => this.validateField(e, [isDefined], 'state', 'header')} />
 
         <div>
           <Editor style={resumeThemes[currentTheme].phone}

@@ -43,7 +43,6 @@ export const resumeThemes = {
       display: 'block',
       float: 'left',
       marginLeft: '35px',
-      marginTop: '2px',
       position: 'absolute'
     },
     state: {
@@ -175,7 +174,6 @@ export const resumeThemes = {
       display: 'block',
       float: 'left',
       marginLeft: '35px',
-      marginTop: '2px',
       position: 'absolute'
     },
     name: {
@@ -298,7 +296,6 @@ export const resumeThemes = {
       display: 'block',
       float: 'left',
       marginLeft: '35px',
-      marginTop: '2px',
       position: 'absolute'
     },
     name: {

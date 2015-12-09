@@ -29,8 +29,8 @@ const initialState = {
   resumeHeader: {
     name: 'Your Name',
     // profession: 'Profession',
-    city: 'City',
-    state: 'State',
+    city: 'Location', // repurposed as City, ST location
+    // state: 'State',  // removed to avoid having to format the comma
     displayEmail: 'YourEmail@website.com',
     phone: '123.456.7890',
     webLinkedin: 'linkedin.com/in/YourLinkedIn',

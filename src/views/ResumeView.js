@@ -124,7 +124,7 @@ class ResumeView extends React.Component {
       name: false,
       email: false,
       city: false,
-      state: false,  // Using just one location field that includes City, ST will be much easier to format in resumeHeader. We can repurpose 'city' for that
+      // state: false,  // Using just one location field that includes City, ST will be much easier to format in resumeHeader. We can repurpose 'city' for that
       phone: false
     }
   }
