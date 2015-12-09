@@ -16,7 +16,15 @@ export const resumeThemes = {
 
   'Default': {
     headerDiv: {
-      paddingBottom: '3%'
+      paddingBottom: '7%'
+    },
+    headerLeft: {
+      position: 'relative',
+      left: 0
+    },
+    headerRight: {
+      position: 'relative',
+      right: 0
     },
     plain: {
       marginLeft: '10px'
@@ -25,8 +33,8 @@ export const resumeThemes = {
       fontSize: '16px',
       display: 'block',
       float: 'left',
-      marginLeft: '29px',
-      marginTop: '20px',
+      marginLeft: '35px',
+      marginTop: '2px',
       position: 'absolute'
     },
     city: {
@@ -40,8 +48,8 @@ export const resumeThemes = {
       fontWeight: '700',
       fontSize: '32px',
       marginLeft: '3%',
-      paddingRight: '3%',
-      paddingTop: '3%',
+      marginBottom: '1%',
+      marginTop: '3%',
       textAlign: 'left'
     },
     profession: {
@@ -52,7 +60,7 @@ export const resumeThemes = {
       display: 'block',
       float: 'left',
       fontSize: '16px',
-      marginLeft: '3%',
+      marginLeft: '35px',
       marginTop: '22px',
       position: 'relative'
     },
@@ -65,11 +73,21 @@ export const resumeThemes = {
       marginTop: '22px',
       position: 'relative'
     },
-    url: {
+    webLinkedin: {
       color: 'blue',
+      display: 'inline-block',
       fontSize: '14px',
       marginRight: '3%',
-      textAlign: 'right'
+      float: 'right'
+    },
+    webOther: {
+      color: 'blue',
+      display: 'inline-block',
+      fontSize: '14px',
+      marginTop: '22px',
+      marginRight: '-180px',
+      position: 'static',
+      float: 'right'
     },
     pipe: {
       display: 'inline',

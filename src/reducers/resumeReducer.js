@@ -29,7 +29,7 @@ const initialState = {
   resumeHeader: {
     name: 'Your Name',
     // profession: 'Profession',
-    city: 'City, St',
+    city: 'City, ST',
     // state: 'State',
     displayEmail: 'YourEmail@website.com',
     phone: '123.456.7890',
@@ -39,7 +39,6 @@ const initialState = {
   blockChildren: [{
     blockType: 'bullets',
     blockId: 1,
-    blockType: 'bullets',
     archived: false,
     companyName: 'Company Name',
     jobTitle: 'Bossman',
@@ -166,7 +165,7 @@ export default createReducer(initialState, {
           text: 'This won\'t be seen'
         }]
       };
-    } else {} // define additional block types here
+    }
 
     newState.blockChildren.push(newBlock);
     return newState;
