@@ -1,5 +1,5 @@
 import React from 'react';
-import { RaisedButton, TextField, Paper, SelectField, CircularProgress, LeftNav, Dialog, Snackbar } from 'material-ui/lib';
+import { RaisedButton, TextField, Paper, SelectField, CircularProgress, LeftNav, Dialog } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 
 export default class ResumeSavePrint extends React.Component {
@@ -111,11 +111,7 @@ export default class ResumeSavePrint extends React.Component {
         <Paper style={{float:'left'}}>
 
 
-        {this.props.canSubmitResume ?
-          <p>
-            {this.props.errorMessages[this.props.currentErrorMessage]}
-          </p>
-          : '' }
+
 
         <RaisedButton label='Save Resume'
                       style={this.props.styles.saveButton}
@@ -170,8 +166,7 @@ export default class ResumeSavePrint extends React.Component {
         <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
           */}
 
-        <Snackbar message='#snackmaster'
-                  />
+
       </div>
 
     );
