@@ -26,19 +26,8 @@ class HomeView extends React.Component {
       <div className='landing main-body'
            style={styles.mainBody}>
 
-        <img src={require('styles/assets/writing-resume.jpg')}
+        <img src={require('styles/assets/splash3.png')}
              style={styles.heroImg} />
-
-        <div style={styles.heroDiv}>
-          <div style={{ height: '1px' }} />
-          <div style={styles.mainTitle}>
-            Rezable
-          </div>
-
-          <p style={styles.tagline}>
-            An easy, intuitive, drag-and-drop resume builder
-          </p>
-        </div>
 
         <div style={styles.copy}>
           Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.           Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.           Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.
@@ -50,6 +39,18 @@ class HomeView extends React.Component {
     );
   }
 }
+
+
+        // <div style={styles.heroDiv}>
+        //   <div style={{ height: '1px' }} />
+        //   <div style={styles.mainTitle}>
+        //     Rezable
+        //   </div>
+
+        //   <p style={styles.tagline}>
+        //     An easy, intuitive, drag-and-drop resume builder
+        //   </p>
+        // </div>
 
 //// Long live the counter; a lighthouse to our souls for how to use state
 // <div style={{ margin: '20px' }}>
