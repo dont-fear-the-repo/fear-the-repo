@@ -161,7 +161,7 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
                         <br />
 
-          { this.props.resumeId &&
+          { this.props.loggedIn && (this.props.serverIsSaving === "successful save!") &&
             <div><RaisedButton label='Reload Resume'
                           style={this.props.styles.saveButton}
                           labelStyle={this.props.styles.buttonLabelStyle}
