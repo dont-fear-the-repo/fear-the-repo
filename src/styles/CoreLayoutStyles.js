@@ -13,7 +13,7 @@ export const styles = {
     position: 'relative',
     marginRight: '30px',
     marginTop: '4px',
-    padding: '8px 20px 10px 20px',
+    padding: '6px 20px 10px 20px',
     borderColor: MasterTheme.orange,
     borderStyle: 'solid',
     borderWidth: '2px',
@@ -31,7 +31,7 @@ export const styles = {
     position: 'relative',
     marginRight: '20px',
     marginTop: '4px',
-    padding: '8px 20px 10px 20px',
+    padding: '6px 20px 10px 20px',
     borderColor: 'white',
     borderStyle: 'solid',
     borderWidth: '2px',
@@ -49,7 +49,7 @@ export const styles = {
     position: 'relative',
     marginRight: '10px',
     marginTop: '4px',
-    padding: '8px 20px 10px 20px',
+    padding: '6px 20px 10px 20px',
     borderColor: 'white',
     borderStyle: 'solid',
     borderWidth: '2px',
@@ -69,10 +69,11 @@ export const styles = {
     fontFamily: font,
     color: MasterTheme.orange,
     fontStyle: 'none',
-    fontSize: '36px',
-    fontWeight: MasterTheme.bold,
+    fontSize: '32px',
+    fontWeight: 500,
     marginTop: '30px',
-    letterSpacing: '3px'
+    letterSpacing: '3px',
+    marginLeft: '20px'
   },
   buttonLabelStyle: {
     textTransform: 'none'
@@ -95,7 +96,8 @@ export const styles = {
   },
   logo: {
     fill: MasterTheme.orange,  // this not working. I wish it did.
-    width: '45px'
+    width: '45px',
+    marginRight: '-10px'
   },
   spinnerColor: MasterTheme.orange
 };
