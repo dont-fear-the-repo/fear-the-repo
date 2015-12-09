@@ -32,7 +32,7 @@ class HomeView extends React.Component {
         <div style={styles.heroDiv}>
           <div style={{ height: '1px' }} />
           <div style={styles.mainTitle}>
-            [insert app name here]
+            Rezable
           </div>
 
           <p style={styles.tagline}>
@@ -41,20 +41,22 @@ class HomeView extends React.Component {
         </div>
 
         <div style={styles.copy}>
-          [insert copy talking about WYSIWYG, the user, how we solve their needs, how our app is the best, yada yada yada]
+          Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.           Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.           Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.
         </div>
 
 
-        <div style={{ margin: '20px' }}>
-          <div style={{ margin: '5px' }}>
-            For no reason, a counter: {this.props.counter}
-          </div>
-          <RaisedButton label='Increment'
-                        onClick={this.props.actions.increment} />
-        </div>
+
       </div>
     );
   }
 }
 
+//// Long live the counter; a lighthouse to our souls for how to use state
+// <div style={{ margin: '20px' }}>
+//   <div style={{ margin: '5px' }}>
+//     For no reason, a counter: {this.props.counter}
+//   </div>
+//   <RaisedButton label='Increment'
+//                 onClick={this.props.actions.increment} />
+// </div>
 export default connect(mapStateToProps, mapDispatchToProps)(HomeView);

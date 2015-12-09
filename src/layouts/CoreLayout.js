@@ -17,7 +17,14 @@ import { isDefined,
 import { FlatButton,
          Popover,
          TextField,
-         RefreshIndicator } from 'material-ui/lib';
+         RefreshIndicator,
+         LeftNav,
+         AppBar,
+         IconButton,
+         IconMenu,
+         MoreVertIcon,
+         MenuItem } from 'material-ui/lib';
+
 import { styles } from 'styles/CoreLayoutStyles';
 
 
@@ -208,6 +215,8 @@ showLoginPopover(key, e) {
   saveTempPassword(event) {
     this.state.tempPassword = event.target.value;
   }
+  /*iconClassNameRight="muidocs-icon-navigation-expand-more"*/
+
 
   render() {
     const { canSubmitAuth, currentAuthMessage, loggedIn } = this.props;
@@ -215,43 +224,57 @@ showLoginPopover(key, e) {
     return (
       <div className='page-container'>
         <div className='view-container'>
-          <div>
-            <div className='header' style={styles.mainContainer}>
-
-              <Link to='/' style={styles.name}>
-                Rezable
-              </Link>
+        <AppBar
+          title={<Link to='/' style={styles.name}>Rezable</Link>}
+          style={styles.mainContainer}
+          iconElementLeft={
+                <Link to='/' style={styles.name}>
+                  <img src={require('styles/assets/resumeLogo2.svg')}
+                       style={styles.logo}/>
+                </Link>
+            }
+          iconElementRight={
+            <div>
 
               <Link to='/resume'>
                 <FlatButton label='Edit Resume'
-                            style={styles.resumeButton}
-                            backgroundColor={styles.buttonColor}
+                            style={styles.button}
                             labelStyle={styles.buttonLabelStyle}
                             hoverColor={styles.buttonHoverColor} />
               </Link>
 
+
+              {this.props.loggedIn ?
+                <Link to='/secretpage'>
+                  <FlatButton label='Logged In Only'
+                              style={styles.button} />
+                </Link>
+              : '' }
+
               {loggedIn &&
                 <FlatButton label='Logout'
-                            style={styles.loginButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={e => this.handleLogout(e)} />}
               {!loggedIn &&
                 <FlatButton label='Login'
-                            style={styles.loginButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showLoginPopover('pop', e)} />}
               {!loggedIn &&
                 <FlatButton label='Signup'
-                            style={styles.signupButton}
+                            style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showSignupPopover('pop', e)} />}
-          </div>
+            </div>
+            } />
+          <div>
 
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
@@ -259,7 +282,7 @@ showLoginPopover(key, e) {
                    anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')}
-                   canAutoPosition={false} >
+                   canAutoPosition={true} >
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'
