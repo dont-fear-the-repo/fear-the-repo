@@ -10,7 +10,6 @@ import Heading from 'components/Heading';
 import ResumeHeader from 'components/ResumeHeader';
 import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
-import { errorMessages } from 'utils/errorMessages';
 import { addBlock,
          addBullet,
          clientIsDirtyUpdate,
@@ -32,7 +31,8 @@ import { addBlock,
 import { disableSubmit,
          displayErrorMessage,
          enableSubmit,
-         hideErrorMessage } from 'actions/validationActions';
+         hideErrorMessage,
+         updateErrorMessage } from 'actions/validationActions';
 
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
@@ -58,6 +58,7 @@ const ActionCreators = {
   moveBullet,
   sendResumeToServerAsync,
   serverIsSavingUpdate,
+  updateErrorMessage,
   updateLocalState,
   updateLocalStateBlocks,
   updateLocalStateBullets,
@@ -70,6 +71,7 @@ const ActionCreators = {
 
 const mapStateToProps = (state) => ({
   canSubmitResume: state.validationReducer.canSubmitResume,
+  currentErrorMessage: state.validationReducer.currentErrorMessage,
   currentTheme: state.resumeReducer.resumeTheme, // TODO: maybe should be currentTheme
   loggedIn: state.titleBarReducer.loggedIn,
   resumeState: state.resumeReducer,
@@ -104,6 +106,7 @@ class ResumeView extends React.Component {
   static propTypes = {
     actions: PropTypes.object,
     connectDropTarget: PropTypes.func.isRequired,
+    currentErrorMessage: PropTypes.string,
     loggedIn: PropTypes.bool,
     resumeState: PropTypes.object
   }
@@ -123,8 +126,7 @@ class ResumeView extends React.Component {
       city: false,
       state: false,
       phone: false
-    },
-    currentErrorMessage: ''
+    }
   }
 
   handleUpdateLocalState(event, textFieldName, whereFrom, id, parentBlockId) {
@@ -234,14 +236,6 @@ class ResumeView extends React.Component {
     this.props.actions.addBlock(type);
   }
 
-  displayErrorMessage(type) {
-    this.props.actions.displayErrorMessage(type);
-  }
-
-  hideErrorMessage(type) {
-    this.props.actions.hideErrorMessage(type);
-  }
-
   render() {
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState;
@@ -256,7 +250,6 @@ class ResumeView extends React.Component {
 
         <ResumeSavePrint {...this.props}
                          styles={styles}
-                         errorMessages={errorMessages}
                          validations={this.state.validations}
                          handleUpdateLocalState={this.handleUpdateLocalState}
                          handleSubmit={this.handleSubmit}

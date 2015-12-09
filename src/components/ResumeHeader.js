@@ -5,7 +5,6 @@ import Editor from 'react-medium-editor';
 
 import { exactLength,
          isDefined,
-         isInteger,
          isValidEmail } from 'utils/validation';
 
 
@@ -13,10 +12,12 @@ export default class ResumeHeader extends React.Component {
 
   static propTypes = {
     actions: PropTypes.object,
+    currentErrorMessage: PropTypes.string,
     currentTheme: PropTypes.string,
     handleUpdateLocalState: PropTypes.func,
     resumeThemes: PropTypes.object,
     resumeState: PropTypes.object,
+    styles: PropTypes.object,
     validations: PropTypes.object
   }
 
@@ -27,9 +28,10 @@ export default class ResumeHeader extends React.Component {
     if (validEntry) {
       this.props.validations[key] = true;
       this.props.handleUpdateLocalState(event, key, whereFrom);
+      this.props.actions.updateErrorMessage('');
     } else {
       this.props.validations[key] = false;
-      // this.props.currentErrorMessage = this.props.errorMessages[key];
+      this.props.actions.updateErrorMessage(key);
     }
 
     const shouldEnable = _.every(this.props.validations,
@@ -42,10 +44,15 @@ export default class ResumeHeader extends React.Component {
   }
 
   render() {
-    const { currentTheme, resumeThemes } = this.props;
+    const { currentErrorMessage, currentTheme, resumeThemes } = this.props;
 
     return (
       <div>
+
+        {currentErrorMessage ?
+          <div style={this.props.styles.errorMessageStyle}>
+            {currentErrorMessage}
+          </div> : ''}
 
         <div>
 

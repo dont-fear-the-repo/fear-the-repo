@@ -1,5 +1,5 @@
 import React from 'react';
-import { RaisedButton, TextField, Paper, SelectField, CircularProgress } from 'material-ui/lib';
+import { RaisedButton, TextField, Paper, SelectField, CircularProgress, Snackbar } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 
 export default class ResumeSavePrint extends React.Component {
@@ -14,11 +14,11 @@ export default class ResumeSavePrint extends React.Component {
 
   handleSubmit(e) {
     if (this.props.loggedIn) {
-    this.props.actions.serverIsSavingUpdate('saving');
-    let wrappedForServer = Object.assign({}, this.props.resumeState);
-    wrappedForServer.userID = this.props.userID;
-    this.props.actions.sendResumeToServerAsync(wrappedForServer);
-    console.log('clicked SAVE btn in ResumeSavePrint')
+      this.props.actions.serverIsSavingUpdate('saving');
+      let wrappedForServer = Object.assign({}, this.props.resumeState);
+      wrappedForServer.userID = this.props.userID;
+      this.props.actions.sendResumeToServerAsync(wrappedForServer);
+      console.log('clicked SAVE btn in ResumeSavePrint')
     } else {
       alert('To save a resume, please signup above');
     }
@@ -56,7 +56,7 @@ export default class ResumeSavePrint extends React.Component {
                             'index': index,
                             'text': value
                          }));
-console.log('canSubmitResume: ', this.props.canSubmitResume)
+
     return (
       <div style={this.props.styles.headerContainer}>
 
@@ -109,6 +109,8 @@ console.log('canSubmitResume: ', this.props.canSubmitResume)
                       labelStyle={this.props.styles.buttonLabelStyle}
                       onClick={e => this.handlePrint(e)} />
 
+        <Snackbar message='#snackmaster'
+                  />
       </div>
     );
   }
