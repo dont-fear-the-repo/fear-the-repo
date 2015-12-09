@@ -162,7 +162,7 @@ export default class BlockDumbComp extends React.Component {
 
 
             {Radium.getState(this.state, 'block', ':hover') ? (
-            <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+            <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
                    onClick={e => this.hideBlock(e, this.props.blockId)} />
               ) : null}
 
@@ -171,7 +171,7 @@ export default class BlockDumbComp extends React.Component {
               </div>
 
             {Radium.getState(this.state, 'block', ':hover') ? (
-            <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
+            <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
                 onClick={e => this.addBullet(e, this.props.blockId)} />
               ) : null}
 

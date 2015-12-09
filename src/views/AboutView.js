@@ -31,7 +31,7 @@ class AboutView extends React.Component {
           <div style={styles.teamCard}>
             <Paper zDepth={styles.teamCardDepth}>
               <a href='http://github.com/AndrewTHuang'>
-                <img src='styles/assets/Andrew-balloon-square.jpg'
+                <img src={require('styles/assets/Andrew-balloon-square.jpg')}
                      style={styles.teamImg} />
                 <span style={styles.teamMemberName}>
                   Andrew Huang
@@ -43,7 +43,7 @@ class AboutView extends React.Component {
           <div style={styles.teamCard}>
             <Paper zDepth={styles.teamCardDepth}>
               <a href='http://github.com/melodylu'>
-                <img src='styles/assets/Melody-hat-square.jpg'
+                <img src={require('styles/assets/Melody-hat-square.jpg')}
                      style={styles.teamImg} />
                 <span style={styles.teamMemberName}>
                   Melody Lu
@@ -55,7 +55,7 @@ class AboutView extends React.Component {
           <div style={styles.teamCard}>
             <Paper zDepth={styles.teamCardDepth}>
               <a href='http://github.com/ericsonmichaelj'>
-                <img src='styles/assets/Michael-climbing-square.jpg'
+                <img src={require('styles/assets/Michael-climbing-square.jpg')}
                      style={styles.teamImg} />
                 <span style={styles.teamMemberName}>
                   Michael Ericson
@@ -67,7 +67,7 @@ class AboutView extends React.Component {
           <div style={styles.teamCard}>
             <Paper zDepth={styles.teamCardDepth}>
               <a href='http://github.com/dangerismycat'>
-                <img src='styles/assets/Ryan-Danger-square.jpg'
+                <img src={require('styles/assets/Ryan-Danger-square.jpg')}
                      style={styles.teamImg} />
                 <span style={styles.teamMemberName}>
                   Ryan James
@@ -79,7 +79,7 @@ class AboutView extends React.Component {
           <div style={styles.teamCard}>
             <Paper zDepth={styles.teamCardDepth}>
               <a href='http://github.com/sujaypatel16'>
-                <img src='styles/assets/Sujay-monopoly-square.jpg'
+                <img src={require('styles/assets/Sujay-monopoly-square.jpg')}
                      style={styles.teamImg} />
                 <span style={styles.teamMemberName}>
                   Sujay Patel
