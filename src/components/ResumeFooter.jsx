@@ -12,6 +12,8 @@ export default class ResumeFooter extends React.Component {
       <div>
         <div style={resumeThemes[currentTheme].plain}>
 
+      <Paper>
+      <div style={resumeThemes[currentTheme].footerText}>
           <Editor text={resumeFooter.school1.name}
                   style={resumeThemes[currentTheme].schoolName}
                   options={{toolbar: false}}
@@ -37,6 +39,7 @@ export default class ResumeFooter extends React.Component {
                   text={this.props.resumeState.resumeFooter.school1.location}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'school1-location', 'footer')} />
+
           <br/>
 
           <Editor style={resumeThemes[currentTheme].schoolName}
@@ -65,19 +68,22 @@ export default class ResumeFooter extends React.Component {
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'school2-location', 'footer')} />
 
+            </div>
+            </Paper>
+
         </div>
+
 
         <div style={resumeThemes[currentTheme].plain}>
 
-        </div>
-
-        <div style={resumeThemes[currentTheme].plain}>
-
-          <Editor text='personalStatement'
+        <Paper>
+          <div style={resumeThemes[currentTheme].footerText}>
+          <Editor text={this.props.resumeState.resumeFooter.personalStatement}
                   style={resumeThemes[currentTheme].personalStatement}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'personalStatement', 'footer')} />
-
+          </div>
+          </Paper>
         </div>
 
       </div>

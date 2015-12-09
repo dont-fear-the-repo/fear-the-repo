@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
-
+import Radium from 'radium';
 
 /******************************/
 /*   Begin DnD requirements   */
@@ -71,7 +71,7 @@ const blockTarget = {
 /*   End DnD requirements   */
 /****************************/
 
-
+@Radium
 export default class BlockDumbComp extends React.Component {
 
   static propTypes = {
@@ -122,14 +122,16 @@ export default class BlockDumbComp extends React.Component {
     const blockDrag = {
       opacity: isDragging ? 0 : 1,
       cursor: 'move',
-      margin: '0px'
+      margin: '0px',
+      ':hover': {}
     };
 
     return connectDragSource(connectDropTarget(
-      <div style={blockDrag}>
+      <div style={blockDrag} key='block'>
 
         <Paper>
 
+        <div style={resumeThemes[currentTheme].blockDiv}>
             <Editor style={resumeThemes[currentTheme].jobTitle}
                     text={this.props.jobTitle}
                     options={{toolbar: false}}
@@ -158,16 +160,24 @@ export default class BlockDumbComp extends React.Component {
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
 
-          <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+
+        {Radium.getState(this.state, 'block', ':hover') ? (
+        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
                onClick={e => this.hideBlock(e, this.props.blockId)} />
+          ) : null}
+
+
 
             <div className='bulletContainer' style={styles.bulletContainer}>
               {bulletCollection}
             </div>
 
-            <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
-                 onClick={e => this.addBullet(e, this.props.blockId)} />
+        {Radium.getState(this.state, 'block', ':hover') ? (
+        <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
+            onClick={e => this.addBullet(e, this.props.blockId)} />
+          ) : null}
 
+         </div>
         </Paper>
 
       </div>

@@ -65,6 +65,11 @@ export default class ResumeHeader extends React.Component {
                     options={{toolbar: false}}
                     onBlur={e => this.validateField(e, [isDefined], 'city', 'header')} />
 
+             <Editor style={resumeThemes[currentTheme].state}
+                    text={this.props.resumeState.resumeHeader.state}
+                    options={{toolbar: false}}
+                    onBlur={e => this.validateField(e, [isDefined], 'state', 'header')} />
+
         <div>
           <Editor style={resumeThemes[currentTheme].phone}
                   options={{toolbar: false}}

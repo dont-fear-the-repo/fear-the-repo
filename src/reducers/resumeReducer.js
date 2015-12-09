@@ -29,8 +29,8 @@ const initialState = {
   resumeHeader: {
     name: 'Your Name',
     // profession: 'Profession',
-    city: 'City, ST',
-    // state: 'State',
+    city: 'City',
+    state: 'State',
     displayEmail: 'YourEmail@website.com',
     phone: '123.456.7890',
     webLinkedin: 'linkedin.com/in/YourLinkedIn',
@@ -63,7 +63,7 @@ const initialState = {
     archived: false,
     companyName: 'Second Corp.',
     jobTitle: 'Lackey',
-    years: '2014, 2013',
+    years: '2013-2014',
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 3,
@@ -84,7 +84,7 @@ const initialState = {
     archived: false,
     companyName: 'Third Chance',
     jobTitle: 'Intern',
-    years: '2012-2011',
+    years: '2011-2012',
     location: 'San Francisco, CA',
     bulletChildren: [{
       bulletId: 5,
@@ -102,18 +102,18 @@ const initialState = {
   }],
   resumeFooter: {
     school1: {
-      name: 'School Name',
-      degree: 'Degree',
-      schoolEndYear: 'Year',
-      location: 'City'
+      name: 'MakerSquare',
+      degree: 'Advanced Software Engineering Immersive',
+      schoolEndYear: '2015',
+      location: 'San Francisco, CA'
     },
     school2: {
-      name: 'School Name',
-      degree: 'Degree',
-      schoolEndYear: 'Year',
-      location: 'City'
+      name: 'UC Berkeley',
+      degree: 'BS in Computer Science',
+      schoolEndYear: '2014',
+      location: 'Berkeley, CA'
     },
-    personalStatement: 'Personal Statement / Hobbies'
+    personalStatement: 'I really dislike writing my resume, so I could not be happier with Rezable!'
   }
 };
 
