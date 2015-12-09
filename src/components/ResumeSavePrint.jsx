@@ -109,20 +109,6 @@ export default class ResumeSavePrint extends React.Component {
       <div style={this.props.styles.headerContainer}>
 
         <Paper style={{float:'left'}}>
-          <TextField floatingLabelText='ResumeName'
-                     floatingLabelStyle={this.props.styles.floatingLabelStyle}
-                     style={this.props.styles.resumeTitle}
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     backgroundColor={'white'}
-                     fullWidth={false}
-                     hintStyle={this.props.styles.hintStyle}
-                     hintText={this.props.resumeState.resumeTitle}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
-                     <br />
-                     <br />
-                     <br />
-                     <br />
 
           <SelectField floatingLabelText='Theme'
                        style={this.props.styles.themeSelectDropdown}
@@ -176,6 +162,22 @@ export default class ResumeSavePrint extends React.Component {
         </Paper>
 
           {/*
+
+
+            <TextField floatingLabelText='ResumeName'
+                       floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                       style={this.props.styles.resumeTitle}
+                       underlineStyle={this.props.styles.underlineStyle}
+                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                       backgroundColor={'white'}
+                       fullWidth={false}
+                       hintStyle={this.props.styles.hintStyle}
+                       hintText={this.props.resumeState.resumeTitle}
+                       onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
+                       <br />
+                       <br />
+                       <br />
+                       <br />
 
         <h1>{this.props.resumeState.clientFormIsDirty ? savedConfirm : saveAnimation} </h1>
         <h4>ClientIsDirty: {JSON.stringify(this.props.resumeState.clientFormIsDirty)}</h4>
