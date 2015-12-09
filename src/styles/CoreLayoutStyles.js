@@ -2,7 +2,7 @@ import { MasterTheme } from 'styles/MasterTheme';
 
 const font = MasterTheme.muli;
 const fontsize = '14pt';
-const buttonTopMargin = '8px';
+const buttonTopMargin = '4px';
 const errorTextMargin = '20px 0 0 30px';
 
 export const styles = {
@@ -13,34 +13,16 @@ export const styles = {
   buttonHoverColor: MasterTheme.orange,
   name: {
     fontFamily: font,
-    fontSize: '20pt',
-    color: MasterTheme.orange,
-    marginLeft: '30px',
-    marginRight: '20px',
-    marginTop: '12px'
+    color: MasterTheme.orange
   },
   buttonLabelStyle: {
     textTransform: 'none'
   },
-  resumeButton: {
-    fontFamily: font,
-    fontSize: fontsize,
-    marginTop: buttonTopMargin,
-    marginBottom: buttonTopMargin
-  },
-  loginButton: {
-    float: 'right',
+  button: {
+    float: 'left',
     marginRight: '30px',
     marginTop: buttonTopMargin,
-    marginBottom: buttonTopMargin,
-    fontSize: fontsize,
-    fontFamily: font
-  },
-  signupButton: {
-    float: 'right',
-    marginRight: '10px',
-    marginTop: buttonTopMargin,
-    marginBottom: buttonTopMargin,
+    // marginBottom: buttonTopMargin,
     fontSize: fontsize,
     fontFamily: font
   },
@@ -51,6 +33,11 @@ export const styles = {
   disabledText: {
     margin: errorTextMargin,
     color: MasterTheme.midGray
+  },
+  logo: {
+    fill: MasterTheme.orange,  // this not working. I wish it did.
+    width: '40px',
+    height: '40px'
   },
   spinnerColor: MasterTheme.orange
 };

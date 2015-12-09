@@ -37,7 +37,7 @@ import { disableSubmit,
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
-import { Paper } from 'material-ui/lib';
+import { Paper, LeftNav, IconButton, IconMenu, MoreVertIcon, MenuItem, FlatButton } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly,
                         // check the issues on their repo for more information
@@ -235,31 +235,60 @@ class ResumeView extends React.Component {
   addBlock(event, type) {
     this.props.actions.addBlock(type);
   }
+/*
+
+{
+          <IconMenu iconButtonElement={
+            <IconButton><MoreVertIcon /></IconButton>
+          }>
+            <MenuItem primaryText="Refresh" />
+            <MenuItem primaryText="Help" />
+            <MenuItem primaryText="Sign out" />
+          </IconMenu>
+
+        }
+
+{
+          <IconMenu iconButtonElement={
+            <IconButton>HolaMundo</IconButton>
+          }>
+            <MenuItem primaryText="Refresh" />
+            <MenuItem primaryText="Help" />
+            <MenuItem primaryText="Sign out" />
+          </IconMenu>
+
+        }
+
+
+
+*/
 
   render() {
+
     const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState;
 
     return connectDropTarget(
+    <div>
+
       <div className='container'
            style={styles.container}
            id='resumeContainer'>
-
+           <ResumeSavePrint {...this.props}
+                            styles={styles}
+                            validations={this.state.validations}
+                            handleUpdateLocalState={this.handleUpdateLocalState}
+                            handleSubmit={this.handleSubmit}
+                            handlePrint={this.handlePrint}
+                            handleChangeTheme={this.handleChangeTheme}
+                            handleUpdateLocalState={this.handleUpdateLocalState}
+                            handleSaveState={this.handleSaveState}
+                            getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc}
+                            serverIsSavingUpdate={this.serverIsSavingUpdate}
+                            clientIsDirtyUpdate={this.clientIsDirtyUpdate} />
         <div className='marginTop'
              style={styles.marginTop} />
 
-        <ResumeSavePrint {...this.props}
-                         styles={styles}
-                         validations={this.state.validations}
-                         handleUpdateLocalState={this.handleUpdateLocalState}
-                         handleSubmit={this.handleSubmit}
-                         handlePrint={this.handlePrint}
-                         handleChangeTheme={this.handleChangeTheme}
-                         handleUpdateLocalState={this.handleUpdateLocalState}
-                         handleSaveState={this.handleSaveState}
-                         getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc}
-                         serverIsSavingUpdate={this.serverIsSavingUpdate}
-                         clientIsDirtyUpdate={this.clientIsDirtyUpdate} />
 
         <Paper style={styles.resumePaper}>
 
@@ -340,6 +369,7 @@ class ResumeView extends React.Component {
 
         </Paper>
 
+      </div>
       </div>
     );
   }
