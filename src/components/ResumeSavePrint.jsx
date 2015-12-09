@@ -1,5 +1,5 @@
 import React from 'react';
-import { RaisedButton, TextField, Paper, SelectField, CircularProgress, LeftNav, Dialog } from 'material-ui/lib';
+import { RaisedButton, TextField, Paper, SelectField, CircularProgress, LeftNav, Dialog, Snackbar } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 
 export default class ResumeSavePrint extends React.Component {
@@ -100,10 +100,10 @@ export default class ResumeSavePrint extends React.Component {
     const savedConfirm = 'Changes saved!'
 
     const themes = Object.keys(resumeThemes)
-                    .map( (value, index) => ({
-                      'index': index,
-                      'text': value
-                    }));
+                         .map( (value, index) => ({
+                            'index': index,
+                            'text': value
+                         }));
 
     return (
       <div style={this.props.styles.headerContainer}>
@@ -111,24 +111,27 @@ export default class ResumeSavePrint extends React.Component {
         <Paper style={{float:'left'}}>
 
 
+        {this.props.canSubmitResume ?
+          <p>
+            {this.props.errorMessages[this.props.currentErrorMessage]}
+          </p>
+          : '' }
 
+        <RaisedButton label='Save Resume'
+                      style={this.props.styles.saveButton}
+                      labelStyle={this.props.styles.buttonLabelStyle}
+                      disabled={!this.props.canSubmitResume}
+                      onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
 
-          <RaisedButton label='Reload'
+        <RaisedButton label='Print Resume'
+                      style={this.props.styles.printButton}
+                      labelStyle={this.props.styles.buttonLabelStyle}
+                      onClick={e => this.handlePrint(e)} />
+
+          <RaisedButton label='Reload Resume'
                         style={this.props.styles.saveButton}
                         labelStyle={this.props.styles.buttonLabelStyle}
                         onClick={e => this.handleLoad(e)} />
-                        <br />
-
-          <RaisedButton label='Print'
-                        style={this.props.styles.printButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
-                        onClick={e => this.handlePrint(e)} />
-                        <br />
-
-          <RaisedButton label='Save'
-                        style={this.props.styles.saveButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
-                        onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
                         <br />
                         <br />
                         <br />
@@ -167,6 +170,8 @@ export default class ResumeSavePrint extends React.Component {
         <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
           */}
 
+        <Snackbar message='#snackmaster'
+                  />
       </div>
 
     );

@@ -7,24 +7,40 @@ import _ from 'underscore';
 
 import { Footer } from 'components/footer';
 import { loginUser, signupUser, logout } from 'actions/titleBarActions';
-import { enableSubmit, disableSubmit } from 'actions/validationActions';
-import { isDefined, isValidEmail, matches } from 'utils/validation';
+import { enableSubmit,
+         disableSubmit,
+         displayAuthMessage } from 'actions/validationActions';
+import { isDefined,
+         isValidEmail,
+         matches } from 'utils/validation';
 
-import { FlatButton, Popover, TextField, RefreshIndicator, LeftNav, AppBar, IconButton, IconMenu, MoreVertIcon, MenuItem } from 'material-ui/lib';
+import { FlatButton,
+         Popover,
+         TextField,
+         RefreshIndicator,
+         LeftNav,
+         AppBar,
+         IconButton,
+         IconMenu,
+         MoreVertIcon,
+         MenuItem } from 'material-ui/lib';
+
 import { styles } from 'styles/CoreLayoutStyles';
 
 
 const ActionCreators = {
-  loginUser: loginUser,
-  signupUser: signupUser,
-  logout: logout,
-  enableSubmit: enableSubmit,
-  disableSubmit: disableSubmit
+  disableSubmit,
+  displayAuthMessage,
+  enableSubmit,
+  loginUser,
+  logout,
+  signupUser
 };
 const mapStateToProps = (state) => ({
-  userLoginInfo: state.email,
+  canSubmitAuth: state.validationReducer.canSubmitAuth,
+  currentAuthMessage: state.validationReducer.currentAuthMessage,
   loggedIn: state.titleBarReducer.loggedIn,
-  canSubmit: state.validationReducer.canSubmit
+  userLoginInfo: state.email
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -32,11 +48,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 class CoreLayout extends React.Component {
     static propTypes = {
-      children: React.PropTypes.element,
       actions: React.PropTypes.object,
+      canSubmitAuth: React.PropTypes.bool,
+      currentAuthMessage: React.PropTypes.string,
+      children: React.PropTypes.element,
       loggedIn: React.PropTypes.bool,
-      userLoginInfo: React.PropTypes.string,
-      canSubmit: React.PropTypes.bool
+      userLoginInfo: React.PropTypes.string
     };
 
     state = {
@@ -180,16 +197,18 @@ showLoginPopover(key, e) {
                           validator => validator(value) );
     if (validEntry) {
       this.state.validations[this.state.loginOrSignup][key] = true;
+      this.props.actions.displayAuthMessage('');
     } else if (!validEntry) {
       this.state.validations[this.state.loginOrSignup][key] = false;
+      this.props.actions.displayAuthMessage(key);
     }
 
     const shouldEnable = _.every(this.state.validations[this.state.loginOrSignup],
                             validation => validation === true );
     if (shouldEnable) {
-      this.props.actions.enableSubmit();
+      this.props.actions.enableSubmit('Auth');
     } else {
-      this.props.actions.disableSubmit();
+      this.props.actions.disableSubmit('Auth');
     }
   }
 
@@ -200,7 +219,7 @@ showLoginPopover(key, e) {
 
 
   render() {
-    const { canSubmit } = this.props;
+    const { canSubmitAuth, currentAuthMessage, loggedIn } = this.props;
 
     return (
       <div className='page-container'>
@@ -216,6 +235,7 @@ showLoginPopover(key, e) {
             }
           iconElementRight={
             <div>
+
               <Link to='/resume'>
                 <FlatButton label='Edit Resume'
                             style={styles.button}
@@ -231,21 +251,21 @@ showLoginPopover(key, e) {
                 </Link>
               : '' }
 
-              {this.props.loggedIn &&
+              {loggedIn &&
                 <FlatButton label='Logout'
                             style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={e => this.handleLogout(e)} />}
-              {!this.props.loggedIn &&
+              {!loggedIn &&
                 <FlatButton label='Login'
                             style={styles.button}
                             backgroundColor={styles.buttonColor}
                             hoverColor={styles.buttonHoverColor}
                             labelStyle={styles.buttonLabelStyle}
                             onClick={(e) => this.showLoginPopover('pop', e)} />}
-              {!this.props.loggedIn &&
+              {!loggedIn &&
                 <FlatButton label='Signup'
                             style={styles.button}
                             backgroundColor={styles.buttonColor}
@@ -266,7 +286,7 @@ showLoginPopover(key, e) {
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'
-                         onChange={e => this.validateField(e, [isDefined, isValidEmail], 'email')}
+                         onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email')}
                          />
               <TextField ref='password'
                          hintText='Password'
@@ -285,9 +305,9 @@ showLoginPopover(key, e) {
                                   size={80}
                                   top={30}
                                   left={250}
-                                  loadingColor={'#009040'} /> :
+                                  loadingColor={styles.spinnerColor} /> :
                 <FlatButton label='Submit'
-                            disabled={!canSubmit}
+                            disabled={!canSubmitAuth}
                             onClick={this.state.loginOrSignup === 'login' ?
                               e => this.handleLogin(e) :
                               e => this.handleSignup(e)} />}
@@ -304,10 +324,10 @@ showLoginPopover(key, e) {
                   Incorrect email or password - please try again.<br/>
                   Perhaps you meant to sign up?
                 </p> : ''}
-              {!canSubmit ?
+              {currentAuthMessage ?
                 <p className='disabled-text'
-                   style={styles.disabledText}>
-                  Please enter valid email and password
+                   style={styles.errorText}>
+                  {currentAuthMessage}
                 </p> : ''}
 
             </div>

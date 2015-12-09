@@ -1,26 +1,45 @@
 import { createReducer } from '../utils';
-import { ENABLE_SUBMIT, DISABLE_SUBMIT } from 'constants/validationConstants';
+import { errorMessages } from 'utils/errorMessages';
+import { DISABLE_SUBMIT,
+         DISPLAY_AUTH_MESSAGE,
+         ENABLE_SUBMIT,
+         UPDATE_ERROR_MESSAGE } from 'constants/validationConstants';
 
 
 const initialState = {
-  canSubmit: false
+  canSubmitAuth: false,
+  canSubmitResume: false,
+  currentAuthMessage: '',
+  currentErrorMessage: ''
 };
 
 export default createReducer(initialState, {
 
-  [ENABLE_SUBMIT]: (state) => {
-    console.log('enabling');
+  [DISABLE_SUBMIT]: (state, payload) => {
+    console.log('disabling');
+    const newState = { ...state };
+    newState['canSubmit' + payload] = false;
+    return newState;
+  },
+
+  [DISPLAY_AUTH_MESSAGE]: (state, payload) => {
     return {
       ...state,
-      canSubmit: true
+      currentAuthMessage: errorMessages[payload]
     };
   },
 
-  [DISABLE_SUBMIT]: (state) => {
-    console.log('disabling');
+  [ENABLE_SUBMIT]: (state, payload) => {
+    console.log('enabling');
+    const newState = { ...state };
+    newState['canSubmit' + payload] = true;
+    return newState;
+  },
+
+  [UPDATE_ERROR_MESSAGE]: (state, payload) => {
     return {
       ...state,
-      canSubmit: false
+      currentErrorMessage: errorMessages[payload]
     };
   }
 
