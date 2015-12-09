@@ -225,7 +225,7 @@ showLoginPopover(key, e) {
       <div className='page-container'>
         <div className='view-container'>
         <AppBar
-          title={<Link to='/' style={styles.name}>Rezable</Link>}
+          title={<Link to='/' style={styles.name}>rezable</Link>}
           style={styles.mainContainer}
           iconElementLeft={
                 <Link to='/' style={styles.name}>
@@ -288,7 +288,7 @@ showLoginPopover(key, e) {
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
                    anchorEl={this.state.anchorEl}
-                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                   anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')}
                    canAutoPosition={false}

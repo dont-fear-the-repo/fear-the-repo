@@ -64,46 +64,6 @@ export default class ResumeSavePrint extends React.Component {
   //   this.handleLoad();
   // }
 
-  // const menuItems = [
-  //   { route: 'get-started', text: 'Get Started' },
-  //   { route: 'customization', text: 'Customization' },
-  //   { route: 'components', text: 'Components' },
-  //   { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
-  //   {
-  //      type: MenuItem.Types.LINK,
-  //      payload: 'https://github.com/callemall/material-ui',
-  //      text: 'GitHub'
-  //   },
-  //   {
-  //      text: 'Disabled',
-  //      disabled: true
-  //   },
-  //   {
-  //      type: MenuItem.Types.LINK,
-  //      payload: 'https://www.google.com',
-  //      text: 'Disabled Link',
-  //      disabled: true
-  //   },
-  // ];
-
-  // //Toggle the LeftNav
-  // this needs to be restyled to not cover the header and footer
-  // this.refs.leftNav.toggle();
-
-  // this relies on a state flag (open=....) to be hidden or show.
-  // //Standard Actions
-  // let standardActions = [
-  //   { text: 'Cancel' },
-  //   { text: 'Submit', onTouchTap: this._onDialogSubmit, ref: 'submit' }
-  // // // ];
-  //       <Dialog
-  //         title="Dialog With Standard Actions"
-  //         actions={[{ text: 'Cancel' }]}
-  //         actionFocus="submit"
-  //         open={this.props.opendialogforyouneedtologin}
-  //         onRequestClose={this._handleRequestClose}>
-  //         The actions in this window are created from the json thats passed in.
-  //       </Dialog>
   showLoadButtonIf(loggedIn, resumeId, serverIsSaving){
     let results = false;
     if ( loggedIn && resumeId !== 'NA' ){
@@ -116,8 +76,6 @@ export default class ResumeSavePrint extends React.Component {
 
   render() {
 
-    // <LeftNav ref="leftNav" docked={true} menuItems={[{ route: 'get-started', text: 'Get Started' }] style={{top: '60px'}} />
-    // <LeftNav ref="leftNav" docked={true} menuItems={menuItems} />
     const saveAnimation = <CircularProgress mode="indeterminate" color={"orange"} size={.3} />;
     const savedConfirm = 'Changes saved!'
     const menuItems = [
