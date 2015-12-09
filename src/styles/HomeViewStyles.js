@@ -32,5 +32,16 @@ export const styles = {
     fontFamily: merriweather,
     margin: '50px',
     marginBottom: '300px'
+  },
+  buttonColor: MasterTheme.white,
+  buttonHoverColor: MasterTheme.orange,
+  buttonLabelStyle: {
+  textTransform: 'none'
+  },
+  button: {
+    marginRight: '30px',
+    marginTop: '400px',
+    fontSize: '30pt',
+    font: muli
   }
-};
+}

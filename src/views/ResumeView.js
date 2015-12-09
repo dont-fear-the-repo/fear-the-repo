@@ -72,11 +72,12 @@ const ActionCreators = {
 const mapStateToProps = (state) => ({
   canSubmitResume: state.validationReducer.canSubmitResume,
   currentErrorMessage: state.validationReducer.currentErrorMessage,
-  currentTheme: state.resumeReducer.resumeTheme, // TODO: maybe should be currentTheme
+  currentTheme: state.resumeReducer.resumeTheme,
   loggedIn: state.titleBarReducer.loggedIn,
   resumeState: state.resumeReducer,
   routerState: state.router,
-  userID: state.titleBarReducer.userID || null // FIXME: this should be 'userId'
+  userID: state.titleBarReducer.userID || null,
+  resumeId: state.titleBarReducer.resumeId || null
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
