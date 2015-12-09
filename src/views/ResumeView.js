@@ -237,7 +237,7 @@ class ResumeView extends React.Component {
   }
 
   render() {
-    const { connectDropTarget, currentErrorMessage } = this.props;
+    const { connectDropTarget } = this.props;
     const { blockChildren } = this.props.resumeState;
 
     return connectDropTarget(
@@ -247,9 +247,6 @@ class ResumeView extends React.Component {
 
         <div className='marginTop'
              style={styles.marginTop} />
-
-        {currentErrorMessage ?
-          <div>{currentErrorMessage}</div> : ''}
 
         <ResumeSavePrint {...this.props}
                          styles={styles}

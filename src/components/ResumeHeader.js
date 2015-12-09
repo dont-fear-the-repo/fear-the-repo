@@ -12,10 +12,12 @@ export default class ResumeHeader extends React.Component {
 
   static propTypes = {
     actions: PropTypes.object,
+    currentErrorMessage: PropTypes.string,
     currentTheme: PropTypes.string,
     handleUpdateLocalState: PropTypes.func,
     resumeThemes: PropTypes.object,
     resumeState: PropTypes.object,
+    styles: PropTypes.object,
     validations: PropTypes.object
   }
 
@@ -42,10 +44,15 @@ export default class ResumeHeader extends React.Component {
   }
 
   render() {
-    const { currentTheme, resumeThemes } = this.props;
+    const { currentErrorMessage, currentTheme, resumeThemes } = this.props;
 
     return (
       <div>
+
+        {currentErrorMessage ?
+          <div style={this.props.styles.errorMessageStyle}>
+            {currentErrorMessage}
+          </div> : ''}
 
         <div>
 
