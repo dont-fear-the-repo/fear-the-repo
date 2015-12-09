@@ -1,6 +1,9 @@
 import { createReducer } from '../utils';
 import Immutable from 'immutable';
 import _ from 'underscore';
+import { dummyResume,
+         blankBulletBlock,
+         blankNoBulletBlock } from 'utils/dummyResume';
 
 import { ADD_BLOCK,
          ADD_BULLET,
@@ -20,151 +23,18 @@ import { ADD_BLOCK,
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
-const initialState = {
-  resumeId: 1,
-  resumeTitle: 'Resume Version Name',
-  resumeTheme: 'Default',
-  serverIsSaving: 'no',
-  clientFormIsDirty: false,
-  resumeHeader: {
-    name: 'Your Name',
-    // profession: 'Profession',
-    city: 'Location', // repurposed as City, ST location
-    // state: 'State',  // removed to avoid having to format the comma
-    displayEmail: 'YourEmail@website.com',
-    phone: '123.456.7890',
-    webLinkedin: 'linkedin.com/in/YourLinkedIn',
-    webOther: 'github.com/YourGithub'
-  },
-  blockChildren: [{
-    blockType: 'bullets',
-    blockId: 1,
-    archived: false,
-    companyName: 'Company Name',
-    jobTitle: 'Bossman',
-    years: '2015',
-    location: 'San Francisco, CA',
-    bulletChildren: [{
-      bulletId: 1,
-      archived: false,
-      parentBlockId: 1,
-      text: 'My first bullet',
-      archived: false
-    }, {
-      bulletId: 2,
-      archived: false,
-      parentBlockId: 1,
-      text: 'Then I productionalized everything, like the Bossman that I am.',
-      archived: false
-    }]
-  }, {
-    blockId: 2,
-    blockType: 'bullets',
-    archived: false,
-    companyName: 'Second Corp.',
-    jobTitle: 'Lackey',
-    years: '2013-2014',
-    location: 'San Francisco, CA',
-    bulletChildren: [{
-      bulletId: 3,
-      archived: false,
-      parentBlockId: 2,
-      text: 'I believe in sentences that end with punctuation',
-      archived: false
-    }, {
-      bulletId: 4,
-      archived: false,
-      parentBlockId: 2,
-      text: 'This is an inflexible belief.',
-      archived: false
-    }]
-  }, {
-    blockId: 3,
-    blockType: 'bullets',
-    archived: false,
-    companyName: 'Third Chance',
-    jobTitle: 'Intern',
-    years: '2011-2012',
-    location: 'San Francisco, CA',
-    bulletChildren: [{
-      bulletId: 5,
-      archived: false,
-      parentBlockId: 3,
-      text: 'Not a great life here, alas.',
-      archived: false
-    }, {
-      bulletId: 6,
-      archived: false,
-      parentBlockId: 3,
-      text: 'But I played with a lot of paperclips!',
-      archived: false
-    }]
-  }],
-  resumeFooter: {
-    school1: {
-      name: 'MakerSquare',
-      degree: 'Advanced Software Engineering Immersive',
-      schoolEndYear: '2015',
-      location: 'San Francisco, CA'
-    },
-    school2: {
-      name: 'UC Berkeley',
-      degree: 'BS in Computer Science',
-      schoolEndYear: '2014',
-      location: 'Berkeley, CA'
-    },
-    personalStatement: 'I really dislike writing my resume, so I could not be happier with Rezable!'
-  }
-};
+const initialState = dummyResume;
 
 export default createReducer(initialState, {
 
   [ADD_BLOCK]: (state, payload) => {
     const newState = { ...state };
-    const blockId = Date.now();
-    const bulletId = Date.now() + 1;
     let newBlock;
 
     if (payload === 'bullets') {
-      newBlock = {
-        blockId: blockId,
-        blockType: 'bullets',
-        archived: false,
-        companyName: 'Company/Project/School Name',
-        jobTitle: 'Job Title / Project Role / Degree',
-        years: 'StartYear - EndYear, if applicable',
-        location: 'City, State / Project URL',
-        bulletChildren: [{
-          bulletId: bulletId + 1,
-          archived: false,
-          parentBlockId: blockId,
-          text: 'New bullet'
-        }, {
-          bulletId: bulletId + 2,
-          archived: false,
-          parentBlockId: blockId,
-          text: 'New bullet'
-        }]
-      };
+      newBlock = blankBulletBlock;
     } else if (payload === 'no bullets') {
-      newBlock = {
-        blockId: blockId,
-        blockType: 'no bullets',
-        archived: false,
-        companyName: 'Heading',
-        location: 'text, if applicable',
-        bulletChildren: [{
-          bulletId: bulletId + 1,
-          archived: false,
-          parentBlockId: blockId,
-          text: 'This won\'t be seen'
-        }, {
-          bulletId: bulletId + 2,
-          archived: false,
-          parentBlockId: blockId,
-          text: 'This won\'t be seen'
-        }]
-      };
+      newBlock = blankNoBulletBlock;
     }
 
     newState.blockChildren.push(newBlock);

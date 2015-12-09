@@ -236,33 +236,7 @@ class ResumeView extends React.Component {
   addBlock(event, type) {
     this.props.actions.addBlock(type);
   }
-/*
 
-{
-          <IconMenu iconButtonElement={
-            <IconButton><MoreVertIcon /></IconButton>
-          }>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help" />
-            <MenuItem primaryText="Sign out" />
-          </IconMenu>
-
-        }
-
-{
-          <IconMenu iconButtonElement={
-            <IconButton>HolaMundo</IconButton>
-          }>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help" />
-            <MenuItem primaryText="Sign out" />
-          </IconMenu>
-
-        }
-
-
-
-*/
 
   render() {
 
@@ -271,7 +245,6 @@ class ResumeView extends React.Component {
 
     return connectDropTarget(
     <div>
-
       <div className='container'
            style={styles.container}
            id='resumeContainer'>
@@ -329,6 +302,7 @@ class ResumeView extends React.Component {
                                                     return (
                                                       <Bullet {...this.props}
                                                               key={bullet.bulletId}
+                                                              styles={styles}
                                                               bulletId={bullet.bulletId}
                                                               parentBlockId={bullet.parentBlockId}
                                                               text={bullet.text}
@@ -366,10 +340,7 @@ class ResumeView extends React.Component {
           <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
                onClick={e => this.addBlock(e, 'no bullets')} />
 
-          <ResumeFooter {...this.props}
-                        styles={styles}
-                        resumeThemes={resumeThemes}
-                        handleUpdateLocalState={this.handleUpdateLocalState} />
+
 
           <div className='marginBottom'
                style={styles.marginBottom} />
@@ -383,3 +354,9 @@ class ResumeView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
+
+// YE OLDE FOOTER:
+// <ResumeFooter {...this.props}
+//               styles={styles}
+//               resumeThemes={resumeThemes}
+//               handleUpdateLocalState={this.handleUpdateLocalState} />

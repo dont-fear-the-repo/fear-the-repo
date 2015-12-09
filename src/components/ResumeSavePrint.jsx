@@ -1,5 +1,18 @@
 import React from 'react';
-import { RaisedButton, TextField, Paper, SelectField, CircularProgress, LeftNav, Dialog } from 'material-ui/lib';
+import { RaisedButton,
+         Paper,
+         FlatButton,
+         Popover,
+         TextField,
+         RefreshIndicator,
+         LeftNav,
+         AppBar,
+         IconButton,
+         IconMenu,
+         MoreVertIcon,
+         MenuItem,
+         SelectField,
+         CircularProgress } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 
 export default class ResumeSavePrint extends React.Component {
@@ -51,46 +64,6 @@ export default class ResumeSavePrint extends React.Component {
   //   this.handleLoad();
   // }
 
-  // const menuItems = [
-  //   { route: 'get-started', text: 'Get Started' },
-  //   { route: 'customization', text: 'Customization' },
-  //   { route: 'components', text: 'Components' },
-  //   { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
-  //   {
-  //      type: MenuItem.Types.LINK,
-  //      payload: 'https://github.com/callemall/material-ui',
-  //      text: 'GitHub'
-  //   },
-  //   {
-  //      text: 'Disabled',
-  //      disabled: true
-  //   },
-  //   {
-  //      type: MenuItem.Types.LINK,
-  //      payload: 'https://www.google.com',
-  //      text: 'Disabled Link',
-  //      disabled: true
-  //   },
-  // ];
-
-  // //Toggle the LeftNav
-  // this needs to be restyled to not cover the header and footer
-  // this.refs.leftNav.toggle();
-
-  // this relies on a state flag (open=....) to be hidden or show.
-  // //Standard Actions
-  // let standardActions = [
-  //   { text: 'Cancel' },
-  //   { text: 'Submit', onTouchTap: this._onDialogSubmit, ref: 'submit' }
-  // // // ];
-  //       <Dialog
-  //         title="Dialog With Standard Actions"
-  //         actions={[{ text: 'Cancel' }]}
-  //         actionFocus="submit"
-  //         open={this.props.opendialogforyouneedtologin}
-  //         onRequestClose={this._handleRequestClose}>
-  //         The actions in this window are created from the json thats passed in.
-  //       </Dialog>
   showLoadButtonIf(loggedIn, resumeId, serverIsSaving){
     let results = false;
     if ( loggedIn && resumeId !== 'NA' ){
@@ -103,11 +76,23 @@ export default class ResumeSavePrint extends React.Component {
 
   render() {
 
-    // <LeftNav ref="leftNav" docked={true} menuItems={[{ route: 'get-started', text: 'Get Started' }] style={{top: '60px'}} />
-    // <LeftNav ref="leftNav" docked={true} menuItems={menuItems} />
     const saveAnimation = <CircularProgress mode="indeterminate" color={"orange"} size={.3} />;
     const savedConfirm = 'Changes saved!'
-
+    const menuItems = [
+      { route: 'get-started', text: 'Get Started' },
+      { route: 'customization', text: 'Customization' },
+      { route: 'components', text: 'Components' },
+      { type: MenuItem.Types.SUBHEADER, text: 'Themes' },
+      {
+         type: MenuItem.Types.LINK,
+         payload: 'https://github.com/callemall/material-ui',
+         text: 'GitHub'
+      },
+      {
+         text: 'Save',
+         disabled: true
+      }
+    ];
     const themes = Object.keys(resumeThemes)
                          .map( (value, index) => ({
                             'index': index,
@@ -115,12 +100,19 @@ export default class ResumeSavePrint extends React.Component {
                          }));
 
     return (
+    <div>
+    <LeftNav  ref="leftNav"
+              docked={false}
+              menuItems={menuItems}
+              style={{paddingTop: '58px', width: '150px'}}/>
+
+
       <div style={this.props.styles.headerContainer}>
 
-        <Paper style={{float:'left'}}>
+        <Paper style={{width:'150px', position: 'absolute', left: '0px', top: '65px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
 
           <SelectField floatingLabelText='Theme'
-                       style={this.props.styles.themeSelectDropdown}
+                       style={{width: '150px'}}
                        floatingLabelStyle={this.props.styles.floatingLabelStyle}
                        underlineStyle={this.props.styles.underlineStyle}
                        underlineFocusStyle={this.props.styles.underlineFocusStyle}
@@ -204,7 +196,7 @@ export default class ResumeSavePrint extends React.Component {
 
 
       </div>
-
+    </div>
     );
   }
 }

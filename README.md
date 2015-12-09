@@ -1,22 +1,13 @@
-# Fear The Repo #
+# Rezable.io #
 
+Quick Links:
 * [MKS Git workflow (Contributing.md)](https://github.com/dont-fear-the-repo/fear-the-repo/CONTRIBUTING.md)
-* [MKS Waffle.io board for gitissues](https://waffle.io/dont-fear-the-repo/fear-the-repo)
-  * Please add what you're working on
-  * Title it in the style of the commits, `[feat]: <Subject> + <description>`
+* [MKS Waffle.io board for issues](https://waffle.io/dont-fear-the-repo/fear-the-repo)
+  * Format: `[feat]: <Subject> + <description>`
     * for example `[fix]: Edit package.json for heroku deploy`
-  * Add labels that apply
-* Google docs:
-  * [User Experience](https://docs.google.com/document/d/14RDEGpsJsEkOgTtGHLJrjvb10u0nh4CDXpbxbuaVh2M/edit)
-  * [Database/architecture](https://docs.google.com/document/d/1iHBleCRqJHEEkgui5CCL8jjCec6oTuwz0xUtFge3WMI/edit)
-  * [Project Proposals and Diagrams](https://docs.google.com/document/d/15q0Lt2Fy0VXXR9gEYoBde-bjTDFyMLDdEvdFN5KIZGc/edit)
-  * [TechNotes whiteboard](https://docs.google.com/document/d/1Xreu_c-Kg74K1OoVIxiu6yM1Bn9thl4ATuJUw9Ax1NM/edit)
-  * [Brainstorming spreadsheet](https://docs.google.com/spreadsheets/d/1EsvvYa5koF6s6rNv4dpVaGud9n5Btmbdy0IsEN_wMh8/edit#gid=0)
-  * [Brainstorming doc](https://docs.google.com/document/d/1M-FmnJfM4x67Epuljv-4uOUwvYMqrGwskUop3BWUJ_g)
-
+  * Add any applicable labels
 
 ---
-
 
 Table of Contents
 -----------------
@@ -39,27 +30,41 @@ Node `^4.0.0` or `^5.0.0` ([npm3](https://www.npmjs.com/package/npm3) recommende
 About
 --------
 
-// TODO: update this
-This is where we talk about the app.
+Rezable.io is a simple, intuitive, drag-and-drop resume builder to easily create and export documents. Users can save their resume for later, and quickly export to PDF.
 
-// TODO: add note regarding boiler plate template
+Some technologies we used:
+  * [React](https://facebook.github.io/react/) for unidirectional data flow and performant UI
+  * [Redux](https://github.com/rackt/redux) architecture for predictable app state, with [react-redux](https://github.com/rackt/react-redux) bindings
+  * [react-router](https://github.com/rackt/react-router) and [redux-router](https://github.com/rackt/redux-router) for routing
+  * [redux-devtools](https://github.com/gaearon/redux-devtools) for time travel debugging
+  * [react-dnd](https://github.com/gaearon/react-dnd) for stateful drag-and-drop UI
+  * [Babel](https://babeljs.io/) to transpile ES6/7 syntax
+  * [Immutable](https://facebook.github.io/immutable-js/) for immutable persistent data structures
+  * [PhantomJS](http://phantomjs.org/) for PDF export
+  * [Webpack](https://webpack.github.io/) for builds/automation, with [eslint](http://eslint.org/) linting and [karma](http://karma-runner.github.io/)/[mocha](https://mochajs.org/)/[chai](http://chaijs.com/) testing
+  * [react-medium-editor](https://github.com/wangzuo/react-medium-editor) for WYSIWYG text editing
+  * [Material-UI](http://www.material-ui.com/#/) React components implementing Google's Material Design
+  * [PostgreSQL](https://github.com/brianc/node-postgres) database with [Sequelize](http://docs.sequelizejs.com/en/latest/) ORM
+  * [bcrypt](https://www.npmjs.com/package/bcrypt-nodejs) for user authentication
+  * [Node](https://nodejs.org/en/)/[Express](http://expressjs.com/en/index.html) server with [redux-thunk](https://github.com/gaearon/redux-thunk) middleware
+
+We built our app off the wonderful [React Redux Starter Kit](https://github.com/davezuko/react-redux-starter-kit) by [David Zukowski](https://github.com/davezuko). Many of the explanatory docs below are directly from his starter kit. Special thanks to [Dan Abramov](https://github.com/gaearon) for his creating Redux, and his extensive contributions to the community. Also thanks to [Erik Rasmussen](https://github.com/erikras/react-redux-universal-hot-example) for the kitten!
 
 Demo
 ----
 
-// TODO: update this
-A demonstration of this app can be seen [running on heroku](https://react-redux.herokuapp.com), which is a deployment of the [heroku branch](https://github.com/erikras/react-redux-universal-hot-example/tree/heroku).
+Check out [Rezable.io](http://www.rezable.io/). Look for the kitten!
 
 
 Getting Started
 ---------------
 
-Just clone the repo and install the necessary node modules:
+Clone the repo and install the necessary node modules:
 
 ```shell
 $ git clone https://github.com/dont-fear-the-repo/fear-the-repo.git
 $ cd fear-the-repo
-$ npm install                   # Install Node modules listed in ./package.json (go get a glass of water, this will be a bit)
+$ npm install                   # Install Node modules listed in ./package.json (go get a beer, this will be a while)
 ```
 
 Usage
@@ -147,7 +152,7 @@ So why not just disable HMR? Well, as a further explanation, enabling `react-tra
 Styles
 ------
 
-All `.scss` imports will be run through the sass-loader and extracted during production builds. Furthermore, the `styles` directory is aliased for sass imports, which further eliminates manual directory traversing; this is especially useful for importing variables/mixins.
+We used CSS-less inline styling for our JSX files, which lives in `src/styling`.
 
 
 Testing
@@ -165,7 +170,6 @@ Having an issue? Please let us know! Report it and we'll get to it as soon as po
 Contributing
 ------------
 
-// TODO: we should mention the original project here (with links) and thank the creator!
 If you would like to submit a pull request, please make an effort to follow the guide in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 

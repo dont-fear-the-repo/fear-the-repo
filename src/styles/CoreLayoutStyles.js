@@ -7,13 +7,19 @@ const errorTextMargin = '20px 0 0 30px';
 
 export const styles = {
   mainContainer: {
-    backgroundColor: MasterTheme.darkGray
+    backgroundColor: MasterTheme.darkGray,
+    zIndex: 100
   },
   buttonColor: MasterTheme.white,
   buttonHoverColor: MasterTheme.orange,
   name: {
     fontFamily: font,
-    color: MasterTheme.orange
+    color: MasterTheme.orange,
+    fontStyle: 'none',
+    fontSize: '36px',
+    fontWeight: MasterTheme.bold,
+    marginTop: '30px',
+    letterSpacing: '3px'
   },
   buttonLabelStyle: {
     textTransform: 'none'

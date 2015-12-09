@@ -41,62 +41,70 @@ export default class ResumeHeader extends React.Component {
   }
 
   render() {
-    const { currentErrorMessage, currentTheme, resumeThemes } = this.props;
+    const { currentErrorMessage,
+            currentTheme,
+            resumeThemes } = this.props;
+    const { resumeHeader } = this.props.resumeState;
 
     return (
       <div style={resumeThemes[currentTheme].headerDiv}>
-
-        <div style={resumeThemes[currentTheme].headerLeft}>
-
-            <Editor style={resumeThemes[currentTheme].name}
-                  text={this.props.resumeState.resumeHeader.name}
-                  options={{toolbar: false}}
-                  onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
 
         {currentErrorMessage ?
           <div style={this.props.styles.errorMessageStyle}>
             {currentErrorMessage}
           </div> : ''}
 
-        <div>
+        <div style={resumeThemes[currentTheme].headerLeft}>
 
-            <Editor style={resumeThemes[currentTheme].location}
-                    text={this.props.resumeState.resumeHeader.city}
-                    options={{toolbar: false}}
-                    onBlur={e => this.validateField(e, [isDefined], 'city', 'header')} />
+          <Editor style={resumeThemes[currentTheme].name}
+                text={resumeHeader.name || 'Your Full Name'}
+                options={{toolbar: false}}
+                onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
 
-        <div>
-          <Editor style={resumeThemes[currentTheme].phone}
+          <Editor style={resumeThemes[currentTheme].location}
+                  text={resumeHeader.city || 'Your City, ST'}
                   options={{toolbar: false}}
-                  text={this.props.resumeState.resumeHeader.phone}
-                  onBlur={e => this.validateField(e, [isDefined], 'phone', 'header')} />
+                  onBlur={e => this.validateField(e, [isDefined], 'city', 'header')} />
 
+          <div>
+
+            <Editor style={resumeThemes[currentTheme].phone}
+                    text={resumeHeader.phone || 'Your Phone Number'}
+                    options={{toolbar: false}}
+                    onBlur={e => this.validateField(e, [isDefined], 'phone', 'header')} />
 
             <div style={resumeThemes[currentTheme].headerPipe}>
               |
             </div>
 
-          <Editor style={resumeThemes[currentTheme].email}
-                  options={{toolbar: false}}
-                  text={this.props.resumeState.resumeHeader.displayEmail}
-                  onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email', 'header')} />
+            <Editor style={resumeThemes[currentTheme].email}
+                    text={resumeHeader.displayEmail || 'Your Email Address'}
+                    options={{toolbar: false}}
+                    onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email', 'header')} />
 
-        </div>
+          </div>
         </div>
 
         <div style={resumeThemes[currentTheme].headerRight}>
-           <Editor style={resumeThemes[currentTheme].webLinkedin}
-                options={{toolbar: false}}
-                text={this.props.resumeState.resumeHeader.webLinkedin}
-                onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
 
-            <Editor style={resumeThemes[currentTheme].webOther}
-                    options={{toolbar: false}}
-                    text={this.props.resumeState.resumeHeader.webOther}
-                    onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
-          </div>
+          <Editor style={resumeThemes[currentTheme].webLinkedin}
+                  text={resumeHeader.webLinkedin || 'LinkedIn.com/in/...'}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
+
+          <Editor style={resumeThemes[currentTheme].webOther}
+                  text={resumeHeader.webOther || 'Other web links (Github, Behance, etc)'}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
+
         </div>
+
       </div>
     );
   }
 }
+
+ // <Editor style={resumeThemes[currentTheme].profession}
+//         text={resumeHeader.profession || 'Your Profession or Job Title'}
+//         options={{toolbar: false}}
+//         onBlur={e => this.props.handleUpdateLocalState(e, 'profession', 'header')} />
