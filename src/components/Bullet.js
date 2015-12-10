@@ -128,12 +128,12 @@ export default class Bullet extends React.Component {
                     onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', bulletId, parentBlockId)} />
 
             {Radium.getState(this.state, 'bullet', ':hover') ? (
-            <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+            <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
                  onClick={e => this.hideBullet(e, bulletId)} />
               ) : null}
 
             {Radium.getState(this.state, 'bullet', ':hover') ? (
-            <img src='styles/assets/drag-vertical.png' style={styles.handle} />
+            <img src={require('styles/assets/drag-vertical.png')} style={styles.handle} />
               ) : null}
           </Paper>
 
@@ -146,12 +146,12 @@ export default class Bullet extends React.Component {
                     onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', bulletId, parentBlockId)} />
 
             {Radium.getState(this.state, 'bullet', ':hover') ? (
-            <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+            <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
                  onClick={e => this.hideBullet(e, bulletId)} />
               ) : null}
 
             {Radium.getState(this.state, 'bullet', ':hover') ? (
-            <img src='styles/assets/drag-vertical.png' style={styles.handle} />
+            <img src={require('styles/assets/drag-vertical.png')} style={styles.handle} />
               ) : null}
           </div>}
 
