@@ -49,6 +49,14 @@ export const styles = {
     marginBottom: '0',
     marginRight: '20px'
   },
+  exportButton: {
+    margin: '5px',
+    float: 'right',
+    marginTop: '40px',
+    marginBottom: '0',
+    marginRight: '17px',
+    padding: '0 0px'
+  },  
   textCenter: {
     margin: '20px',
     backgroundColor: MasterTheme.lightGray

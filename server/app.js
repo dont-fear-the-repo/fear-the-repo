@@ -20,7 +20,7 @@ app.use(historyApiFallback({
   verbose : false
 }));
 
-if (config.env === 'dvelopment') {
+if (config.env === 'development') {
     const webpack = require('webpack');
     const webpackConfig = require('../build/webpack/development_hot');
     const compiler = webpack(webpackConfig);

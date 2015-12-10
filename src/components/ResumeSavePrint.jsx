@@ -59,9 +59,9 @@ export default class ResumeSavePrint extends React.Component {
   }
 
   handlePrint() {
-    const prtContent = document.getElementById('resumeContainer',printStyles);
+    const prtContent = document.getElementById('resumeContainer') 
     const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-    WinPrint.document.write(prtContent.innerHTML + '<style>div {  border-radius: 0px !important; box-shadow: none !important; }</style>');
+    WinPrint.document.write(prtContent.innerHTML+ printStyles);
     WinPrint.document.close();
     WinPrint.focus();
     WinPrint.print();
@@ -157,7 +157,7 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
 
         <RaisedButton label='Export Resume'
-                      style={this.props.styles.printButton}
+                      style={this.props.styles.exportButton}
                       labelStyle={this.props.styles.buttonLabelStyle}
                       onClick={e => this.handleExport(e)} />
                         <br />
@@ -166,7 +166,7 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
 
           <RaisedButton label='Print Resume'
-                        style={this.props.styles.exportButton}
+                        style={this.props.styles.printButton}
                         labelStyle={this.props.styles.buttonLabelStyle}
                         onClick={e => this.handlePrint(e)} />
                         <br />
