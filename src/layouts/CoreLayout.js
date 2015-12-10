@@ -255,12 +255,12 @@ showLoginPopover(key, e) {
               : '' }
             */}
               {loggedIn &&
-                <FlatButton label='Logout'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            hoverColor={styles.buttonHoverColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            onClick={e => this.handleLogout(e)} />}
+
+                <div style={styles.loginButton}
+                     onClick={(e) => this.handleLogout(e)}>
+                  Logout
+                </div>}
+
               {!loggedIn &&
 
                 <div style={styles.loginButton}
@@ -277,10 +277,6 @@ showLoginPopover(key, e) {
 
             </div>
             } /> {/* End of the AppBar */}
-
-
-
-
 
 
           <div>

@@ -6,7 +6,7 @@ const buttonTopMargin = '4px';
 const errorTextMargin = '20px 0 0 30px';
 
 export const styles = {
-   editResumeButton: {
+  editResumeButton: {
     borderRadius: '5px',
     color: MasterTheme.orange,
     display: 'inline-block',
@@ -29,13 +29,13 @@ export const styles = {
     cursor: 'pointer',
     display: 'inline-block',
     position: 'relative',
-    marginRight: '20px',
+    marginRight: '10px',
     marginTop: '4px',
-    padding: '6px 20px 10px 20px',
+    padding: '8px 20px 10px 20px',
     borderColor: 'white',
     borderStyle: 'solid',
     borderWidth: '2px',
-    fontSize: '18px',
+    fontSize: '16px',
     height: '40px',
     width: '100px',
     textAlign: 'center',
@@ -49,11 +49,11 @@ export const styles = {
     position: 'relative',
     marginRight: '10px',
     marginTop: '4px',
-    padding: '6px 20px 10px 20px',
+    padding: '8px 20px 10px 20px',
     borderColor: 'white',
     borderStyle: 'solid',
     borderWidth: '2px',
-    fontSize: '18px',
+    fontSize: '16px',
     height: '40px',
     width: '100px',
     textAlign: 'center',

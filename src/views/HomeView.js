@@ -33,8 +33,6 @@ class HomeView extends React.Component {
           Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.           Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.           Simple, intuitive, drag-and-drop resume builder to easily create and export beautiful resumes. Focus on your content, not on your margins.
         </div>
 
-
-
       </div>
     );
   }
