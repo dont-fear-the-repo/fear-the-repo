@@ -35,19 +35,16 @@ export const styles = {
   buttonLabelStyle: {
     textTransform: 'none'
   },
-  saveButton: {
-    margin: '5px',
-    float: 'right',
-    marginRight: '15px',
-    marginTop: '30px',
-    marginBottom: '0'
+  paperLeftNavButton: {
+    marginTop: '30px'
   },
-  printButton: {
-    margin: '5px',
-    float: 'right',
-    marginTop: '30px',
-    marginBottom: '0',
-    marginRight: '20px'
+  paperLeftNavThemeButton: {
+
+  },
+  paperLeftNavLabel: {
+    color: MasterTheme.orange,
+    font: font,
+    marginBottom: '10px'
   },
   textCenter: {
     margin: '20px',
