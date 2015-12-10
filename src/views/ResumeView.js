@@ -246,8 +246,7 @@ class ResumeView extends React.Component {
     return connectDropTarget(
     <div>
       <div className='container'
-           style={styles.container}
-           id='resumeContainer'>
+           style={styles.container}>
            <ResumeSavePrint {...this.props}
                             styles={styles}
                             validations={this.state.validations}
@@ -264,7 +263,7 @@ class ResumeView extends React.Component {
              style={styles.marginTop} />
 
 
-        <Paper style={styles.resumePaper}>
+        <Paper style={styles.resumePaper} id='resumeContainer'>
 
           <ResumeHeader {...this.props}
                         styles={styles}
