@@ -1,5 +1,9 @@
 require('babel/register');
-// connect to database.
+// connect to database
+import passport from "passport";
+import PassportLinkedin from 'passport-linkedin';
+import cookieParser from 'cookie-parser'
+const LinkedinStrategy =  PassportLinkedin.Strategy
 const dbSchema = require('../database/dbSchema.js');
 const historyApiFallback = require('connect-history-api-fallback');
 const config = require('../config');
@@ -16,9 +20,68 @@ const app = express();
 
 // Enable webpack middleware if the application is being
 // run in development mode.
-app.use(historyApiFallback({
-  verbose : false
+app.use(parser.json());
+
+app.use(session({
+  secret: "Backend is fun because I don't have to deal with React",
+  resave: false,
+  saveUninitialized: true
 }));
+
+
+app.use(historyApiFallback({
+  verbose : false,
+    rewrites: [
+    {
+      from: '/linkedin',
+      to: function(context) {
+        console.log('This is the context',context.parsedUrl.pathname)
+        return context.parsedUrl.pathname;
+      }
+    }
+  ]
+}));
+
+/////////////////////////////////////////////////////////////////
+//                                                             //
+//  Linkedin Authorization passport                            //
+//                                                             //
+/////////////////////////////////////////////////////////////////
+
+
+app.use(passport.initialize());
+app.use(cookieParser());
+passport.use( new LinkedinStrategy({  // request fields from facebook
+  profileFields: ['summary','industry','positions','headline','picture-url','first-name','last-name','location'],
+  consumerKey: '75wbm6jxhrsauj',
+  consumerSecret: 'qz9SGDHb53Hi6tnU',
+  callbackURL: '/linkedin'
+  //enableProof: false
+  },
+    (accessToken, refreshToken, profile, done) => {
+      console.log('Im hit')
+    setTimeout(() => {
+      console.log("Im hit")
+      return done(null, profile);
+    },0);
+  }
+));
+passport.serializeUser((user, done) => { // serialization is necessary for persistent sessions
+  done(null, user);
+});
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+app.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_basicprofile'] }), (req,res) => {
+  console.log("This is the json object",res.req.user._json)
+  
+  console.log("This is my summary",res.req.user._json.summary);
+  console.log("These are my postions",res.req.user._json.positions);
+  console.log("This is the industry",res.req.user._json.industry);
+  console.log("This is the company(s)",res.req.user._json.company);
+  res.redirect('/resume');
+  });
+
 
 if (config.env === 'development') {
     const webpack = require('webpack');
@@ -46,15 +109,6 @@ if (config.env === 'development') {
 //  Authentication for the server, create sessions API         //
 //                                                             //
 /////////////////////////////////////////////////////////////////
-
-
-app.use(parser.json());
-
-app.use(session({
-  secret: "Backend is fun because I don't have to deal with React",
-  resave: false,
-  saveUninitialized: true
-}));
 
 app.post('/authentication', utils.checkUser);
 
