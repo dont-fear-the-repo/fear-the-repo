@@ -42,7 +42,7 @@ class HomeView extends React.Component {
             <div style={styles.topCopy}>
               <div>What-You-See-Is-What-You-Get.</div>
               <div>Drag-and-drop.</div>
-              <div>See exactly what your printed resume looks like as you edit.</div>
+              <div>See exactly what your printed resume will look like as you edit.</div>
             </div>
 
             <div style={styles.video}>
