@@ -38,6 +38,7 @@ class HomeView extends React.Component {
   }
 }
 
+export default connect(mapStateToProps, mapDispatchToProps)(HomeView);
 
         // <div style={styles.heroDiv}>
         //   <div style={{ height: '1px' }} />
@@ -58,4 +59,3 @@ class HomeView extends React.Component {
 //   <RaisedButton label='Increment'
 //                 onClick={this.props.actions.increment} />
 // </div>
-export default connect(mapStateToProps, mapDispatchToProps)(HomeView);
