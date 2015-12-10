@@ -19,7 +19,8 @@ import { ADD_BLOCK,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
-         UPDATE_RESUME_WITH_SERVER_RESPONSE } from 'constants/resumeConstants';
+         UPDATE_RESUME_WITH_SERVER_RESPONSE,
+         UPDATE_THESAURUS_RESULTS } from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
@@ -139,6 +140,12 @@ export default createReducer(initialState, {
   [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
     const newState = Object.assign({}, state);
     newState[payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_THESAURUS_RESULTS]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState['thesaurusResults'] = payload;
     return newState;
   },
 
