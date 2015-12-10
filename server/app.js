@@ -6,15 +6,21 @@ const config = require('../config');
 const parser = require('body-parser');
 const session = require('express-session');
 const utils = require('./lib/utils');
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt-nodejs');
+const pdf = require('html-pdf');
 const Promise = require('bluebird');
 const db = require('../database/dbConfig.js');
 const _ = require('underscore');
-const app = require('express')();
+const express = require('express');
+const app = express();
 
 // Enable webpack middleware if the application is being
 // run in development mode.
-if (config.env === 'development') {
+app.use(historyApiFallback({
+  verbose : false
+}));
+
+if (config.env === 'dvelopment') {
     const webpack = require('webpack');
     const webpackConfig = require('../build/webpack/development_hot');
     const compiler = webpack(webpackConfig);
@@ -243,6 +249,21 @@ app.post('/api/resume/update', (req, res) => {
         });
     });
 });
+
+//Export PDF
+
+app.post('/api/resume/export', function (req, res) {
+
+  var filename = "";
+  for (var i = 0; i < 16 ; i++){
+    filename += Math.floor(Math.random()*10)
+  }
+  var fileToSend = __dirname.slice(0,-7) + '/dist/pdf/' + filename + '.pdf'
+  pdf.create(req.body.resume).toFile(fileToSend, function(err, resData) {
+    res.send(resData);
+  });
+})
+
 
 // // Mel Test Endpoint
 // // curl -H "Content-Type: application/json" -X POST -d '{"email":"test@gmail.com"}' http://localhost:3000/api/resume/giveMeTestResume
