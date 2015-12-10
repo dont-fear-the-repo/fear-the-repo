@@ -74,6 +74,11 @@ export default class ResumeSavePrint extends React.Component {
     this.props.actions.updateLocalState({textFieldName, userInput});
   }
 
+  handleThesaurus() {
+    this.props.actions.getThesaurusResultsAsync(this.props.resumeState.thesaurusQuery);
+    console.log("searching for: ", this.props.resumeState.thesaurusQuery)
+  }
+
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
   // Do no run unless we decied to put some logic in to deal with unlogged in users, or clientIsDirty=true
   // componentDidMount() {
@@ -145,8 +150,8 @@ export default class ResumeSavePrint extends React.Component {
                         style={this.props.styles.paperLeftNavButton}
                         labelStyle={this.props.styles.buttonLabelStyle}
                         onClick={e => this.handleExport(e)} />
-
-          <a href='/linkedin'>Import Data from Linkedin</a>
+          <br /><br />
+          <a href='/linkedin'>Import Data from LinkedIn</a>
 
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
@@ -170,6 +175,22 @@ export default class ResumeSavePrint extends React.Component {
 
           })}
           </div>
+
+          <TextField floatingLabelText='Thesaurus'
+                     floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                     style={{width: '150px'}}
+                     underlineStyle={this.props.styles.underlineStyle}
+                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                     backgroundColor={'white'}
+                     fullWidth={false}
+                     hintStyle={this.props.styles.hintStyle}
+                     hintText={this.props.resumeState.resumeTitle}
+                     onBlur={e => this.props.handleUpdateLocalState(e, 'thesaurusQuery', 'savePrint')} />
+          <RaisedButton label='Search'
+                                 style={this.props.styles.paperLeftNavButton}
+                                 labelStyle={this.props.styles.buttonLabelStyle}
+                                 onClick={e => this.handleThesaurus(e)} />
+
         </Paper>
 
           {/*
