@@ -18,71 +18,71 @@ export const dummyResume = {
     webOther: ''
   },
   blockChildren: [{
-      blockId: blockId,
+      blockId: 1,
       blockType: 'no bullets',
       archived: false,
       companyName: 'Technical Skills',
       location: '[Your technical skills]',
       bulletChildren: [{
-        bulletId: bulletId + 1,
+        bulletId: 101,
         archived: false,
-        parentBlockId: blockId,
+        parentBlockId: 1,
         text: 'fake bullet for UI bug'
       }, {
-        bulletId: bulletId + 2,
+        bulletId: 102,
         archived: false,
-        parentBlockId: blockId,
+        parentBlockId: 1,
         text: 'fake bullet for UI bug'
       }]
     },
 
     {
-      blockId: blockId + 1,
+      blockId: 2,
       blockType: 'no bullets',
       archived: false,
       companyName: 'Recent Projects',
       location: '',
       bulletChildren: [{
-        bulletId: bulletId + 3,
+        bulletId: 103,
         archived: false,
-        parentBlockId: blockId + 1,
+        parentBlockId: 2,
         text: 'fake bullet for UI bug'
       }, {
-        bulletId: bulletId + 4,
+        bulletId: 104,
         archived: false,
-        parentBlockId: blockId + 1,
+        parentBlockId: 2,
         text: 'fake bullet for UI bug'
       }]
     },
 
     {
       blockType: 'bullets',
-      blockId: blockId + 2,
+      blockId: 3,
       archived: false,
       companyName: '[Project Name]',
       jobTitle: '[Role]',
       years: '2015',
       location: 'San Francisco, CA',
       bulletChildren: [{
-        bulletId: bulletId + 5,
+        bulletId: 105,
         archived: false,
-        parentBlockId: blockId + 2,
+        parentBlockId: 3,
         text: '[contribution to project]'
       }, {
-        bulletId: bulletId + 6,
+        bulletId: 106,
         archived: false,
-        parentBlockId: blockId + 2,
+        parentBlockId: 3,
         text: '[contribution to project]'
       }, {
-        bulletId: bulletId + 7,
+        bulletId: 107,
         archived: false,
-        parentBlockId: blockId + 2,
+        parentBlockId: 3,
         text: '[contribution to project]'
       }]
     },
 
     {
-      blockId: blockId + 3,
+      blockId: 4,
       blockType: 'bullets',
       archived: false,
       companyName: '[Project Name]',
@@ -90,39 +90,39 @@ export const dummyResume = {
       years: '2014',
       location: 'Portland, OR',
       bulletChildren: [{
-        bulletId: bulletId + 8,
+        bulletId: 108,
         archived: false,
-        parentBlockId: blockId + 3,
+        parentBlockId: 4,
         text: '[contribution to project]'
       }, {
-        bulletId: bulletId + 9,
+        bulletId: 109,
         archived: false,
-        parentBlockId: blockId + 3,
+        parentBlockId: 4,
         text: '[contribution to project]'
       }]
     },
 
     {
-      blockId: blockId + 4,
+      blockId: 5,
       blockType: 'no bullets',
       archived: false,
       companyName: 'Professional Experience',
       location: '',
       bulletChildren: [{
-        bulletId: bulletId + 10,
+        bulletId: 110,
         archived: false,
-        parentBlockId: blockId + 4,
+        parentBlockId: 5,
         text: 'fake bullet for UI bug'
       }, {
-        bulletId: bulletId + 11,
+        bulletId: 111,
         archived: false,
-        parentBlockId: blockId + 4,
+        parentBlockId: 5,
         text: 'fake bullet for UI bug'
       }]
     },
 
     {
-      blockId: blockId + 5,
+      blockId: 6,
       blockType: 'bullets',
       archived: false,
       companyName: '[Company Name]',
@@ -130,20 +130,20 @@ export const dummyResume = {
       years: '[Years worked]',
       location: 'Austin, TX',
       bulletChildren: [{
-        bulletId: bulletId + 8,
+        bulletId: 112,
         archived: false,
-        parentBlockId: blockId + 5,
+        parentBlockId: 6,
         text: '[responsibility]'
       }, {
-        bulletId: bulletId + 9,
+        bulletId: 113,
         archived: false,
-        parentBlockId: blockId + 5,
+        parentBlockId: 6,
         text: '[accomplishment]'
       }]
     },
 
     {
-      blockId: blockId + 6,
+      blockId: 7,
       blockType: 'bullets',
       archived: false,
       companyName: '[Company Name]',
@@ -151,39 +151,39 @@ export const dummyResume = {
       years: '[Years worked]',
       location: 'Seattle, WA',
       bulletChildren: [{
-        bulletId: bulletId + 8,
+        bulletId: 114,
         archived: false,
-        parentBlockId: blockId + 6,
+        parentBlockId: 7,
         text: '[responsibility]'
       }, {
-        bulletId: bulletId + 9,
+        bulletId: 115,
         archived: false,
-        parentBlockId: blockId + 6,
+        parentBlockId: 7,
         text: '[accomplishment]'
       }]
     },
 
     {
-      blockId: blockId + 7,
+      blockId: 8,
       blockType: 'no bullets',
       archived: false,
       companyName: 'Education',
       location: '',
       bulletChildren: [{
-        bulletId: bulletId + 10,
+        bulletId: 116,
         archived: false,
-        parentBlockId: blockId + 7,
+        parentBlockId: 8,
         text: 'fake bullet for UI bug'
       }, {
-        bulletId: bulletId + 11,
+        bulletId: 117,
         archived: false,
-        parentBlockId: blockId + 7,
+        parentBlockId: 8,
         text: 'fake bullet for UI bug'
       }]
     },
 
     {
-      blockId: blockId + 8,
+      blockId: 9,
       blockType: 'bullets',
       archived: false,
       companyName: '[School Name]',
@@ -194,20 +194,20 @@ export const dummyResume = {
     },
 
     {
-      blockId: blockId + 9,
+      blockId: 10,
       blockType: 'no bullets',
       archived: false,
       companyName: 'Personal Interests',
       location: '[Your personal interests]',
       bulletChildren: [{
-        bulletId: bulletId + 12,
+        bulletId: 118,
         archived: false,
-        parentBlockId: blockId + 9,
+        parentBlockId: 10,
         text: 'fake bullet for UI bug'
       }, {
-        bulletId: bulletId + 13,
+        bulletId: 119,
         archived: false,
-        parentBlockId: blockId + 9,
+        parentBlockId: 10,
         text: 'fake bullet for UI bug'
       }],
       resumeFooter: {
