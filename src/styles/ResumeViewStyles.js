@@ -53,7 +53,7 @@ export const styles = {
     marginBottom: '0',
     marginRight: '17px',
     padding: '0 0px'
-  },  
+  },
   textCenter: {
     margin: '20px',
     backgroundColor: MasterTheme.lightGray
@@ -88,7 +88,11 @@ export const styles = {
   },
   hintStyle: {
     color: MasterTheme.lightGray,
-    paddingLeft: '8px'
+    paddingLeft: '20px',
+    border: 'solid',
+    borderColor: MasterTheme.orange,
+    borderRadius: '6px',
+    padding: '10px'
   },
   floatingLabelStyle: {
     color: MasterTheme.orange,
@@ -118,6 +122,9 @@ export const styles = {
   handle: {
     cursor: 'move',
     float: 'right',
+  },
+  thesaurusResults: {
+    color: MasterTheme.orange
   }
   // ,
   // leftNav: {

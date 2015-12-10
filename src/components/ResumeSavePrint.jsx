@@ -16,6 +16,8 @@ import { RaisedButton,
 import { resumeThemes } from 'styles/resumeThemes';
 import { printStyles } from  'styles/PrinterStyles';
 import $ from 'jquery';
+import _ from 'underscore';
+
 export default class ResumeSavePrint extends React.Component {
 
   handleLoad() {
@@ -161,41 +163,77 @@ export default class ResumeSavePrint extends React.Component {
             </div>
           }
 
-          <div style={{marginTop: '60px', marginBottom: '20px'}}>
-          <div style={this.props.styles.paperLeftNavLabel}>
-          Resume Themes
+          <div style={{marginTop: '30px', marginBottom: '20px'}}>
+            <div style={this.props.styles.paperLeftNavLabel}>
+            Resume Themes
+            </div>
+            {themes.map(theme => {
+                            return (
+                              <FlatButton label={theme.text}
+                                          key={theme.text}
+                                          style={this.props.styles.paperLeftNavThemeButton}
+                                          labelStyle={this.props.styles.buttonLabelStyle}
+                                          onClick={e => this.handleChangeTheme(e)}/>
+                            );
+
+            })}
           </div>
-          {themes.map(theme => {
-                          return (
-                            <FlatButton label={theme.text}
-                                        style={this.props.styles.paperLeftNavThemeButton}
-                                        labelStyle={this.props.styles.buttonLabelStyle}
-                                        onClick={e => this.handleChangeTheme(e)}/>
-                          );
 
-          })}
+          <div style={{marginTop: '30px', marginBottom: '20px'}}>
+            <div style={this.props.styles.paperLeftNavLabel}>
+            Thesaurus
+            </div>
+            <TextField floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                       style={{width: '150px'}}
+                       underlineStyle={this.props.styles.underlineStyle}
+                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                       backgroundColor={'white'}
+                       fullWidth={false}
+                       hintStyle={this.props.styles.hintStyle}
+                       hintText='Find Synonyms'
+                       onBlur={e => this.props.handleUpdateLocalState(e, 'thesaurusQuery', 'savePrint')} />
+            <RaisedButton label='Search'
+                                   labelStyle={this.props.styles.buttonLabelStyle}
+                                   onClick={e => this.handleThesaurus(e)} />
+            <div style={this.props.styles.thesaurusResults}>
+            { _.map(this.props.resumeState.thesaurusResults, verbOrNoun => {
+              return (<span>{verbOrNoun.syn.toString().split(',').join(', ') + ' '}</span>)
+              }
+              )}
+            </div>
           </div>
-
-          <TextField floatingLabelText='Thesaurus'
-                     floatingLabelStyle={this.props.styles.floatingLabelStyle}
-                     style={{width: '150px'}}
-                     underlineStyle={this.props.styles.underlineStyle}
-                     underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                     backgroundColor={'white'}
-                     fullWidth={false}
-                     hintStyle={this.props.styles.hintStyle}
-                     hintText={this.props.resumeState.resumeTitle}
-                     onBlur={e => this.props.handleUpdateLocalState(e, 'thesaurusQuery', 'savePrint')} />
-          <RaisedButton label='Search'
-                                 style={this.props.styles.paperLeftNavButton}
-                                 labelStyle={this.props.styles.buttonLabelStyle}
-                                 onClick={e => this.handleThesaurus(e)} />
-
         </Paper>
 
           {/*
 
 Junk code: remove on Friday clean up. Used to store various tests and ideas.
+
+
+
+            { _.map(this.props.resumeState.thesaurusResults, verbOrNoun => {
+              _.map(verbOrNoun, relOrSyn =>
+                relOrSyn.forEach(word =>
+                  console.log(word)
+                  )
+                )
+              }
+              )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <SelectField floatingLabelText='Theme'
                        style={{width: '150px'}}
