@@ -110,7 +110,7 @@ export default class Heading extends React.Component {
 
         {Radium.getState(this.state, 'heading', ':hover') ? (
           <Paper>
-            <Editor style={resumeThemes[currentTheme].companyName}
+            <Editor style={resumeThemes[currentTheme].headingTitle}
                     text={this.props.companyName}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
@@ -124,7 +124,7 @@ export default class Heading extends React.Component {
             ) :
 
           <div>
-            <Editor style={resumeThemes[currentTheme].companyName}
+            <Editor style={resumeThemes[currentTheme].headingTitle}
                     text={this.props.companyName}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
