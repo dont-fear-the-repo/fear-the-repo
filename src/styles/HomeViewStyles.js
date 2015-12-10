@@ -12,36 +12,75 @@ export const styles = {
   heroImg: {
     width: '100%'
   },
-  heroDiv: {
-    height: '200px',
-    width: '100%',
-    backgroundColor: MasterTheme.midGray,
-    color: MasterTheme.white
-  },
-  mainTitle: {
-    fontSize: '36pt',
-    margin: '25px'
-  },
-  tagline: {
-    fontStyle: 'italic',
-    fontSize: '24pt',
-    fontWeight: MasterTheme.light,
-    margin: '20px'
-  },
   copy: {
     fontFamily: merriweather,
-    margin: '50px',
-    marginBottom: '300px'
+    textAlign: 'center',
+    fontSize: '20pt'
   },
-  buttonColor: MasterTheme.white,
-  buttonHoverColor: MasterTheme.orange,
+  grayDivTop: {
+    backgroundColor: MasterTheme.lightGray,
+    width: '100%',
+    height: '120px'
+  },
+  whiteDiv: {
+    backgroundColor: MasterTheme.white,
+    width: '100%',
+    padding: '20px',
+    fontSize: '14pt',
+    textAlign: 'center'
+  },
+  grayDivBottom: {
+    backgroundColor: MasterTheme.lightGray,
+    width: '100%',
+    paddingTop: '30px',
+    paddingBottom: '50px'
+  },
+  topCopy: {
+    width: '65%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingTop: '30px',
+    paddingBottom: '30px'
+  },
+  middleCopy: {
+    width: '65%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingTop: '30px',
+    paddingBottom: '30px'
+  },
+  video: {
+    borderRadius: '5px',
+    borderColor: 'black',
+    borderStyle: 'dashed',
+    borderWidth: '2px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '20px',
+    width: '400px',
+    height: '250px',
+    marginTop: '20px'
+  },
+  bottomCopy: {
+    marginBottom: '30px'
+  },
+  buttonPaper: {
+    width: '300px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: '5px'
+  },
+  buttonColor: MasterTheme.orange,
+  buttonHoverColor: MasterTheme.white,
   buttonLabelStyle: {
-  textTransform: 'none'
+    textTransform: 'none'
   },
   button: {
-    marginRight: '30px',
-    marginTop: '400px',
-    fontSize: '30pt',
-    font: muli
-  }
+    width: '100%',
+    padding: '8px',
+    font: muli,
+    fontSize: '24pt',
+    fontStyle: 'italic',
+    borderRadius: '5px'
+  },
 }
