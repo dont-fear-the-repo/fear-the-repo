@@ -35,7 +35,10 @@ class HomeView extends React.Component {
 
           {Radium.getState(this.state, 'circle', 'hover')}
           <Link to='AboutUs' spy={true} smooth={true} duration={600}>
-            <div style={styles.circle} key='circle'></div>
+            <div style={styles.circle} key='circle'>
+              <img src={require('styles/assets/downArrow.png')}
+                style={styles.downArrow} />
+            </div>
           </Link>
 
         </div>
