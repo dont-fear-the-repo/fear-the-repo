@@ -335,9 +335,9 @@ class ResumeView extends React.Component {
                         }
           })}
 
-          <img src='styles/assets/ic_playlist_add_black_24px.svg'
+          <img src={require('styles/assets/ic_playlist_add_black_24px.svg')}
                onClick={e => this.addBlock(e, 'bullets')} />
-          <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
+          <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
                onClick={e => this.addBlock(e, 'no bullets')} />
 
 

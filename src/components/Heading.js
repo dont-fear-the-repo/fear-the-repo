@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
-
+import Radium from 'radium';
 
 /******************************/
 /*   Begin DnD requirements   */
@@ -43,6 +43,8 @@ const headingTarget = {
     const { blockId: draggedId } = monitor.getItem();
     const { blockId: overId } = props;
 
+    console.log('draggedId -- ', draggedId, 'overId -- ', overId )
+
     if (monitor.getItemType() === 'heading' || monitor.getItemType() === 'block') {
       if (draggedId !== overId) {
         const { blockIndex: overIndex } = props.findBlock(overId);
@@ -65,7 +67,7 @@ const headingTarget = {
 /*   End DnD requirements   */
 /****************************/
 
-
+@Radium
 export default class Heading extends React.Component {
 
   static propTypes = {
@@ -99,27 +101,40 @@ export default class Heading extends React.Component {
     const blockDrag = {
       opacity: isDragging ? 0 : 1,
       cursor: 'move',
-      margin: '0'
+      margin: '0',
+      ':hover': {}
     };
 
     return connectDragSource(connectDropTarget(
-      <div style={blockDrag}>
+      <div style={blockDrag} key='heading'>
 
-        <Paper>
+        {Radium.getState(this.state, 'heading', ':hover') ? (
+          <Paper>
+            <Editor style={resumeThemes[currentTheme].headingTitle}
+                    text={this.props.companyName}
+                    options={{toolbar: false}}
+                    onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
-          <Editor style={resumeThemes[currentTheme].companyName}
-                  text={this.props.companyName}
-                  options={{toolbar: false}}
-                  onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
+            <Editor style={resumeThemes[currentTheme].location}
+                    text={this.props.location}
+                    options={{toolbar: false}}
+                    onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
+          </Paper>
 
-          <Editor style={resumeThemes[currentTheme].location}
-                  text={this.props.location}
-                  options={{toolbar: false}}
-                  onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
+            ) :
 
-        </Paper>
+          <div>
+            <Editor style={resumeThemes[currentTheme].headingTitle}
+                    text={this.props.companyName}
+                    options={{toolbar: false}}
+                    onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
+            <Editor style={resumeThemes[currentTheme].location}
+                    text={this.props.location}
+                    options={{toolbar: false}}
+                    onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
+          </div>}
       </div>
-      ));
+    ));
   }
-}
+};
