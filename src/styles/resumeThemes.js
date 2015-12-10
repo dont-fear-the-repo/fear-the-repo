@@ -108,7 +108,7 @@ export const resumeThemes = {
       cursor: 'text',
       margin: '10px',
       fontWeight: '700',
-      fontSize: '18px'
+      fontSize: '16px'
     },
     companyName: {
       display: 'inline-block',
@@ -144,6 +144,10 @@ export const resumeThemes = {
     },
     personalStatement: {
 
+    },
+    headingTitle: {
+      fontWeight: 'bold',
+      fontSize: '18px'
     }
   },
 
@@ -273,6 +277,10 @@ export const resumeThemes = {
     },
     personalStatement: {
 
+    },
+    headingTitle: {
+      fontWeight: 'bold',
+      fontSize: '20px'
     }
   },
 
@@ -393,6 +401,9 @@ export const resumeThemes = {
     },
     personalStatement: {
 
+    },
+    headingTitle: {
+      fontWeight: 'bold'
     }
   }
 

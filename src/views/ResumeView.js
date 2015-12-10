@@ -236,33 +236,7 @@ class ResumeView extends React.Component {
   addBlock(event, type) {
     this.props.actions.addBlock(type);
   }
-/*
 
-{
-          <IconMenu iconButtonElement={
-            <IconButton><MoreVertIcon /></IconButton>
-          }>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help" />
-            <MenuItem primaryText="Sign out" />
-          </IconMenu>
-
-        }
-
-{
-          <IconMenu iconButtonElement={
-            <IconButton>HolaMundo</IconButton>
-          }>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help" />
-            <MenuItem primaryText="Sign out" />
-          </IconMenu>
-
-        }
-
-
-
-*/
 
   render() {
 
@@ -271,7 +245,6 @@ class ResumeView extends React.Component {
 
     return connectDropTarget(
     <div>
-
       <div className='container'
            style={styles.container}
            id='resumeContainer'>
@@ -362,9 +335,9 @@ class ResumeView extends React.Component {
                         }
           })}
 
-          <img src='styles/assets/ic_playlist_add_black_24px.svg'
+          <img src={require('styles/assets/ic_playlist_add_black_24px.svg')}
                onClick={e => this.addBlock(e, 'bullets')} />
-          <img src='styles/assets/ic_add_circle_outline_black_24px.svg'
+          <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
                onClick={e => this.addBlock(e, 'no bullets')} />
 
 

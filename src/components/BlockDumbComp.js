@@ -123,16 +123,19 @@ export default class BlockDumbComp extends React.Component {
       opacity: isDragging ? 0 : 1,
       cursor: 'move',
       margin: '0px',
-      ':hover': {}
+      ':hover': {
+        boxSizing: 'border-box',
+        WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+        boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
+      }
     };
 
     return connectDragSource(connectDropTarget(
       <div style={blockDrag} key='block'>
 
-        <Paper>
+        {Radium.getState(this.state, 'block', ':hover')}
 
           <div style={resumeThemes[currentTheme].blockDiv}>
-
             <Editor style={resumeThemes[currentTheme].jobTitle}
                     text={this.props.jobTitle || 'Title/Role/Degree'}
                     options={{toolbar: false}}
@@ -174,12 +177,8 @@ export default class BlockDumbComp extends React.Component {
               <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
                   onClick={e => this.addBullet(e, this.props.blockId)} />
                 ) : null}
-
           </div>
-
-        </Paper>
-
       </div>
     ));
   }
-}
+};

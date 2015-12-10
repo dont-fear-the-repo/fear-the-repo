@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
+import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
 import Radium from 'radium';
 
@@ -113,28 +114,34 @@ export default class Bullet extends React.Component {
       opacity: isDragging ? 0 : 1,
       cursor: 'default',
       width: '100%',
-      ':hover': {}
+      ':hover': {
+        boxSizing: 'border-box',
+        WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+        boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
+      }
     };
 
     return connectDragSource(connectDropTarget(
       <div style={bulletDrag} key='bullet'>
+
+      {Radium.getState(this.state, 'bullet', ':hover')}
 
         <Editor style={styles.editorField}
                 text={this.props.text || '[new bullet point]'}
                 options={{ toolbar: false }}
                 onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', bulletId, parentBlockId)} />
 
+        {Radium.getState(this.state, 'bullet', ':hover') ? (
+          <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
+                 onClick={e => this.hideBullet(e, bulletId)} />
+            ) : null}
 
         {Radium.getState(this.state, 'bullet', ':hover') ? (
-        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
-             onClick={e => this.hideBullet(e, bulletId)} />
-          ) : null}
-
-        {Radium.getState(this.state, 'bullet', ':hover') ? (
-        <img src='styles/assets/drag-vertical.png' style={styles.handle} />
-          ) : null}
+          <img src={require('styles/assets/drag-vertical.png')} style={styles.handle} />
+            ) : null}
 
       </div>
+
     ));
   }
-}
+};

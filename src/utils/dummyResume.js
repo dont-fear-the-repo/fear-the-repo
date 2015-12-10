@@ -209,7 +209,22 @@ export const dummyResume = {
         archived: false,
         parentBlockId: 10,
         text: 'fake bullet for UI bug'
-      }]
+      }],
+      resumeFooter: {
+        school1: {
+                  name: '',
+                  degree: '',
+                  schoolEndYear: '',
+                  location: ''
+                },
+                school2: {
+                  name: '',
+                  degree: '',
+                  schoolEndYear: '',
+                  location: ''
+                },
+                personalStatement: ''
+      }
     }
   ]
 };

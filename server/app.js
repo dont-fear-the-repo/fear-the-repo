@@ -1,11 +1,8 @@
 require('babel/register');
 // connect to database.
 const dbSchema = require('../database/dbSchema.js');
-const chalk = require('chalk');
-const devServer = require('../build/webpack-dev-server');
+const historyApiFallback = require('connect-history-api-fallback');
 const config = require('../config');
-const host = config.get('webpack_host');
-const port = config.get('webpack_port');
 const parser = require('body-parser');
 const session = require('express-session');
 const utils = require('./lib/utils');
@@ -13,13 +10,25 @@ const bcrypt = require('bcrypt-nodejs')
 const Promise = require('bluebird');
 const db = require('../database/dbConfig.js');
 const _ = require('underscore');
+const app = require('express')();
 
-devServer.listen(port, host, () => {
-  console.log(chalk.green(
-    `webpack-dev-server is now running at ${host}:${port}.`
-  ));
-});
+// Enable webpack middleware if the application is being
+// run in development mode.
+if (config.env === 'development') {
+    const webpack = require('webpack');
+    const webpackConfig = require('../build/webpack/development_hot');
+    const compiler = webpack(webpackConfig);
 
+    app.use(require('./middleware/webpack-dev')({
+        compiler,
+        publicPath: webpackConfig.output.publicPath
+    }));
+    app.use(require('./middleware/webpack-hmr')({
+        compiler
+    }));
+} else {
+    app.use(express.static(__dirname.slice(0, -6) + 'dist'));
+}
 ////////////////////////////////////////////////////////////////////////
 // TODO: All of this Auth and API will need to be refactored someday  //
 // to an external file so that a deployment server can use them       //
@@ -33,18 +42,18 @@ devServer.listen(port, host, () => {
 /////////////////////////////////////////////////////////////////
 
 
-devServer.app.use(parser.json());
+app.use(parser.json());
 
-devServer.app.use(session({
+app.use(session({
   secret: "Backend is fun because I don't have to deal with React",
   resave: false,
   saveUninitialized: true
 }));
 
-devServer.app.post('/authentication', utils.checkUser);
+app.post('/authentication', utils.checkUser);
 
 //Login
-devServer.app.post('/login', (req, res) => {
+app.post('/login', (req, res) => {
   console.log("On my way");
   dbSchema.User.findOne({
       where: {
@@ -83,7 +92,7 @@ devServer.app.post('/login', (req, res) => {
 });
 
 //Signup
-devServer.app.post('/signup', (req, res) => {
+app.post('/signup', (req, res) => {
   dbSchema.User.findOne({
       where: {
         email: req.body.email
@@ -110,7 +119,7 @@ devServer.app.post('/signup', (req, res) => {
 });
 
 //Logout
-devServer.app.post('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error(err);
@@ -145,7 +154,7 @@ To test the API, try this:
 //Retrieve resume for existing user
 //Input : userId
 //Output : One complete resume in denormalized structure
-devServer.app.post('/api/resume/get', function(req, res) {
+app.post('/api/resume/get', function(req, res) {
   db.query("SELECT u.id as \"UserId\", res.id as \"resumeId\", blk.id as \"blockId\", bul.id as \"bulletId\", res.name, res.profession, res.city, res.state, res.\"displayEmail\", res.phone, res.\"webLinkedin\", res.\"webOther\", res.\"resumeTitle\", res.\"resumeTheme\", res.\"personalStatement\", res.\"school1Name\", res.\"school1Degree\", res.\"school1EndYear\",res.\"school1Location\", res.\"school2Name\", res.\"school2Degree\", res.\"school2EndYear\", res.\"school2Location\", blk.\"jobTitle\", blk.\"blockPosition\", blk.years, blk.\"companyName\", blk.location, blk.\"blockArchived\", blk.\"blockType\", bul.bullet, bul.\"bulletPosition\", bul.\"bulletArchived\" FROM \"Users\" u LEFT OUTER JOIN \"Resumes\" res ON u.id = res.\"UserId\" LEFT OUTER JOIN \"Blocks\" blk ON res.\"id\" = blk.\"ResumeId\" LEFT OUTER JOIN \"Bullets\" bul ON blk.id = bul.\"BlockId\" WHERE u.id = ?", {
       replacements: [req.body.userID],
       type: db.QueryTypes.SELECT
@@ -165,7 +174,7 @@ devServer.app.post('/api/resume/get', function(req, res) {
 
 
 // This saves a resume to the DB.
-devServer.app.post('/api/resume/update', (req, res) => {
+app.post('/api/resume/update', (req, res) => {
   console.log('userID is:', req.body.userID);
   dbSchema.Resume.destroy({
       where: {
@@ -340,3 +349,4 @@ function serverResponseToNewResumeState(serverResponse) {
 
   return newResumeState;
 };
+export default app;

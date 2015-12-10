@@ -9,7 +9,7 @@
     "lint:tests": "eslint ./tests/**/*.spec.js",
     "compile": "webpack",
     "start": "npm run dev",
-    "dev": "node --harmony bin/webpack-dev-server",
+    "dev": "node -r dotenv/config --harmony bin/server",
     "dev:nw": "npm run dev -- --nw",
     "dev:no-debug": "npm run dev -- --no_debug",
     "test": "node ./node_modules/karma/bin/karma start",
@@ -36,6 +36,9 @@
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "chalk": "^1.1.1",
+    "connect-history-api-fallback": "^1.1.0",
+    "cssnano": "^3.4.0",
+    "debug": "^2.2.0",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
     "express-partials": "^0.3.0",
@@ -103,6 +106,8 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.11.0",
-    "webpack-dev-server": "^1.10.1"
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-dev-server": "^1.10.1",
+    "webpack-hot-middleware": "^2.6.0"
   }
 }

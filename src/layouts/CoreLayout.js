@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import $ from 'jQuery';
+import $ from 'jquery';
 import _ from 'underscore';
 
 import { Footer } from 'components/footer';
@@ -225,7 +225,7 @@ showLoginPopover(key, e) {
       <div className='page-container'>
         <div className='view-container'>
         <AppBar
-          title={<Link to='/' style={styles.name}>Rezable</Link>}
+          title={<Link to='/' style={styles.name}>rezable</Link>}
           style={styles.mainContainer}
           iconElementLeft={
                 <Link to='/' style={styles.name}>
@@ -236,11 +236,11 @@ showLoginPopover(key, e) {
             <div>
 
               <Link to='/resume'>
-                <FlatButton label='Edit Resume'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            hoverColor={styles.buttonHoverColor} />
+
+                <div style={styles.editResumeButton}>
+                  Edit Resume
+                </div>
+
               </Link>
 
             {/*
@@ -255,37 +255,40 @@ showLoginPopover(key, e) {
               : '' }
             */}
               {loggedIn &&
-                <FlatButton label='Logout'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            hoverColor={styles.buttonHoverColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            onClick={e => this.handleLogout(e)} />}
+
+                <div style={styles.loginButton}
+                     onClick={(e) => this.handleLogout(e)}>
+                  Logout
+                </div>}
+
               {!loggedIn &&
-                <FlatButton label='Login'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            hoverColor={styles.buttonHoverColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            onClick={(e) => this.showLoginPopover('pop', e)} />}
+
+                <div style={styles.loginButton}
+                     onClick={(e) => this.showLoginPopover('pop', e)}>
+                  Login
+                </div>}
+
               {!loggedIn &&
-                <FlatButton label='Signup'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            hoverColor={styles.buttonHoverColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            onClick={(e) => this.showSignupPopover('pop', e)} />}
+
+                <div style={styles.signupButton}
+                     onClick={(e) => this.showSignupPopover('pop', e)}>
+                  Signup
+                </div>}
+
             </div>
-            } />
+            } /> {/* End of the AppBar */}
+
+
           <div>
 
           <Popover className='signup-popover'
                    open={this.state.activePopover === 'pop'}
                    anchorEl={this.state.anchorEl}
-                   anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                   anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')}
-                   canAutoPosition={false} >
+                   canAutoPosition={false}
+                   style={{width: '300px' , marginTop: '16px'}} >
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'
