@@ -13,7 +13,8 @@ import { ADD_BLOCK,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
-         UPDATE_RESUME_WITH_SERVER_RESPONSE } from 'constants/resumeConstants';
+         UPDATE_RESUME_WITH_SERVER_RESPONSE,
+         UPDATE_THESAURUS_RESULTS } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -134,6 +135,16 @@ export function updateResumeWithServerResponse (payload) {
   };
 }
 
+export function updateThesaurusResults (payload) {
+  return {
+    type: UPDATE_THESAURUS_RESULTS,
+    payload: payload
+  };
+}
+
+
+
+
 /* END ACTION CREATORS */
 
 
@@ -184,4 +195,26 @@ export function sendResumeToServerAsync(sentResumeObj) {
     // In a real world app, you also want to
     // catch any error in the network call.
   };
+}
+
+
+export function getThesaurusResultsAsync (thesaurusQuery) { // rename to "serverupdate"
+  return function(dispatch) {
+    console.log('ran getThesaurusResultsAsync in resumeActions.js')
+    const queryURL = 'http://words.bighugelabs.com/api/2/ecb6566c60b2ee6f4c85013ebfb5e70b/' + thesaurusQuery +'/json'
+    return fetch(queryURL, {
+        method: 'get'
+        // body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(thesaurusReplyJSON =>
+        dispatch(updateThesaurusResults(thesaurusReplyJSON))
+      )
+      // .then((action) =>
+        // dispatch(serverIsSavingUpdate('resumeHeader.name of recieved Resume:' + JSON.stringify(action.payload.resumeHeader.name)))
+      // ) // this needs to eventually be a server response that has {text: 'successful save!'} added to the resume body object.
+
+    // In a real world app, you also want to
+    // catch any error in the network call.
+  }
 }

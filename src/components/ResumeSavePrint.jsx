@@ -16,6 +16,8 @@ import { RaisedButton,
 import { resumeThemes } from 'styles/resumeThemes';
 import { printStyles } from  'styles/PrinterStyles';
 import $ from 'jquery';
+import _ from 'underscore';
+
 export default class ResumeSavePrint extends React.Component {
 
   handleLoad() {
@@ -55,11 +57,11 @@ export default class ResumeSavePrint extends React.Component {
           link.download="My_resume.pdf";
           link.click();
         }
-    })  
+    })
   }
 
   handlePrint() {
-    const prtContent = document.getElementById('resumeContainer') 
+    const prtContent = document.getElementById('resumeContainer')
     const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
     WinPrint.document.write(prtContent.innerHTML+ printStyles);
     WinPrint.document.close();
@@ -68,10 +70,15 @@ export default class ResumeSavePrint extends React.Component {
     WinPrint.close();
   }
 
-  handleChangeTheme(event, index) {
-    const userInput = event.target.value;
-    const textFieldName = 'resumeTheme';
+  handleChangeTheme(event) {
+    const userInput = event.target.textContent// event.target.value;
+    const textFieldName = 'resumeTheme'
     this.props.actions.updateLocalState({textFieldName, userInput});
+  }
+
+  handleThesaurus() {
+    this.props.actions.getThesaurusResultsAsync(this.props.resumeState.thesaurusQuery);
+    console.log("searching for: ", this.props.resumeState.thesaurusQuery)
   }
 
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
@@ -96,8 +103,10 @@ export default class ResumeSavePrint extends React.Component {
     const saveAnimation = <CircularProgress mode="indeterminate" color={"orange"} size={.3} />;
     const savedConfirm = 'Changes saved!'
     const menuItems = [
-      { route: 'get-started', text: 'Get Started' },
-      { route: 'customization', text: 'Customization' },
+      { text: <RaisedButton label='Print Resume'
+                        style={this.props.styles.saveButton}
+                        labelStyle={this.props.styles.buttonLabelStyle}
+                        onItemTouchTap={(e) => this.handlePrint(e)} /> },
       { route: 'components', text: 'Components' },
       { type: MenuItem.Types.SUBHEADER, text: 'Themes' },
       {
@@ -126,7 +135,105 @@ export default class ResumeSavePrint extends React.Component {
 
       <div style={this.props.styles.headerContainer}>
 
-        <Paper style={{width:'150px', position: 'absolute', left: '0px', top: '65px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
+        <Paper style={{width:'150px', position: 'fixed', left: '0px', top: '96.5px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
+
+          <RaisedButton label='Print Resume'
+                        style={this.props.styles.paperLeftNavButton}
+                        labelStyle={this.props.styles.buttonLabelStyle}
+                        onClick={e => this.handlePrint(e)} />
+
+          <RaisedButton label='Save Resume'
+                        style={this.props.styles.paperLeftNavButton}
+                        labelStyle={this.props.styles.buttonLabelStyle}
+                        disabled={!this.props.canSubmitResume}
+                        onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
+
+          <RaisedButton label='Export Resume'
+                        style={this.props.styles.paperLeftNavButton}
+                        labelStyle={this.props.styles.buttonLabelStyle}
+                        onClick={e => this.handleExport(e)} />
+          <br /><br />
+          <a href='/linkedin'>Import Data from LinkedIn</a>
+
+          { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
+            <div><RaisedButton label='Reload Resume'
+                          style={this.props.styles.paperLeftNavButton}
+                          labelStyle={this.props.styles.buttonLabelStyle}
+                          onClick={e => this.handleLoad(e)} />
+            </div>
+          }
+
+          <div style={{marginTop: '30px', marginBottom: '20px'}}>
+            <div style={this.props.styles.paperLeftNavLabel}>
+            Resume Themes
+            </div>
+            {themes.map(theme => {
+                            return (
+                              <FlatButton label={theme.text}
+                                          key={theme.text}
+                                          style={this.props.styles.paperLeftNavThemeButton}
+                                          labelStyle={this.props.styles.buttonLabelStyle}
+                                          onClick={e => this.handleChangeTheme(e)}/>
+                            );
+
+            })}
+          </div>
+
+          <div style={{marginTop: '30px', marginBottom: '20px'}}>
+            <div style={this.props.styles.paperLeftNavLabel}>
+            Thesaurus
+            </div>
+            <TextField floatingLabelStyle={this.props.styles.floatingLabelStyle}
+                       style={{width: '150px'}}
+                       underlineStyle={this.props.styles.underlineStyle}
+                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                       backgroundColor={'white'}
+                       fullWidth={false}
+                       hintStyle={this.props.styles.hintStyle}
+                       hintText='Find Synonyms'
+                       onBlur={e => this.props.handleUpdateLocalState(e, 'thesaurusQuery', 'savePrint')} />
+            <RaisedButton label='Search'
+                                   labelStyle={this.props.styles.buttonLabelStyle}
+                                   onClick={e => this.handleThesaurus(e)} />
+            <div style={this.props.styles.thesaurusResults}>
+            { _.map(this.props.resumeState.thesaurusResults, verbOrNoun => {
+              return (<span>{verbOrNoun.syn.toString().split(',').join(', ') + ' '}</span>)
+              }
+              )}
+            </div>
+          </div>
+        </Paper>
+
+          {/*
+
+Junk code: remove on Friday clean up. Used to store various tests and ideas.
+
+
+
+            { _.map(this.props.resumeState.thesaurusResults, verbOrNoun => {
+              _.map(verbOrNoun, relOrSyn =>
+                relOrSyn.forEach(word =>
+                  console.log(word)
+                  )
+                )
+              }
+              )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <SelectField floatingLabelText='Theme'
                        style={{width: '150px'}}
@@ -143,53 +250,6 @@ export default class ResumeSavePrint extends React.Component {
                        <br />
                        <br />
                        <br />
-
-
-
-          <RaisedButton label='Save Resume'
-                        style={this.props.styles.saveButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
-                        disabled={!this.props.canSubmitResume}
-                        onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-
-        <RaisedButton label='Export Resume'
-                      style={this.props.styles.exportButton}
-                      labelStyle={this.props.styles.buttonLabelStyle}
-                      onClick={e => this.handleExport(e)} />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-
-          <RaisedButton label='Print Resume'
-                        style={this.props.styles.printButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
-                        onClick={e => this.handlePrint(e)} />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-          <a href='/linkedin'>Import Data from Linkedin</a>
-          { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
-            <div><RaisedButton label='Reload Resume'
-                          style={this.props.styles.saveButton}
-                          labelStyle={this.props.styles.buttonLabelStyle}
-                          onClick={e => this.handleLoad(e)} />
-                          <br />
-                          <br />
-                          <br />
-                          <br />
-            </div>
-          }
-
-        </Paper>
-
-          {/*
-
         <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
         <h4> serverIsSaving: {JSON.stringify(this.props.resumeState.serverIsSaving)} </h4>
         <h4> resumeId: {JSON.stringify(this.props.resumeId)} </h4>

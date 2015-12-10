@@ -27,7 +27,8 @@ import { addBlock,
          updateLocalStateHeader,
          updateLocalStateSavePrint,
          updateResumeState,
-         updateResumeWithServerResponse } from 'actions/resumeActions';
+         updateResumeWithServerResponse,
+         getThesaurusResultsAsync } from 'actions/resumeActions';
 import { disableSubmit,
          displayErrorMessage,
          enableSubmit,
@@ -66,7 +67,8 @@ const ActionCreators = {
   updateLocalStateHeader,
   updateLocalStateSavePrint,
   updateResumeState,
-  updateResumeWithServerResponse
+  updateResumeWithServerResponse,
+  getThesaurusResultsAsync
 };
 
 const mapStateToProps = (state) => ({
@@ -167,7 +169,7 @@ class ResumeView extends React.Component {
       this.actions.updateLocalStateFooter({textFieldName, userInput, whereFrom});
     } else if (whereFrom === 'savePrint') {
       console.log('updating from savePrint...');
-      this.actions.updateLocalStateSavePrint({textFieldName, userInput, whereFrom});
+      this.actions.updateLocalStateSavePrint({textFieldName, userInput: event.target.value, whereFrom});
     } else if (whereFrom === 'blocks') {
       console.log('updating from blocks...');
       this.actions.updateLocalStateBlocks({textFieldName, userInput, whereFrom, blockIndex});
@@ -257,6 +259,7 @@ class ResumeView extends React.Component {
                             handleUpdateLocalState={this.handleUpdateLocalState}
                             handleSaveState={this.handleSaveState}
                             getResumeFromServerDBAsync={this.getResumeFromServerDBAsyc}
+                            getThesaurusResultsAsync={this.getThesaurusResultsAsync}
                             serverIsSavingUpdate={this.serverIsSavingUpdate}
                             clientIsDirtyUpdate={this.clientIsDirtyUpdate} />
         <div className='marginTop'
