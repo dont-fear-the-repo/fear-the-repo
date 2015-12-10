@@ -88,7 +88,7 @@ export default class ResumeHeader extends React.Component {
         <div style={resumeThemes[currentTheme].headerRight}>
 
           <Editor style={resumeThemes[currentTheme].webLinkedin}
-                  text={resumeHeader.webLinkedin || 'LinkedIn.com/in/...'}
+                  text={resumeHeader.webLinkedin || 'LinkedIn.com/in/YourLinkedIn'}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'webLinkedin', 'header')} />
 

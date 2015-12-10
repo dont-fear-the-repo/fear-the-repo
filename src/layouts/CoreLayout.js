@@ -236,11 +236,11 @@ showLoginPopover(key, e) {
             <div>
 
               <Link to='/resume'>
-                <FlatButton label='Edit Resume'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            hoverColor={styles.buttonHoverColor} />
+
+                <div style={styles.editResumeButton}>
+                  Edit Resume
+                </div>
+
               </Link>
 
             {/*
@@ -255,32 +255,28 @@ showLoginPopover(key, e) {
               : '' }
             */}
               {loggedIn &&
-                <FlatButton label='Logout'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            hoverColor={styles.buttonHoverColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            onClick={e => this.handleLogout(e)} />}
+
+                <div style={styles.loginButton}
+                     onClick={(e) => this.handleLogout(e)}>
+                  Logout
+                </div>}
+
               {!loggedIn &&
-                <FlatButton label='Login'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            hoverColor={styles.buttonHoverColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            onClick={(e) => this.showLoginPopover('pop', e)} />}
+
+                <div style={styles.loginButton}
+                     onClick={(e) => this.showLoginPopover('pop', e)}>
+                  Login
+                </div>}
+
               {!loggedIn &&
-                <FlatButton label='Signup'
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            hoverColor={styles.buttonHoverColor}
-                            labelStyle={styles.buttonLabelStyle}
-                            onClick={(e) => this.showSignupPopover('pop', e)} />}
+
+                <div style={styles.signupButton}
+                     onClick={(e) => this.showSignupPopover('pop', e)}>
+                  Signup
+                </div>}
+
             </div>
             } /> {/* End of the AppBar */}
-
-
-
-
 
 
           <div>
