@@ -13,6 +13,10 @@ export default function ({ compiler, publicPath }) {
     hot         : true,
     quiet       : config.compiler_quiet,
     noInfo      : config.compiler_quiet,
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: true
+    },
     lazy        : false,
     stats       : {
       colors : true

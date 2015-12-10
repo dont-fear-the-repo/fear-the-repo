@@ -35,19 +35,24 @@ export const styles = {
   buttonLabelStyle: {
     textTransform: 'none'
   },
-  saveButton: {
-    margin: '5px',
-    float: 'right',
-    marginRight: '15px',
-    marginTop: '30px',
-    marginBottom: '0'
+  paperLeftNavButton: {
+    marginTop: '30px'
   },
-  printButton: {
+  paperLeftNavThemeButton: {
+
+  },
+  paperLeftNavLabel: {
+    color: MasterTheme.orange,
+    font: font,
+    marginBottom: '10px'
+  },
+  exportButton: {
     margin: '5px',
     float: 'right',
-    marginTop: '30px',
+    marginTop: '40px',
     marginBottom: '0',
-    marginRight: '20px'
+    marginRight: '17px',
+    padding: '0 0px'
   },
   textCenter: {
     margin: '20px',
@@ -83,7 +88,11 @@ export const styles = {
   },
   hintStyle: {
     color: MasterTheme.lightGray,
-    paddingLeft: '8px'
+    paddingLeft: '20px',
+    border: 'solid',
+    borderColor: MasterTheme.orange,
+    borderRadius: '6px',
+    padding: '10px'
   },
   floatingLabelStyle: {
     color: MasterTheme.orange,
@@ -113,6 +122,9 @@ export const styles = {
   handle: {
     cursor: 'move',
     float: 'right',
+  },
+  thesaurusResults: {
+    color: MasterTheme.orange
   }
   // ,
   // leftNav: {
