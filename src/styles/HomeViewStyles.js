@@ -13,10 +13,22 @@ export const styles = {
     width: '100%'
   },
   heroDiv: {
-    height: '200px',
     width: '100%',
-    backgroundColor: MasterTheme.midGray,
-    color: MasterTheme.white
+    height: '796px',
+    position: 'relative'
+  },
+  circle: {
+    width: '100px',
+    height: '100px',
+    borderRadius: '50%',
+    marginTop: '-112px',
+    marginLeft: '835px',
+    position: 'absolute',
+    ':hover': {
+      boxSizing: 'border-box',
+      WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+      boxShadow: '0 1px 6px rgba(0, 0, 0, 0.36), 0 1px 4px rgba(0, 0, 0, 0.48)'
+    }
   },
   mainTitle: {
     fontSize: '36pt',
