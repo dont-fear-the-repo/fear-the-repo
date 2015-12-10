@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
+import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
 import Radium from 'radium';
 
@@ -119,22 +120,42 @@ export default class Bullet extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={bulletDrag} key='bullet'>
 
-        <Editor style={styles.editorField}
-                text={this.props.text || '[new bullet point]'}
-                options={{ toolbar: false }}
-                onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', bulletId, parentBlockId)} />
-
-
         {Radium.getState(this.state, 'bullet', ':hover') ? (
-        <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
-             onClick={e => this.hideBullet(e, bulletId)} />
-          ) : null}
+          <Paper>
+            <Editor style={styles.editorField}
+                    text={this.props.text || '[new bullet point]'}
+                    options={{ toolbar: false }}
+                    onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', bulletId, parentBlockId)} />
 
-        {Radium.getState(this.state, 'bullet', ':hover') ? (
-        <img src='styles/assets/drag-vertical.png' style={styles.handle} />
-          ) : null}
+            {Radium.getState(this.state, 'bullet', ':hover') ? (
+            <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+                 onClick={e => this.hideBullet(e, bulletId)} />
+              ) : null}
+
+            {Radium.getState(this.state, 'bullet', ':hover') ? (
+            <img src='styles/assets/drag-vertical.png' style={styles.handle} />
+              ) : null}
+          </Paper>
+
+              ) :
+
+          <div>
+            <Editor style={styles.editorField}
+                    text={this.props.text || '[new bullet point]'}
+                    options={{ toolbar: false }}
+                    onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', bulletId, parentBlockId)} />
+
+            {Radium.getState(this.state, 'bullet', ':hover') ? (
+            <img src='styles/assets/ic_remove_circle_outline_black_24px.svg'
+                 onClick={e => this.hideBullet(e, bulletId)} />
+              ) : null}
+
+            {Radium.getState(this.state, 'bullet', ':hover') ? (
+            <img src='styles/assets/drag-vertical.png' style={styles.handle} />
+              ) : null}
+          </div>}
 
       </div>
     ));
   }
-}
+};

@@ -129,10 +129,56 @@ export default class BlockDumbComp extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={blockDrag} key='block'>
 
-        <Paper>
+        {Radium.getState(this.state, 'block', ':hover') ? (
+          <Paper>
+            <div style={resumeThemes[currentTheme].blockDiv}>
+              <Editor style={resumeThemes[currentTheme].jobTitle}
+                      text={this.props.jobTitle || 'Title/Role/Degree'}
+                      options={{toolbar: false}}
+                      onBlur={e => this.props.handleUpdateLocalState(e, 'jobTitle', 'blocks', this.props.blockId)} />
+
+              <div style={resumeThemes[currentTheme].pipe}>
+                |
+              </div>
+
+              <Editor style={resumeThemes[currentTheme].companyName}
+                      text={this.props.companyName || 'Company/Project/School Name'}
+                      options={{toolbar: false}}
+                      onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
+
+              <div style={resumeThemes[currentTheme].pipe}>
+                |
+              </div>
+
+              <Editor style={resumeThemes[currentTheme].jobLocation}
+                      text={this.props.location || 'Location / Project URL'}
+                      options={{toolbar: false}}
+                      onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
+
+              <Editor style={resumeThemes[currentTheme].jobYear}
+                      text={this.props.years || 'Timespan, if applicable'}
+                      options={{toolbar: false}}
+                      onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
+
+              {Radium.getState(this.state, 'block', ':hover') ? (
+                <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
+                       onClick={e => this.hideBlock(e, this.props.blockId)} />
+                  ) : null}
+
+                <div className='bulletContainer' style={styles.bulletContainer}>
+                  {bulletCollection}
+                </div>
+
+              {Radium.getState(this.state, 'block', ':hover') ? (
+                <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
+                    onClick={e => this.addBullet(e, this.props.blockId)} />
+                  ) : null}
+            </div>
+          </Paper>
+
+          ) :
 
           <div style={resumeThemes[currentTheme].blockDiv}>
-
             <Editor style={resumeThemes[currentTheme].jobTitle}
                     text={this.props.jobTitle || 'Title/Role/Degree'}
                     options={{toolbar: false}}
@@ -174,12 +220,9 @@ export default class BlockDumbComp extends React.Component {
               <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
                   onClick={e => this.addBullet(e, this.props.blockId)} />
                 ) : null}
-
-          </div>
-
-        </Paper>
+          </div>}
 
       </div>
     ));
   }
-}
+};
