@@ -103,20 +103,33 @@ export default createReducer(initialState, {
         profession: payload.headline,
         city: payload.location.name,
     };
-    newState.blockChildren[3]= {
-        blockType: 'LinkedIn',
+    newState.blockChildren[2]= {
+        blockId: 3,
+        blockType: 'bullets',
         archived: false,
         companyName: payload.positions.values[0].company.name,
         jobTitile: payload.positions.values[0].company.title,
-        years: (payload.positions.values[0].company.startDate || '[enter start year]') + '-' + (payload.positions.values[0].company.endDate || '[enter years]'),
-        location: '[enter location]',
-        bulletChildren: [{ 
+        bulletChildren: [{
             bulletId: 105,
             archived: false,
             parentBlockId: 3,
             text: payload.positions.values[0].company.summary || "[contribution to project]"
-        }]
-    }
+        }, {
+            bulletId: 106,
+            archived: false,
+            parentBlockId: 3,
+            text: "[contribution to project]"
+        }],
+
+        years: (payload.positions.values[0].company.startDate || '[enter start year]') + '-' + (payload.positions.values[0].company.endDate || '[enter years]'),
+        location: '[enter location]'
+    };
+    newState.blockChildren[2].bulletChildren[1] =  { 
+      bulletId: 105,
+      archived: false,
+      parentBlockId: 3,
+      text: payload.positions.values[0].company.summary || "[contribution to project]"
+  };
     return newState;
   }, 
   [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
