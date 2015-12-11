@@ -36,9 +36,9 @@ export default createReducer(initialState, {
     let newBlock;
 
     if (payload === 'bullets') {
-      newBlock = blankBulletBlock;
+      newBlock = blankBulletBlock();
     } else if (payload === 'no bullets') {
-      newBlock = blankNoBulletBlock;
+      newBlock = blankNoBulletBlock();
     }
 
     newState.blockChildren.push(newBlock);
