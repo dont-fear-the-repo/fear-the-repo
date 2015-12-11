@@ -49,8 +49,8 @@ export default class ResumeSavePrint extends React.Component {
   handleExport() {
     const prtContent = { resume: document.getElementById('resumeContainer').innerHTML + printStyles };
     $.ajax({
--        url: '/api/resume/export',
--        method: 'post',
+        url: '/api/resume/export',
+        method: 'post',
         contentType: 'application/json',
         data: JSON.stringify(prtContent),
         success: function(data) {
