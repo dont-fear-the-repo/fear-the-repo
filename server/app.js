@@ -79,8 +79,18 @@ app.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_basicprofile
   console.log("These are my postions",res.req.user._json.positions);
   console.log("This is the industry",res.req.user._json.industry);
   console.log("This is the company(s)",res.req.user._json.company);
+  console.log(res.req.user._json);
+  req.session.user.LinkedinData  = res.req.user._json;
   res.redirect('/resume');
   });
+
+app.post('/cookie',function(req,res){
+  console.log('Im hit')
+  console.log('This is user data', req.session);
+  console.log("This is session Session", req.session.Session);
+  console.log('This is linkedinData', req.session.user);
+  res.send(req.session.user);
+})
 
 
 if (config.env === 'development') {

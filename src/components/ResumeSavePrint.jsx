@@ -45,8 +45,8 @@ export default class ResumeSavePrint extends React.Component {
   handleExport() {
     const prtContent = { resume: document.getElementById('resumeContainer').innerHTML + printStyles };
     $.ajax({
-        url: '/api/resume/export',
-        method: 'post',
+        url: '/linkedin',
+        method: 'get',
         contentType: 'application/json',
         data: JSON.stringify(prtContent),
         success: function(data) {
@@ -72,6 +72,16 @@ export default class ResumeSavePrint extends React.Component {
     const userInput = event.target.value;
     const textFieldName = 'resumeTheme';
     this.props.actions.updateLocalState({textFieldName, userInput});
+  }
+
+  handleLinkedinData() {
+    $.ajax({
+        url: '/cookie',
+        method: 'post',
+        success: function(data) {
+          console.log('This is the data',data);
+        }
+    })
   }
 
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
@@ -174,6 +184,7 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
                         <br />
           <a href='/linkedin'>Import Data from Linkedin</a>
+          <RaisedButton label='LinkedinData' onClick={e =>this.handleLinkedinData(e)}/>
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
                           style={this.props.styles.saveButton}
