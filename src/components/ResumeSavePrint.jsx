@@ -1,22 +1,24 @@
 import React from 'react';
-import { RaisedButton,
-         Paper,
-         FlatButton,
-         Popover,
-         TextField,
-         RefreshIndicator,
-         LeftNav,
-         AppBar,
-         IconButton,
-         IconMenu,
-         MoreVertIcon,
-         MenuItem,
-         SelectField,
-         CircularProgress } from 'material-ui/lib';
-import { resumeThemes } from 'styles/resumeThemes';
-import { printStyles } from  'styles/PrinterStyles';
 import $ from 'jquery';
 import _ from 'underscore';
+
+import { AppBar,
+         CircularProgress,
+         FlatButton,
+         IconButton,
+         IconMenu,
+         LeftNav,
+         MenuItem,
+         MoreVertIcon,
+         Paper,
+         Popover,
+         RaisedButton,
+         RefreshIndicator,
+         SelectField,
+         TextField } from 'material-ui/lib';
+import { resumeThemes } from 'styles/resumeThemes';
+import { printStyles } from  'styles/PrinterStyles';
+
 
 export default class ResumeSavePrint extends React.Component {
 
@@ -57,7 +59,7 @@ export default class ResumeSavePrint extends React.Component {
           link.download="My_resume.pdf";
           link.click();
         }
-    })
+    });
   }
 
   handlePrint() {
@@ -71,14 +73,16 @@ export default class ResumeSavePrint extends React.Component {
   }
 
   handleChangeTheme(event) {
-    const userInput = event.target.textContent// event.target.value;
-    const textFieldName = 'resumeTheme'
+    const userInput = event.target.textContent;  // event.target.value;
+    const textFieldName = 'resumeTheme';
     this.props.actions.updateLocalState({textFieldName, userInput});
   }
 
   handleThesaurus() {
-    this.props.actions.getThesaurusResultsAsync(this.props.resumeState.thesaurusQuery);
-    console.log("searching for: ", this.props.resumeState.thesaurusQuery)
+    const target = this.props.resumeState.thesaurusQuery;
+    this.props.actions.wordSearch(target);
+    this.props.actions.getThesaurusResultsAsync(target);
+    console.log('searching for: ', target)
   }
 
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
@@ -88,25 +92,27 @@ export default class ResumeSavePrint extends React.Component {
   //   this.handleLoad();
   // }
 
-  showLoadButtonIf(loggedIn, resumeId, serverIsSaving){
+  showLoadButtonIf(loggedIn, resumeId, serverIsSaving) {
     let results = false;
-    if ( loggedIn && resumeId !== 'NA' ){
+    if ( loggedIn && resumeId !== 'NA' ) {
       results = true;
-    } else if ( serverIsSaving === 'successful save!' ){
+    } else if ( serverIsSaving === 'successful save!' ) {
       results = true;
     }
     return results;
   }
 
   render() {
+    const { resumeState,
+            styles } = this.props;
 
     const saveAnimation = <CircularProgress mode="indeterminate" color={"orange"} size={.3} />;
-    const savedConfirm = 'Changes saved!'
+    const savedConfirm = 'Changes saved!';
     const menuItems = [
       { text: <RaisedButton label='Print Resume'
-                        style={this.props.styles.saveButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
-                        onItemTouchTap={(e) => this.handlePrint(e)} /> },
+                            style={styles.saveButton}
+                            labelStyle={styles.buttonLabelStyle}
+                            onItemTouchTap={(e) => this.handlePrint(e)} /> },
       { route: 'components', text: 'Components' },
       { type: MenuItem.Types.SUBHEADER, text: 'Themes' },
       {
@@ -130,49 +136,49 @@ export default class ResumeSavePrint extends React.Component {
     <LeftNav  ref="leftNav"
               docked={false}
               menuItems={menuItems}
-              style={{paddingTop: '58px', width: '150px'}}/>
+              style={styles.leftNav} />
 
 
-      <div style={this.props.styles.headerContainer}>
+      <div style={styles.headerContainer}>
 
-        <Paper style={{width:'150px', position: 'fixed', left: '0px', top: '96.5px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
+        <Paper style={{width:'150px', backgroundColor: 'white', position: 'absolute', left: '0px', top: '96.5px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
 
           <RaisedButton label='Print Resume'
-                        style={this.props.styles.paperLeftNavButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
+                        style={styles.paperLeftNavButton}
+                        labelStyle={styles.buttonLabelStyle}
                         onClick={e => this.handlePrint(e)} />
 
           <RaisedButton label='Save Resume'
-                        style={this.props.styles.paperLeftNavButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
+                        style={styles.paperLeftNavButton}
+                        labelStyle={styles.buttonLabelStyle}
                         disabled={!this.props.canSubmitResume}
                         onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
 
           <RaisedButton label='Export Resume'
-                        style={this.props.styles.paperLeftNavButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
+                        style={styles.paperLeftNavButton}
+                        labelStyle={styles.buttonLabelStyle}
                         onClick={e => this.handleExport(e)} />
           <br /><br />
           <a href='/linkedin'>Import Data from LinkedIn</a>
 
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
-                          style={this.props.styles.paperLeftNavButton}
-                          labelStyle={this.props.styles.buttonLabelStyle}
+                          style={styles.paperLeftNavButton}
+                          labelStyle={styles.buttonLabelStyle}
                           onClick={e => this.handleLoad(e)} />
             </div>
           }
 
           <div style={{marginTop: '30px', marginBottom: '20px'}}>
-            <div style={this.props.styles.paperLeftNavLabel}>
+            <div style={styles.paperLeftNavLabel}>
             Resume Themes
             </div>
             {themes.map(theme => {
                             return (
                               <FlatButton label={theme.text}
                                           key={theme.text}
-                                          style={this.props.styles.paperLeftNavThemeButton}
-                                          labelStyle={this.props.styles.buttonLabelStyle}
+                                          style={styles.paperLeftNavThemeButton}
+                                          labelStyle={styles.buttonLabelStyle}
                                           onClick={e => this.handleChangeTheme(e)}/>
                             );
 
@@ -180,32 +186,40 @@ export default class ResumeSavePrint extends React.Component {
           </div>
 
           <div style={{marginTop: '30px', marginBottom: '20px'}}>
-            <div style={this.props.styles.paperLeftNavLabel}>
+            <div style={styles.paperLeftNavLabel}>
             Thesaurus
             </div>
-            <TextField floatingLabelStyle={this.props.styles.floatingLabelStyle}
+            <TextField floatingLabelStyle={styles.floatingLabelStyle}
                        style={{width: '150px'}}
-                       underlineStyle={this.props.styles.underlineStyle}
-                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
+                       underlineStyle={styles.underlineStyle}
+                       underlineFocusStyle={styles.underlineFocusStyle}
                        backgroundColor={'white'}
                        fullWidth={false}
-                       hintStyle={this.props.styles.hintStyle}
+                       hintStyle={styles.hintStyle}
                        hintText='Find Synonyms'
                        onBlur={e => this.props.handleUpdateLocalState(e, 'thesaurusQuery', 'savePrint')} />
             <RaisedButton label='Search'
-                                   labelStyle={this.props.styles.buttonLabelStyle}
-                                   onClick={e => this.handleThesaurus(e)} />
-            <div style={this.props.styles.thesaurusResults}>
-            { _.map(this.props.resumeState.thesaurusResults, verbOrNoun => {
-              return (<span>{verbOrNoun.syn.toString().split(',').join(', ') + ' '}</span>)
-              }
-              )}
+                          labelStyle={styles.buttonLabelStyle}
+                          onClick={e => this.handleThesaurus(e)} />
+
+            {resumeState.thesaurusResults ?
+            <div style={styles.thesaurusResults}>
+              <div style={styles.wordCount}>
+                You've used this word {resumeState.wordCount} times so far.
+              </div>
+              <div style={styles.wordList}>
+                Suggested alternatives:
+                { _.map(resumeState.thesaurusResults, (verbOrNoun, index) => {
+                      return (<div><span style={styles.wordType}>{index}</span>: {verbOrNoun.syn.join(', ') + ' '}</div>)
+                  })}
+              </div>
             </div>
+            : '' }
+
           </div>
         </Paper>
 
           {/*
-
 Junk code: remove on Friday clean up. Used to store various tests and ideas.
 
 
