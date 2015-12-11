@@ -230,7 +230,7 @@ export const dummyResume = {
 };
 
 export const blankBulletBlock = {
-  blockId: blockId,
+  blockId: blockId * Math.floor(Math.random() * 2000),
   blockType: 'bullets',
   archived: false,
   companyName: '',
@@ -238,12 +238,12 @@ export const blankBulletBlock = {
   years: '',
   location: '',
   bulletChildren: [{
-    bulletId: bulletId + 1,
+    bulletId: bulletId * Math.floor(Math.random() * 2000) + 1,
     archived: false,
     parentBlockId: blockId,
     text: ''
   }, {
-    bulletId: bulletId + 2,
+    bulletId: bulletId * Math.floor(Math.random() * 2000) + 2,
     archived: false,
     parentBlockId: blockId,
     text: ''
@@ -251,18 +251,18 @@ export const blankBulletBlock = {
 };
 
 export const blankNoBulletBlock = {
-  blockId: blockId,
+  blockId: blockId * Math.floor(Math.random() * 2000),
   blockType: 'no bullets',
   archived: false,
   companyName: 'Heading',
   location: 'text, if applicable',
   bulletChildren: [{
-    bulletId: bulletId + 1,
+    bulletId: bulletId * Math.floor(Math.random() * 2000) + 1,
     archived: true,
     parentBlockId: blockId,
     text: 'fake bullet for UI bug'
   }, {
-    bulletId: bulletId + 2,
+    bulletId: bulletId * Math.floor(Math.random() * 2000) + 2,
     archived: true,
     parentBlockId: blockId,
     text: 'fake bullet for UI bug'

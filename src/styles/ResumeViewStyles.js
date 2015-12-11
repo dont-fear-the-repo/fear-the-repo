@@ -35,6 +35,10 @@ export const styles = {
   buttonLabelStyle: {
     textTransform: 'none'
   },
+  leftNav: {
+    paddingTop: '58px',
+    width: '150px'
+  },
   paperLeftNavButton: {
     marginTop: '30px'
   },
@@ -124,7 +128,19 @@ export const styles = {
     float: 'right',
   },
   thesaurusResults: {
-    color: MasterTheme.orange
+    color: MasterTheme.black,
+    paddingTop: '5px'
+  },
+  wordCount: {
+    color: MasterTheme.lightGray
+  },
+  wordList: {
+    color: MasterTheme.darkGray,
+    textAlign: 'left'
+  },
+  wordType: {
+    color: MasterTheme.orange,
+    fontStyle: 'italic'
   }
   // ,
   // leftNav: {

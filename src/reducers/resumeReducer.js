@@ -145,9 +145,10 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_THESAURUS_RESULTS]: (state, payload) => {
-    const newState = Object.assign({}, state);
-    newState['thesaurusResults'] = payload;
-    return newState;
+    return {
+      ...state,
+      thesaurusResults: payload
+    };
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
