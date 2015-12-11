@@ -1,22 +1,24 @@
 import React from 'react';
-import { RaisedButton,
-         Paper,
-         FlatButton,
-         Popover,
-         TextField,
-         RefreshIndicator,
-         LeftNav,
-         AppBar,
-         IconButton,
-         IconMenu,
-         MoreVertIcon,
-         MenuItem,
-         SelectField,
-         CircularProgress } from 'material-ui/lib';
-import { resumeThemes } from 'styles/resumeThemes';
-import { printStyles } from  'styles/PrinterStyles';
 import $ from 'jquery';
 import _ from 'underscore';
+
+import { AppBar,
+         CircularProgress,
+         FlatButton,
+         IconButton,
+         IconMenu,
+         LeftNav,
+         MenuItem,
+         MoreVertIcon,
+         Paper,
+         Popover,
+         RaisedButton,
+         RefreshIndicator,
+         SelectField,
+         TextField } from 'material-ui/lib';
+import { resumeThemes } from 'styles/resumeThemes';
+import { printStyles } from  'styles/PrinterStyles';
+
 
 export default class ResumeSavePrint extends React.Component {
 
@@ -57,7 +59,7 @@ export default class ResumeSavePrint extends React.Component {
           link.download="My_resume.pdf";
           link.click();
         }
-    })
+    });
   }
 
   handlePrint() {
@@ -71,14 +73,16 @@ export default class ResumeSavePrint extends React.Component {
   }
 
   handleChangeTheme(event) {
-    const userInput = event.target.textContent// event.target.value;
-    const textFieldName = 'resumeTheme'
+    const userInput = event.target.textContent;  // event.target.value;
+    const textFieldName = 'resumeTheme';
     this.props.actions.updateLocalState({textFieldName, userInput});
   }
 
   handleThesaurus() {
-    this.props.actions.getThesaurusResultsAsync(this.props.resumeState.thesaurusQuery);
-    console.log("searching for: ", this.props.resumeState.thesaurusQuery)
+    const target = this.props.resumeState.thesaurusQuery;
+    this.props.actions.wordSearch(target);
+    this.props.actions.getThesaurusResultsAsync(target);
+    console.log('searching for: ', target)
   }
 
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
@@ -88,11 +92,11 @@ export default class ResumeSavePrint extends React.Component {
   //   this.handleLoad();
   // }
 
-  showLoadButtonIf(loggedIn, resumeId, serverIsSaving){
+  showLoadButtonIf(loggedIn, resumeId, serverIsSaving) {
     let results = false;
-    if ( loggedIn && resumeId !== 'NA' ){
+    if ( loggedIn && resumeId !== 'NA' ) {
       results = true;
-    } else if ( serverIsSaving === 'successful save!' ){
+    } else if ( serverIsSaving === 'successful save!' ) {
       results = true;
     }
     return results;
@@ -101,12 +105,12 @@ export default class ResumeSavePrint extends React.Component {
   render() {
 
     const saveAnimation = <CircularProgress mode="indeterminate" color={"orange"} size={.3} />;
-    const savedConfirm = 'Changes saved!'
+    const savedConfirm = 'Changes saved!';
     const menuItems = [
       { text: <RaisedButton label='Print Resume'
-                        style={this.props.styles.saveButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
-                        onItemTouchTap={(e) => this.handlePrint(e)} /> },
+                            style={this.props.styles.saveButton}
+                            labelStyle={this.props.styles.buttonLabelStyle}
+                            onItemTouchTap={(e) => this.handlePrint(e)} /> },
       { route: 'components', text: 'Components' },
       { type: MenuItem.Types.SUBHEADER, text: 'Themes' },
       {
@@ -135,7 +139,7 @@ export default class ResumeSavePrint extends React.Component {
 
       <div style={this.props.styles.headerContainer}>
 
-        <Paper style={{width:'150px', position: 'fixed', left: '0px', top: '96.5px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
+        <Paper style={{width:'150px', backgroundColor: 'white', position: 'absolute', left: '0px', top: '96.5px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
 
           <RaisedButton label='Print Resume'
                         style={this.props.styles.paperLeftNavButton}
@@ -193,13 +197,19 @@ export default class ResumeSavePrint extends React.Component {
                        hintText='Find Synonyms'
                        onBlur={e => this.props.handleUpdateLocalState(e, 'thesaurusQuery', 'savePrint')} />
             <RaisedButton label='Search'
-                                   labelStyle={this.props.styles.buttonLabelStyle}
-                                   onClick={e => this.handleThesaurus(e)} />
+                          labelStyle={this.props.styles.buttonLabelStyle}
+                          onClick={e => this.handleThesaurus(e)} />
             <div style={this.props.styles.thesaurusResults}>
-            { _.map(this.props.resumeState.thesaurusResults, verbOrNoun => {
-              return (<span>{verbOrNoun.syn.toString().split(',').join(', ') + ' '}</span>)
-              }
-              )}
+              <div>
+                Current word count: {this.props.resumeState.wordCount}
+              </div>
+              <div>
+                Suggested alternatives:
+                { _.map(this.props.resumeState.thesaurusResults, verbOrNoun => {
+                  return (<span>{verbOrNoun.syn.toString().split(',').join(', ') + ' '}</span>)
+                  }
+                  )}
+              </div>
             </div>
           </div>
         </Paper>

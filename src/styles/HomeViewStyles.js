@@ -82,5 +82,5 @@ export const styles = {
     fontSize: '24pt',
     fontStyle: 'italic',
     borderRadius: '5px'
-  },
-}
+  }
+};

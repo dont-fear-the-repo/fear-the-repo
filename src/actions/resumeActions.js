@@ -14,7 +14,8 @@ import { ADD_BLOCK,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_RESUME_WITH_SERVER_RESPONSE,
-         UPDATE_THESAURUS_RESULTS } from 'constants/resumeConstants';
+         UPDATE_THESAURUS_RESULTS,
+         WORD_SEARCH } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -142,11 +143,15 @@ export function updateThesaurusResults (payload) {
   };
 }
 
-
+export function wordSearch(payload) {
+  return {
+    type: WORD_SEARCH,
+    payload
+  };
+}
 
 
 /* END ACTION CREATORS */
-
 
 export function getResumeFromServerDBAsync (payload) { // rename to "serverupdate"
   return function(dispatch) {
