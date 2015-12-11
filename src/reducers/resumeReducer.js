@@ -100,6 +100,7 @@ export default createReducer(initialState, {
     newState.resumeHeader = {
         name: payload.firstName + ' ' + payload.lastName,
         webLinkedin: payload.publicProfileUrl,
+        displayEmail: payload.emailAddress,
         profession: payload.headline,
         city: payload.location.name,
     };
@@ -108,12 +109,12 @@ export default createReducer(initialState, {
         blockType: 'bullets',
         archived: false,
         companyName: payload.positions.values[0].company.name,
-        jobTitile: payload.positions.values[0].company.title,
+        jobTitle: payload.positions.values[0].title,
         bulletChildren: [{
             bulletId: 105,
             archived: false,
             parentBlockId: 3,
-            text: payload.positions.values[0].company.summary || "[contribution to project]"
+            text: payload.positions.values[0].summary || "[contribution to project]"
         }, {
             bulletId: 106,
             archived: false,
@@ -121,15 +122,9 @@ export default createReducer(initialState, {
             text: "[contribution to project]"
         }],
 
-        years: (payload.positions.values[0].company.startDate || '[enter start year]') + '-' + (payload.positions.values[0].company.endDate || '[enter years]'),
+        years: (payload.positions.values[0].startDate.year || '[enter start year]') + '-' + '2015',
         location: '[enter location]'
     };
-    newState.blockChildren[2].bulletChildren[1] =  { 
-      bulletId: 105,
-      archived: false,
-      parentBlockId: 3,
-      text: payload.positions.values[0].company.summary || "[contribution to project]"
-  };
     return newState;
   }, 
   [SERVER_IS_SAVING_UPDATE]: (state, payload) => {

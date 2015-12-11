@@ -75,15 +75,7 @@ export default class ResumeSavePrint extends React.Component {
   }
 
   handleLinkedinData() {
-    $.ajax({
-        url: '/cookie',
-        method: 'post',
-        success: function(data) {
-          console.log(this.props.actions);
-          this.props.actions.populateDataFromLinkedIn(data);
-          console.log('This is the data',data);
-        }.bind(this)
-    })
+
   }
 
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
@@ -92,6 +84,27 @@ export default class ResumeSavePrint extends React.Component {
   //   console.log("Loading resume data from server...")
   //   this.handleLoad();
   // }
+  showPopup(url) {
+    var linkedin_window = window.open('http://localhost:3000/linkedin','window','width=640,height=480,resizable,scrollbars,toolbar,menubar')
+    var that = this;
+    var myInterval = setInterval(function(){
+      if(localStorage.getItem('sendLinkedinData')){
+        linkedin_window.close();
+        $.ajax({
+        url: '/cookie',
+        method: 'post',
+        success: function(data) {
+          that.props.actions.populateDataFromLinkedIn(data);
+          console.log('This is the data',data);
+          localStorage.removeItem('sendLinkedinData')
+        }
+      })
+        clearInterval(myInterval);
+      }
+    },500)
+    //newwindow=window.open(url,'name','height=190,width=520,top=200,left=300,resizable');
+  }
+
 
   showLoadButtonIf(loggedIn, resumeId, serverIsSaving){
     let results = false;
@@ -185,8 +198,8 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
                         <br />
                         <br />
-          <a href='/linkedin'>Import Data from Linkedin</a>
-          <RaisedButton label='Populate Data from Linkedin' onClick={e =>this.handleLinkedinData(e)}/>
+                        
+          <RaisedButton label='Import Data' onClick={(e)=>this.showPopup(e)} />             
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
                           style={this.props.styles.saveButton}
