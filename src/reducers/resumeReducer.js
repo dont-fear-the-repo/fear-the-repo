@@ -22,7 +22,8 @@ import { ADD_BLOCK,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_RESUME_WITH_SERVER_RESPONSE,
-         UPDATE_THESAURUS_RESULTS } from 'constants/resumeConstants';
+         UPDATE_THESAURUS_RESULTS,
+         WORD_SEARCH } from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
@@ -184,15 +185,32 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_THESAURUS_RESULTS]: (state, payload) => {
-    const newState = Object.assign({}, state);
-    newState['thesaurusResults'] = payload;
-    return newState;
+    return {
+      ...state,
+      thesaurusResults: payload
+    };
   },
 
   [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
     return {
       ...state,
       ...payload
+    };
+  },
+
+  [WORD_SEARCH]: (state, payload) => {
+    const searchResults = _.chain(state.blockChildren)
+                           .map(block => block.bulletChildren)
+                           .flatten()
+                           .filter(bullet => bullet.archived === false)
+                           .map(bullet => bullet.text)
+                           .map(snippet => snippet.toLowerCase().split(' '))
+                           .flatten()
+                           .filter(word => word.indexOf(payload) !== -1)
+                           .value();
+    return {
+      ...state,
+      wordCount: searchResults.length
     };
   }
 

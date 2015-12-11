@@ -25,12 +25,12 @@ export const dummyResume = {
       location: '[Your technical skills]',
       bulletChildren: [{
         bulletId: 101,
-        archived: false,
+        archived: true,
         parentBlockId: 1,
         text: 'fake bullet for UI bug'
       }, {
         bulletId: 102,
-        archived: false,
+        archived: true,
         parentBlockId: 1,
         text: 'fake bullet for UI bug'
       }]
@@ -44,12 +44,12 @@ export const dummyResume = {
       location: '',
       bulletChildren: [{
         bulletId: 103,
-        archived: false,
+        archived: true,
         parentBlockId: 2,
         text: 'fake bullet for UI bug'
       }, {
         bulletId: 104,
-        archived: false,
+        archived: true,
         parentBlockId: 2,
         text: 'fake bullet for UI bug'
       }]
@@ -110,12 +110,12 @@ export const dummyResume = {
       location: '',
       bulletChildren: [{
         bulletId: 110,
-        archived: false,
+        archived: true,
         parentBlockId: 5,
         text: 'fake bullet for UI bug'
       }, {
         bulletId: 111,
-        archived: false,
+        archived: true,
         parentBlockId: 5,
         text: 'fake bullet for UI bug'
       }]
@@ -171,12 +171,12 @@ export const dummyResume = {
       location: '',
       bulletChildren: [{
         bulletId: 116,
-        archived: false,
+        archived: true,
         parentBlockId: 8,
         text: 'fake bullet for UI bug'
       }, {
         bulletId: 117,
-        archived: false,
+        archived: true,
         parentBlockId: 8,
         text: 'fake bullet for UI bug'
       }]
@@ -201,12 +201,12 @@ export const dummyResume = {
       location: '[Your personal interests]',
       bulletChildren: [{
         bulletId: 118,
-        archived: false,
+        archived: true,
         parentBlockId: 10,
         text: 'fake bullet for UI bug'
       }, {
         bulletId: 119,
-        archived: false,
+        archived: true,
         parentBlockId: 10,
         text: 'fake bullet for UI bug'
       }],
@@ -230,7 +230,7 @@ export const dummyResume = {
 };
 
 export const blankBulletBlock = {
-  blockId: blockId,
+  blockId: blockId * Math.floor(Math.random() * 2000),
   blockType: 'bullets',
   archived: false,
   companyName: '',
@@ -238,12 +238,12 @@ export const blankBulletBlock = {
   years: '',
   location: '',
   bulletChildren: [{
-    bulletId: bulletId + 1,
+    bulletId: bulletId * Math.floor(Math.random() * 2000) + 1,
     archived: false,
     parentBlockId: blockId,
     text: ''
   }, {
-    bulletId: bulletId + 2,
+    bulletId: bulletId * Math.floor(Math.random() * 2000) + 2,
     archived: false,
     parentBlockId: blockId,
     text: ''
@@ -251,19 +251,19 @@ export const blankBulletBlock = {
 };
 
 export const blankNoBulletBlock = {
-  blockId: blockId,
+  blockId: blockId * Math.floor(Math.random() * 2000),
   blockType: 'no bullets',
   archived: false,
   companyName: 'Heading',
   location: 'text, if applicable',
   bulletChildren: [{
-    bulletId: bulletId + 1,
-    archived: false,
+    bulletId: bulletId * Math.floor(Math.random() * 2000) + 1,
+    archived: true,
     parentBlockId: blockId,
     text: 'fake bullet for UI bug'
   }, {
-    bulletId: bulletId + 2,
-    archived: false,
+    bulletId: bulletId * Math.floor(Math.random() * 2000) + 2,
+    archived: true,
     parentBlockId: blockId,
     text: 'fake bullet for UI bug'
   }]
