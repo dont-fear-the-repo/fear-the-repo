@@ -98,7 +98,9 @@ export default class ResumeHeader extends React.Component {
                   onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
 
         </div>
+        <div style={{clear: 'both'}}> test{/* this is javascript*/} </div>
 
+      {/* END OF HEADER DIV */}
       </div>
     );
   }

@@ -77,7 +77,8 @@ export const styles = {
     height: (resumePaperWidth * (11 / 8.5) * viewMultiplier).toString() + 'px',
     width: (resumePaperWidth * viewMultiplier).toString() + 'px',
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
+    position: 'relative'
   },
   plain: {
     marginLeft: '10px'
