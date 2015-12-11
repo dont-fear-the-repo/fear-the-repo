@@ -7,7 +7,7 @@ import HomeView from 'views/HomeView';
 import ResumeView from 'views/ResumeView';
 import AboutView from 'views/AboutView';
 import SecretView from 'views/SecretView';
-
+import LinkedinLoginView from 'views/LinkedInLoginView'
 
 function requireAuth(nextState, replaceState) {
   // NOTE: will change url address when deployed
@@ -33,5 +33,6 @@ export default (
     <Route path='/resume' component={ResumeView} />
     <Route path='/about' component={AboutView} />
     <Route path='/secretpage' component={SecretView} onEnter={requireAuth} />
+    <Route path = '/cookies' component={LinkedinLoginView} />
   </Route>
 );

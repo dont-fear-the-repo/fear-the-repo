@@ -35,7 +35,6 @@ app.use(historyApiFallback({
     {
       from: '/linkedin',
       to: function(context) {
-        console.log('This is the context',context.parsedUrl.pathname)
         return context.parsedUrl.pathname;
       }
     }
@@ -52,16 +51,14 @@ app.use(historyApiFallback({
 app.use(passport.initialize());
 app.use(cookieParser());
 passport.use( new LinkedinStrategy({  // request fields from facebook
-  profileFields: ['summary','industry','positions','headline','picture-url','first-name','last-name','location'],
+  profileFields: ['summary','industry','positions','headline','picture-url','first-name','last-name','email-address','location','public-profile-url'],
   consumerKey: '75wbm6jxhrsauj',
   consumerSecret: 'qz9SGDHb53Hi6tnU',
   callbackURL: '/linkedin'
   //enableProof: false
   },
     (accessToken, refreshToken, profile, done) => {
-      console.log('Im hit')
     setTimeout(() => {
-      console.log("Im hit")
       return done(null, profile);
     },0);
   }
@@ -72,15 +69,14 @@ passport.serializeUser((user, done) => { // serialization is necessary for persi
 passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
-app.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_basicprofile'] }), (req,res) => {
-  console.log("This is the json object",res.req.user._json)
-
-  console.log("This is my summary",res.req.user._json.summary);
-  console.log("These are my postions",res.req.user._json.positions);
-  console.log("This is the industry",res.req.user._json.industry);
-  console.log("This is the company(s)",res.req.user._json.company);
-  res.redirect('/resume');
+app.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_basicprofile','r_emailaddress'] }), (req,res) => {
+  req.session.LinkedinData  = res.req.user._json;
+  res.redirect('/cookies');
   });
+
+app.post('/cookie',function(req,res){
+  res.send(req.session.LinkedinData);
+})
 
 
 if (config.env === 'development') {
