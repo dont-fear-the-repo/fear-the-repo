@@ -12,6 +12,7 @@ import { ADD_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
+         POPULATE_DATA_FROM_LINKEDIN, 
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_BLOCKS,
@@ -94,7 +95,18 @@ export default createReducer(initialState, {
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
   },
+  [POPULATE_DATA_FROM_LINKEDIN]: (state,payload) => {
+    const userData = {
+      resumeHeader : {
+        name: payload.firstName + ' ' + payload.lastName
+      }
+    };
+    return {
+      ...state,
+      ...userData
+    }
 
+  }, 
   [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
     const newState = Object.assign({}, state);
     newState.serverIsSaving = payload;

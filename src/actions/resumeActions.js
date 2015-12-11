@@ -6,6 +6,7 @@ import { ADD_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
+         POPULATE_DATA_FROM_LINKEDIN,
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_BLOCKS,
@@ -77,7 +78,12 @@ export function moveBullet(payload) {
     payload: payload
   };
 }
-
+export function populateDataFromLinkedIn (payload) {
+  return {
+    type: POPULATE_DATA_FROM_LINKEDIN,
+    payload: payload
+  }
+}
 export function serverIsSavingUpdate (payload) {
   return {
     type: SERVER_IS_SAVING_UPDATE,

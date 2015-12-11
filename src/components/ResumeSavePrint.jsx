@@ -79,8 +79,10 @@ export default class ResumeSavePrint extends React.Component {
         url: '/cookie',
         method: 'post',
         success: function(data) {
+          console.log(this.props.actions);
+          this.props.actions.populateDataFromLinkedIn(data);
           console.log('This is the data',data);
-        }
+        }.bind(this)
     })
   }
 
@@ -183,7 +185,7 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
                         <br />
                         <br />
-          <a href='/linkedin'>Import Data from Linkedin</a>
+          <a href='/linkedin'>Click me</a>
           <RaisedButton label='LinkedinData' onClick={e =>this.handleLinkedinData(e)}/>
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'

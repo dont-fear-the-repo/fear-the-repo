@@ -8,6 +8,7 @@ export default createConstants(
   'HIDE_BULLET',
   'MOVE_BLOCK',
   'MOVE_BULLET',
+  'POPULATE_DATA_FROM_LINKEDIN',
   'SAVE_RESUME',
   'SERVER_IS_SAVING_UPDATE',
   'UPDATE_LOCAL_STATE',
