@@ -73,7 +73,8 @@ export const styles = {
     fontWeight: 500,
     marginTop: '30px',
     letterSpacing: '3px',
-    marginLeft: '20px'
+    marginLeft: '20px',
+    textDecoration: 'none'
   },
   buttonLabelStyle: {
     textTransform: 'none'
