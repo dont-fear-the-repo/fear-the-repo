@@ -185,8 +185,8 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
                         <br />
                         <br />
-          <a href='/linkedin'>Click me</a>
-          <RaisedButton label='LinkedinData' onClick={e =>this.handleLinkedinData(e)}/>
+          <a href='/linkedin'>Import Data from Linkedin</a>
+          <RaisedButton label='Populate Data from Linkedin' onClick={e =>this.handleLinkedinData(e)}/>
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
                           style={this.props.styles.saveButton}

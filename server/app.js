@@ -52,7 +52,7 @@ app.use(historyApiFallback({
 app.use(passport.initialize());
 app.use(cookieParser());
 passport.use( new LinkedinStrategy({  // request fields from facebook
-  profileFields: ['summary','industry','positions','headline','picture-url','first-name','last-name','location'],
+  profileFields: ['summary','industry','positions','headline','picture-url','first-name','last-name','location','public-profile-url'],
   consumerKey: '75wbm6jxhrsauj',
   consumerSecret: 'qz9SGDHb53Hi6tnU',
   callbackURL: '/linkedin'

@@ -96,16 +96,28 @@ export default createReducer(initialState, {
     return newState;
   },
   [POPULATE_DATA_FROM_LINKEDIN]: (state,payload) => {
-    const userData = {
-      resumeHeader : {
-        name: payload.firstName + ' ' + payload.lastName
-      }
+    const newState = Object.assign({}, state);
+    newState.resumeHeader = {
+        name: payload.firstName + ' ' + payload.lastName,
+        webLinkedin: payload.publicProfileUrl,
+        profession: payload.headline,
+        city: payload.location.name,
     };
-    return {
-      ...state,
-      ...userData
+    newState.blockChildren[3]= {
+        blockType: 'LinkedIn',
+        archived: false,
+        companyName: payload.positions.values[0].company.name,
+        jobTitile: payload.positions.values[0].company.title,
+        years: (payload.positions.values[0].company.startDate || '[enter start year]') + '-' + (payload.positions.values[0].company.endDate || '[enter years]'),
+        location: '[enter location]',
+        bulletChildren: [{ 
+            bulletId: 105,
+            archived: false,
+            parentBlockId: 3,
+            text: payload.positions.values[0].company.summary || "[contribution to project]"
+        }]
     }
-
+    return newState;
   }, 
   [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
     const newState = Object.assign({}, state);
