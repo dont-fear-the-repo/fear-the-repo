@@ -1,6 +1,3 @@
-const blockId = Date.now();
-const bulletId = Date.now() + 1;
-
 export const dummyResume = {
   resumeId: 1,
   resumeTitle: 'Resume Version Name',
@@ -229,42 +226,50 @@ export const dummyResume = {
   ]
 };
 
-export const blankBulletBlock = {
-  blockId: blockId * Math.floor(Math.random() * 2000),
-  blockType: 'bullets',
-  archived: false,
-  companyName: '',
-  jobTitle: '',
-  years: '',
-  location: '',
-  bulletChildren: [{
-    bulletId: bulletId * Math.floor(Math.random() * 2000) + 1,
-    archived: false,
-    parentBlockId: blockId,
-    text: ''
-  }, {
-    bulletId: bulletId * Math.floor(Math.random() * 2000) + 2,
-    archived: false,
-    parentBlockId: blockId,
-    text: ''
-  }]
-};
 
-export const blankNoBulletBlock = {
-  blockId: blockId * Math.floor(Math.random() * 2000),
-  blockType: 'no bullets',
-  archived: false,
-  companyName: 'Heading',
-  location: 'text, if applicable',
-  bulletChildren: [{
-    bulletId: bulletId * Math.floor(Math.random() * 2000) + 1,
-    archived: true,
-    parentBlockId: blockId,
-    text: 'fake bullet for UI bug'
-  }, {
-    bulletId: bulletId * Math.floor(Math.random() * 2000) + 2,
-    archived: true,
-    parentBlockId: blockId,
-    text: 'fake bullet for UI bug'
-  }]
-};
+export function blankBulletBlock() {
+  const blockId = Date.now();
+  return {
+    blockId: blockId,
+    blockType: 'bullets',
+    archived: false,
+    companyName: '',
+    jobTitle: '',
+    years: '',
+    location: '',
+    bulletChildren: [{
+      bulletId: blockId + 1,
+      archived: false,
+      parentBlockId: blockId,
+      text: ''
+    }, {
+      bulletId: blockId + 2,
+      archived: false,
+      parentBlockId: blockId,
+      text: ''
+    }]
+  };
+}
+
+export function blankNoBulletBlock() {
+  const blockId = Date.now();
+  return {
+    blockId: blockId,
+    blockType: 'no bullets',
+    archived: false,
+    companyName: 'Heading',
+    location: 'text, if applicable',
+    bulletChildren: [{
+      bulletId: blockId + 1,
+      archived: true,
+      parentBlockId: blockId,
+      text: 'fake bullet for UI bug'
+    }, {
+      bulletId: blockId + 2,
+      archived: true,
+      parentBlockId: blockId,
+      text: 'fake bullet for UI bug'
+    }]
+  };
+}
+// Can I do that? "this.blockId"?
