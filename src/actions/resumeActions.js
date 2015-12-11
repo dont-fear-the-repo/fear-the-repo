@@ -6,6 +6,7 @@ import { ADD_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
+         RESET_RESUME,
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_BLOCKS,
@@ -76,6 +77,13 @@ export function moveBlock(payload) {
 export function moveBullet(payload) {
   return {
     type: MOVE_BULLET,
+    payload: payload
+  };
+}
+
+export function resetResume (payload) {
+  return {
+    type: RESET_RESUME,
     payload: payload
   };
 }

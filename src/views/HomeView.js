@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link as RouterLink } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import counterActions from 'actions/counter';
+import Radium from 'radium';
+import { Scroll, Link, Element, Events } from 'react-scroll';
 
 import { FlatButton, Paper } from 'material-ui/lib';
 import { styles } from 'styles/HomeViewStyles';
@@ -16,6 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(counterActions, dispatch)
 });
 
+@Radium
 class HomeView extends React.Component {
   static propTypes = {
     actions: React.PropTypes.object,
@@ -27,23 +30,32 @@ class HomeView extends React.Component {
       <div className='landing main-body'
            style={styles.mainBody}>
 
-        <img src={require('styles/assets/splash3.png')}
+          <img src={require('styles/assets/splash3.png')}
              style={styles.heroImg} />
+
+             {Radium.getState(this.state, 'circle', 'hover')}
+             <Link to='Features' spy={true} smooth={true} duration={600}>
+               <div style={styles.circle} key='circle'>
+                 <img src={require('styles/assets/downArrow.png')}
+                   style={styles.downArrow} />
+               </div>
+             </Link>
 
         <div style={styles.copy}>
 
           <div style={styles.grayDivTop}>
-
-
           </div>
 
           <div style={styles.whiteDiv}>
 
-            <div style={styles.topCopy}>
-              <div>What-You-See-Is-What-You-Get.</div>
-              <div>Drag-and-drop.</div>
-              <div>See exactly what your printed resume will look like as you edit.</div>
-            </div>
+            <Element name='Features'>
+              <div style={styles.topCopy}>
+                <div>What-You-See-Is-What-You-Get.</div>
+                <div>Drag-and-drop.</div>
+                <div>See exactly what your printed resume will look like as you edit.</div>
+              </div>
+            </Element>
+
 
             <div style={styles.video}>
               <p style={{ paddingTop: '100px' }}>[insert video here]</p>
@@ -62,14 +74,14 @@ class HomeView extends React.Component {
               Are you ready for a beautiful new resume?
             </div>
 
-            <Link to='/resume'>
+            <RouterLink to='/resume'>
               <Paper style={styles.buttonPaper}>
                 <FlatButton label="Let's get started!"
                             style={styles.button}
                             backgroundColor={styles.buttonColor}
                             labelStyle={styles.buttonLabelStyle} />
               </Paper>
-            </Link>
+            </RouterLink>
           </div>
 
         </div>
