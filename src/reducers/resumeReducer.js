@@ -12,6 +12,7 @@ import { ADD_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
+         POPULATE_DATA_FROM_LINKEDIN, 
          RESET_RESUME,
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
@@ -97,6 +98,59 @@ export default createReducer(initialState, {
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
   },
+
+  [POPULATE_DATA_FROM_LINKEDIN]: (state,payload) => {
+
+    if(payload.positions._total){
+      var _companyName  = payload.positions.values[0].company.name || '[company name]';
+      var _jobTitle = payload.positions.values[0].company.title || '[job title]'; 
+      var _text = payload.positions.values[0].summary ||  '[contribution to project]';
+      var _startYear = payload.positions.values[0].startDate.year ||  '[enter start year]';
+      if(payload.positions.values[0].isCurrent) {
+        var _endYear = new Date().getFullYear()
+      } else {
+        var _endYear = payload.positions.values[0].endDate.year || '[enter end year]';       
+      }
+    }else {
+      var _companyName =  '[company name]';
+      var _jobTitle = '[job title]';
+      var _text = '[contribution to project]';
+      var _startYear = '[enter start year]';
+      var _endYear = '[enter end year]';
+    }
+
+
+    const newState = Object.assign({}, state);
+    newState.resumeHeader = {
+        name: (payload.firstName || 'Your') + ' ' + (payload.lastName || 'Full Name'),
+        webLinkedin: payload.publicProfileUrl || 'LinkedIn.com/in/YourLinkedIn',
+        displayEmail: payload.emailAddress || 'LinkedIn.com/in/YourLinkedIn',
+        city: payload.location.name || 'Your City'
+    };
+    newState.blockChildren[2]= {
+        blockId: 3,
+        blockType: 'bullets',
+        archived: false,
+        companyName: _companyName,
+        jobTitle: _jobTitle,
+        bulletChildren: [{
+            bulletId: 105,
+            archived: false,
+            parentBlockId: 3,
+            text: _text
+        }, {
+            bulletId: 106,
+            archived: false,
+            parentBlockId: 3,
+            text: '[contribution to project]'
+        }],
+
+        years: _endYear + '-' + _startYear,
+        location: '[enter location]'
+    };
+    return newState;
+  }, 
+
 
   [RESET_RESUME]: (state, payload) => {
     return Object.assign({}, state, dummyResume);

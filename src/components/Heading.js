@@ -102,38 +102,27 @@ export default class Heading extends React.Component {
       opacity: isDragging ? 0 : 1,
       cursor: 'move',
       margin: '0',
-      ':hover': {}
+      ':hover': {
+        boxSizing: 'border-box',
+        WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+        boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
+      }
     };
 
     return connectDragSource(connectDropTarget(
       <div style={blockDrag} key='heading'>
 
-        {Radium.getState(this.state, 'heading', ':hover') ? (
-          <Paper>
-            <Editor style={resumeThemes[currentTheme].headingTitle}
-                    text={this.props.companyName}
-                    options={{toolbar: false}}
-                    onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
+        {Radium.getState(this.state, 'heading', ':hover')}
+          <Editor style={resumeThemes[currentTheme].headingTitle}
+                  text={this.props.companyName}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
-            <Editor style={resumeThemes[currentTheme].location}
-                    text={this.props.location}
-                    options={{toolbar: false}}
-                    onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
-          </Paper>
+          <Editor style={resumeThemes[currentTheme].location}
+                  text={this.props.location}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
 
-            ) :
-
-          <div>
-            <Editor style={resumeThemes[currentTheme].headingTitle}
-                    text={this.props.companyName}
-                    options={{toolbar: false}}
-                    onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
-
-            <Editor style={resumeThemes[currentTheme].location}
-                    text={this.props.location}
-                    options={{toolbar: false}}
-                    onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
-          </div>}
       </div>
     ));
   }
