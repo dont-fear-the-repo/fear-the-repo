@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { FlatButton, FontIcon } from 'material-ui/lib';
 import { styles } from 'styles/footerStyles';
 
 
@@ -16,22 +15,17 @@ export class Footer extends React.Component {
              style={styles.wholeComponent}>
 
           <Link to='/about'>
-            <FlatButton label='About Us'
-                        style={styles.aboutButton}
-                        labelStyle={styles.buttonLabelStyle}
-                        backgroundColor={styles.buttonColor}
-                        hoverColor={styles.buttonHoverColor} />
+            <div style={styles.aboutButton}>
+              About Us
+            </div>
           </Link>
 
           <a href='https://github.com/dont-fear-the-repo/fear-the-repo'>
-            <FlatButton label='Check us out on Github'
-                        style={styles.githubButton}
-                        labelStyle={styles.buttonLabelStyle}
-                        backgroundColor={styles.buttonColor}
-                        hoverColor={styles.buttonHoverColor} />
-
-            <img src={githubIcon}
-                 style={styles.githubIcon} />
+            <div style={styles.githubButton}>
+              Check us out on Github
+              <img src={githubIcon}
+                   style={styles.githubIcon} />
+            </div>
           </a>
 
         </div>
