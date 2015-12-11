@@ -30,8 +30,9 @@ class HomeView extends React.Component {
       <div className='landing main-body'
            style={styles.mainBody}>
 
+        <div style={styles.heroDiv}>
           <img src={require('styles/assets/splash3.png')}
-             style={styles.heroImg} />
+             style={styles.heroImg} draggable='false' />
 
              {Radium.getState(this.state, 'circle', 'hover')}
              <Link to='Features' spy={true} smooth={true} duration={600}>
@@ -40,6 +41,7 @@ class HomeView extends React.Component {
                    style={styles.downArrow} />
                </div>
              </Link>
+         </div>
 
         <div style={styles.copy}>
 
