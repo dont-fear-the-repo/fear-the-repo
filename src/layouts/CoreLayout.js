@@ -105,7 +105,8 @@ class CoreLayout extends React.Component {
         this.setState({
           spinning: false
         });
-        this.props.pageYouAreOn = '/resume';
+        // transition to resume view here
+        // this.props.pageYouAreOn = '/resume';
       },
       error: () => {
         this.setState({
@@ -313,9 +314,9 @@ showLoginPopover(key, e) {
                            /> : ''}
               {this.state.spinning ?
                 <RefreshIndicator status='loading'
-                                  size={80}
-                                  top={30}
-                                  left={250}
+                                  size={60}
+                                  top={50}
+                                  left={150}
                                   loadingColor={styles.spinnerColor} /> :
                 <FlatButton label='Submit'
                             disabled={!canSubmitAuth}
