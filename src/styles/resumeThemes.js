@@ -177,6 +177,11 @@ export const resumeThemes = {
       marginLeft: '3%',
       paddingTop: '20px',
       fontFamily: themeGlobals.Default.fontFamily
+    },
+    bulletText: {
+      fontFamily: themeGlobals.Default.fontFamily,
+      fontSize: '16px',
+      marginTop: '10px'
     }
   },
 
@@ -323,6 +328,11 @@ export const resumeThemes = {
       fontFamily: themeGlobals.Corporate.fontFamily,
       marginLeft: '3%',
       paddingTop: '20px'
+    },
+    bulletText: {
+      fontFamily: themeGlobals.Corporate.fontFamily,
+      fontSize: '16px',
+      marginTop: '10px'
     }
   },
 
@@ -469,6 +479,11 @@ export const resumeThemes = {
       fontFamily: themeGlobals.Party.fontFamily,
       marginLeft: '3%',
       paddingTop: '20px'
+    },
+    bulletText: {
+      fontFamily: themeGlobals.Party.fontFamily,
+      fontSize: '16px',
+      marginTop: '10px'
     }
   }
 
