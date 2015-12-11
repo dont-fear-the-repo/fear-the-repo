@@ -74,7 +74,7 @@ passport.deserializeUser((obj, done) => {
 });
 app.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_basicprofile','r_emailaddress'] }), (req,res) => {
   console.log("This is the json object",res.req.user._json)
-  
+
   console.log("This is my summary",res.req.user._json.summary);
   console.log("These are my postions",res.req.user._json.positions);
   console.log("This is the industry",res.req.user._json.industry);
@@ -259,15 +259,15 @@ app.post('/api/resume/update', (req, res) => {
           webOther: req.body.resumeHeader.webOther,
           resumeTitle: req.body.resumeTitle,
           resumeTheme: req.body.resumeTheme,
-          personalStatement: req.body.resumeFooter.personalStatement,
-          school1Name: req.body.resumeFooter.school1.school1Name,
-          school1Degree: req.body.resumeFooter.school1.school1Degree,
-          school1EndYear: req.body.resumeFooter.school1.school1EndYear,
-          school1Location: req.body.resumeFooter.school1.school1Location,
-          school2Name: req.body.resumeFooter.school2.school2Name,
-          school2Degree: req.body.resumeFooter.school2.school2Degree,
-          school2EndYear: req.body.resumeFooter.school2.school2EndYear,
-          school2Location: req.body.resumeFooter.school2.school2Location
+          // personalStatement: req.body.resumeFooter.personalStatement,
+          // school1Name: req.body.resumeFooter.school1.school1Name,
+          // school1Degree: req.body.resumeFooter.school1.school1Degree,
+          // school1EndYear: req.body.resumeFooter.school1.school1EndYear,
+          // school1Location: req.body.resumeFooter.school1.school1Location,
+          // school2Name: req.body.resumeFooter.school2.school2Name,
+          // school2Degree: req.body.resumeFooter.school2.school2Degree,
+          // school2EndYear: req.body.resumeFooter.school2.school2EndYear,
+          // school2Location: req.body.resumeFooter.school2.school2Location
         })
         .then((resume) => {
           dbSchema.User.findOne({

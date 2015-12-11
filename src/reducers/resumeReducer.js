@@ -13,6 +13,7 @@ import { ADD_BLOCK,
          MOVE_BLOCK,
          MOVE_BULLET,
          POPULATE_DATA_FROM_LINKEDIN, 
+         RESET_RESUME,
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_BLOCKS,
@@ -20,7 +21,8 @@ import { ADD_BLOCK,
          UPDATE_LOCAL_STATE_FOOTER,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
-         UPDATE_RESUME_WITH_SERVER_RESPONSE } from 'constants/resumeConstants';
+         UPDATE_RESUME_WITH_SERVER_RESPONSE,
+         UPDATE_THESAURUS_RESULTS } from 'constants/resumeConstants';
 
 
 // resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
@@ -95,6 +97,7 @@ export default createReducer(initialState, {
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
   },
+
   [POPULATE_DATA_FROM_LINKEDIN]: (state,payload) => {
     const newState = Object.assign({}, state);
     newState.resumeHeader = {
@@ -127,6 +130,12 @@ export default createReducer(initialState, {
     };
     return newState;
   }, 
+
+
+  [RESET_RESUME]: (state, payload) => {
+    return Object.assign({}, state, dummyResume);
+  },
+
   [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
     const newState = Object.assign({}, state);
     newState.serverIsSaving = payload;
@@ -171,6 +180,12 @@ export default createReducer(initialState, {
   [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
     const newState = Object.assign({}, state);
     newState[payload.textFieldName] = payload.userInput;
+    return newState;
+  },
+
+  [UPDATE_THESAURUS_RESULTS]: (state, payload) => {
+    const newState = Object.assign({}, state);
+    newState['thesaurusResults'] = payload;
     return newState;
   },
 
