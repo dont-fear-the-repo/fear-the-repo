@@ -100,33 +100,52 @@ export default createReducer(initialState, {
   },
 
   [POPULATE_DATA_FROM_LINKEDIN]: (state,payload) => {
+
+    if(payload.positions._total){
+      var _companyName  = payload.positions.values[0].company.name || '[company name]';
+      var _jobTitle = payload.positions.values[0].company.title || '[job title]'; 
+      var _text = payload.positions.values[0].summary ||  '[contribution to project]';
+      var _startYear = payload.positions.values[0].startDate.year ||  '[enter start year]';
+      if(isCurrent) {
+        var _endYear = new Date().getFullYear()
+      } else {
+        var _endYear = payload.positions.values[0].endDate.year || '[enter end year]';       
+      }
+    }else {
+      var _companyName =  '[company name]';
+      var _jobTitle = '[job title]';
+      var _text = '[contribution to project]';
+      var _startYear = '[enter start year]';
+      var _endYear = '[enter end year]';
+    }
+
+
     const newState = Object.assign({}, state);
     newState.resumeHeader = {
-        name: payload.firstName + ' ' + payload.lastName,
-        webLinkedin: payload.publicProfileUrl,
-        displayEmail: payload.emailAddress,
-        profession: payload.headline,
-        city: payload.location.name,
+        name: (payload.firstName || 'Your') + ' ' + (payload.lastName || 'Full Name'),
+        webLinkedin: payload.publicProfileUrl || 'LinkedIn.com/in/YourLinkedIn',
+        displayEmail: payload.emailAddress || 'LinkedIn.com/in/YourLinkedIn',
+        city: payload.location.name || 'Your City'
     };
     newState.blockChildren[2]= {
         blockId: 3,
         blockType: 'bullets',
         archived: false,
-        companyName: payload.positions.values[0].company.name,
-        jobTitle: payload.positions.values[0].title,
+        companyName: _companyName,
+        jobTitle: _jobTitle,
         bulletChildren: [{
             bulletId: 105,
             archived: false,
             parentBlockId: 3,
-            text: payload.positions.values[0].summary || "[contribution to project]"
+            text: _text
         }, {
             bulletId: 106,
             archived: false,
             parentBlockId: 3,
-            text: "[contribution to project]"
+            text: '[contribution to project]'
         }],
 
-        years: (payload.positions.values[0].startDate.year || '[enter start year]') + '-' + '2015',
+        years: _endYear + '-' + _startYear,
         location: '[enter location]'
     };
     return newState;
