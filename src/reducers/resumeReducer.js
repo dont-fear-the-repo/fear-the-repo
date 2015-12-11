@@ -12,6 +12,7 @@ import { ADD_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
+         POPULATE_DATA_FROM_LINKEDIN, 
          RESET_RESUME,
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
@@ -97,6 +98,40 @@ export default createReducer(initialState, {
     newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
     return newState;
   },
+
+  [POPULATE_DATA_FROM_LINKEDIN]: (state,payload) => {
+    const newState = Object.assign({}, state);
+    newState.resumeHeader = {
+        name: payload.firstName + ' ' + payload.lastName,
+        webLinkedin: payload.publicProfileUrl,
+        displayEmail: payload.emailAddress,
+        profession: payload.headline,
+        city: payload.location.name,
+    };
+    newState.blockChildren[2]= {
+        blockId: 3,
+        blockType: 'bullets',
+        archived: false,
+        companyName: payload.positions.values[0].company.name,
+        jobTitle: payload.positions.values[0].title,
+        bulletChildren: [{
+            bulletId: 105,
+            archived: false,
+            parentBlockId: 3,
+            text: payload.positions.values[0].summary || "[contribution to project]"
+        }, {
+            bulletId: 106,
+            archived: false,
+            parentBlockId: 3,
+            text: "[contribution to project]"
+        }],
+
+        years: (payload.positions.values[0].startDate.year || '[enter start year]') + '-' + '2015',
+        location: '[enter location]'
+    };
+    return newState;
+  }, 
+
 
   [RESET_RESUME]: (state, payload) => {
     return Object.assign({}, state, dummyResume);
