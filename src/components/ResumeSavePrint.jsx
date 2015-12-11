@@ -102,7 +102,6 @@ export default class ResumeSavePrint extends React.Component {
         method: 'post',
         success: function(data) {
           that.props.actions.populateDataFromLinkedIn(data);
-          console.log('This is the data',data);
           localStorage.removeItem('sendLinkedinData')
         }
       })

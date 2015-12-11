@@ -106,7 +106,7 @@ export default createReducer(initialState, {
       var _jobTitle = payload.positions.values[0].company.title || '[job title]'; 
       var _text = payload.positions.values[0].summary ||  '[contribution to project]';
       var _startYear = payload.positions.values[0].startDate.year ||  '[enter start year]';
-      if(isCurrent) {
+      if(payload.positions.values[0].isCurrent) {
         var _endYear = new Date().getFullYear()
       } else {
         var _endYear = payload.positions.values[0].endDate.year || '[enter end year]';       
