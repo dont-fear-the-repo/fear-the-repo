@@ -6,6 +6,7 @@ import { ADD_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
+         RESET_RESUME,
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
          UPDATE_LOCAL_STATE_BLOCKS,
@@ -14,7 +15,8 @@ import { ADD_BLOCK,
          UPDATE_LOCAL_STATE_HEADER,
          UPDATE_LOCAL_STATE_SAVEPRINT,
          UPDATE_RESUME_WITH_SERVER_RESPONSE,
-         UPDATE_THESAURUS_RESULTS } from 'constants/resumeConstants';
+         UPDATE_THESAURUS_RESULTS,
+         WORD_SEARCH } from 'constants/resumeConstants';
 
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -75,6 +77,13 @@ export function moveBlock(payload) {
 export function moveBullet(payload) {
   return {
     type: MOVE_BULLET,
+    payload: payload
+  };
+}
+
+export function resetResume (payload) {
+  return {
+    type: RESET_RESUME,
     payload: payload
   };
 }
@@ -142,11 +151,15 @@ export function updateThesaurusResults (payload) {
   };
 }
 
-
+export function wordSearch(payload) {
+  return {
+    type: WORD_SEARCH,
+    payload
+  };
+}
 
 
 /* END ACTION CREATORS */
-
 
 export function getResumeFromServerDBAsync (payload) { // rename to "serverupdate"
   return function(dispatch) {

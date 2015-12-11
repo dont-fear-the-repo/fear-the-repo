@@ -14,6 +14,7 @@ import { addBlock,
          addBullet,
          clientIsDirtyUpdate,
          getResumeFromServerDBAsync,
+         getThesaurusResultsAsync,
          hideBlock,
          hideBullet,
          moveBlock,
@@ -28,7 +29,7 @@ import { addBlock,
          updateLocalStateSavePrint,
          updateResumeState,
          updateResumeWithServerResponse,
-         getThesaurusResultsAsync } from 'actions/resumeActions';
+         wordSearch } from 'actions/resumeActions';
 import { disableSubmit,
          displayErrorMessage,
          enableSubmit,
@@ -52,6 +53,7 @@ const ActionCreators = {
   displayErrorMessage,
   enableSubmit,
   getResumeFromServerDBAsync,
+  getThesaurusResultsAsync,
   hideBlock,
   hideBullet,
   hideErrorMessage,
@@ -68,7 +70,7 @@ const ActionCreators = {
   updateLocalStateSavePrint,
   updateResumeState,
   updateResumeWithServerResponse,
-  getThesaurusResultsAsync
+  wordSearch
 };
 
 const mapStateToProps = (state) => ({

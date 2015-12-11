@@ -6,6 +6,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 
 import { Footer } from 'components/footer';
+import { resetResume } from 'actions/resumeActions';
 import { loginUser, signupUser, logout } from 'actions/titleBarActions';
 import { enableSubmit,
          disableSubmit,
@@ -34,13 +35,15 @@ const ActionCreators = {
   enableSubmit,
   loginUser,
   logout,
+  resetResume,
   signupUser
 };
 const mapStateToProps = (state) => ({
   canSubmitAuth: state.validationReducer.canSubmitAuth,
   currentAuthMessage: state.validationReducer.currentAuthMessage,
   loggedIn: state.titleBarReducer.loggedIn,
-  userLoginInfo: state.email
+  userLoginInfo: state.email,
+  pageYouAreOn: state.router.location.pathname
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
@@ -102,6 +105,8 @@ class CoreLayout extends React.Component {
         this.setState({
           spinning: false
         });
+        // transition to resume view here
+        // this.props.pageYouAreOn = '/resume';
       },
       error: () => {
         this.setState({
@@ -122,6 +127,7 @@ class CoreLayout extends React.Component {
       type: 'POST',
       success: () => {
         this.props.actions.logout();
+        this.props.actions.resetResume();
         this.setState({
           spinning: false
         });
@@ -256,10 +262,10 @@ showLoginPopover(key, e) {
             */}
               {loggedIn &&
 
-                <div style={styles.loginButton}
+                <Link to='/'><div style={styles.loginButton}
                      onClick={(e) => this.handleLogout(e)}>
                   Logout
-                </div>}
+                </div></Link>}
 
               {!loggedIn &&
 
@@ -308,9 +314,9 @@ showLoginPopover(key, e) {
                            /> : ''}
               {this.state.spinning ?
                 <RefreshIndicator status='loading'
-                                  size={80}
-                                  top={30}
-                                  left={250}
+                                  size={60}
+                                  top={50}
+                                  left={150}
                                   loadingColor={styles.spinnerColor} /> :
                 <FlatButton label='Submit'
                             disabled={!canSubmitAuth}

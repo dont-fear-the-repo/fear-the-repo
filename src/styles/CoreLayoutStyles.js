@@ -32,7 +32,7 @@ export const styles = {
     marginRight: '10px',
     marginTop: '4px',
     padding: '8px 20px 10px 20px',
-    borderColor: 'white',
+    borderColor: MasterTheme.white,
     borderStyle: 'solid',
     borderWidth: '2px',
     fontSize: '16px',
@@ -43,7 +43,7 @@ export const styles = {
   },
   signupButton: {
     borderRadius: '5px',
-    color: 'white',
+    color: MasterTheme.white,
     cursor: 'pointer',
     display: 'inline-block',
     position: 'relative',

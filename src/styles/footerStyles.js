@@ -19,19 +19,36 @@ export const styles = {
     fontSize: fontsize,
     fontFamily: font,
     fontStyle: 'italic',
-    fontWeight: MasterTheme.light
+    fontWeight: MasterTheme.light,
+    borderRadius: '5px',
+    color: MasterTheme.white,
+    display: 'inline-block',
+    position: 'relative',
+    padding: '8px 20px 10px 20px',
+    borderColor: MasterTheme.white,
+    borderStyle: 'solid',
+    borderWidth: '2px',
+    textAlign: 'center'
   },
   githubButton: {
     margin: margins,
     fontSize: fontsize,
     fontFamily: font,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    fontWeight: MasterTheme.light,
+    borderRadius: '5px',
+    color: MasterTheme.white,
+    display: 'inline-block',
+    position: 'relative',
+    padding: '2px 20px 1px 20px',
+    borderColor: MasterTheme.white,
+    borderStyle: 'solid',
+    borderWidth: '2px',
+    textAlign: 'center'
   },
   githubIcon: {
-    height: '40px',
-    width: '40px',
-    margin: margins,
-    marginLeft: '2px',
-    marginBottom: '10px'
+    height: '38px',
+    width: '38px',
+    marginLeft: '10px'
   }
 };
