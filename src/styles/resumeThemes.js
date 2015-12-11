@@ -2,6 +2,8 @@ import { MasterTheme } from 'styles/MasterTheme';
 
 const { muli,
         merriweather,
+        times,
+        bangers,
         light,
         normal,
         bold,
@@ -12,11 +14,21 @@ const { muli,
         white } = MasterTheme;
 // please use our white and orange to allow for easy future tweaking
 
+const themeGlobals = {
+  Default: {
+    fontFamily: muli
+  },
+  Corporate: {
+    fontFamily: times
+  },
+  Party: {
+    fontFamily: bangers
+  }
+}
+
 export const resumeThemes = {
 
   'Default': {
-    themeGlobals: {
-    },
     headerDiv: {
       paddingBottom: '7%'
     },
@@ -29,7 +41,7 @@ export const resumeThemes = {
       right: 0
     },
     blockDiv: {
-      marginLeft: '3%'
+      marginLeft: '4%'
     },
     plain: {
     },
@@ -43,7 +55,8 @@ export const resumeThemes = {
       display: 'block',
       float: 'left',
       marginLeft: '35px',
-      position: 'absolute'
+      position: 'absolute',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     state: {
       marginLeft: '80px'
@@ -55,7 +68,8 @@ export const resumeThemes = {
       marginLeft: '3%',
       marginBottom: '1%',
       marginTop: '3%',
-      textAlign: 'left'
+      textAlign: 'left',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     phone: {
       cursor: 'text',
@@ -64,7 +78,8 @@ export const resumeThemes = {
       fontSize: '16px',
       marginLeft: '35px',
       marginTop: '22px',
-      position: 'relative'
+      position: 'relative',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     email: {
       color: 'blue',
@@ -73,14 +88,16 @@ export const resumeThemes = {
       fontSize: '16px',
       marginLeft: '2%',
       marginTop: '22px',
-      position: 'relative'
+      position: 'relative',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     webLinkedin: {
       color: 'blue',
       display: 'inline-block',
       fontSize: '14px',
       marginRight: '3%',
-      float: 'right'
+      float: 'right',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     webOther: {
       color: 'blue',
@@ -89,7 +106,8 @@ export const resumeThemes = {
       marginTop: '22px',
       marginRight: '-180px',
       position: 'static',
-      float: 'right'
+      float: 'right',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     pipe: {
       display: 'inline',
@@ -108,53 +126,66 @@ export const resumeThemes = {
       cursor: 'text',
       margin: '10px',
       fontWeight: '700',
-      fontSize: '16px'
+      fontSize: '16px',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     companyName: {
       display: 'inline-block',
       margin: '10px',
       cursor: 'text',
       fontWeight: '500',
-      fontSize: '16px'
+      fontSize: '16px',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     jobLocation: {
       display: 'inline-block',
       margin: '10px',
-      cursor: 'text'
+      cursor: 'text',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     jobYear: {
       display: 'inline-block',
       cursor: 'text',
       float: 'right',
       marginRight: '3%',
-      marginTop: '12px'
+      marginTop: '12px',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     schoolName: {
       display: 'inline-block',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     schoolDegree: {
       display: 'inline-block',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     schoolYear: {
       display: 'inline-block',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     schoolLocation: {
-      display: 'inline-block'
+      display: 'inline-block',
+      fontFamily: themeGlobals.Default.fontFamily
     },
     personalStatement: {
-
+      fontFamily: themeGlobals.Default.fontFamily
     },
     headingTitle: {
       fontWeight: 'bold',
-      fontSize: '18px'
+      fontSize: '18px',
+      marginLeft: '3%',
+      paddingTop: '20px',
+      fontFamily: themeGlobals.Default.fontFamily
+    },
+    bulletText: {
+      fontFamily: themeGlobals.Default.fontFamily,
+      fontSize: '16px',
+      marginTop: '10px'
     }
   },
 
   'Corporate': {
-    themeGlobals: {
-      globalFontFamily: muli
-    },
     headerDiv: {
       paddingBottom: '7%'
     },
@@ -167,8 +198,7 @@ export const resumeThemes = {
       right: 0
     },
     blockDiv: {
-      color: 'green',
-      marginLeft: '3%'
+      marginLeft: '4%'
     },
     plain: {
       marginLeft: '10px'
@@ -178,17 +208,19 @@ export const resumeThemes = {
       display: 'block',
       float: 'left',
       marginLeft: '35px',
-      position: 'absolute'
+      position: 'absolute',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     name: {
       display: 'inline-block',
       fontWeight: '700',
       fontSize: '32px',
-      marginLeft: '3%',
+      marginLeft: '40%',
       marginBottom: '1%',
       marginTop: '3%',
       textAlign: 'center',
-      position: 'relative'
+      position: 'relative',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     phone: {
       cursor: 'text',
@@ -197,7 +229,8 @@ export const resumeThemes = {
       fontSize: '16px',
       marginLeft: '35px',
       marginTop: '22px',
-      position: 'relative'
+      position: 'relative',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     email: {
       color: 'blue',
@@ -206,14 +239,16 @@ export const resumeThemes = {
       fontSize: '16px',
       marginLeft: '2%',
       marginTop: '22px',
-      position: 'relative'
+      position: 'relative',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     webLinkedin: {
       color: 'blue',
       display: 'inline-block',
       fontSize: '14px',
       marginRight: '3%',
-      float: 'right'
+      float: 'right',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     webOther: {
       color: 'blue',
@@ -222,7 +257,8 @@ export const resumeThemes = {
       marginTop: '22px',
       marginRight: '-180px',
       position: 'static',
-      float: 'right'
+      float: 'right',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     pipe: {
       display: 'inline',
@@ -241,7 +277,8 @@ export const resumeThemes = {
       cursor: 'text',
       margin: '10px',
       fontWeight: '700',
-      fontSize: '18px'
+      fontSize: '16px',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     companyName: {
       display: 'inline-block',
@@ -249,38 +286,53 @@ export const resumeThemes = {
       cursor: 'text',
       fontWeight: '500',
       fontSize: '16px',
-      color: 'red'
+      color: 'red',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     jobLocation: {
       display: 'inline-block',
       margin: '10px',
-      cursor: 'text'
+      cursor: 'text',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     jobYear: {
       display: 'inline-block',
       cursor: 'text',
       float: 'right',
       marginRight: '3%',
-      marginTop: '12px'
+      marginTop: '12px',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     schoolName: {
       display: 'inline-block',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     schoolDegree: {
       display: 'inline-block',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     schoolYear: {
       display: 'inline-block',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     schoolLocation: {
-      display: 'inline-block'
+      display: 'inline-block',
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     personalStatement: {
-
+      fontFamily: themeGlobals.Corporate.fontFamily
     },
     headingTitle: {
       fontWeight: 'bold',
-      fontSize: '20px'
+      fontSize: '18px',
+      fontFamily: themeGlobals.Corporate.fontFamily,
+      marginLeft: '3%',
+      paddingTop: '20px'
+    },
+    bulletText: {
+      fontFamily: themeGlobals.Corporate.fontFamily,
+      fontSize: '16px',
+      marginTop: '10px'
     }
   },
 
@@ -296,6 +348,9 @@ export const resumeThemes = {
       position: 'relative',
       right: 0
     },
+    blockDiv: {
+      marginLeft: '4%'
+    },
     plain: {
       marginLeft: '10px'
     },
@@ -304,16 +359,19 @@ export const resumeThemes = {
       display: 'block',
       float: 'left',
       marginLeft: '35px',
-      position: 'absolute'
+      position: 'absolute',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     name: {
       display: 'inline-block',
       fontWeight: '700',
       fontSize: '32px',
-      marginLeft: '3%',
+      marginLeft: '40%',
       marginBottom: '1%',
       marginTop: '3%',
-      textAlign: 'left'
+      textAlign: 'center',
+      position: 'relative',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     phone: {
       cursor: 'text',
@@ -322,7 +380,8 @@ export const resumeThemes = {
       fontSize: '16px',
       marginLeft: '35px',
       marginTop: '22px',
-      position: 'relative'
+      position: 'relative',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     email: {
       color: 'blue',
@@ -331,14 +390,16 @@ export const resumeThemes = {
       fontSize: '16px',
       marginLeft: '2%',
       marginTop: '22px',
-      position: 'relative'
+      position: 'relative',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     webLinkedin: {
       color: 'blue',
       display: 'inline-block',
       fontSize: '14px',
       marginRight: '3%',
-      float: 'right'
+      float: 'right',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     webOther: {
       color: 'blue',
@@ -347,7 +408,8 @@ export const resumeThemes = {
       marginTop: '22px',
       marginRight: '-180px',
       position: 'static',
-      float: 'right'
+      float: 'right',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     pipe: {
       display: 'inline',
@@ -366,44 +428,62 @@ export const resumeThemes = {
       cursor: 'text',
       margin: '10px',
       fontWeight: '700',
-      fontSize: '18px'
+      fontSize: '16px',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     companyName: {
       display: 'inline-block',
       margin: '10px',
       cursor: 'text',
       fontWeight: '500',
-      fontSize: '16px'
+      fontSize: '16px',
+      color: 'red',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     jobLocation: {
       display: 'inline-block',
       margin: '10px',
-      cursor: 'text'
+      cursor: 'text',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     jobYear: {
       display: 'inline-block',
       cursor: 'text',
       float: 'right',
       marginRight: '3%',
-      marginTop: '12px'
+      marginTop: '12px',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     schoolName: {
       display: 'inline-block',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     schoolDegree: {
       display: 'inline-block',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     schoolYear: {
       display: 'inline-block',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     schoolLocation: {
-      display: 'inline-block'
+      display: 'inline-block',
+      fontFamily: themeGlobals.Party.fontFamily
     },
     personalStatement: {
-
+      fontFamily: themeGlobals.Party.fontFamily
     },
     headingTitle: {
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      fontSize: '18px',
+      fontFamily: themeGlobals.Party.fontFamily,
+      marginLeft: '3%',
+      paddingTop: '20px'
+    },
+    bulletText: {
+      fontFamily: themeGlobals.Party.fontFamily,
+      fontSize: '16px',
+      marginTop: '10px'
     }
   }
 
