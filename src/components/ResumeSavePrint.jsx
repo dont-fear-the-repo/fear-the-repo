@@ -74,10 +74,6 @@ export default class ResumeSavePrint extends React.Component {
     this.props.actions.updateLocalState({textFieldName, userInput});
   }
 
-  handleLinkedinData() {
-
-  }
-
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
   // Do no run unless we decied to put some logic in to deal with unlogged in users, or clientIsDirty=true
   // componentDidMount() {
@@ -199,7 +195,10 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
                         <br />
                         
-          <RaisedButton label='Import Data' onClick={(e)=>this.showPopup(e)} />             
+          <RaisedButton label='LinkedIn Import' 
+            labelStyle={this.props.styles.buttonLabelStyle}
+            onClick={(e)=>this.showPopup(e)} />       
+
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
                           style={this.props.styles.saveButton}
