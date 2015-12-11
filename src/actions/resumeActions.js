@@ -6,6 +6,7 @@ import { ADD_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
+         POPULATE_DATA_FROM_LINKEDIN,
          RESET_RESUME,
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
@@ -79,6 +80,13 @@ export function moveBullet(payload) {
     type: MOVE_BULLET,
     payload: payload
   };
+}
+
+export function populateDataFromLinkedIn (payload) {
+  return {
+    type: POPULATE_DATA_FROM_LINKEDIN,
+    payload: payload
+  }
 }
 
 export function resetResume (payload) {
