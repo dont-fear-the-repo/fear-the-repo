@@ -11,17 +11,22 @@ export const styles = {
     color: MasterTheme.orange,
     display: 'inline-block',
     position: 'relative',
-    marginRight: '30px',
+    // marginRight: '-10px',
     marginTop: '4px',
-    padding: '6px 20px 10px 20px',
-    borderColor: MasterTheme.orange,
-    borderStyle: 'solid',
-    borderWidth: '2px',
-    fontSize: '18px',
-    height: '40px',
-    width: '160px',
+    padding: '6px 17px 7px 17px',
+    fontSize: '16px',
+    height: '35px',
+    width: '140px',
     textAlign: 'center',
-    fontFamily: font
+    fontFamily: font,
+    borderColor: MasterTheme.darkGray,  // Drawing a new border on hover introduces a bug where the entire div shifts down slightly, which is why we draw it here first
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    ':hover': {
+      borderColor: MasterTheme.orange,
+      borderStyle: 'solid',
+      borderWidth: '1px'
+    }
   },
   loginButton: {
     borderRadius: '5px',
@@ -29,17 +34,22 @@ export const styles = {
     cursor: 'pointer',
     display: 'inline-block',
     position: 'relative',
-    marginRight: '10px',
+    // marginRight: '-10px',
     marginTop: '4px',
-    padding: '8px 20px 10px 20px',
-    borderColor: MasterTheme.white,
-    borderStyle: 'solid',
-    borderWidth: '2px',
-    fontSize: '16px',
-    height: '40px',
-    width: '100px',
+    padding: '8px 17px 7px 17px',
+    fontSize: '14px',
+    height: '35px',
+    width: '80px',
     textAlign: 'center',
-    fontFamily: font
+    fontFamily: font,
+    borderColor: MasterTheme.darkGray,
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    ':hover': {
+      borderColor: MasterTheme.white,
+      borderStyle: 'solid',
+      borderWidth: '1px'
+    }
   },
   signupButton: {
     borderRadius: '5px',
@@ -49,15 +59,20 @@ export const styles = {
     position: 'relative',
     marginRight: '10px',
     marginTop: '4px',
-    padding: '8px 20px 10px 20px',
-    borderColor: 'white',
-    borderStyle: 'solid',
-    borderWidth: '2px',
-    fontSize: '16px',
-    height: '40px',
-    width: '100px',
+    padding: '8px 17px 7px 17px',
+    fontSize: '14px',
+    height: '35px',
+    width: '80px',
     textAlign: 'center',
-    fontFamily: font
+    fontFamily: font,
+    borderColor: MasterTheme.darkGray,
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    ':hover': {
+      borderColor: MasterTheme.white,
+      borderStyle: 'solid',
+      borderWidth: '1px'
+    }
   },
   mainContainer: {
     backgroundColor: MasterTheme.darkGray,

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import _ from 'underscore';
+import Radium from 'radium';
 
 import { Footer } from 'components/footer';
 import { resetResume } from 'actions/resumeActions';
@@ -49,6 +50,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
 
+@Radium
 class CoreLayout extends React.Component {
     static propTypes = {
       actions: React.PropTypes.object,
@@ -230,60 +232,53 @@ showLoginPopover(key, e) {
     return (
       <div className='page-container'>
         <div className='view-container'>
-        <AppBar
-          title={<Link to='/' style={styles.name}>rezable</Link>}
-          style={styles.mainContainer}
-          iconElementLeft={
-                <Link to='/' style={styles.name}>
-                  <svg style={styles.logo} version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100"><g><circle cx="33.929" cy="21.406" r="3.214"></circle><rect x="43.571" y="63.191" width="25.715" height="6.429"></rect><circle cx="33.929" cy="50.334" r="3.214"></circle><rect x="43.571" y="76.048" width="25.715" height="6.429"></rect><rect x="43.571" y="50.334" width="25.715" height="6.43"></rect><path d="M82.143,18.845v-0.004l-0.303-0.306c-0.01-0.009-0.02-0.019-0.027-0.028L81.5,18.191L68.643,5.334H17.857v13.511   C9.905,26.961,5,38.074,5,50.334s4.905,23.373,12.857,31.489v13.511h64.286V81.823C90.096,73.707,95,62.594,95,50.334   S90.096,26.961,82.143,18.845z M75.714,88.906H24.286V11.763h38.571V24.62h12.856V88.906z"></path><circle cx="33.929" cy="79.262" r="3.215"></circle><rect x="43.571" y="37.477" width="25.715" height="6.428"></rect></g></svg>
-                </Link>
-            }
-          iconElementRight={
-            <div>
+          <AppBar
+                title={<Link to='/' style={styles.name}>rezable</Link>}
+                style={styles.mainContainer}
+                iconElementLeft={
+                      <Link to='/' style={styles.name}>
+                        <svg style={styles.logo} version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100"><g><circle cx="33.929" cy="21.406" r="3.214"></circle><rect x="43.571" y="63.191" width="25.715" height="6.429"></rect><circle cx="33.929" cy="50.334" r="3.214"></circle><rect x="43.571" y="76.048" width="25.715" height="6.429"></rect><rect x="43.571" y="50.334" width="25.715" height="6.43"></rect><path d="M82.143,18.845v-0.004l-0.303-0.306c-0.01-0.009-0.02-0.019-0.027-0.028L81.5,18.191L68.643,5.334H17.857v13.511   C9.905,26.961,5,38.074,5,50.334s4.905,23.373,12.857,31.489v13.511h64.286V81.823C90.096,73.707,95,62.594,95,50.334   S90.096,26.961,82.143,18.845z M75.714,88.906H24.286V11.763h38.571V24.62h12.856V88.906z"></path><circle cx="33.929" cy="79.262" r="3.215"></circle><rect x="43.571" y="37.477" width="25.715" height="6.428"></rect></g></svg>
+                      </Link>
+                  }
+                iconElementRight={
+                  <div>
 
-              <Link to='/resume'>
+                    <Link to='/resume'>
 
-                <div style={styles.editResumeButton}>
-                  Edit Resume
-                </div>
+                    {Radium.getState(this.state, 'editResume', ':hover')}
+                      <div style={styles.editResumeButton} key='editResume'>
+                        Edit Resume
+                      </div>
 
-              </Link>
+                    </Link>
 
-            {/*
-              {this.props.loggedIn ?
-                <Link to='/secretpage'>
-                  <FlatButton label='Logged In Only'
-                              style={styles.button}
-                              backgroundColor={styles.buttonColor}
-                              hoverColor={styles.buttonHoverColor}
-                              labelStyle={styles.buttonLabelStyle} />
-                </Link>
-              : '' }
-            */}
-              {loggedIn &&
+                    {loggedIn &&
 
-                <Link to='/'><div style={styles.loginButton}
-                     onClick={(e) => this.handleLogout(e)}>
-                  Logout
-                </div></Link>}
+                      <Link to='/'>
 
-              {!loggedIn &&
+                        <div style={styles.loginButton}
+                             onClick={(e) => this.handleLogout(e)} key='logoutButton'>
+                          Logout
+                        </div>
 
-                <div style={styles.loginButton}
-                     onClick={(e) => this.showLoginPopover('pop', e)}>
-                  Login
-                </div>}
+                      </Link>}
 
-              {!loggedIn &&
+                    {!loggedIn &&
 
-                <div style={styles.signupButton}
-                     onClick={(e) => this.showSignupPopover('pop', e)}>
-                  Signup
-                </div>}
+                      <div style={styles.loginButton}
+                           onClick={(e) => this.showLoginPopover('pop', e)} key='loginButton'>
+                        Login
+                      </div>}
 
-            </div>
-            } /> {/* End of the AppBar */}
+                    {!loggedIn &&
 
+                      <div style={styles.signupButton}
+                           onClick={(e) => this.showSignupPopover('pop', e)} key='signupButton'>
+                        Signup
+                      </div>}
+
+                  </div>
+                  } /> {/* End of the AppBar */}
 
           <div>
 
