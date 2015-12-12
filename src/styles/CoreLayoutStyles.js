@@ -47,9 +47,10 @@ export const styles = {
     borderStyle: 'solid',
     borderWidth: '1px',
     ':hover': {
-      borderColor: MasterTheme.white,
-      borderStyle: 'solid',
-      borderWidth: '1px'
+      // borderColor: MasterTheme.white,
+      // borderStyle: 'solid',
+      // borderWidth: '1px'
+      color: MasterTheme.orange
     }
   },
   signupButton: {
@@ -70,9 +71,10 @@ export const styles = {
     borderStyle: 'solid',
     borderWidth: '1px',
     ':hover': {
-      borderColor: MasterTheme.white,
-      borderStyle: 'solid',
-      borderWidth: '1px'
+      // borderColor: MasterTheme.white,
+      // borderStyle: 'solid',
+      // borderWidth: '1px'
+      color: MasterTheme.orange
     }
   },
   homeViewNav: {

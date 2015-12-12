@@ -19,6 +19,7 @@ export const styles = {
   },
   heroText: {
     color: 'white',
+    cursor: 'default',
     fontFamily: muli,
     fontSize: '36px',
     fontWeight: '200',
@@ -49,7 +50,7 @@ export const styles = {
     padding: '7px',
     ':hover': {
       backgroundColor: MasterTheme.orange,
-      color: 'white'
+      color: MasterTheme.white
     }
   },
   circle: {
