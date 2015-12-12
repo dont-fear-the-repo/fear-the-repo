@@ -12,7 +12,7 @@ import { ADD_BLOCK,
          HIDE_BULLET,
          MOVE_BLOCK,
          MOVE_BULLET,
-         POPULATE_DATA_FROM_LINKEDIN, 
+         POPULATE_DATA_FROM_LINKEDIN,
          RESET_RESUME,
          SERVER_IS_SAVING_UPDATE,
          UPDATE_LOCAL_STATE,
@@ -103,13 +103,13 @@ export default createReducer(initialState, {
 
     if(payload.positions._total){
       var _companyName  = payload.positions.values[0].company.name || '[company name]';
-      var _jobTitle = payload.positions.values[0].company.title || '[job title]'; 
+      var _jobTitle = payload.positions.values[0].company.title || '[job title]';
       var _text = payload.positions.values[0].summary ||  '[contribution to project]';
       var _startYear = payload.positions.values[0].startDate.year ||  '[enter start year]';
       if(payload.positions.values[0].isCurrent) {
         var _endYear = new Date().getFullYear()
       } else {
-        var _endYear = payload.positions.values[0].endDate.year || '[enter end year]';       
+        var _endYear = payload.positions.values[0].endDate.year || '[enter end year]';
       }
     }else {
       var _companyName =  '[company name]';
@@ -149,7 +149,7 @@ export default createReducer(initialState, {
         location: '[enter location]'
     };
     return newState;
-  }, 
+  },
 
 
   [RESET_RESUME]: (state, payload) => {
@@ -204,9 +204,24 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_THESAURUS_RESULTS]: (state, payload) => {
+    let thesaurusResults = {};
+
+    if (payload.error !== undefined) {
+      _.extend(thesaurusResults, payload);
+    } else {
+      _.each(payload, (type, key) => {
+        if (type.syn !== undefined) {
+          if (type.syn.length > 20) {
+            type.syn = _.first(type.syn, 20);
+          }
+          thesaurusResults[key] = type.syn.join(', ');
+        }
+      });
+    }
+
     return {
       ...state,
-      thesaurusResults: payload
+      thesaurusResults
     };
   },
 
