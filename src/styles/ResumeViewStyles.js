@@ -40,15 +40,22 @@ export const styles = {
     width: '150px'
   },
   paperLeftNavButton: {
-    marginTop: '30px'
+    marginTop: '15px',
+    fontWeight: MasterTheme.bold
   },
   paperLeftNavThemeButton: {
-
+    margin: '3px'
+  },
+  paperLeftDiv: {
+    marginTop: '30px',
+    marginBottom: '20px'
   },
   paperLeftNavLabel: {
     color: MasterTheme.orange,
     font: font,
-    marginBottom: '10px'
+    fontWeight: MasterTheme.light,
+    marginBottom: '10px',
+    marginTop: '25px'
   },
   exportButton: {
     margin: '5px',
@@ -92,11 +99,12 @@ export const styles = {
   },
   hintStyle: {
     color: MasterTheme.lightGray,
+    // border: 'solid',
+    // borderColor: MasterTheme.orange,
+    // borderRadius: '6px',
+    padding: '10px',
     paddingLeft: '20px',
-    border: 'solid',
-    borderColor: MasterTheme.orange,
-    borderRadius: '6px',
-    padding: '10px'
+    fontSize: '14px'
   },
   floatingLabelStyle: {
     color: MasterTheme.orange,
@@ -127,16 +135,29 @@ export const styles = {
     cursor: 'move',
     float: 'right',
   },
+  thesaurus: {
+    textAlign: 'center'
+  },
+  thesaurusSearchBox: {
+    width: '130px',
+    marginTop: '3px',
+    marginLeft: '2px'
+  },
   thesaurusResults: {
     color: MasterTheme.black,
-    paddingTop: '5px'
+    padding: '5px'
+  },
+  thesaurusSearchButton: {
+    margin: '5px',
+    fontWeight: MasterTheme.bold
   },
   wordCount: {
     color: MasterTheme.lightGray
   },
   wordList: {
     color: MasterTheme.darkGray,
-    textAlign: 'left'
+    textAlign: 'left',
+    padding: '5px'
   },
   wordType: {
     color: MasterTheme.orange,
