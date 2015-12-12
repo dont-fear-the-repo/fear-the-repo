@@ -181,21 +181,17 @@ export function getResumeFromServerDBAsync (payload) { // rename to "serverupdat
         body: JSON.stringify(payload)
       })
       .then(response => response.json())
-      .then(serverResponseJavascriptObject =>
+      .then(serverResponseJavascriptObject => {
         dispatch(updateResumeWithServerResponse(serverResponseJavascriptObject))
-      ).then((action) =>
+      })
+      .then((action) => {
         dispatch(serverIsSavingUpdate('resumeHeader.name of recieved Resume:' + JSON.stringify(action.payload.resumeHeader.name)))
-      ) // this needs to eventually be a server response that has {text: 'successful save!'} added to the resume body object.
-
-    // In a real world app, you also want to
-    // catch any error in the network call.
-  }
+      }); // TODO: this needs to eventually be a server response that has {text: 'successful save!'} added to the resume body object.
+          // TODO: this needs error handling
+  };
 }
 
 export function sendResumeToServerAsync(sentResumeObj) {
-  // Thunk middleware knows how to handle functions.
-  // It passes the dispatch method as an argument to the function,
-  // thus making it able to dispatch actions itself.
   return function(dispatch) {
     console.log('ran sendResumeToServerAsync in resumeActions.js')
     return fetch('http://localhost:3000/api/resume/update', {
@@ -207,35 +203,29 @@ export function sendResumeToServerAsync(sentResumeObj) {
         body: JSON.stringify(sentResumeObj)
       })
       .then(response => response.json())
-      .then(serverResponse =>
+      .then(serverResponse => {
         dispatch(serverIsSavingUpdate(serverResponse.text))
-      )
-      .then(() =>
+      })
+      .then(() => {
         dispatch(clientIsDirtyUpdate(false))
-      )
-    // In a real world app, you also want to
-    // catch any error in the network call.
+      });
+    // TODO: this needs error handling
   };
 }
 
 
-export function getThesaurusResultsAsync (thesaurusQuery) { // rename to "serverupdate"
+export function getThesaurusResultsAsync (thesaurusQuery) {
   return function(dispatch) {
-    console.log('ran getThesaurusResultsAsync in resumeActions.js')
     const queryURL = 'http://words.bighugelabs.com/api/2/ecb6566c60b2ee6f4c85013ebfb5e70b/' + thesaurusQuery +'/json'
     return fetch(queryURL, {
         method: 'get'
-        // body: JSON.stringify(payload)
       })
       .then(response => response.json())
-      .then(thesaurusReplyJSON =>
+      .then(thesaurusReplyJSON => {
         dispatch(updateThesaurusResults(thesaurusReplyJSON))
-      )
-      // .then((action) =>
-        // dispatch(serverIsSavingUpdate('resumeHeader.name of recieved Resume:' + JSON.stringify(action.payload.resumeHeader.name)))
-      // ) // this needs to eventually be a server response that has {text: 'successful save!'} added to the resume body object.
-
-    // In a real world app, you also want to
-    // catch any error in the network call.
-  }
+      })
+      .catch(err => {
+        dispatch(updateThesaurusResults({error: 'No synonyms found. Try another word?'}))
+      });
+  };
 }
