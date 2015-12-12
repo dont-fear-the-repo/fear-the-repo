@@ -30,6 +30,7 @@ const webpackConfig = {
       template : paths.client('index.html'),
       hash     : false,
       filename : 'index.html',
+      favicon   : paths.base(config.dir_client)  + '/styles/assets/favicon64.ico',
       inject   : 'body',
       minify   : {
         collapseWhitespace : true

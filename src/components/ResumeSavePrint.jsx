@@ -28,7 +28,10 @@ export default class ResumeSavePrint extends React.Component {
       let wrappedForServer = Object.assign({}, this.props.resumeState);
       wrappedForServer.userID = this.props.userID;
       this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
-      console.log('clicked LOAD btn in ResumeSavePrint')
+
+
+      _.map(this.props.validations, (validation, key) => this.props.validations[key] = true)
+      this.props.actions.enableSubmit('Resume');
     } else {
       alert('To load a resume, please signup above');
     }
@@ -92,7 +95,7 @@ export default class ResumeSavePrint extends React.Component {
   //   this.handleLoad();
   // }
   showPopup(url) {
-    var linkedin_window = window.open('http://localhost:3000/linkedin','window','width=640,height=480,resizable,scrollbars,toolbar,menubar')
+    var linkedin_window = window.open('http://' + window.location.hostname + (window.location.port? ":": "") + window.location.port + '/linkedin','window','width=640,height=480,resizable,scrollbars,toolbar,menubar')
     var that = this;
     var myInterval = setInterval(function(){
       if(localStorage.getItem('sendLinkedinData')){
@@ -177,15 +180,15 @@ export default class ResumeSavePrint extends React.Component {
           <RaisedButton label='Export Resume'
                         style={this.props.styles.paperLeftNavButton}
                         labelStyle={this.props.styles.buttonLabelStyle}
-                        onClick={e => this.handlePrint(e)} />
+                        onClick={e => this.handleExport(e)} />
                         <br />
                         <br />
                         <br />
                         <br />
-                        
-          <RaisedButton label='LinkedIn Import' 
+
+          <RaisedButton label='LinkedIn Import'
             labelStyle={this.props.styles.buttonLabelStyle}
-            onClick={(e)=>this.showPopup(e)} />       
+            onClick={(e)=>this.showPopup(e)} />
 
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
@@ -235,8 +238,8 @@ export default class ResumeSavePrint extends React.Component {
               </div>
               <div style={styles.wordList}>
                 Suggested alternatives:
-                { _.map(resumeState.thesaurusResults, (verbOrNoun, index) => {
-                      return (<div><span style={styles.wordType}>{index}</span>: {verbOrNoun.syn.join(', ') + ' '}</div>)
+                { _.map(resumeState.thesaurusResults, (type, index) => {
+                      return (<div key={index}><span style={styles.wordType}>{index}</span>: {type}</div>)
                   })}
               </div>
             </div>
