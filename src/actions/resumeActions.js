@@ -172,7 +172,7 @@ export function wordSearch(payload) {
 export function getResumeFromServerDBAsync (payload) { // rename to "serverupdate"
   return function(dispatch) {
     console.log('ran getResumeFromServerDBAsync in resumeActions.js')
-    return fetch('http://localhost:3000/api/resume/get', {
+    return fetch('http://' + window.location.hostname + (window.location.port? ":": "") + window.location.port + '/api/resume/get', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -194,7 +194,7 @@ export function getResumeFromServerDBAsync (payload) { // rename to "serverupdat
 export function sendResumeToServerAsync(sentResumeObj) {
   return function(dispatch) {
     console.log('ran sendResumeToServerAsync in resumeActions.js')
-    return fetch('http://localhost:3000/api/resume/update', {
+    return fetch('http://' + window.location.hostname + (window.location.port? ":": "") + window.location.port + '/api/resume/update', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
