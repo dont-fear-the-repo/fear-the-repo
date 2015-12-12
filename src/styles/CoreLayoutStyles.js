@@ -15,11 +15,12 @@ export const styles = {
     marginTop: '4px',
     padding: '6px 17px 7px 17px',
     fontSize: '16px',
+    fontWeight: MasterTheme.bold,
     height: '35px',
     width: '140px',
     textAlign: 'center',
     fontFamily: font,
-    borderColor: MasterTheme.darkGray,  // Drawing a new border on hover introduces a bug where the entire div shifts down slightly, which is why we draw it here first
+    borderColor: 'transparent',  // Drawing a new border on hover introduces a bug where the entire div shifts down slightly, which is why we draw it here first
     borderStyle: 'solid',
     borderWidth: '1px',
     ':hover': {
@@ -42,7 +43,7 @@ export const styles = {
     width: '80px',
     textAlign: 'center',
     fontFamily: font,
-    borderColor: MasterTheme.darkGray,
+    borderColor: 'transparent',
     borderStyle: 'solid',
     borderWidth: '1px',
     ':hover': {
@@ -65,7 +66,7 @@ export const styles = {
     width: '80px',
     textAlign: 'center',
     fontFamily: font,
-    borderColor: MasterTheme.darkGray,
+    borderColor: 'transparent',
     borderStyle: 'solid',
     borderWidth: '1px',
     ':hover': {
@@ -74,21 +75,22 @@ export const styles = {
       borderWidth: '1px'
     }
   },
-  mainContainer: {
-    backgroundColor: MasterTheme.darkGray,
+  homeViewNav: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
     zIndex: 100
   },
   buttonColor: MasterTheme.white,
   buttonHoverColor: MasterTheme.orange,
-  name: {
+  rezableName: {
     fontFamily: font,
     color: MasterTheme.orange,
     fontStyle: 'none',
-    fontSize: '32px',
+    fontSize: '40px',
     fontWeight: 500,
-    marginTop: '30px',
+    marginTop: '20px',
     letterSpacing: '3px',
-    marginLeft: '20px',
+    marginLeft: '30px',
     textDecoration: 'none'
   },
   buttonLabelStyle: {
@@ -111,9 +113,10 @@ export const styles = {
     color: MasterTheme.midGray
   },
   logo: {
-    fill: MasterTheme.orange,  // this not working. I wish it did.
-    width: '45px',
-    marginRight: '-10px'
+    fill: MasterTheme.orange,
+    width: '50px',
+    marginRight: '-20px',
+    marginTop: '2px'
   },
   spinnerColor: MasterTheme.orange
 };

@@ -17,6 +17,28 @@ export const styles = {
     height: '763px',
     position: 'relative'
   },
+  callToAction: {
+    width: '350px',
+    height: '80px',
+    cursor: 'pointer',
+    borderRadius: '5px',
+    position: 'absolute',
+    marginLeft: 'calc(50% - 175px)',
+    marginTop: '-250px',
+    borderColor: MasterTheme.orange,
+    borderStyle: 'solid',
+    borderWidth: '2px',
+    color: MasterTheme.orange,
+    textAlign: 'center',
+    fontSize: '22px',
+    fontFamily: muli,
+    letterSpacing: '3px',
+    padding: '7px',
+    ':hover': {
+      backgroundColor: MasterTheme.orange,
+      color: 'white'
+    }
+  },
   circle: {
     width: '100px',
     height: '100px',
