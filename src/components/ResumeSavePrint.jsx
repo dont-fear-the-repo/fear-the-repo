@@ -180,7 +180,7 @@ export default class ResumeSavePrint extends React.Component {
           <RaisedButton label='Export Resume'
                         style={this.props.styles.paperLeftNavButton}
                         labelStyle={this.props.styles.buttonLabelStyle}
-                        onClick={e => this.handlePrint(e)} />
+                        onClick={e => this.handleExport(e)} />
                         <br />
                         <br />
                         <br />
