@@ -18,6 +18,7 @@ import { AppBar,
          TextField } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 import { printStyles } from  'styles/PrinterStyles';
+import { MasterTheme } from 'styles/MasterTheme';
 
 
 export default class ResumeSavePrint extends React.Component {
@@ -129,25 +130,8 @@ export default class ResumeSavePrint extends React.Component {
     const { resumeState,
             styles } = this.props;
 
-    const saveAnimation = <CircularProgress mode="indeterminate" color={"orange"} size={.3} />;
+    const saveAnimation = <CircularProgress mode="indeterminate" color={MasterTheme.orange} size={.3} />;
     const savedConfirm = 'Changes saved!';
-    const menuItems = [
-      { text: <RaisedButton label='Print Resume'
-                            style={styles.saveButton}
-                            labelStyle={styles.buttonLabelStyle}
-                            onItemTouchTap={(e) => this.handlePrint(e)} /> },
-      { route: 'components', text: 'Components' },
-      { type: MenuItem.Types.SUBHEADER, text: 'Themes' },
-      {
-         type: MenuItem.Types.LINK,
-         payload: 'https://github.com/callemall/material-ui',
-         text: 'GitHub'
-      },
-      {
-         text: 'Save',
-         disabled: true
-      }
-    ];
     const themes = Object.keys(resumeThemes)
                          .map( (value, index) => ({
                             'index': index,
@@ -156,126 +140,92 @@ export default class ResumeSavePrint extends React.Component {
 
     return (
     <div>
-    <LeftNav  ref="leftNav"
-              docked={false}
-              menuItems={menuItems}
-              style={styles.leftNav} />
-
 
       <div style={styles.headerContainer}>
 
-        <Paper style={{width:'150px', backgroundColor: 'white', position: 'absolute', left: '0px', top: '96.5px', boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'}}>
+        <Paper style={styles.leftNav}>
 
-          <RaisedButton label='Print Resume'
-                        style={styles.paperLeftNavButton}
-                        labelStyle={styles.buttonLabelStyle}
-                        onClick={e => this.handlePrint(e)} />
+          <FlatButton label='Save Resume'
+                      style={styles.paperLeftNavButton}
+                      labelStyle={styles.buttonLabelStyle}
+                      disabled={!this.props.canSubmitResume}
+                      onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
 
-          <RaisedButton label='Save Resume'
-                        style={styles.paperLeftNavButton}
-                        labelStyle={styles.buttonLabelStyle}
-                        disabled={!this.props.canSubmitResume}
-                        onClick={e => this.handleSubmit(e, this.props.serverIsSavingUpdate, this.props.sendResumeToServerAsync)} />
+          <FlatButton label='Print Resume'
+                      style={styles.paperLeftNavButton}
+                      labelStyle={styles.buttonLabelStyle}
+                      onClick={e => this.handlePrint(e)} />
 
-          <RaisedButton label='Export Resume'
-                        style={this.props.styles.paperLeftNavButton}
-                        labelStyle={this.props.styles.buttonLabelStyle}
-                        onClick={e => this.handleExport(e)} />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
+          <FlatButton label='Export to PDF'
+                      style={styles.paperLeftNavButton}
+                      labelStyle={styles.buttonLabelStyle}
+                      onClick={e => this.handleExport(e)} />
 
-          <RaisedButton label='LinkedIn Import'
-            labelStyle={this.props.styles.buttonLabelStyle}
-            onClick={(e)=>this.showPopup(e)} />
+          <FlatButton label='LinkedIn Import'
+                      style={styles.paperLeftNavButton}
+                      labelStyle={styles.buttonLabelStyle}
+                      onClick={(e)=>this.showPopup(e)} />
 
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
-            <div><RaisedButton label='Reload Resume'
+            <div><FlatButton label='Load Resume'
                           style={styles.paperLeftNavButton}
                           labelStyle={styles.buttonLabelStyle}
                           onClick={e => this.handleLoad(e)} />
             </div>
           }
 
-          <div style={{marginTop: '30px', marginBottom: '20px'}}>
-            <div style={styles.paperLeftNavLabel}>
-            Resume Themes
-            </div>
-            {themes.map(theme => {
-                            return (
-                              <FlatButton label={theme.text}
-                                          key={theme.text}
-                                          style={styles.paperLeftNavThemeButton}
-                                          labelStyle={styles.buttonLabelStyle}
-                                          onClick={e => this.handleChangeTheme(e)}/>
-                            );
-
-            })}
+          <div style={styles.paperLeftDiv}>
+            <SelectField floatingLabelText='Select a Theme'
+                         style={styles.themeSelectDropdown}
+                         floatingLabelStyle={styles.floatingLabelStyle}
+                         underlineStyle={styles.underlineStyle}
+                         underlineFocusStyle={styles.underlineFocusStyle}
+                         menuItems={themes}
+                         menuItemStyle={styles.menuItemStyle}
+                         value={resumeState.resumeTheme}
+                         valueMember='text'
+                         fullWidth={false}
+                         onChange={(e, index) => this.handleChangeTheme(e, index)} />
           </div>
 
-          <div style={{marginTop: '30px', marginBottom: '20px'}}>
-            <div style={styles.paperLeftNavLabel}>
-            Thesaurus
-            </div>
-            <TextField floatingLabelStyle={styles.floatingLabelStyle}
-                       style={{width: '150px'}}
-                       underlineStyle={styles.underlineStyle}
-                       underlineFocusStyle={styles.underlineFocusStyle}
-                       backgroundColor={'white'}
-                       fullWidth={false}
-                       hintStyle={styles.hintStyle}
-                       hintText='Find Synonyms'
-                       onBlur={e => this.props.handleUpdateLocalState(e, 'thesaurusQuery', 'savePrint')} />
-            <RaisedButton label='Search'
+          <div style={styles.paperLeftDiv}>
+            <div style={styles.thesaurus}>
+              <TextField floatingLabelText='Thesaurus'
+                         floatingLabelStyle={styles.floatingLabelStyle}
+                         style={styles.thesaurusSearchBox}
+                         underlineStyle={styles.underlineStyle}
+                         underlineFocusStyle={styles.underlineFocusStyle}
+                         backgroundColor={'white'}
+                         fullWidth={false}
+                         hintStyle={styles.hintStyle}
+                         hintText='Find Synonyms'
+                         onBlur={e => this.props.handleUpdateLocalState(e, 'thesaurusQuery', 'savePrint')} />
+              <FlatButton label='Search'
+                          style={styles.thesaurusSearchButton}
                           labelStyle={styles.buttonLabelStyle}
                           onClick={e => this.handleThesaurus(e)} />
 
-            {resumeState.thesaurusResults ?
-            <div style={styles.thesaurusResults}>
-              <div style={styles.wordCount}>
-                You've used this word {resumeState.wordCount} times so far.
+              {resumeState.thesaurusResults ?
+              <div style={styles.thesaurusResults}>
+                <div style={styles.wordCount}>
+                  You've used this word {resumeState.wordCount} times so far.
+                </div>
+                <div>
+                  <span style={styles.suggestions}>Suggestions:</span>
+                  { _.map(resumeState.thesaurusResults, (type, index) => {
+                        return (<div key={index} style={styles.wordList}>
+                          <span style={styles.wordType}>{index}</span>: {type}</div>)
+                    })}
+                </div>
               </div>
-              <div style={styles.wordList}>
-                Suggested alternatives:
-                { _.map(resumeState.thesaurusResults, (type, index) => {
-                      return (<div key={index}><span style={styles.wordType}>{index}</span>: {type}</div>)
-                  })}
-              </div>
+              : '' }
             </div>
-            : '' }
 
           </div>
         </Paper>
 
           {/*
 Junk code: remove on Friday clean up. Used to store various tests and ideas.
-
-
-
-            { _.map(this.props.resumeState.thesaurusResults, verbOrNoun => {
-              _.map(verbOrNoun, relOrSyn =>
-                relOrSyn.forEach(word =>
-                  console.log(word)
-                  )
-                )
-              }
-              )}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
           <SelectField floatingLabelText='Theme'
@@ -329,3 +279,17 @@ Junk code: remove on Friday clean up. Used to store various tests and ideas.
     );
   }
 }
+
+// <div style={styles.paperLeftNavLabel}>
+// Resume Themes
+// </div>
+// {themes.map(theme => {
+//                 return (
+//                   <FlatButton label={theme.text}
+//                               key={theme.text}
+//                               style={styles.paperLeftNavThemeButton}
+//                               labelStyle={styles.buttonLabelStyle}
+//                               onClick={e => this.handleChangeTheme(e)}/>
+//                 );
+
+// })}
