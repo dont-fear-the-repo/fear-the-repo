@@ -41,18 +41,12 @@ export default class ResumeHeader extends React.Component {
   }
 
   render() {
-    const { currentErrorMessage,
-            currentTheme,
+    const { currentTheme,
             resumeThemes } = this.props;
     const { resumeHeader } = this.props.resumeState;
 
     return (
       <div style={resumeThemes[currentTheme].headerDiv}>
-
-        {currentErrorMessage ?
-          <div style={this.props.styles.errorMessageStyle}>
-            {currentErrorMessage}
-          </div> : ''}
 
         <div style={resumeThemes[currentTheme].headerLeft}>
 
