@@ -14,16 +14,16 @@ export const styles = {
   },
   heroDiv: {
     width: '100%',
-    // height: '796px',
-    // position: 'relative'
+    height: '763px',
+    position: 'relative'
   },
   circle: {
     width: '100px',
     height: '100px',
     borderRadius: '50%',
-    margin: '0 auto 0 auto',
-    position: 'relative',
-    transform: 'translateY(-120px)',
+    position: 'absolute',
+    marginLeft: 'calc(50% - 50px)',
+    marginTop: '-132px',
     ':hover': {
       boxSizing: 'border-box',
       WebkitTapHighlightColor: 'rgba(0,0,0,0)',
@@ -31,7 +31,7 @@ export const styles = {
     }
   },
   downArrow: {
-    transform: 'translateY(35px)'
+    marginTop: '35px'
   },
   copy: {
     fontFamily: merriweather,
