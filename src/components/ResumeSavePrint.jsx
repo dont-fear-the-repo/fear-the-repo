@@ -156,10 +156,10 @@ export default class ResumeSavePrint extends React.Component {
                       labelStyle={styles.buttonLabelStyle}
                       onClick={e => this.handlePrint(e)} />
 
-          <FlatButton label='Export Resume'
+          <FlatButton label='Export to PDF'
                       style={styles.paperLeftNavButton}
                       labelStyle={styles.buttonLabelStyle}
-                      onClick={e => this.handlePrint(e)} />
+                      onClick={e => this.handleExport(e)} />
 
           <FlatButton label='LinkedIn Import'
                       style={styles.paperLeftNavButton}
@@ -167,7 +167,7 @@ export default class ResumeSavePrint extends React.Component {
                       onClick={(e)=>this.showPopup(e)} />
 
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
-            <div><FlatButton label='Load Saved Resume'
+            <div><FlatButton label='Load Resume'
                           style={styles.paperLeftNavButton}
                           labelStyle={styles.buttonLabelStyle}
                           onClick={e => this.handleLoad(e)} />
