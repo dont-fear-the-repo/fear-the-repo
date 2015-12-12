@@ -112,12 +112,13 @@ export default class Heading extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={blockDrag} key='heading'>
 
-        <Editor style={resumeThemes[currentTheme].headingTitle}
-                text={this.props.companyName}
-                options={{toolbar: false}}
-                onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
-        <Editor style={resumeThemes[currentTheme].location}
+        {Radium.getState(this.state, 'heading', ':hover')}
+          <Editor style={resumeThemes[currentTheme].headingTitle}
+                  text={this.props.companyName}
+                  options={{toolbar: false}}
+                  onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
+          <Editor style={resumeThemes[currentTheme].headingText}
                   text={this.props.location}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
