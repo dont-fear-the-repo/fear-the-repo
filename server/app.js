@@ -2,7 +2,8 @@ require('babel/register');
 // connect to database
 import passport from "passport";
 import PassportLinkedin from 'passport-linkedin';
-import cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser';
+const request = require('request');
 const LinkedinStrategy =  PassportLinkedin.Strategy
 const dbSchema = require('../database/dbSchema.js');
 const historyApiFallback = require('connect-history-api-fallback');
@@ -17,6 +18,7 @@ const db = require('../database/dbConfig.js');
 const _ = require('underscore');
 const express = require('express');
 const app = express();
+
 
 // Enable webpack middleware if the application is being
 // run in development mode.
@@ -98,6 +100,24 @@ if (config.env === 'development') {
 // TODO: All of this Auth and API will need to be refactored someday  //
 // to an external file so that a deployment server can use them       //
 ////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//                                                             //
+//  THESAURUS application                                      //
+//                                                             //
+///////////////////////////////////////////////////////////////
+
+app.post('/api/thesaurusQuery', (req,res) => {
+console.log (req.body.word);   
+  request('http://words.bighugelabs.com/api/2/ecb6566c60b2ee6f4c85013ebfb5e70b/' + req.body.word +'/json', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          res.send(body);
+      }else{
+        res.sendStatus(404)
+      }
+    })
+})
+
 
 
 /////////////////////////////////////////////////////////////////
