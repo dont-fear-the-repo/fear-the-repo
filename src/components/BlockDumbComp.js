@@ -148,23 +148,24 @@ export default class BlockDumbComp extends React.Component {
                    onClick={e => this.addBullet(e, this.props.blockId)} />
                 ) : null}
 
+
+
+
+
+
             <Editor style={resumeThemes[currentTheme].jobTitle}
                     text={this.props.jobTitle || 'Title/Role/Degree'}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'jobTitle', 'blocks', this.props.blockId)} />
 
-            <div style={resumeThemes[currentTheme].pipe}>
-              |
-            </div>
+            <div style={resumeThemes[currentTheme].pipe}> | </div>
 
             <Editor style={resumeThemes[currentTheme].companyName}
                     text={this.props.companyName || 'Company/Project/School Name'}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
-            <div style={resumeThemes[currentTheme].pipe}>
-              |
-            </div>
+            <div style={resumeThemes[currentTheme].pipe}> | </div>
 
             <Editor style={resumeThemes[currentTheme].jobLocation}
                     text={this.props.location || 'Location / Project URL'}
@@ -176,10 +177,21 @@ export default class BlockDumbComp extends React.Component {
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
 
-              <div className='bulletContainer' style={styles.bulletContainer}>
-                {bulletCollection}
-              </div>
+
+            <div className='bulletContainer' style={styles.bulletContainer}>
+              {bulletCollection}
+            </div>
+
+
+
+
+
+
+          {/* End Block Div*/}
           </div>
+
+
+      {/* End Block Dragging shadow div */}
       </div>
     ));
   }
