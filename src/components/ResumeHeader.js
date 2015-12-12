@@ -54,13 +54,21 @@ export default class ResumeHeader extends React.Component {
             {currentErrorMessage}
           </div> : ''}
 
-        <div style={resumeThemes[currentTheme].headerLeft}>
 
+
+
+        <div style={resumeThemes[currentTheme].headerNameDiv}>
           <Editor style={resumeThemes[currentTheme].name}
                 text={resumeHeader.name || 'Your Full Name'}
                 options={{toolbar: false}}
                 onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
+        </div>
 
+
+
+
+
+        <div style={resumeThemes[currentTheme].headerContactDiv}>
           <Editor style={resumeThemes[currentTheme].location}
                   text={resumeHeader.city || 'Your City, ST'}
                   options={{toolbar: false}}
@@ -81,11 +89,14 @@ export default class ResumeHeader extends React.Component {
                     text={resumeHeader.displayEmail || 'Your Email Address'}
                     options={{toolbar: false}}
                     onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email', 'header')} />
-
-          </div>
         </div>
 
-        <div style={resumeThemes[currentTheme].headerRight}>
+
+
+
+
+        </div>
+        <div style={resumeThemes[currentTheme].headerLinksDiv}>
 
           <Editor style={resumeThemes[currentTheme].webLinkedin}
                   text={resumeHeader.webLinkedin || 'LinkedIn.com/in/YourLinkedIn'}
@@ -98,7 +109,11 @@ export default class ResumeHeader extends React.Component {
                   onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
 
         </div>
-        <div style={{clear: 'both'}}> test{/* this is javascript*/} </div>
+
+
+
+
+        <div style={{clear: 'both'}}> isthishelping{/* this is javascript*/} </div>
 
       {/* END OF HEADER DIV */}
       </div>

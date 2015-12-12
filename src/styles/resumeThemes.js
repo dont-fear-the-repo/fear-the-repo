@@ -56,23 +56,27 @@ export const resumeThemes = {
   'Modern': {
     headerDiv: {
       paddingBottom: '7%',
-      position: 'relative', //keep this so child el go where they should
-      height: '50px'
+      position: 'relative' //keep this so child el go where they should
+      // height: '200px'
     },
-    headerLeft: {
+    headerNameDiv: {
       position: 'absolute',
       left: 0,
-      backgroundColor: 'rgb(255,200,200)'
+      backgroundColor: 'red'
     },
-    headerRight: {
+    headerContactDiv: {
       position: 'absolute',
       right: 0,
-      backgroundColor: 'rgb(200,255,200)'
+      backgroundColor: 'rgb(100,100,255)'
+    },
+    headerLinksDiv: {
+      position: 'absolute',
+      right: 0,
+      backgroundColor: 'rgb(100,255,100)'
     },
     blockDiv: {
       marginLeft: '4%'
     },
-    plain: {},
     footerText: {
       marginLeft: '2%',
       fontSize: '16px',
