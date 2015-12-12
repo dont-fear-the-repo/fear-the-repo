@@ -19,10 +19,8 @@ export const styles = {
     fontFamily: font
   },
   themeSelectDropdown: {
-    backgroundColor: MasterTheme.white,
-    fontFamily: font,
-    paddingTop: '0',
-    display: 'block'
+    width: '130px',
+    // marginTop: '30px'
   },
   menuItemStyle: {
     color: MasterTheme.orange,
@@ -36,8 +34,12 @@ export const styles = {
     textTransform: 'none'
   },
   leftNav: {
-    paddingTop: '58px',
-    width: '150px'
+    width:'150px',
+    backgroundColor: 'white',
+    position: 'absolute',
+    left: '0px',
+    top: '96.5px',
+    boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
   },
   paperLeftNavButton: {
     marginTop: '15px',
@@ -47,14 +49,14 @@ export const styles = {
     margin: '3px'
   },
   paperLeftDiv: {
-    marginTop: '30px',
-    marginBottom: '20px'
+    // marginTop: '5px',
+    // marginBottom: '5px'
   },
   paperLeftNavLabel: {
     color: MasterTheme.orange,
     font: font,
     fontWeight: MasterTheme.light,
-    marginBottom: '10px',
+    marginBottom: '3px',
     marginTop: '25px'
   },
   exportButton: {
@@ -90,12 +92,14 @@ export const styles = {
     marginLeft: '10px'
   },
   underlineStyle: {
-    borderColor: MasterTheme.white,
-    borderWidth: '0px'
+    borderColor: MasterTheme.orange,
+    borderWidth: '1px',
+    color: MasterTheme.orange
   },
   underlineFocusStyle: {
     borderColor: MasterTheme.orange,
-    borderWidth: '1px'
+    borderWidth: '1px',
+    color: MasterTheme.orange
   },
   hintStyle: {
     color: MasterTheme.lightGray,
@@ -104,6 +108,7 @@ export const styles = {
     // borderRadius: '6px',
     padding: '10px',
     paddingLeft: '20px',
+    paddingBottom: '2px',
     fontSize: '14px'
   },
   floatingLabelStyle: {
@@ -138,6 +143,11 @@ export const styles = {
   thesaurus: {
     textAlign: 'center'
   },
+  suggestions: {
+    paddingBottom: '3px',
+    color: MasterTheme.darkGray,
+    fontWeight: MasterTheme.bold
+  },
   thesaurusSearchBox: {
     width: '130px',
     marginTop: '3px',
@@ -152,12 +162,13 @@ export const styles = {
     fontWeight: MasterTheme.bold
   },
   wordCount: {
-    color: MasterTheme.lightGray
+    color: MasterTheme.lightGray,
+    paddingBottom: '6px'
   },
   wordList: {
     color: MasterTheme.darkGray,
     textAlign: 'left',
-    padding: '5px'
+    padding: '4px'
   },
   wordType: {
     color: MasterTheme.orange,
