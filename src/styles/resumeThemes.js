@@ -45,11 +45,11 @@ const themeGlobals = {
     topMargin: '40px'
   },
   Experienced: {
-    nameFont: times,
-    nameFontSize: '30px',
+    nameFont: droidserif,
+    nameFontSize: '35px',
 
     resumeHeaderFont: droidserif,
-    resumeHeaderFontSize: '12px',
+    resumeHeaderFontSize: '10px',
 
     headingsFont: droidserif,
     headingsFontSize: '14px',
@@ -140,7 +140,7 @@ export const resumeThemes = {
       display: 'inline-block',
       position: 'relative',
       fontSize: themeGlobals.Default.resumeHeaderFontSize,
-      fontFamily: themeGlobals.Default.resumeHeaderFontSize
+      fontFamily: themeGlobals.Default.resumeHeaderFont
     },
 
     headerPipe: {
@@ -347,7 +347,7 @@ export const resumeThemes = {
       display: 'inline-block',
       position: 'relative',
       fontSize: themeGlobals.Experienced.resumeHeaderFontSize,
-      fontFamily: themeGlobals.Experienced.resumeHeaderFontSize
+      fontFamily: themeGlobals.Experienced.resumeHeaderFont
     },
 
     headerPipe: {
@@ -392,7 +392,7 @@ export const resumeThemes = {
       marginLeft: 'auto',
       marginRight: 'auto',
       height: '1px',
-      width: 924 - themeGlobals.Experienced.sideMargin*2 +'px',
+      width: 930 - themeGlobals.Experienced.sideMargin*2 +'px',
       // this is fragile, based on ResumeViewStyles final paperwidth
       marginTop: '5px'
     },

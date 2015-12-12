@@ -156,11 +156,19 @@ export const styles = {
     top: '20px',
     display: 'inline-block'
   },
+  AddNewBlockIconImage: {
+    opacity: 0.2,
+    width: '30px',
+    position: 'relative',
+    left: '50px',
+    top: '10px',
+    display: 'inline-block'
+  },
   blockMinusIconImage: {
     opacity: 0.2,
     width: '30px',
     position: 'absolute',
-    left: '-50px',
+    left: '-30px',
     top: '10px',
     display: 'inline-block'
   },

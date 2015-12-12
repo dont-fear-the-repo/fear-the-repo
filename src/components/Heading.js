@@ -102,6 +102,7 @@ export default class Heading extends React.Component {
       opacity: isDragging ? 0 : 1,
       cursor: 'move',
       margin: '0',
+      positions: 'relative',
       ':hover': {
         boxSizing: 'border-box',
         WebkitTapHighlightColor: 'rgba(0,0,0,0)',
@@ -124,8 +125,9 @@ export default class Heading extends React.Component {
                   onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />
 
         {Radium.getState(this.state, 'heading', ':hover') ? (
-          <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
-                 onClick={e => this.hideBlock(e, this.props.blockId)} />
+          <img  src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
+                style={styles.blockMinusIconImage}
+                onClick={e => this.hideBlock(e, this.props.blockId)} />
             ) : null}
 
       </div>
