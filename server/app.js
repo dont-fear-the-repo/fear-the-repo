@@ -73,7 +73,7 @@ passport.deserializeUser((obj, done) => {
 });
 app.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_basicprofile','r_emailaddress'] }), (req,res) => {
   req.session.LinkedinData  = res.req.user._json;
-  res.redirect('/cookies');
+  res.redirect('/returnpage');
   });
 
 app.post('/cookie',function(req,res){
