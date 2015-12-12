@@ -182,10 +182,10 @@ export default class ResumeSavePrint extends React.Component {
                         <br />
                         <br />
                         <br />
-                        
-          <RaisedButton label='LinkedIn Import' 
+
+          <RaisedButton label='LinkedIn Import'
             labelStyle={this.props.styles.buttonLabelStyle}
-            onClick={(e)=>this.showPopup(e)} />       
+            onClick={(e)=>this.showPopup(e)} />
 
           { this.showLoadButtonIf(this.props.loggedIn, this.props.resumeId, this.props.resumeState.serverIsSaving) &&
             <div><RaisedButton label='Reload Resume'
@@ -235,8 +235,8 @@ export default class ResumeSavePrint extends React.Component {
               </div>
               <div style={styles.wordList}>
                 Suggested alternatives:
-                { _.map(resumeState.thesaurusResults, (verbOrNoun, index) => {
-                      return (<div><span style={styles.wordType}>{index}</span>: {verbOrNoun.syn.join(', ') + ' '}</div>)
+                { _.map(resumeState.thesaurusResults, (type, index) => {
+                      return (<div key={index}><span style={styles.wordType}>{index}</span>: {type}</div>)
                   })}
               </div>
             </div>
