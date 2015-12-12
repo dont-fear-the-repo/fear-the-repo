@@ -117,8 +117,7 @@ export default class Heading extends React.Component {
                   text={this.props.companyName}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
-
-          <Editor style={resumeThemes[currentTheme].location}
+          <Editor style={resumeThemes[currentTheme].headingText}
                   text={this.props.location}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'location', 'blocks', this.props.blockId)} />

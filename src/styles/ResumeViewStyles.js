@@ -83,9 +83,6 @@ export const styles = {
     marginRight: 'auto',
     position: 'relative'
   },
-  plain: {
-    marginLeft: '10px'
-  },
   underlineStyle: {
     borderColor: MasterTheme.white,
     borderWidth: '0px'
