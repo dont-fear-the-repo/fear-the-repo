@@ -1,7 +1,7 @@
 export const dummyResume = {
   resumeId: 1,
   resumeTitle: 'Resume Version Name',
-  resumeTheme: 'Default',
+  resumeTheme: 'Modern',
   serverIsSaving: 'no',
   clientFormIsDirty: false,
   resumeHeader: {

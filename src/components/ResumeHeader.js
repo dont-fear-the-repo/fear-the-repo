@@ -9,7 +9,7 @@ export default class ResumeHeader extends React.Component {
 
   static propTypes = {
     actions: PropTypes.object,
-    currentErrorMessage: PropTypes.string,
+    // currentErrorMessage: PropTypes.string,
     currentTheme: PropTypes.string,
     handleUpdateLocalState: PropTypes.func,
     resumeThemes: PropTypes.object,
@@ -48,39 +48,45 @@ export default class ResumeHeader extends React.Component {
     return (
       <div style={resumeThemes[currentTheme].headerDiv}>
 
-        <div style={resumeThemes[currentTheme].headerLeft}>
 
+
+
+
+
+
+        <div style={resumeThemes[currentTheme].headerNameDiv}>
           <Editor style={resumeThemes[currentTheme].name}
                 text={resumeHeader.name || 'Your Full Name'}
                 options={{toolbar: false}}
                 onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
+        </div>
 
+
+
+        <div style={resumeThemes[currentTheme].headerContactDiv}>
           <Editor style={resumeThemes[currentTheme].location}
                   text={resumeHeader.city || 'Your City, ST'}
                   options={{toolbar: false}}
                   onBlur={e => this.validateField(e, [isDefined], 'city', 'header')} />
 
-          <div>
+          <Editor style={resumeThemes[currentTheme].phone}
+                  text={resumeHeader.phone || 'Your Phone Number'}
+                  options={{toolbar: false}}
+                  onBlur={e => this.validateField(e, [isDefined], 'phone', 'header')} />
 
-            <Editor style={resumeThemes[currentTheme].phone}
-                    text={resumeHeader.phone || 'Your Phone Number'}
-                    options={{toolbar: false}}
-                    onBlur={e => this.validateField(e, [isDefined], 'phone', 'header')} />
+          <div style={resumeThemes[currentTheme].headerPipe}>|</div>
 
-            <div style={resumeThemes[currentTheme].headerPipe}>
-              |
-            </div>
-
-            <Editor style={resumeThemes[currentTheme].email}
-                    text={resumeHeader.displayEmail || 'Your Email Address'}
-                    options={{toolbar: false}}
-                    onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email', 'header')} />
-
-          </div>
+          <Editor style={resumeThemes[currentTheme].email}
+                  text={resumeHeader.displayEmail || 'Your Email Address'}
+                  options={{toolbar: false}}
+                  onBlur={e => this.validateField(e, [isDefined, isValidEmail], 'email', 'header')} />
         </div>
 
-        <div style={resumeThemes[currentTheme].headerRight}>
 
+
+
+
+        <div style={resumeThemes[currentTheme].headerLinksDiv}>
           <Editor style={resumeThemes[currentTheme].webLinkedin}
                   text={resumeHeader.webLinkedin || 'LinkedIn.com/in/YourLinkedIn'}
                   options={{toolbar: false}}
@@ -90,9 +96,15 @@ export default class ResumeHeader extends React.Component {
                   text={resumeHeader.webOther || 'Other web links (Github, Behance, etc)'}
                   options={{toolbar: false}}
                   onBlur={e => this.props.handleUpdateLocalState(e, 'webOther', 'header')} />
-
         </div>
 
+
+
+
+
+        <div style={resumeThemes[currentTheme].headerDividerLine}></div>
+
+      {/* END OF HEADER DIV */}
       </div>
     );
   }
