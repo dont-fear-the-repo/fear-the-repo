@@ -92,7 +92,7 @@ export default class ResumeSavePrint extends React.Component {
   //   this.handleLoad();
   // }
   showPopup(url) {
-    var linkedin_window = window.open('http://localhost:3000/linkedin','window','width=640,height=480,resizable,scrollbars,toolbar,menubar')
+    var linkedin_window = window.open('http://' + window.location.hostname + (window.location.port? ":": "") + window.location.port + '/linkedin','window','width=640,height=480,resizable,scrollbars,toolbar,menubar')
     var that = this;
     var myInterval = setInterval(function(){
       if(localStorage.getItem('sendLinkedinData')){
