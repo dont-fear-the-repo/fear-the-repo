@@ -34,6 +34,10 @@ class HomeView extends React.Component {
           <img src={require('styles/assets/splash3.png')}
              style={styles.heroImg} draggable='false' />
 
+          <div style={styles.heroText}>
+            a simple, intuitive, <br/>drag-and-drop resume builder
+          </div>
+
           {Radium.getState(this.state, 'callToAction', 'hover')}
           <RouterLink to='/resume'>
             <div style={styles.callToAction} key='callToAction'>

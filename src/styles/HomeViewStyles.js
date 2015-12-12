@@ -17,6 +17,19 @@ export const styles = {
     height: '763px',
     position: 'relative'
   },
+  heroText: {
+    color: 'white',
+    fontFamily: muli,
+    fontSize: '36px',
+    fontWeight: '200',
+    textAlign: 'center',
+    width: '800px',
+    height: '150px',
+    letterSpacing: '5px',
+    position: 'absolute',
+    marginLeft: 'calc(50% - 400px)',
+    marginTop: '-460px'
+  },
   callToAction: {
     width: '350px',
     height: '80px',
@@ -40,12 +53,12 @@ export const styles = {
     }
   },
   circle: {
-    width: '100px',
-    height: '100px',
+    width: '70px',
+    height: '70px',
     borderRadius: '50%',
     position: 'absolute',
-    marginLeft: 'calc(50% - 50px)',
-    marginTop: '-132px',
+    marginLeft: 'calc(50% - 35px)',
+    marginTop: '-110px',
     ':hover': {
       boxSizing: 'border-box',
       WebkitTapHighlightColor: 'rgba(0,0,0,0)',
@@ -53,7 +66,7 @@ export const styles = {
     }
   },
   downArrow: {
-    marginTop: '35px'
+    marginTop: '20px'
   },
   copy: {
     fontFamily: merriweather,
