@@ -160,7 +160,7 @@ export const styles = {
     opacity: 0.2,
     width: '30px',
     position: 'relative',
-    left: '50px',
+    left: '45px',
     top: '10px',
     display: 'inline-block'
   },

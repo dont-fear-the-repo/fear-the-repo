@@ -229,7 +229,6 @@ export const resumeThemes = {
     headingTitle: {
       fontWeight: 'bold',
       fontSize: '14px',
-      marginLeft: themeGlobals.Default.sideMargin,
       paddingTop: '10px',
       fontSize: themeGlobals.Default.headingsFontSize,
       fontFamily: themeGlobals.Default.headingsFont
@@ -251,6 +250,11 @@ export const resumeThemes = {
 
     blockDiv: {
       marginLeft: themeGlobals.Default.sideMargin,
+      position: 'relative'
+    },
+
+    headingDiv: {
+      marginLeft: themeGlobals.Experienced.sideMargin,
       position: 'relative'
     }
   },
@@ -440,7 +444,6 @@ export const resumeThemes = {
     headingTitle: {
       fontWeight: 'bold',
       fontSize: '14px',
-      marginLeft: themeGlobals.Experienced.sideMargin,
       paddingTop: '5px',
       fontSize: themeGlobals.Experienced.headingsFontSize,
       fontFamily: themeGlobals.Experienced.headingsFont
@@ -461,6 +464,11 @@ export const resumeThemes = {
 
 
     blockDiv: {
+      marginLeft: themeGlobals.Experienced.sideMargin,
+      position: 'relative'
+    },
+
+    headingDiv: {
       marginLeft: themeGlobals.Experienced.sideMargin,
       position: 'relative'
     }

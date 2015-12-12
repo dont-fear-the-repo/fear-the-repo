@@ -102,7 +102,6 @@ export default class Heading extends React.Component {
       opacity: isDragging ? 0 : 1,
       cursor: 'move',
       margin: '0',
-      positions: 'relative',
       ':hover': {
         boxSizing: 'border-box',
         WebkitTapHighlightColor: 'rgba(0,0,0,0)',
@@ -113,6 +112,7 @@ export default class Heading extends React.Component {
     return connectDragSource(connectDropTarget(
       <div style={blockDrag} key='heading'>
 
+        <div style={resumeThemes[currentTheme].headingDiv}>
 
         {Radium.getState(this.state, 'heading', ':hover')}
           <Editor style={resumeThemes[currentTheme].headingTitle}
@@ -129,7 +129,7 @@ export default class Heading extends React.Component {
                 style={styles.blockMinusIconImage}
                 onClick={e => this.hideBlock(e, this.props.blockId)} />
             ) : null}
-
+        </div>
       </div>
     ));
   }
