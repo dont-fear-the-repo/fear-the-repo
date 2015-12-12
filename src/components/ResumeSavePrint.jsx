@@ -28,7 +28,10 @@ export default class ResumeSavePrint extends React.Component {
       let wrappedForServer = Object.assign({}, this.props.resumeState);
       wrappedForServer.userID = this.props.userID;
       this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
-      console.log('clicked LOAD btn in ResumeSavePrint')
+
+
+      _.map(this.props.validations, (validation, key) => this.props.validations[key] = true)
+      this.props.actions.enableSubmit('Resume');
     } else {
       alert('To load a resume, please signup above');
     }
