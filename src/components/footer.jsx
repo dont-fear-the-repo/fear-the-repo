@@ -33,4 +33,4 @@ export class Footer extends React.Component {
     );
   }
 
-};
+}

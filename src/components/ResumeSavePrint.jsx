@@ -1,50 +1,52 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import $ from 'jquery';
 import _ from 'underscore';
 
-import { AppBar,
-         CircularProgress,
-         FlatButton,
-         IconButton,
-         IconMenu,
-         LeftNav,
-         MenuItem,
-         MoreVertIcon,
+import { FlatButton,
          Paper,
-         Popover,
-         RaisedButton,
-         RefreshIndicator,
          SelectField,
          TextField } from 'material-ui/lib';
 import { resumeThemes } from 'styles/resumeThemes';
 import { printStyles } from  'styles/PrinterStyles';
-import { MasterTheme } from 'styles/MasterTheme';
+// import { MasterTheme } from 'styles/MasterTheme';
 
 
 export default class ResumeSavePrint extends React.Component {
 
+  static propTypes = {
+    actions: PropTypes.object,
+    canSubmitResume: PropTypes.bool,
+    handleUpdateLocalState: PropTypes.func,
+    loggedIn: PropTypes.bool,
+    resumeId: PropTypes.number,
+    resumeState: PropTypes.object,
+    sendResumeToServerAsync: PropTypes.func,
+    serverIsSavingUpdate: PropTypes.func,
+    styles: PropTypes.object,
+    validations: PropTypes.object,
+    userID: PropTypes.string
+  }
+
   handleLoad() {
     if (this.props.loggedIn) {
       this.props.actions.serverIsSavingUpdate('loading');
-      let wrappedForServer = Object.assign({}, this.props.resumeState);
+      const wrappedForServer = { ...this.props.resumeState };
       wrappedForServer.userID = this.props.userID;
       this.props.actions.getResumeFromServerDBAsync(wrappedForServer);
 
-
-      _.map(this.props.validations, (validation, key) => this.props.validations[key] = true)
+      _.map(this.props.validations, (validation, key) => this.props.validations[key] = true);
       this.props.actions.enableSubmit('Resume');
     } else {
       alert('To load a resume, please signup above');
     }
   }
 
-  handleSubmit(e) {
+  handleSubmit() {
     if (this.props.loggedIn) {
       this.props.actions.serverIsSavingUpdate('saving');
-      let wrappedForServer = Object.assign({}, this.props.resumeState);
+      const wrappedForServer = { ...this.props.resumeState };
       wrappedForServer.userID = this.props.userID;
       this.props.actions.sendResumeToServerAsync(wrappedForServer);
-      console.log('clicked SAVE btn in ResumeSavePrint')
     } else {
       alert('To save a resume, please signup above');
     }
@@ -57,19 +59,19 @@ export default class ResumeSavePrint extends React.Component {
         method: 'post',
         contentType: 'application/json',
         data: JSON.stringify(prtContent),
-        success: function(data) {
-          var link=document.createElement('a');
-          link.href= data.filename.slice(-25);
-          link.download="My_resume.pdf";
+        success: data => {
+          const link = document.createElement('a');
+          link.href = data.filename.slice(-25);
+          link.download = 'My_resume.pdf';
           link.click();
         }
     });
   }
 
   handlePrint() {
-    const prtContent = document.getElementById('resumeContainer')
+    const prtContent = document.getElementById('resumeContainer');
     const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-    WinPrint.document.write(prtContent.innerHTML+ printStyles);
+    WinPrint.document.write(prtContent.innerHTML + printStyles);
     WinPrint.document.close();
     WinPrint.focus();
     WinPrint.print();
@@ -86,7 +88,6 @@ export default class ResumeSavePrint extends React.Component {
     const target = this.props.resumeState.thesaurusQuery;
     this.props.actions.wordSearch(target);
     this.props.actions.getThesaurusResultsAsync(target);
-    console.log('searching for: ', target)
   }
 
   // This will cause a resume to automatically call the server and load the logged-in user's resume.
@@ -95,24 +96,23 @@ export default class ResumeSavePrint extends React.Component {
   //   console.log("Loading resume data from server...")
   //   this.handleLoad();
   // }
-  showPopup(url) {
-    var linkedin_window = window.open('http://' + window.location.hostname + (window.location.port? ":": "") + window.location.port + '/linkedin','window','width=640,height=480,resizable,scrollbars,toolbar,menubar')
-    var that = this;
-    var myInterval = setInterval(function(){
-      if(localStorage.getItem('sendLinkedinData')){
-        linkedin_window.close();
+  showPopup() {
+    const linkedInWindow = window.open('http://' + window.location.hostname + (window.location.port ? ':' : '') + window.location.port + '/linkedin', 'window', 'width=640,height=480,resizable,scrollbars,toolbar,menubar');
+    const that = this;
+    const myInterval = setInterval(() => {
+      if (localStorage.getItem('sendLinkedinData')) {
+        linkedInWindow.close();
         $.ajax({
-        url: '/cookie',
-        method: 'post',
-        success: function(data) {
-          that.props.actions.populateDataFromLinkedIn(data);
-          localStorage.removeItem('sendLinkedinData')
-        }
-      })
+          url: '/cookie',
+          method: 'post',
+          success: data => {
+            that.props.actions.populateDataFromLinkedIn(data);
+            localStorage.removeItem('sendLinkedinData');
+          }
+        });
         clearInterval(myInterval);
       }
-    },500)
-    //newwindow=window.open(url,'name','height=190,width=520,top=200,left=300,resizable');
+    }, 500);
   }
 
 
@@ -130,8 +130,8 @@ export default class ResumeSavePrint extends React.Component {
     const { resumeState,
             styles } = this.props;
 
-    const saveAnimation = <CircularProgress mode="indeterminate" color={MasterTheme.orange} size={.3} />;
-    const savedConfirm = 'Changes saved!';
+    // const saveAnimation = <CircularProgress mode='indeterminate' color={MasterTheme.orange} size={0.3} />;
+    // const savedConfirm = 'Changes saved!';
     const themes = Object.keys(resumeThemes)
                          .map( (value, index) => ({
                             'index': index,
@@ -207,16 +207,21 @@ export default class ResumeSavePrint extends React.Component {
 
               {resumeState.thesaurusResults ?
               <div style={styles.thesaurusResults}>
+
                 <div style={styles.wordCount}>
                   You've used this word {resumeState.wordCount} times so far.
                 </div>
+
                 <div>
+
                   <span style={styles.suggestions}>Suggestions:</span>
                   { _.map(resumeState.thesaurusResults, (type, index) => {
                         return (<div key={index} style={styles.wordList}>
-                          <span style={styles.wordType}>{index}</span>: {type}</div>)
-                    })}
+                          <span style={styles.wordType}>{index}</span>: {type}</div>);
+                    }) }
+
                 </div>
+
               </div>
               : '' }
             </div>
@@ -224,72 +229,8 @@ export default class ResumeSavePrint extends React.Component {
           </div>
         </Paper>
 
-          {/*
-Junk code: remove on Friday clean up. Used to store various tests and ideas.
-
-
-          <SelectField floatingLabelText='Theme'
-                       style={{width: '150px'}}
-                       floatingLabelStyle={this.props.styles.floatingLabelStyle}
-                       underlineStyle={this.props.styles.underlineStyle}
-                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                       menuItems={themes}
-                       menuItemStyle={this.props.styles.menuItemStyle}
-                       value={this.props.resumeState.resumeTheme}
-                       valueMember='text'
-                       fullWidth={false}
-                       onChange={(e, index) => this.handleChangeTheme(e, index)} />
-                       <br />
-                       <br />
-                       <br />
-                       <br />
-        <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
-        <h4> serverIsSaving: {JSON.stringify(this.props.resumeState.serverIsSaving)} </h4>
-        <h4> resumeId: {JSON.stringify(this.props.resumeId)} </h4>
-
-            <TextField floatingLabelText='ResumeName'
-                       floatingLabelStyle={this.props.styles.floatingLabelStyle}
-                       style={this.props.styles.resumeTitle}
-                       underlineStyle={this.props.styles.underlineStyle}
-                       underlineFocusStyle={this.props.styles.underlineFocusStyle}
-                       backgroundColor={'white'}
-                       fullWidth={false}
-                       hintStyle={this.props.styles.hintStyle}
-                       hintText={this.props.resumeState.resumeTitle}
-                       onBlur={e => this.props.handleUpdateLocalState(e, 'resumeTitle', 'savePrint')} />
-                       <br />
-                       <br />
-                       <br />
-                       <br />
-
-        <h1>{this.props.resumeState.clientFormIsDirty ? savedConfirm : saveAnimation} </h1>
-        <h4>ClientIsDirty: {JSON.stringify(this.props.resumeState.clientFormIsDirty)}</h4>
-        <h4>Server is saving: {this.props.resumeState.serverIsSaving}</h4>
-        <h4> userID: {JSON.stringify(this.props.userID)} {this.userID} </h4>
-        {this.props.resumeId &&
-         <h4> you have a resume! </h4>
-        }
-         <h4> resumeId: {JSON.stringify(this.props.resumeId)}  </h4>
-         <h4> userID: {JSON.stringify(this.props.userID)}  </h4>
-          */}
-
-
       </div>
     </div>
     );
   }
 }
-
-// <div style={styles.paperLeftNavLabel}>
-// Resume Themes
-// </div>
-// {themes.map(theme => {
-//                 return (
-//                   <FlatButton label={theme.text}
-//                               key={theme.text}
-//                               style={styles.paperLeftNavThemeButton}
-//                               labelStyle={styles.buttonLabelStyle}
-//                               onClick={e => this.handleChangeTheme(e)}/>
-//                 );
-
-// })}

@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import _ from 'underscore';
 import Editor from 'react-medium-editor';
-import { exactLength,
-         isDefined,
+import { isDefined,
          isValidEmail } from 'utils/validation';
+
 
 export default class ResumeHeader extends React.Component {
 
@@ -51,9 +51,9 @@ export default class ResumeHeader extends React.Component {
         <div style={resumeThemes[currentTheme].headerLeft}>
 
           <Editor style={resumeThemes[currentTheme].name}
-                text={resumeHeader.name || 'Your Full Name'}
-                options={{toolbar: false}}
-                onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
+                  text={resumeHeader.name || 'Your Full Name'}
+                  options={{toolbar: false}}
+                  onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
 
           <Editor style={resumeThemes[currentTheme].location}
                   text={resumeHeader.city || 'Your City, ST'}
@@ -97,8 +97,3 @@ export default class ResumeHeader extends React.Component {
     );
   }
 }
-
- // <Editor style={resumeThemes[currentTheme].profession}
-//         text={resumeHeader.profession || 'Your Profession or Job Title'}
-//         options={{toolbar: false}}
-//         onBlur={e => this.props.handleUpdateLocalState(e, 'profession', 'header')} />
