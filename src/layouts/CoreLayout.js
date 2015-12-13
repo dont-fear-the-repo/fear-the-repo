@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -16,17 +16,11 @@ import { isDefined,
          isValidEmail,
          matches } from 'utils/validation';
 
-import { FlatButton,
+import { AppBar,
+         FlatButton,
          Popover,
-         TextField,
          RefreshIndicator,
-         LeftNav,
-         AppBar,
-         IconButton,
-         IconMenu,
-         MoreVertIcon,
-         MenuItem } from 'material-ui/lib';
-
+         TextField } from 'material-ui/lib';
 import { styles } from 'styles/CoreLayoutStyles';
 import { MasterTheme } from 'styles/MasterTheme';
 
@@ -53,14 +47,16 @@ const mapDispatchToProps = (dispatch) => ({
 
 @Radium
 class CoreLayout extends React.Component {
+
     static propTypes = {
-      actions: React.PropTypes.object,
-      canSubmitAuth: React.PropTypes.bool,
-      currentAuthMessage: React.PropTypes.string,
-      children: React.PropTypes.element,
-      loggedIn: React.PropTypes.bool,
-      userLoginInfo: React.PropTypes.string
-    };
+      actions: PropTypes.object,
+      canSubmitAuth: PropTypes.bool,
+      currentAuthMessage: PropTypes.string,
+      children: PropTypes.element,
+      loggedIn: PropTypes.bool,
+      pageYouAreOn: PropTypes.string,
+      userLoginInfo: PropTypes.string
+    }
 
     state = {
       activePopover: '',
@@ -224,13 +220,6 @@ showLoginPopover(key, e) {
   saveTempPassword(event) {
     this.state.tempPassword = event.target.value;
   }
-  /*iconClassNameRight="muidocs-icon-navigation-expand-more"*/
-
-  // if (this.props.pageYouAreOn !== '/'){
-  //   styles.loginButton.color = 'red'
-  //   console.log(this.props.pageYouAreOn)
-  // }
-
 
   render() {
     const { canSubmitAuth, currentAuthMessage, loggedIn } = this.props;
@@ -241,8 +230,6 @@ showLoginPopover(key, e) {
     styles.logo.fill = this.props.pageYouAreOn === '/' ? MasterTheme.orange : MasterTheme.darkGray;
     styles.editResumeButton.display = this.props.pageYouAreOn === '/resume' ? 'none' : 'inline-block';
 
-    // styles.loginButton.':hover'.borderColor = this.props.pageYouAreOn === '/' ? 'white' : MasterTheme.darkGray;
-
     return (
       <div className='page-container'>
         <div className='view-container'>
@@ -252,7 +239,7 @@ showLoginPopover(key, e) {
                 zDepth={0}
                 iconElementLeft={
                       <Link to='/' style={styles.rezableName}>
-                        <svg style={styles.logo} version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100"><g><circle cx="33.929" cy="21.406" r="3.214"></circle><rect x="43.571" y="63.191" width="25.715" height="6.429"></rect><circle cx="33.929" cy="50.334" r="3.214"></circle><rect x="43.571" y="76.048" width="25.715" height="6.429"></rect><rect x="43.571" y="50.334" width="25.715" height="6.43"></rect><path d="M82.143,18.845v-0.004l-0.303-0.306c-0.01-0.009-0.02-0.019-0.027-0.028L81.5,18.191L68.643,5.334H17.857v13.511   C9.905,26.961,5,38.074,5,50.334s4.905,23.373,12.857,31.489v13.511h64.286V81.823C90.096,73.707,95,62.594,95,50.334   S90.096,26.961,82.143,18.845z M75.714,88.906H24.286V11.763h38.571V24.62h12.856V88.906z"></path><circle cx="33.929" cy="79.262" r="3.215"></circle><rect x="43.571" y="37.477" width="25.715" height="6.428"></rect></g></svg>
+                        <svg style={styles.logo} version='1.1' x='0px' y='0px' viewBox='0 0 100 100' enable-background='new 0 0 100 100'><g><circle cx='33.929' cy='21.406' r='3.214'></circle><rect x='43.571' y='63.191' width='25.715' height='6.429'></rect><circle cx='33.929' cy='50.334' r='3.214'></circle><rect x='43.571' y='76.048' width='25.715' height='6.429'></rect><rect x='43.571' y='50.334' width='25.715' height='6.43'></rect><path d='M82.143,18.845v-0.004l-0.303-0.306c-0.01-0.009-0.02-0.019-0.027-0.028L81.5,18.191L68.643,5.334H17.857v13.511   C9.905,26.961,5,38.074,5,50.334s4.905,23.373,12.857,31.489v13.511h64.286V81.823C90.096,73.707,95,62.594,95,50.334   S90.096,26.961,82.143,18.845z M75.714,88.906H24.286V11.763h38.571V24.62h12.856V88.906z'></path><circle cx='33.929' cy='79.262' r='3.215'></circle><rect x='43.571' y='37.477' width='25.715' height='6.428'></rect></g></svg>
                       </Link>
                   }
                 iconElementRight={
@@ -303,7 +290,7 @@ showLoginPopover(key, e) {
                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                    onRequestClose={this.closePopover.bind(this, 'pop')}
                    canAutoPosition={false}
-                   style={{width: '300px' , marginTop: '16px'}} >
+                   style={{width: '300px', marginTop: '16px'}} >
             <div style={{ padding: '20px' }}>
               <TextField ref='email'
                          hintText='Email'

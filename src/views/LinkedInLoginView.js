@@ -2,7 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { populateDataFromLinkedIn } from 'actions/resumeActions';
-import $ from 'jquery';
+// import $ from 'jquery';
+
+
+const ActionCreators = {
+  populateDataFromLinkedIn
+};
 
 const mapStateToProps = (state) => ({
   resumeState: state.resumeReducer
@@ -12,16 +17,12 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
 
-const ActionCreators = {
-  populateDataFromLinkedIn
-}
-
 class LinkedinLoginView extends React.Component {
   componentWillMount() {
-    localStorage.setItem("sendLinkedinData",true)
+    localStorage.setItem('sendLinkedinData', true);
   }
   render() {
-    return <div>"hello"</div>
+    return <div>'hello'</div>;
   }
   //   $.ajax({
   //       url: '/cookie',

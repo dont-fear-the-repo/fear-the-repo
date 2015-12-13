@@ -272,4 +272,3 @@ export function blankNoBulletBlock() {
     }]
   };
 }
-// Can I do that? "this.blockId"?
