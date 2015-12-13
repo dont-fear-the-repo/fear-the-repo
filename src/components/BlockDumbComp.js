@@ -118,9 +118,8 @@ export default class BlockDumbComp extends React.Component {
     const blockDrag = {
       opacity: isDragging ? 0 : 1,
       cursor: 'move',
-      margin: '0px',
       ':hover': {
-        boxSizing: 'border-box',
+        boxSizing: 'content-box',
         WebkitTapHighlightColor: 'rgba(0,0,0,0)',
         boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
       }
@@ -132,23 +131,33 @@ export default class BlockDumbComp extends React.Component {
         {Radium.getState(this.state, 'block', ':hover')}
 
           <div style={resumeThemes[currentTheme].blockDiv}>
+
+            {Radium.getState(this.state, 'block', ':hover') ? (
+              <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
+                   style={styles.blockMinusIconImage}
+                   onClick={e => this.hideBlock(e, this.props.blockId)} />
+                ) : null}
+
+            {Radium.getState(this.state, 'block', ':hover') ? (
+              <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
+                   style={styles.bulletPlusIconImage}
+                   onClick={e => this.addBullet(e, this.props.blockId)} />
+                ) : null}
+
+
             <Editor style={resumeThemes[currentTheme].jobTitle}
                     text={this.props.jobTitle || 'Title/Role/Degree'}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'jobTitle', 'blocks', this.props.blockId)} />
 
-            <div style={resumeThemes[currentTheme].pipe}>
-              |
-            </div>
+            <div style={resumeThemes[currentTheme].pipe}> | </div>
 
             <Editor style={resumeThemes[currentTheme].companyName}
                     text={this.props.companyName || 'Company/Project/School Name'}
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'companyName', 'blocks', this.props.blockId)} />
 
-            <div style={resumeThemes[currentTheme].pipe}>
-              |
-            </div>
+            <div style={resumeThemes[currentTheme].pipe}> | </div>
 
             <Editor style={resumeThemes[currentTheme].jobLocation}
                     text={this.props.location || 'Location / Project URL'}
@@ -160,21 +169,21 @@ export default class BlockDumbComp extends React.Component {
                     options={{toolbar: false}}
                     onBlur={e => this.props.handleUpdateLocalState(e, 'jobYear', 'blocks', this.props.blockId)} />
 
-            {Radium.getState(this.state, 'block', ':hover') ? (
-              <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
-                   onClick={e => this.hideBlock(e, this.props.blockId)} />
-                ) : null}
 
-              <div className='bulletContainer' style={styles.bulletContainer}>
-                {bulletCollection}
-              </div>
+            <div className='bulletContainer' style={styles.bulletContainer}>
+              {bulletCollection}
+            </div>
 
             {Radium.getState(this.state, 'block', ':hover') ? (
               <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
                    onClick={e => this.addBullet(e, this.props.blockId)} />
                 ) : null}
 
+
+          {/* End Block Div*/}
           </div>
+
+      {/* End Block Dragging shadow div */}
       </div>
     ));
   }

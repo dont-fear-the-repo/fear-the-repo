@@ -2,7 +2,8 @@ require('babel/register');
 // connect to database
 import passport from "passport";
 import PassportLinkedin from 'passport-linkedin';
-import cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser';
+const request = require('request');
 const LinkedinStrategy =  PassportLinkedin.Strategy
 const dbSchema = require('../database/dbSchema.js');
 const historyApiFallback = require('connect-history-api-fallback');
@@ -17,6 +18,7 @@ const db = require('../database/dbConfig.js');
 const _ = require('underscore');
 const express = require('express');
 const app = express();
+
 
 // Enable webpack middleware if the application is being
 // run in development mode.
@@ -71,7 +73,7 @@ passport.deserializeUser((obj, done) => {
 });
 app.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_basicprofile','r_emailaddress'] }), (req,res) => {
   req.session.LinkedinData  = res.req.user._json;
-  res.redirect('/cookies');
+  res.redirect('/returnpage');
   });
 
 app.post('/cookie',function(req,res){
@@ -98,6 +100,24 @@ if (config.env === 'development') {
 // TODO: All of this Auth and API will need to be refactored someday  //
 // to an external file so that a deployment server can use them       //
 ////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//                                                             //
+//  THESAURUS application                                      //
+//                                                             //
+///////////////////////////////////////////////////////////////
+
+app.post('/api/thesaurusQuery', (req,res) => {
+//console.log (req.body.word);
+  request('http://words.bighugelabs.com/api/2/ecb6566c60b2ee6f4c85013ebfb5e70b/' + req.body.word +'/json', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          res.send(body);
+      }else{
+        res.sendStatus(404)
+      }
+    })
+})
+
 
 
 /////////////////////////////////////////////////////////////////
@@ -216,10 +236,10 @@ app.post('/api/resume/get', function(req, res) {
       type: db.QueryTypes.SELECT
     })
     .then(function(info) {
-      console.log('userID is:', req.body.userID);
+      // console.log('userID is:', req.body.userID);
 
-      console.log('res.body is: ', info);
-      console.log('server response is: ', serverResponseToNewResumeState(info));
+      // console.log('res.body is: ', info);
+      // console.log('server response is: ', serverResponseToNewResumeState(info));
       res.send(serverResponseToNewResumeState(info));
     });
 });
@@ -248,16 +268,23 @@ app.post('/api/resume/update', (req, res) => {
           webLinkedin: req.body.resumeHeader.webLinkedin,
           webOther: req.body.resumeHeader.webOther,
           resumeTitle: req.body.resumeTitle,
-          resumeTheme: req.body.resumeTheme,
-          // personalStatement: req.body.resumeFooter.personalStatement,
-          // school1Name: req.body.resumeFooter.school1.school1Name,
-          // school1Degree: req.body.resumeFooter.school1.school1Degree,
-          // school1EndYear: req.body.resumeFooter.school1.school1EndYear,
-          // school1Location: req.body.resumeFooter.school1.school1Location,
-          // school2Name: req.body.resumeFooter.school2.school2Name,
-          // school2Degree: req.body.resumeFooter.school2.school2Degree,
-          // school2EndYear: req.body.resumeFooter.school2.school2EndYear,
-          // school2Location: req.body.resumeFooter.school2.school2Location
+          resumeTheme: req.body.resumeTheme
+          ////////////////////////////////////////////////////////////////////////
+          // Front end refactored to remove functionality for RESUME fields below:
+          //
+          //personalStatement
+          // school1Name
+          // school1Degree
+          // school1EndYear
+          // school1Location
+          // school2Name
+          // school2Degree
+          // school2EndYear
+          // school2Location
+          //
+          //NOTE : These fields are still available for future use in the database
+          ////////////////////////////////////////////////////////////////////////
+
         })
         .then((resume) => {
           dbSchema.User.findOne({
@@ -281,7 +308,7 @@ app.post('/api/resume/update', (req, res) => {
                     resume.addBlock(block);
                     _.each(blockArr.bulletChildren, (bulletArr) => {
                       dbSchema.Bullet.create({
-                          bullet: bulletArr.bullet,
+                          bullet: bulletArr.text,
                           bulletPosition: _.indexOf(blockArr.bulletChildren, bulletArr),
                           bulletArchived: bulletArr.bulletArchived
                         })
@@ -397,8 +424,8 @@ function serverResponseToNewResumeState(serverResponse) {
     }
 
     newResumeState.blockChildrenTempObj[bullet.blockPosition].bulletChildrenTempObj[bullet.bulletPosition] = {
-      bullet: bullet.bullet, // best line ever
-      archived: bullet.archived
+      text: bullet.bullet, // best line ever
+      archived: bullet.bulletArchived
     };
   })
 

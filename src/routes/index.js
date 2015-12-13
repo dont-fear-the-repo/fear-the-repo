@@ -12,6 +12,6 @@ export default (
     <IndexRoute component={HomeView} />
     <Route path='/resume' component={ResumeView} />
     <Route path='/about' component={AboutView} />
-    <Route path='/cookies' component={LinkedinLoginView} />
+    <Route path = '/returnpage' component={LinkedinLoginView} />
   </Route>
 );

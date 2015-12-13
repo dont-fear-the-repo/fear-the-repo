@@ -1,4 +1,7 @@
-import { MasterTheme } from 'styles/MasterTheme';
+import {
+  MasterTheme
+}
+from 'styles/MasterTheme';
 
 const font = MasterTheme.muli;
 const merriweather = MasterTheme.merriweather;
@@ -88,10 +91,8 @@ export const styles = {
     width: (resumePaperWidth * viewMultiplier).toString() + 'px',
     marginTop: '45px',
     marginLeft: 'auto',
-    marginRight: 'auto'
-  },
-  plain: {
-    marginLeft: '10px'
+    marginRight: 'auto',
+    position: 'relative'
   },
   underlineStyle: {
     borderColor: MasterTheme.orange,
@@ -125,22 +126,51 @@ export const styles = {
     textAlign: 'center',
     paddingTop: '40px'
   },
-  bulletContainer: {
-    width: '95%'
-  },
-  bullet: {
-    fontSize: '16px',
-    marginTop: '10px'
+  bulletContainer: {      // This controls the visual paper effect of DnD bullets.
+    position: 'relative'  // Leave this here; it's controls behavior, not visible print style.
   },
   editorField: {
     cursor: 'text',
-    // maxWidth: '90%',
-    // minWidth: '80%',
     display: 'inline-block'
   },
   handle: {
     cursor: 'move',
-    float: 'right',
+    position: 'absolute',
+    right: '10px',
+    height: '20px',
+    top: '-2px',
+    opacity: 0.4
+  },
+  bulletMinusIconImage: {
+    opacity: 0.4,
+    width: '18px',
+    position: 'absolute',
+    right: '30px',
+    display: 'inline-block'
+  },
+  bulletPlusIconImage: {
+    opacity: 0.4,
+    width: '18px',
+    position: 'absolute',
+    right: '50px',
+    top: '20px',
+    display: 'inline-block'
+  },
+  AddNewBlockIconImage: {
+    opacity: 0.2,
+    width: '30px',
+    position: 'relative',
+    left: '45px',
+    top: '10px',
+    display: 'inline-block'
+  },
+  blockMinusIconImage: {
+    opacity: 0.2,
+    width: '30px',
+    position: 'absolute',
+    left: '-30px',
+    top: '10px',
+    display: 'inline-block'
   },
   thesaurus: {
     textAlign: 'center'
@@ -176,16 +206,4 @@ export const styles = {
     color: MasterTheme.orange,
     fontStyle: 'italic'
   }
-  // ,
-  // leftNav: {
-  //   marginTop: '65px',
-  //   paddingTop: '200px'
-    // position: 'fixed',
-    // zIndex: 10,
-    // top: 0,
-    // transform: 'translate3d(' + x + 'px, 0, 0)',
-    // transition: !this.state.swiping && _stylesTransitions2['default'].easeOut(),
-    // backgroundColor: this.getTheme().color,
-    // overflow: 'hidden'
-  // }
 };

@@ -118,9 +118,10 @@ export default class Bullet extends React.Component {
     const bulletDrag = {
       opacity: isDragging ? 0 : 1,
       cursor: 'default',
+      position: 'relative',
       width: '100%',
       ':hover': {
-        boxSizing: 'border-box',
+        boxSizing: 'content-box',
         WebkitTapHighlightColor: 'rgba(0,0,0,0)',
         boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
       }
@@ -137,12 +138,14 @@ export default class Bullet extends React.Component {
                 onBlur={e => this.props.handleUpdateLocalState(e, 'text', 'bullets', bulletId, parentBlockId)} />
 
         {Radium.getState(this.state, 'bullet', ':hover') ? (
-          <img src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
-                 onClick={e => this.hideBullet(e, bulletId)} />
+          <img style={styles.bulletMinusIconImage}
+               src={require('styles/assets/ic_remove_circle_outline_black_24px.svg')}
+               onClick={e => this.hideBullet(e, bulletId)} />
             ) : null}
 
         {Radium.getState(this.state, 'bullet', ':hover') ? (
-          <img src={require('styles/assets/drag-vertical.png')} style={styles.handle} />
+          <img src={require('styles/assets/drag-vertical.png')}
+               style={styles.handle} />
             ) : null}
 
       </div>
