@@ -32,7 +32,7 @@ export const styles = {
     letterSpacing: '5px',
     position: 'absolute',
     marginLeft: 'calc(50% - 400px)',
-    marginTop: '-29%',
+    marginTop: '-50%',
     zIndex: '10'
   },
   callToAction: {
@@ -42,14 +42,14 @@ export const styles = {
     borderRadius: '5px',
     position: 'absolute',
     marginLeft: 'calc(50% - 130px)',
-    marginTop: '-21%',
+    marginTop: '-32%',
     borderColor: MasterTheme.orange,
     borderStyle: 'solid',
     borderWidth: '2px',
     color: MasterTheme.orange,
     textAlign: 'center',
     fontSize: '22px',
-    fontWeight: '300',
+    fontWeight: '400',
     fontFamily: muli,
     letterSpacing: '3px',
     padding: '10px',
@@ -59,18 +59,30 @@ export const styles = {
       color: MasterTheme.white
     }
   },
+  trapezoid: {
+    borderColor: MasterTheme.orange,
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    width: '60%',
+    height: '600px',
+    backgroundColor: MasterTheme.orange,
+    marginTop: '3.5%',
+    marginLeft: '-22%',
+    position: 'absolute',
+    transform: 'rotate(71deg)',
+    zIndex: '4'
+  },
   diagonalLine: {
     borderColor: MasterTheme.orange,
     borderWidth: '1px',
     borderStyle: 'solid',
     width: '100%',
-    height: '600px',
     backgroundColor: MasterTheme.orange,
-    marginTop: '-20%',
-    marginLeft: '-50.5%',
+    marginTop: '-10%',
+    marginLeft: '-35.5%',
     position: 'absolute',
-    transform: 'rotate(70deg)',
-    zIndex: '4'
+    transform: 'rotate(71deg)',
+    zIndex: '6'
   },
   getStartedButton: {
     width: '260px',
@@ -79,7 +91,7 @@ export const styles = {
     borderRadius: '5px',
     position: 'absolute',
     marginLeft: 'calc(50% - 130px)',
-    marginTop: '-30px',
+    marginTop: '-15%',
     borderColor: MasterTheme.orange,
     borderStyle: 'solid',
     borderWidth: '2px',
@@ -101,7 +113,7 @@ export const styles = {
     borderRadius: '50%',
     position: 'absolute',
     marginLeft: 'calc(50% - 35px)',
-    marginTop: '-14%',
+    marginTop: '-25%',
     zIndex: '10',
     ':hover': {
       boxSizing: 'border-box',
@@ -110,7 +122,7 @@ export const styles = {
     }
   },
   downArrow: {
-    marginTop: '24%',
+    marginTop: '26%',
     zIndex: '10'
   },
   copy: {
@@ -127,7 +139,7 @@ export const styles = {
     backgroundColor: MasterTheme.midGray,
     width: '100%',
     paddingTop: '2%',
-    paddingBottom: '100px',
+    paddingBottom: '80px',
     fontSize: '14pt',
     textAlign: 'center',
     color: MasterTheme.white,
@@ -137,11 +149,10 @@ export const styles = {
   grayDivBottom: {
     backgroundColor: MasterTheme.midGray,
     width: '100%',
-    height: '35%',
+    // height: '50%',
     paddingTop: '30px',
-    paddingBottom: '50px',
-    position: 'relative',
-    zIndex: '5'
+    paddingBottom: '10px',
+    position: 'relative'
   },
   wysiwyg: {
     fontSize: '44px',

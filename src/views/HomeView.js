@@ -54,6 +54,7 @@ class HomeView extends React.Component {
              </Link>
 
           <div style={styles.diagonalLine}></div>
+          <div style={styles.trapezoid}></div>
 
          </div>
 

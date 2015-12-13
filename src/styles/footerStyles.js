@@ -9,7 +9,8 @@ export const styles = {
     textAlign: 'center',
     backgroundColor: MasterTheme.darkGray,
     position: 'relative',
-    zIndex: '5'
+    zIndex: '5',
+    height: '200px'
   },
   buttonLabelStyle: {
     textTransform: 'none'
