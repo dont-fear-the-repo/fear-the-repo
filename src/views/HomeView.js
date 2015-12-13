@@ -41,38 +41,38 @@ class HomeView extends React.Component {
           {Radium.getState(this.state, 'callToAction', 'hover')}
           <RouterLink to='/resume'>
             <div style={styles.callToAction} key='callToAction'>
-              start building your resume now!
+              get started
             </div>
           </RouterLink>
 
              {Radium.getState(this.state, 'circle', 'hover')}
-             <Link to='Features' spy={true} smooth={true} duration={600}>
+             <Link to='Features' spy={true} smooth={true} duration={1000}>
                <div style={styles.circle} key='circle'>
                  <img src={require('styles/assets/downArrow.png')}
                    style={styles.downArrow} />
                </div>
              </Link>
+
+          <div style={styles.diagonalLine}></div>
+
          </div>
 
         <div style={styles.copy}>
 
-          <div style={styles.grayDivTop}>
-          </div>
-
-          <div style={styles.whiteDiv}>
+          <div style={styles.grayDivMiddle}>
 
             <Element name='Features'>
               <div style={styles.topCopy}>
-                <div>What-You-See-Is-What-You-Get.</div>
-                <div>Drag-and-drop.</div>
-                <div>See exactly what your printed resume will look like as you edit.</div>
+                <div style={styles.wysiwyg}>what you see is what you get</div>
+
+                <div style={styles.video}>
+                  <p style={{ paddingTop: '120px' }}>[insert video here]</p>
+                </div>
+
               </div>
             </Element>
 
 
-            <div style={styles.video}>
-              <p style={{ paddingTop: '100px' }}>[insert video here]</p>
-            </div>
 
             <div style={styles.middleCopy}>
               <div>Import your information from LinkedIn,</div>
@@ -88,12 +88,9 @@ class HomeView extends React.Component {
             </div>
 
             <RouterLink to='/resume'>
-              <Paper style={styles.buttonPaper}>
-                <FlatButton label="Let's get started!"
-                            style={styles.button}
-                            backgroundColor={styles.buttonColor}
-                            labelStyle={styles.buttonLabelStyle} />
-              </Paper>
+                <div style={styles.getStartedButton}>
+                  let's get started!
+                </div>
             </RouterLink>
           </div>
 

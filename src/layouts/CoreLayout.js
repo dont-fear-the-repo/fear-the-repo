@@ -235,13 +235,11 @@ showLoginPopover(key, e) {
   render() {
     const { canSubmitAuth, currentAuthMessage, loggedIn } = this.props;
 
-    styles.loginButton.color = this.props.pageYouAreOn === '/' ? 'white' : MasterTheme.darkGray;
-    styles.signupButton.color = this.props.pageYouAreOn === '/' ? 'white' : MasterTheme.darkGray;
-    styles.rezableName.color = this.props.pageYouAreOn === '/' ? MasterTheme.orange : MasterTheme.darkGray;
-    styles.logo.fill = this.props.pageYouAreOn === '/' ? MasterTheme.orange : MasterTheme.darkGray;
+    // styles.rezableName.color = this.props.pageYouAreOn === '/' ? MasterTheme.orange : MasterTheme.darkGray;
     styles.editResumeButton.display = this.props.pageYouAreOn === '/resume' ? 'none' : 'inline-block';
-
-    // styles.loginButton.':hover'.borderColor = this.props.pageYouAreOn === '/' ? 'white' : MasterTheme.darkGray;
+    // styles.aboutUsButton.color = this.props.pageYouAreOn === '/' ? MasterTheme.white : MasterTheme.darkGray;
+    // styles.loginButton.color = this.props.pageYouAreOn === '/' ? MasterTheme.white : MasterTheme.darkGray;
+    // styles.signupButton.color = this.props.pageYouAreOn === '/' ? MasterTheme.white : MasterTheme.darkGray;
 
     return (
       <div className='page-container'>
@@ -264,6 +262,12 @@ showLoginPopover(key, e) {
                         Edit Resume
                       </div>
 
+                    </Link>
+
+                    <Link to='/about'>
+                      <div style={styles.aboutUsButton} key='aboutUs'>
+                        About Us
+                      </div>
                     </Link>
 
                     {loggedIn &&

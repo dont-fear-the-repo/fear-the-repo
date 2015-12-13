@@ -7,7 +7,9 @@ const margins = '8px';
 export const styles = {
   wholeComponent: {
     textAlign: 'center',
-    backgroundColor: MasterTheme.darkGray
+    backgroundColor: MasterTheme.darkGray,
+    position: 'relative',
+    zIndex: '5'
   },
   buttonLabelStyle: {
     textTransform: 'none'
@@ -18,7 +20,7 @@ export const styles = {
     margin: margins,
     fontSize: fontsize,
     fontFamily: font,
-    fontStyle: 'italic',
+    // fontStyle: 'italic',
     fontWeight: MasterTheme.light,
     borderRadius: '5px',
     color: MasterTheme.white,
@@ -34,16 +36,16 @@ export const styles = {
     margin: margins,
     fontSize: fontsize,
     fontFamily: font,
-    fontStyle: 'italic',
+    // fontStyle: 'italic',
     fontWeight: MasterTheme.light,
-    borderRadius: '5px',
+    // borderRadius: '5px',
     color: MasterTheme.white,
     display: 'inline-block',
     position: 'relative',
-    padding: '2px 20px 1px 20px',
-    borderColor: MasterTheme.white,
-    borderStyle: 'solid',
-    borderWidth: '2px',
+    // padding: '2px 20px 1px 20px',
+    // borderColor: MasterTheme.white,
+    // borderStyle: 'solid',
+    // borderWidth: '2px',
     textAlign: 'center'
   },
   githubIcon: {

@@ -14,12 +14,6 @@ export class Footer extends React.Component {
         <div className='footer'
              style={styles.wholeComponent}>
 
-          <Link to='/about'>
-            <div style={styles.aboutButton}>
-              About Us
-            </div>
-          </Link>
-
           <a href='https://github.com/dont-fear-the-repo/fear-the-repo'>
             <div style={styles.githubButton}>
               Check us out on Github

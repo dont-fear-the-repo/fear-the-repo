@@ -29,6 +29,23 @@ export const styles = {
       borderWidth: '1px'
     }
   },
+  aboutUsButton: {
+    borderRadius: '5px',
+    color: MasterTheme.white,
+    display: 'inline-block',
+    position: 'relative',
+    marginRight: '-10px',
+    marginTop: '4px',
+    padding: '6px 17px 7px 17px',
+    fontSize: '14px',
+    height: '35px',
+    width: '120px',
+    textAlign: 'center',
+    fontFamily: font,
+    ':hover': {
+      color: MasterTheme.orange
+    }
+  },
   loginButton: {
     borderRadius: '5px',
     color: 'white',
@@ -43,9 +60,9 @@ export const styles = {
     width: '80px',
     textAlign: 'center',
     fontFamily: font,
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    borderWidth: '1px',
+    // borderColor: 'transparent',
+    // borderStyle: 'solid',
+    // borderWidth: '1px',
     ':hover': {
       // borderColor: MasterTheme.white,
       // borderStyle: 'solid',
@@ -67,9 +84,9 @@ export const styles = {
     width: '80px',
     textAlign: 'center',
     fontFamily: font,
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    borderWidth: '1px',
+    // borderColor: 'transparent',
+    // borderStyle: 'solid',
+    // borderWidth: '1px',
     ':hover': {
       // borderColor: MasterTheme.white,
       // borderStyle: 'solid',
@@ -80,7 +97,8 @@ export const styles = {
   homeViewNav: {
     backgroundColor: 'transparent',
     position: 'absolute',
-    zIndex: 100
+    zIndex: 100,
+    paddingTop: '10px'
   },
   buttonColor: MasterTheme.white,
   buttonHoverColor: MasterTheme.orange,

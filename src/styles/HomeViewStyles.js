@@ -10,11 +10,14 @@ export const styles = {
     fontFamily: muli
   },
   heroImg: {
-    width: '100%'
+    width: '100%',
+    position: 'relative',
+    zIndex: '5'
+    // height: '100%'
   },
   heroDiv: {
     width: '100%',
-    height: '763px',
+    height: '100%',
     position: 'relative'
   },
   heroText: {
@@ -29,25 +32,64 @@ export const styles = {
     letterSpacing: '5px',
     position: 'absolute',
     marginLeft: 'calc(50% - 400px)',
-    marginTop: '-460px'
+    marginTop: '-29%',
+    zIndex: '10'
   },
   callToAction: {
-    width: '350px',
-    height: '80px',
+    width: '260px',
+    height: '60px',
     cursor: 'pointer',
     borderRadius: '5px',
     position: 'absolute',
-    marginLeft: 'calc(50% - 175px)',
-    marginTop: '-250px',
+    marginLeft: 'calc(50% - 130px)',
+    marginTop: '-21%',
     borderColor: MasterTheme.orange,
     borderStyle: 'solid',
     borderWidth: '2px',
     color: MasterTheme.orange,
     textAlign: 'center',
     fontSize: '22px',
+    fontWeight: '300',
     fontFamily: muli,
     letterSpacing: '3px',
-    padding: '7px',
+    padding: '10px',
+    zIndex: '10',
+    ':hover': {
+      backgroundColor: MasterTheme.orange,
+      color: MasterTheme.white
+    }
+  },
+  diagonalLine: {
+    borderColor: MasterTheme.orange,
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    width: '100%',
+    height: '600px',
+    backgroundColor: MasterTheme.orange,
+    marginTop: '-20%',
+    marginLeft: '-50.5%',
+    position: 'absolute',
+    transform: 'rotate(70deg)',
+    zIndex: '4'
+  },
+  getStartedButton: {
+    width: '260px',
+    height: '60px',
+    cursor: 'pointer',
+    borderRadius: '5px',
+    position: 'absolute',
+    marginLeft: 'calc(50% - 130px)',
+    marginTop: '-30px',
+    borderColor: MasterTheme.orange,
+    borderStyle: 'solid',
+    borderWidth: '2px',
+    color: MasterTheme.orange,
+    textAlign: 'center',
+    fontSize: '22px',
+    fontWeight: '300',
+    fontFamily: muli,
+    letterSpacing: '3px',
+    padding: '10px',
     ':hover': {
       backgroundColor: MasterTheme.orange,
       color: MasterTheme.white
@@ -59,7 +101,8 @@ export const styles = {
     borderRadius: '50%',
     position: 'absolute',
     marginLeft: 'calc(50% - 35px)',
-    marginTop: '-110px',
+    marginTop: '-14%',
+    zIndex: '10',
     ':hover': {
       boxSizing: 'border-box',
       WebkitTapHighlightColor: 'rgba(0,0,0,0)',
@@ -67,34 +110,50 @@ export const styles = {
     }
   },
   downArrow: {
-    marginTop: '20px'
+    marginTop: '24%',
+    zIndex: '10'
   },
   copy: {
-    fontFamily: merriweather,
+    fontFamily: muli,
     textAlign: 'center',
     fontSize: '20pt'
   },
-  grayDivTop: {
-    backgroundColor: MasterTheme.lightGray,
+  // grayDivTop: {
+  //   backgroundColor: MasterTheme.lightGray,
+  //   width: '100%',
+  //   height: '120px'
+  // },
+  grayDivMiddle: {
+    backgroundColor: MasterTheme.midGray,
     width: '100%',
-    height: '120px'
-  },
-  whiteDiv: {
-    backgroundColor: MasterTheme.white,
-    width: '100%',
-    padding: '20px',
+    paddingTop: '2%',
+    paddingBottom: '100px',
     fontSize: '14pt',
-    textAlign: 'center'
+    textAlign: 'center',
+    color: MasterTheme.white,
+    position: 'relative',
+    zIndex: '3'
   },
   grayDivBottom: {
-    backgroundColor: MasterTheme.lightGray,
+    backgroundColor: MasterTheme.midGray,
     width: '100%',
+    height: '35%',
     paddingTop: '30px',
-    paddingBottom: '50px'
+    paddingBottom: '50px',
+    position: 'relative',
+    zIndex: '5'
+  },
+  wysiwyg: {
+    fontSize: '44px',
+    letterSpacing: '3px',
+    marginRight: '10%',
+    fontWeight: '200',
+    textAlign: 'center'
   },
   topCopy: {
     width: '65%',
     marginLeft: 'auto',
+    position: 'relative',
     marginRight: 'auto',
     paddingTop: '30px',
     paddingBottom: '30px'
@@ -108,18 +167,21 @@ export const styles = {
   },
   video: {
     borderRadius: '5px',
-    borderColor: 'black',
+    borderColor: 'white',
     borderStyle: 'dashed',
     borderWidth: '2px',
     marginLeft: 'auto',
     marginRight: 'auto',
+    // marginRight: '10%',
     marginBottom: '20px',
-    width: '400px',
-    height: '250px',
+    width: '500px', // vimeo default embed dimensions
+    height: '281px',
     marginTop: '20px'
   },
   bottomCopy: {
-    marginBottom: '30px'
+    marginBottom: '30px',
+    color: MasterTheme.white,
+    fontFamily: muli
   },
   buttonPaper: {
     width: '300px',
@@ -137,7 +199,7 @@ export const styles = {
     padding: '8px',
     font: muli,
     fontSize: '24pt',
-    fontStyle: 'italic',
+    // fontStyle: 'italic',
     borderRadius: '5px'
   }
 };
