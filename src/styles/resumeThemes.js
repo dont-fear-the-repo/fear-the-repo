@@ -37,9 +37,9 @@ const themeGlobals = {
     bulletFont: muli,
     bulletFontSize: '10px',
 
-    accentColor: darkGray,
+    accentColor: 'rgb(11, 116, 148)',
     accentColorBG: lightGray,
-    linkColor: darkGray,
+    linkColor: 'rgb(11, 116, 148)',
     sideMargin: '60px',
     topMargin: '40px'
   },
