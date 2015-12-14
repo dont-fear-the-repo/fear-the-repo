@@ -54,48 +54,36 @@ class HomeView extends React.Component {
              </Link>
 
           <div style={styles.diagonalLine}></div>
-          <div style={styles.trapezoid}></div>
 
          </div>
 
-        <div style={styles.copy}>
-
           <div style={styles.grayDivMiddle}>
 
-            <Element name='Features'>
-              <div style={styles.topCopy}>
+            <div style={styles.copy}>
+              <Element name='Features'>
                 <div style={styles.wysiwyg}>what you see is what you get</div>
 
                 <div style={styles.video}>
-                  <p style={{ paddingTop: '120px' }}>[insert video here]</p>
+                  <p style={{ paddingTop: '120px' }}>[insert video here]<br/>500x281vimeo<br/>default embed dimensions</p>
                 </div>
 
+              </Element>
+
+              <div style={styles.middleCopy}>
+                <div>Import your information from LinkedIn</div>
+                <div>Save your progress to the cloud</div>
+                <div>Easily print or export to PDF when you're done</div>
               </div>
-            </Element>
 
-
-
-            <div style={styles.middleCopy}>
-              <div>Import your information from LinkedIn,</div>
-              <div>save your progress to the cloud,</div>
-              <div>then easily print or export to PDF when you're done.</div>
-            </div>
-
-          </div>
-
-          <div style={styles.grayDivBottom}>
-            <div style={styles.bottomCopy}>
-              Are you ready for a beautiful new resume?
-            </div>
-
-            <RouterLink to='/resume'>
+              <RouterLink to='/resume'>
                 <div style={styles.getStartedButton}>
-                  let's get started!
+                  get started
                 </div>
-            </RouterLink>
-          </div>
+              </RouterLink>
 
-        </div>
+            </div>
+
+          </div>
 
       </div>
     );

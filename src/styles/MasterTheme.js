@@ -1,9 +1,9 @@
 export const MasterTheme = {
   orange: '#FF9F10',
   lightGray: '#DCDDD8',
-  // midGray: '#5D6A79',
-  midGray: '#61737D', // same color as paper in splash image
-  darkGray: '#808080',
+  // midGray: '#768C97', // same color as paper in splash image
+  midGray: '#6F7982',
+  darkGray: '#616161',
   white: '#FFFFFF',
   muli: 'Muli, sans-serif',
   merriweather: 'Merriweather, serif',

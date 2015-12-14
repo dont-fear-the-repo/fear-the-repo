@@ -23,10 +23,12 @@ export const styles = {
     borderColor: 'transparent',  // Drawing a new border on hover introduces a bug where the entire div shifts down slightly, which is why we draw it here first
     borderStyle: 'solid',
     borderWidth: '1px',
+    transition: '0.3s ease-out',
     ':hover': {
       borderColor: MasterTheme.orange,
       borderStyle: 'solid',
-      borderWidth: '1px'
+      borderWidth: '1px',
+      transition: '0.3s ease-out'
     }
   },
   aboutUsButton: {
@@ -42,8 +44,10 @@ export const styles = {
     width: '120px',
     textAlign: 'center',
     fontFamily: font,
+    transition: '0.3s ease-out',
     ':hover': {
-      color: MasterTheme.orange
+      color: MasterTheme.orange,
+      transition: '0.3s ease-out'
     }
   },
   loginButton: {
@@ -63,11 +67,13 @@ export const styles = {
     // borderColor: 'transparent',
     // borderStyle: 'solid',
     // borderWidth: '1px',
+    transition: '0.3s ease-out',
     ':hover': {
       // borderColor: MasterTheme.white,
       // borderStyle: 'solid',
       // borderWidth: '1px'
-      color: MasterTheme.orange
+      color: MasterTheme.orange,
+      transition: '0.3s ease-out'
     }
   },
   signupButton: {
@@ -87,11 +93,13 @@ export const styles = {
     // borderColor: 'transparent',
     // borderStyle: 'solid',
     // borderWidth: '1px',
+    transition: '0.3s ease-out',
     ':hover': {
       // borderColor: MasterTheme.white,
       // borderStyle: 'solid',
       // borderWidth: '1px'
-      color: MasterTheme.orange
+      color: MasterTheme.orange,
+      transition: '0.3s ease-out'
     }
   },
   homeViewNav: {

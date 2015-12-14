@@ -9,45 +9,32 @@ export const styles = {
     textAlign: 'center',
     backgroundColor: MasterTheme.darkGray,
     position: 'relative',
-    zIndex: '5',
-    height: '200px'
-  },
-  buttonLabelStyle: {
-    textTransform: 'none'
-  },
-  buttonColor: MasterTheme.white,
-  buttonHoverColor: MasterTheme.orange,
-  aboutButton: {
-    margin: margins,
-    fontSize: fontsize,
-    fontFamily: font,
-    // fontStyle: 'italic',
-    fontWeight: MasterTheme.light,
-    borderRadius: '5px',
-    color: MasterTheme.white,
-    display: 'inline-block',
-    position: 'relative',
-    padding: '8px 20px 10px 20px',
-    borderColor: MasterTheme.white,
-    borderStyle: 'solid',
-    borderWidth: '2px',
-    textAlign: 'center'
+    zIndex: '11',
+    marginTop: '110px',
+    height: '120px'
   },
   githubButton: {
     margin: margins,
+    marginTop: '40px',
     fontSize: fontsize,
     fontFamily: font,
-    // fontStyle: 'italic',
     fontWeight: MasterTheme.light,
-    // borderRadius: '5px',
     color: MasterTheme.white,
     display: 'inline-block',
     position: 'relative',
-    // padding: '2px 20px 1px 20px',
-    // borderColor: MasterTheme.white,
-    // borderStyle: 'solid',
-    // borderWidth: '2px',
-    textAlign: 'center'
+    padding: '5px 20px 10px 20px',
+    textAlign: 'center',
+    borderColor: 'transparent',
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    transition: '0.3s ease-out',
+    ':hover': {
+      borderColor: MasterTheme.white,
+      borderRadius: '5px',
+      borderStyle: 'solid',
+      borderWidth: '1px',
+      transition: '0.3s ease-out'
+    }
   },
   githubIcon: {
     height: '38px',

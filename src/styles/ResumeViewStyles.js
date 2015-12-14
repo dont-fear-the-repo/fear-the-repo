@@ -10,6 +10,7 @@ export const styles = {
     backgroundColor: MasterTheme.midGray,
     height: (resumePaperWidth * viewMultiplier * 1.45).toString() + 'px',
     width: '100%',
+    marginBottom: '-60px',
     fontFamily: font
   },
   headerContainer: {
