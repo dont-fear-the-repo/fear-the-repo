@@ -133,7 +133,7 @@ export const styles = {
     width: '65%',
     marginLeft: 'auto',
     position: 'relative',
-    marginRight: '0',
+    marginRight: 'auto',
     paddingTop: '60px',
     paddingBottom: '30px'
   },
