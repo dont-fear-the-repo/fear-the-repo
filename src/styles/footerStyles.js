@@ -10,19 +10,21 @@ export const styles = {
     backgroundColor: MasterTheme.darkGray,
     position: 'relative',
     zIndex: '11',
-    marginTop: '110px',
-    height: '120px'
+    width: '100%',
+    height: '100px',
+    marginTop: '100px',
+    transform: 'translateY(43px)'
   },
   githubButton: {
     margin: margins,
-    marginTop: '40px',
+    marginTop: '25px',
     fontSize: fontsize,
     fontFamily: font,
     fontWeight: MasterTheme.light,
     color: MasterTheme.white,
     display: 'inline-block',
     position: 'relative',
-    padding: '5px 20px 10px 20px',
+    padding: '5px 20px 3px 20px',
     textAlign: 'center',
     borderColor: 'transparent',
     borderStyle: 'solid',
@@ -39,6 +41,7 @@ export const styles = {
   githubIcon: {
     height: '38px',
     width: '38px',
-    marginLeft: '10px'
+    marginLeft: '10px',
+    marginBottom: '4px'
   }
 };

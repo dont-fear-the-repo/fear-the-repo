@@ -16,7 +16,6 @@ export const styles = {
   },
   heroDiv: {
     width: '100%',
-    height: '100%',
     position: 'relative'
   },
   heroText: {
@@ -179,7 +178,6 @@ export const styles = {
     padding: '8px',
     font: muli,
     fontSize: '24pt',
-    // fontStyle: 'italic',
     borderRadius: '5px'
   }
 };

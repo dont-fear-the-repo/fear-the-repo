@@ -13,7 +13,7 @@ export const styles = {
     backgroundColor: MasterTheme.midGray,
     height: (resumePaperWidth * viewMultiplier * 1.45).toString() + 'px',
     width: '100%',
-    marginBottom: '-60px',
+    marginBottom: '-145px',
     fontFamily: font
   },
   headerContainer: {
@@ -42,7 +42,7 @@ export const styles = {
     backgroundColor: 'white',
     position: 'absolute',
     left: '0px',
-    top: '75px',
+    top: '95px',
     boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
   },
   paperLeftNavButton: {
@@ -90,7 +90,7 @@ export const styles = {
   resumePaper: {
     height: (resumePaperWidth * (11 / 8.5) * viewMultiplier).toString() + 'px',
     width: (resumePaperWidth * viewMultiplier).toString() + 'px',
-    marginTop: '45px',
+    marginTop: '65px',
     marginLeft: 'auto',
     marginRight: 'auto',
     position: 'relative'

@@ -4,19 +4,20 @@ const font = MasterTheme.muli;
 
 export const styles = {
   wholeView: {
-    backgroundColor: MasterTheme.lightGray,
-    paddingBottom: '10px',
-    color: MasterTheme.darkGray,
-    fontFamily: font
+    backgroundColor: MasterTheme.midGray,
+    // paddingBottom: '10px',
+    color: MasterTheme.white,
+    fontFamily: font,
+    height: '100%',
+    position: 'relative'
   },
   team: {
     textAlign: 'center'
   },
   leadText: {
-    marginTop: '10px',
-    marginLeft: '20px',
-    marginBottom: '20px',
-    paddingTop: '30px',
+    marginLeft: 'auto',
+    marginBottom: '40px',
+    paddingTop: '190px',
     fontSize: '14pt'
   },
   teamCard: {
@@ -26,7 +27,7 @@ export const styles = {
     display: 'inline-block',
     fontSize: '12pt'
   },
-  teamCardDepth: 1,
+  teamCardDepth: 2,
   teamMemberName: {
     color: MasterTheme.darkGray
   },
@@ -36,14 +37,23 @@ export const styles = {
     margin: '4px'  // adjust teamCard width accordingly
   },
   starterKit: {
-    margin: '20px',
+    margin: '25px',
     fontSize: '12pt',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: MasterTheme.light,
+    paddingTop: '120px'
+  },
+  link: {
+    color: MasterTheme.orange
   },
   secretText: {
     fontSize: '8pt',
-    marginTop: '20px',
-    textAlign: 'center'
+    backgroundColor: MasterTheme.midGray,
+    marginTop: '201px',
+    marginBottom: '-200px',
+    position: 'relative',
+    textAlign: 'center',
+    height: '200px'
   },
   button: {
     margin: '20px',

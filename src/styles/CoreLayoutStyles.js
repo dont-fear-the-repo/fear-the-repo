@@ -11,7 +11,6 @@ export const styles = {
     color: MasterTheme.orange,
     display: 'inline-block',
     position: 'relative',
-    // marginRight: '-10px',
     marginTop: '4px',
     padding: '6px 17px 7px 17px',
     fontSize: '16px',
@@ -56,7 +55,6 @@ export const styles = {
     cursor: 'pointer',
     display: 'inline-block',
     position: 'relative',
-    // marginRight: '-10px',
     marginTop: '4px',
     padding: '8px 17px 7px 17px',
     fontSize: '14px',
@@ -64,14 +62,8 @@ export const styles = {
     width: '80px',
     textAlign: 'center',
     fontFamily: font,
-    // borderColor: 'transparent',
-    // borderStyle: 'solid',
-    // borderWidth: '1px',
     transition: '0.3s ease-out',
     ':hover': {
-      // borderColor: MasterTheme.white,
-      // borderStyle: 'solid',
-      // borderWidth: '1px'
       color: MasterTheme.orange,
       transition: '0.3s ease-out'
     }
@@ -90,14 +82,8 @@ export const styles = {
     width: '80px',
     textAlign: 'center',
     fontFamily: font,
-    // borderColor: 'transparent',
-    // borderStyle: 'solid',
-    // borderWidth: '1px',
     transition: '0.3s ease-out',
     ':hover': {
-      // borderColor: MasterTheme.white,
-      // borderStyle: 'solid',
-      // borderWidth: '1px'
       color: MasterTheme.orange,
       transition: '0.3s ease-out'
     }
@@ -128,7 +114,6 @@ export const styles = {
     float: 'left',
     marginRight: '30px',
     marginTop: buttonTopMargin,
-    // marginBottom: buttonTopMargin,
     fontSize: fontsize,
     fontFamily: font
   },
