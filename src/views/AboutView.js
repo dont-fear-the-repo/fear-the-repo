@@ -92,7 +92,9 @@ class AboutView extends React.Component {
 
         <div className='davezuko' style={styles.starterKit}>
           We built off the wonderful <a href='https://github.com/davezuko/react-redux-starter-kit'
-                                        style={{ fontStyle: 'italic' }}>React-Redux starter kit</a> by <a href='https://github.com/davezuko'>David Zukowski</a>.
+                                        style={styles.link}>React-Redux starter kit</a> by <a href='https://github.com/davezuko' style={styles.link}>David Zukowski</a>.
+
+
         </div>
 
         <div className='kitten' style={styles.secretText}>
