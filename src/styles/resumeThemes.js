@@ -1,7 +1,4 @@
-import {
-  MasterTheme
-}
-from 'styles/MasterTheme';
+import {  MasterTheme } from 'styles/MasterTheme';
 
 const {
   muli,
@@ -132,8 +129,7 @@ export const resumeThemes = {
       fontSize: themeGlobals.Default.resumeHeaderFontSize,
       fontFamily: themeGlobals.Default.resumeHeaderFont
     },
-    state: {
-    },
+    state: {},
 
     phone: {
       cursor: 'text',
@@ -218,7 +214,8 @@ export const resumeThemes = {
     jobYear: {
       display: 'inline-block',
       cursor: 'text',
-      float: 'right',
+      position: 'absolute',
+      top: '3px',
       marginRight: themeGlobals.Default.sideMargin,
       marginTop: '0px',
       fontSize: themeGlobals.Default.jobTitleFontSize,
@@ -248,13 +245,14 @@ export const resumeThemes = {
     },
 
 
+
     blockDiv: {
       marginLeft: themeGlobals.Default.sideMargin,
       position: 'relative'
     },
 
     headingDiv: {
-      marginLeft: themeGlobals.Experienced.sideMargin,
+      marginLeft: themeGlobals.Default.sideMargin,
       position: 'relative'
     }
   },
@@ -343,8 +341,7 @@ export const resumeThemes = {
       fontSize: themeGlobals.Experienced.resumeHeaderFontSize,
       fontFamily: themeGlobals.Experienced.resumeHeaderFont
     },
-    state: {
-    },
+    state: {},
 
     phone: {
       cursor: 'text',
@@ -396,7 +393,7 @@ export const resumeThemes = {
       marginLeft: 'auto',
       marginRight: 'auto',
       height: '1px',
-      width: 930 - themeGlobals.Experienced.sideMargin*2 +'px',
+      width: 930 - themeGlobals.Experienced.sideMargin * 2 + 'px',
       // this is fragile, based on ResumeViewStyles final paperwidth
       marginTop: '5px'
     },
@@ -433,9 +430,9 @@ export const resumeThemes = {
     jobYear: {
       display: 'inline-block',
       cursor: 'text',
-      float: 'right',
+      position: 'absolute',
+      top: '3px',
       marginRight: themeGlobals.Experienced.sideMargin,
-      marginTop: '0px',
       fontSize: themeGlobals.Experienced.jobTitleFontSize,
       fontFamily: themeGlobals.Experienced.jobTitleFont,
     },
@@ -493,307 +490,5 @@ export const resumeThemes = {
 
 
 
-
-
-
-
-
-
-
-  'Old Business': {
-    headerDiv: {
-      paddingBottom: '7%'
-    },
-    headerLeft: {
-      position: 'relative',
-      left: 0
-    },
-    headerRight: {
-      position: 'relative',
-      right: 0
-    },
-    blockDiv: {
-      marginLeft: '4%'
-    },
-    location: {
-      fontSize: '16px',
-      display: 'block',
-      float: 'left',
-      marginLeft: '35px',
-      position: 'absolute',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    name: {
-      display: 'inline-block',
-      fontWeight: '700',
-      fontSize: '32px',
-      marginLeft: '40%',
-      marginBottom: '1%',
-      marginTop: '3%',
-      textAlign: 'center',
-      position: 'relative',
-      fontFamily: themeGlobals.Corporate.name
-    },
-    phone: {
-      cursor: 'text',
-      display: 'block',
-      float: 'left',
-      fontSize: '16px',
-      marginLeft: '35px',
-      marginTop: '22px',
-      position: 'relative',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    email: {
-      color: 'blue',
-      display: 'block',
-      float: 'left',
-      fontSize: '16px',
-      marginLeft: '2%',
-      marginTop: '22px',
-      position: 'relative',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    webLinkedin: {
-      color: 'blue',
-      display: 'inline-block',
-      fontSize: '14px',
-      marginRight: '3%',
-      float: 'right',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    webOther: {
-      color: 'blue',
-      display: 'inline-block',
-      fontSize: '14px',
-      marginTop: '22px',
-      marginRight: '-180px',
-      position: 'static',
-      float: 'right',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    pipe: {
-      display: 'inline',
-      margin: '5px'
-    },
-    headerPipe: {
-      display: 'inline',
-      float: 'left',
-      fontSize: '16px',
-      marginLeft: '7px',
-      marginTop: '22px',
-      position: 'absolute'
-    },
-    jobTitle: {
-      display: 'inline-block',
-      cursor: 'text',
-      margin: '10px',
-      fontWeight: '700',
-      fontSize: '16px',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    companyName: {
-      display: 'inline-block',
-      margin: '10px',
-      cursor: 'text',
-      fontWeight: '500',
-      fontSize: '16px',
-      color: themeGlobals.Corporate.accentColor,
-      fontFamily: themeGlobals.Corporate.headers
-    },
-    jobLocation: {
-      display: 'inline-block',
-      margin: '10px',
-      cursor: 'text',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    jobYear: {
-      display: 'inline-block',
-      cursor: 'text',
-      float: 'right',
-      marginRight: '3%',
-      marginTop: '12px',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    schoolName: {
-      display: 'inline-block',
-      fontFamily: themeGlobals.Corporate.headers
-    },
-    schoolDegree: {
-      display: 'inline-block',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    schoolYear: {
-      display: 'inline-block',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    schoolLocation: {
-      display: 'inline-block',
-      fontFamily: themeGlobals.Corporate.body
-    },
-    personalStatement: {
-      fontFamily: themeGlobals.Corporate.body
-    },
-    headingTitle: {
-      fontWeight: 'bold',
-      fontSize: '18px',
-      fontFamily: themeGlobals.Corporate.body,
-      marginLeft: '3%',
-      paddingTop: '20px'
-    },
-    bulletText: {
-      fontFamily: themeGlobals.Corporate.body,
-      fontSize: '16px',
-      marginTop: '10px'
-    }
-  },
-
-  'Meh Party': {
-    headerDiv: {
-      paddingBottom: '7%'
-    },
-    headerLeft: {
-      position: 'relative',
-      left: 0
-    },
-    headerRight: {
-      position: 'relative',
-      right: 0
-    },
-    blockDiv: {
-      marginLeft: '4%'
-    },
-    location: {
-      fontSize: '16px',
-      display: 'block',
-      float: 'left',
-      marginLeft: '35px',
-      position: 'absolute',
-      fontFamily: themeGlobals.Party.body
-    },
-    name: {
-      display: 'inline-block',
-      fontWeight: '700',
-      fontSize: '32px',
-      marginLeft: '40%',
-      marginBottom: '1%',
-      marginTop: '3%',
-      textAlign: 'center',
-      position: 'relative',
-      fontFamily: themeGlobals.Party.name
-    },
-    phone: {
-      cursor: 'text',
-      display: 'block',
-      float: 'left',
-      fontSize: '16px',
-      marginLeft: '35px',
-      marginTop: '22px',
-      position: 'relative',
-      fontFamily: themeGlobals.Party.body
-    },
-    email: {
-      color: 'blue',
-      display: 'block',
-      float: 'left',
-      fontSize: '16px',
-      marginLeft: '2%',
-      marginTop: '22px',
-      position: 'relative',
-      fontFamily: themeGlobals.Party.body
-    },
-    webLinkedin: {
-      color: 'blue',
-      display: 'inline-block',
-      fontSize: '14px',
-      marginRight: '3%',
-      float: 'right',
-      fontFamily: themeGlobals.Party.body
-    },
-    webOther: {
-      color: 'blue',
-      display: 'inline-block',
-      fontSize: '14px',
-      marginTop: '22px',
-      marginRight: '-180px',
-      position: 'static',
-      float: 'right',
-      fontFamily: themeGlobals.Party.body
-    },
-    pipe: {
-      display: 'inline',
-      margin: '5px'
-    },
-    headerPipe: {
-      display: 'inline',
-      float: 'left',
-      fontSize: '16px',
-      marginLeft: '7px',
-      marginTop: '22px',
-      position: 'absolute'
-    },
-    jobTitle: {
-      display: 'inline-block',
-      cursor: 'text',
-      margin: '10px',
-      fontWeight: '700',
-      fontSize: '16px',
-      fontFamily: themeGlobals.Party.name
-    },
-    companyName: {
-      display: 'inline-block',
-      margin: '10px',
-      cursor: 'text',
-      fontWeight: '500',
-      fontSize: '16px',
-      color: themeGlobals.Party.accentColor,
-      fontFamily: themeGlobals.Party.name
-    },
-    jobLocation: {
-      display: 'inline-block',
-      margin: '10px',
-      cursor: 'text',
-      fontFamily: themeGlobals.Party.body
-    },
-    jobYear: {
-      display: 'inline-block',
-      cursor: 'text',
-      float: 'right',
-      marginRight: '3%',
-      marginTop: '12px',
-      fontFamily: themeGlobals.Party.body
-    },
-    schoolName: {
-      display: 'inline-block',
-      fontFamily: themeGlobals.Party.name
-    },
-    schoolDegree: {
-      display: 'inline-block',
-      fontFamily: themeGlobals.Party.body
-    },
-    schoolYear: {
-      display: 'inline-block',
-      fontFamily: themeGlobals.Party.body
-    },
-    schoolLocation: {
-      display: 'inline-block',
-      fontFamily: themeGlobals.Party.body
-    },
-    personalStatement: {
-      fontFamily: themeGlobals.Party.body
-    },
-    headingTitle: {
-      fontWeight: 'bold',
-      fontSize: '18px',
-      fontFamily: themeGlobals.Party.name,
-      marginLeft: '3%',
-      paddingTop: '20px'
-    },
-    bulletText: {
-      fontFamily: themeGlobals.Party.body,
-      fontSize: '16px',
-      marginTop: '10px'
-    }
-  }
 
 };
