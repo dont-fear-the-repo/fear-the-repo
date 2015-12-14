@@ -1,7 +1,8 @@
 export const MasterTheme = {
   orange: '#FF9F10',
   lightGray: '#DCDDD8',
-  midGray: '#808080',
+  // midGray: '#808080',
+  midGray: '#909499',
   darkGray: '#414141',
   white: '#FFFFFF',
   muli: 'Muli, sans-serif',

@@ -6,7 +6,7 @@ from 'styles/MasterTheme';
 const font = MasterTheme.muli;
 const merriweather = MasterTheme.merriweather;
 const resumePaperWidth = 612; // 8.5" @ 72dpi
-const viewMultiplier = 1.5; // this adjusts resumePaper dimensions and container height
+const viewMultiplier = 1.2; // this adjusts resumePaper dimensions and container height
 
 export const styles = {
   container: {
@@ -42,7 +42,7 @@ export const styles = {
     backgroundColor: 'white',
     position: 'absolute',
     left: '0px',
-    top: '95px',
+    top: '90px',
     boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
   },
   paperLeftNavButton: {
@@ -90,7 +90,7 @@ export const styles = {
   resumePaper: {
     height: (resumePaperWidth * (11 / 8.5) * viewMultiplier).toString() + 'px',
     width: (resumePaperWidth * viewMultiplier).toString() + 'px',
-    marginTop: '65px',
+    marginTop: '60px',
     marginLeft: 'auto',
     marginRight: 'auto',
     position: 'relative'
