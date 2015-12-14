@@ -184,8 +184,8 @@ export function getResumeFromServerDBAsync (payload) { // rename to "serverupdat
       .then(serverResponseJavascriptObject => {
         dispatch(updateResumeWithServerResponse(serverResponseJavascriptObject))
       })
-      .then((action) => {
-        dispatch(serverIsSavingUpdate('resumeHeader.name of recieved Resume:' + JSON.stringify(action.payload.resumeHeader.name)))  // FIXME: this line gives an error, cannot read property payload of undefined
+      .then(() => {
+        dispatch(serverIsSavingUpdate('resumeHeader.name of recieved Resume:' + JSON.stringify(payload.resumeHeader.name)))  // FIXME: this line gives an error, cannot read property payload of undefined
       }); // TODO: this needs to eventually be a server response that has {text: 'successful save!'} added to the resume body object.
           // TODO: this needs error handling
   };
@@ -215,16 +215,21 @@ export function sendResumeToServerAsync(sentResumeObj) {
 
 
 export function getThesaurusResultsAsync (thesaurusQuery) {
+
   return function(dispatch) {
-    const queryURL = 'http://words.bighugelabs.com/api/2/ecb6566c60b2ee6f4c85013ebfb5e70b/' + thesaurusQuery +'/json'
-    return fetch(queryURL, {
-        method: 'get'
+    return fetch('http://' + window.location.hostname + (window.location.port? ":": "") + window.location.port + '/api/thesaurusQuery', {
+        method: 'post',
+        headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({word: thesaurusQuery})
       })
       .then(response => response.json())
       .then(thesaurusReplyJSON => {
         dispatch(updateThesaurusResults(thesaurusReplyJSON))
       })
       .catch(err => {
+        console.log('Error')
         dispatch(updateThesaurusResults({error: 'No synonyms found. Try another word?'}))
       });
   };

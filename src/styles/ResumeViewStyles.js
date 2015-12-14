@@ -1,4 +1,7 @@
-import { MasterTheme } from 'styles/MasterTheme';
+import {
+  MasterTheme
+}
+from 'styles/MasterTheme';
 
 const font = MasterTheme.muli;
 const merriweather = MasterTheme.merriweather;
@@ -20,10 +23,8 @@ export const styles = {
     fontFamily: font
   },
   themeSelectDropdown: {
-    backgroundColor: MasterTheme.white,
-    fontFamily: font,
-    paddingTop: '0',
-    display: 'block'
+    width: '130px',
+    // marginTop: '30px'
   },
   menuItemStyle: {
     color: MasterTheme.orange,
@@ -37,19 +38,30 @@ export const styles = {
     textTransform: 'none'
   },
   leftNav: {
-    paddingTop: '58px',
-    width: '150px'
+    width:'150px',
+    backgroundColor: 'white',
+    position: 'absolute',
+    left: '0px',
+    top: '75px',
+    boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)'
   },
   paperLeftNavButton: {
-    marginTop: '30px'
+    marginTop: '15px',
+    fontWeight: MasterTheme.bold
   },
   paperLeftNavThemeButton: {
-
+    margin: '3px'
+  },
+  paperLeftDiv: {
+    // marginTop: '5px',
+    // marginBottom: '5px'
   },
   paperLeftNavLabel: {
     color: MasterTheme.orange,
     font: font,
-    marginBottom: '10px'
+    fontWeight: MasterTheme.light,
+    marginBottom: '3px',
+    marginTop: '25px'
   },
   exportButton: {
     margin: '5px',
@@ -64,7 +76,8 @@ export const styles = {
     backgroundColor: MasterTheme.lightGray
   },
   marginTop: {
-    height: '20px'
+    height: '20px',
+    textAlign: 'center'
   },
   resumeContainer: {
     marginLeft: '20px',
@@ -77,27 +90,30 @@ export const styles = {
   resumePaper: {
     height: (resumePaperWidth * (11 / 8.5) * viewMultiplier).toString() + 'px',
     width: (resumePaperWidth * viewMultiplier).toString() + 'px',
+    marginTop: '45px',
     marginLeft: 'auto',
-    marginRight: 'auto'
-  },
-  plain: {
-    marginLeft: '10px'
+    marginRight: 'auto',
+    position: 'relative'
   },
   underlineStyle: {
-    borderColor: MasterTheme.white,
-    borderWidth: '0px'
+    borderColor: MasterTheme.orange,
+    borderWidth: '1px',
+    color: MasterTheme.orange
   },
   underlineFocusStyle: {
     borderColor: MasterTheme.orange,
-    borderWidth: '1px'
+    borderWidth: '1px',
+    color: MasterTheme.orange
   },
   hintStyle: {
     color: MasterTheme.lightGray,
+    // border: 'solid',
+    // borderColor: MasterTheme.orange,
+    // borderRadius: '6px',
+    padding: '10px',
     paddingLeft: '20px',
-    border: 'solid',
-    borderColor: MasterTheme.orange,
-    borderRadius: '6px',
-    padding: '10px'
+    paddingBottom: '2px',
+    fontSize: '14px'
   },
   floatingLabelStyle: {
     color: MasterTheme.orange,
@@ -109,50 +125,86 @@ export const styles = {
     fontFamily: font,
     fontWeight: MasterTheme.bold,
     textAlign: 'center',
-    marginTop: '10px'
+    paddingTop: '40px'
   },
-  bulletContainer: {
-    width: '95%'
-  },
-  bullet: {
-    fontSize: '16px',
-    marginTop: '10px'
+  bulletContainer: {      // This controls the visual paper effect of DnD bullets.
+    position: 'relative'  // Leave this here; it's controls behavior, not visible print style.
   },
   editorField: {
     cursor: 'text',
-    // maxWidth: '90%',
-    // minWidth: '80%',
     display: 'inline-block'
   },
   handle: {
     cursor: 'move',
-    float: 'right',
+    position: 'absolute',
+    right: '10px',
+    height: '20px',
+    top: '-2px',
+    opacity: 0.4
+  },
+  bulletMinusIconImage: {
+    opacity: 0.4,
+    width: '18px',
+    position: 'absolute',
+    right: '30px',
+    display: 'inline-block'
+  },
+  bulletPlusIconImage: {
+    opacity: 0.4,
+    width: '18px',
+    position: 'absolute',
+    right: '50px',
+    top: '20px',
+    display: 'inline-block'
+  },
+  AddNewBlockIconImage: {
+    opacity: 0.2,
+    width: '30px',
+    position: 'relative',
+    left: '45px',
+    top: '10px',
+    display: 'inline-block'
+  },
+  blockMinusIconImage: {
+    opacity: 0.2,
+    width: '30px',
+    position: 'absolute',
+    left: '-30px',
+    top: '10px',
+    display: 'inline-block'
+  },
+  thesaurus: {
+    textAlign: 'center'
+  },
+  suggestions: {
+    paddingBottom: '3px',
+    color: MasterTheme.darkGray,
+    fontWeight: MasterTheme.bold
+  },
+  thesaurusSearchBox: {
+    width: '130px',
+    marginTop: '3px',
+    marginLeft: '2px'
   },
   thesaurusResults: {
     color: MasterTheme.black,
-    paddingTop: '5px'
+    padding: '5px'
+  },
+  thesaurusSearchButton: {
+    margin: '5px',
+    fontWeight: MasterTheme.bold
   },
   wordCount: {
-    color: MasterTheme.lightGray
+    color: MasterTheme.lightGray,
+    paddingBottom: '6px'
   },
   wordList: {
     color: MasterTheme.darkGray,
-    textAlign: 'left'
+    textAlign: 'left',
+    padding: '4px'
   },
   wordType: {
     color: MasterTheme.orange,
     fontStyle: 'italic'
   }
-  // ,
-  // leftNav: {
-  //   marginTop: '65px',
-  //   paddingTop: '200px'
-    // position: 'fixed',
-    // zIndex: 10,
-    // top: 0,
-    // transform: 'translate3d(' + x + 'px, 0, 0)',
-    // transition: !this.state.swiping && _stylesTransitions2['default'].easeOut(),
-    // backgroundColor: this.getTheme().color,
-    // overflow: 'hidden'
-  // }
 };
