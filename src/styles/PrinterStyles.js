@@ -6,7 +6,7 @@ export const printStyles =
 
 	@media print {
 	  @page { margin: 0; }
-	  body { margin: 0 20px; }
+	  body { margin: 0 0; }
 	  img {visibility: hidden; }
 	}
 
