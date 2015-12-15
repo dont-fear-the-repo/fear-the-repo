@@ -6,12 +6,12 @@ from 'styles/MasterTheme';
 const font = MasterTheme.muli;
 const merriweather = MasterTheme.merriweather;
 const resumePaperWidth = 612; // 8.5" @ 72dpi
-const viewMultiplier = 1.5; // this adjusts resumePaper dimensions and container height
+const viewMultiplier = 1.2; // this adjusts resumePaper dimensions and container height
 
 export const styles = {
   container: {
     backgroundColor: MasterTheme.midGray,
-    height: (resumePaperWidth * viewMultiplier * 1.45).toString() + 'px',
+    height: (resumePaperWidth * viewMultiplier * 1.5).toString() + 'px',
     width: '100%',
     marginBottom: '-145px',
     fontFamily: font
