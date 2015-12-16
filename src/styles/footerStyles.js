@@ -13,7 +13,7 @@ export const styles = {
     width: '100%',
     height: '100px',
     marginTop: '100px',
-    transform: 'translateY(43px)'
+    transform: 'translateY(57px)'
   },
   githubButton: {
     margin: margins,

@@ -64,9 +64,8 @@ class HomeView extends React.Component {
                 <div style={styles.wysiwyg}>what you see is what you get</div>
 
                 <div style={styles.video}>
-                  <p style={{ paddingTop: '120px' }}>[insert video here]<br/>500x281vimeo<br/>default embed dimensions</p>
+                  <iframe src="https://player.vimeo.com/video/149104789?color=ff9f10&title=0&byline=0&portrait=0" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 </div>
-
               </Element>
 
               <div style={styles.middleCopy}>
