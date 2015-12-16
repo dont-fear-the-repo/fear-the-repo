@@ -6,8 +6,9 @@ const merriweather = MasterTheme.merriweather;
 export const styles = {
   mainBody: {
     textAlign: 'center',
-    backgroundColor: MasterTheme.white,
-    fontFamily: muli
+    backgroundColor: MasterTheme.lightGray,
+    fontFamily: muli,
+    marginBottom: '-30px'
   },
   heroImg: {
     width: '100%',
@@ -116,7 +117,6 @@ export const styles = {
     zIndex: '11'
   },
   grayDivBottom: {
-    backgroundColor: MasterTheme.midGray,
     width: '100%',
     paddingTop: '30px',
     paddingBottom: '10px',
@@ -147,15 +147,11 @@ export const styles = {
     lineHeight: '30px'
   },
   video: {
-    borderRadius: '5px',
-    borderColor: 'white',
-    borderStyle: 'dashed',
-    borderWidth: '2px',
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '500px', // vimeo default embed dimensions
     height: '281px',
-    fontWeight: MasterTheme.light
+    border: '1px solid white'
   },
   bottomCopy: {
     marginBottom: '30px',
