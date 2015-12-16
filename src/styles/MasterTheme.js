@@ -11,6 +11,8 @@ export const MasterTheme = {
   bangers: 'Bangers, sans-serif',
   questrial: 'Questrial, sans-serif',
   droidserif: 'Droid Serif, serif',
+  railway: 'Raleway, sans-serif',
+  lato: 'Lato, sans-serif',
   bold: '700',
   normal: '400',
   light: '300'

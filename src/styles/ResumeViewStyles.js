@@ -11,7 +11,7 @@ const viewMultiplier = 1.2; // this adjusts resumePaper dimensions and container
 export const styles = {
   container: {
     backgroundColor: MasterTheme.midGray,
-    height: (resumePaperWidth * viewMultiplier * 1.45).toString() + 'px',
+    height: (resumePaperWidth * viewMultiplier * 1.5).toString() + 'px',
     width: '100%',
     marginBottom: '-145px',
     fontFamily: font

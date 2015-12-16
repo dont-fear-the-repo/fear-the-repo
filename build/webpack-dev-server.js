@@ -9,8 +9,13 @@ const devServer = new WebpackDevServer(webpack(webpackConfig), {
   contentBase: paths.project(config.get('dir_src')),
   hot: true,
   quiet: false,
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 1000
+  },
   noInfo: false,
   lazy: false,
+
   stats: {
     colors: true
   },
