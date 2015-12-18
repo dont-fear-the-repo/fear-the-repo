@@ -46,6 +46,7 @@ Demo
 ----
 
 Check out [Rezable.io](http://www.rezable.io/). Look for the kitten!
+Also check out [our quick demo video](http://bit.ly/rezable).
 
 
 Getting Started
