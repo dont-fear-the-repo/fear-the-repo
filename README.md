@@ -1,12 +1,5 @@
 # Rezable.io #
 
-Quick Links:
-* [MKS Git workflow (Contributing.md)](https://github.com/dont-fear-the-repo/fear-the-repo/CONTRIBUTING.md)
-* [MKS Waffle.io board for issues](https://waffle.io/dont-fear-the-repo/fear-the-repo)
-  * Format: `[feat]: <Subject> + <description>`
-    * for example `[fix]: Edit package.json for heroku deploy`
-  * Add any applicable labels
-
 ---
 
 Table of Contents
@@ -19,8 +12,7 @@ Table of Contents
 6. [Structure](#structure)
 7. [Webpack](#webpack)
 8. [Styles](#styles)
-9. [Testing](#testing)
-10. [Troubleshooting](#troubleshooting)
+9. [Troubleshooting](#troubleshooting)
 
 Requirements
 ------------
@@ -107,7 +99,6 @@ Basic project configuration can be found in `~/config/index.js`.
 Structure
 ---------
 
-The folder structure provided is only meant to serve as a guide, it is by no means prescriptive. It is something that has worked very well for me and my team, but use only what makes sense to you.
 
 ```
 .
@@ -152,13 +143,8 @@ So why not just disable HMR? Well, as a further explanation, enabling `react-tra
 Styles
 ------
 
-We used CSS-less inline styling for our JSX files, which lives in `src/styling`.
+We used inline styling for our JSX files, which lives in `src/styling`. Our color palette and typeface library live in `src/styling/MasterTheme.js`.
 
-
-Testing
--------
-
-Unit tests can be found in `~/tests`. Karma picks up on these files automatically, and Mocha and Chai are available within tests without the need to import them. Coverage reports will be compiled to `~/coverage` by default.
 
 
 Troubleshooting
@@ -175,4 +161,4 @@ If you would like to submit a pull request, please make an effort to follow the 
 
 Thanks for checking this out.
 
-– Don't Fear the Repo (Andrew, Melody, Michael, Ryan, Sujay)
+– Don't Fear the Repo / Carly Rae JSON (Andrew, Melody, Michael, Ryan, Sujay)
