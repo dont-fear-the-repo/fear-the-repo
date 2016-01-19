@@ -18,8 +18,10 @@ const db = require('../database/dbConfig.js');
 const _ = require('underscore');
 const express = require('express');
 const app = express();
+const compression = require('compression');
 
-
+//Compress files
+app.use(compression());
 // Enable webpack middleware if the application is being
 // run in development mode.
 app.use(parser.json());

@@ -8,10 +8,10 @@ Below instructions outline Git Workflow for this project. Please ask questions a
 1. on github.com
 
 ### Download fork
-1. git clone https://github.com/<USER_NAME>/dont-fear-the-repo.git
+1. git clone https://github.com/<USER_NAME>/fear-the-repo.git
 
 ### Add upstream remote
-1. git remote add upstream https://github.com/dont-fear-the-repo/dont-fear-the-repo.git
+1. git remote add upstream https://github.com/dont-fear-the-repo/fear-the-repo.git
 
 ### Make a new branch - your feature branch
 1. git checkout dev

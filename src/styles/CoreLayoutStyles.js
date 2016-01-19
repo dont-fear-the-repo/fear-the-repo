@@ -11,7 +11,6 @@ export const styles = {
     color: MasterTheme.orange,
     display: 'inline-block',
     position: 'relative',
-    // marginRight: '-10px',
     marginTop: '4px',
     padding: '6px 17px 7px 17px',
     fontSize: '16px',
@@ -23,10 +22,31 @@ export const styles = {
     borderColor: 'transparent',  // Drawing a new border on hover introduces a bug where the entire div shifts down slightly, which is why we draw it here first
     borderStyle: 'solid',
     borderWidth: '1px',
+    transition: '0.3s ease-out',
     ':hover': {
       borderColor: MasterTheme.orange,
       borderStyle: 'solid',
-      borderWidth: '1px'
+      borderWidth: '1px',
+      transition: '0.3s ease-out'
+    }
+  },
+  aboutUsButton: {
+    borderRadius: '5px',
+    color: MasterTheme.white,
+    display: 'inline-block',
+    position: 'relative',
+    marginRight: '-10px',
+    marginTop: '4px',
+    padding: '6px 17px 7px 17px',
+    fontSize: '14px',
+    height: '35px',
+    width: '120px',
+    textAlign: 'center',
+    fontFamily: font,
+    transition: '0.3s ease-out',
+    ':hover': {
+      color: MasterTheme.orange,
+      transition: '0.3s ease-out'
     }
   },
   loginButton: {
@@ -35,7 +55,6 @@ export const styles = {
     cursor: 'pointer',
     display: 'inline-block',
     position: 'relative',
-    // marginRight: '-10px',
     marginTop: '4px',
     padding: '8px 17px 7px 17px',
     fontSize: '14px',
@@ -43,14 +62,10 @@ export const styles = {
     width: '80px',
     textAlign: 'center',
     fontFamily: font,
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    borderWidth: '1px',
+    transition: '0.3s ease-out',
     ':hover': {
-      // borderColor: MasterTheme.white,
-      // borderStyle: 'solid',
-      // borderWidth: '1px'
-      color: MasterTheme.orange
+      color: MasterTheme.orange,
+      transition: '0.3s ease-out'
     }
   },
   signupButton: {
@@ -67,20 +82,17 @@ export const styles = {
     width: '80px',
     textAlign: 'center',
     fontFamily: font,
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    borderWidth: '1px',
+    transition: '0.3s ease-out',
     ':hover': {
-      // borderColor: MasterTheme.white,
-      // borderStyle: 'solid',
-      // borderWidth: '1px'
-      color: MasterTheme.orange
+      color: MasterTheme.orange,
+      transition: '0.3s ease-out'
     }
   },
   homeViewNav: {
     backgroundColor: 'transparent',
     position: 'absolute',
-    zIndex: 100
+    zIndex: 100,
+    paddingTop: '10px'
   },
   buttonColor: MasterTheme.white,
   buttonHoverColor: MasterTheme.orange,
@@ -102,7 +114,6 @@ export const styles = {
     float: 'left',
     marginRight: '30px',
     marginTop: buttonTopMargin,
-    // marginBottom: buttonTopMargin,
     fontSize: fontsize,
     fontFamily: font
   },

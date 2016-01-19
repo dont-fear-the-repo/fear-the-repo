@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Radium from 'radium';
 
 import { styles } from 'styles/footerStyles';
 
 
+@Radium
 export class Footer extends React.Component {
 
   render() {
@@ -14,14 +16,9 @@ export class Footer extends React.Component {
         <div className='footer'
              style={styles.wholeComponent}>
 
-          <Link to='/about'>
-            <div style={styles.aboutButton}>
-              About Us
-            </div>
-          </Link>
-
+          {Radium.getState(this.state, 'github', 'hover')}
           <a href='https://github.com/dont-fear-the-repo/fear-the-repo'>
-            <div style={styles.githubButton}>
+            <div style={styles.githubButton} key='github'>
               Check us out on Github
               <img src={githubIcon}
                    style={styles.githubIcon} />
