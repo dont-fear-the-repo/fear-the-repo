@@ -1,12 +1,10 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
 import Radium from 'radium';
 
-/******************************/
-/*   Begin DnD requirements   */
-/******************************/
+
+/*** Begin DnD requirements ***/
 
 const Types = {
   BLOCK: 'block',
@@ -25,7 +23,6 @@ const blockSource = {
   endDrag(props, monitor) {
     const { blockId: droppedId, originalIndex } = monitor.getItem();
     const didDrop = monitor.didDrop();
-
     if (!didDrop) {
       props.moveBlock(droppedId, originalIndex);
     }
@@ -67,9 +64,8 @@ const blockTarget = {
   isDragging: monitor.isDragging()
 }))
 
-/****************************/
-/*   End DnD requirements   */
-/****************************/
+/*** End DnD requirements ***/
+
 
 @Radium
 export default class BlockDumbComp extends React.Component {
@@ -104,16 +100,16 @@ export default class BlockDumbComp extends React.Component {
 
   render() {
     const { children,
-            isDragging,
             connectDragSource,
             connectDropTarget,
             currentTheme,
+            isDragging,
             resumeThemes,
             styles } = this.props;
 
     const bulletCollection = (
       <ul>
-        {this.props.children.map(bullet =>
+        {children.map(bullet =>
           <li key={bullet.key} style={resumeThemes[currentTheme].bulletText}>{bullet}</li>
         )}
       </ul>
@@ -149,10 +145,6 @@ export default class BlockDumbComp extends React.Component {
                 ) : null}
 
 
-
-
-
-
             <Editor style={resumeThemes[currentTheme].jobTitle}
                     text={this.props.jobTitle || 'Title/Role/Degree'}
                     options={{toolbar: false}}
@@ -182,17 +174,17 @@ export default class BlockDumbComp extends React.Component {
               {bulletCollection}
             </div>
 
-
-
-
+            {Radium.getState(this.state, 'block', ':hover') ? (
+              <img src={require('styles/assets/ic_add_circle_outline_black_24px.svg')}
+                   onClick={e => this.addBullet(e, this.props.blockId)} />
+                ) : null}
 
 
           {/* End Block Div*/}
           </div>
 
-
       {/* End Block Dragging shadow div */}
       </div>
     ));
   }
-};
+}

@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import DevTools from 'containers/DevToolsWindow';
 
-export function createConstants (...constants) {
+
+export function createConstants(...constants) {
   return constants.reduce((acc, constant) => {
     acc[constant] = constant;
     return acc;
   }, {});
 }
 
-export function createReducer (initialState, fnMap) {
+export function createReducer(initialState, fnMap) {
   return (state = initialState, { type, payload }) => {
     const handler = fnMap[type];
 
@@ -18,7 +19,7 @@ export function createReducer (initialState, fnMap) {
   };
 }
 
-export function createDevToolsWindow (store) {
+export function createDevToolsWindow(store) {
   const win = window.open(
     null,
     'redux-devtools', // give it a name so it reuses the same window

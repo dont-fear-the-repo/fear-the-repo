@@ -1,6 +1,7 @@
 import { createReducer } from '../utils';
 import Immutable from 'immutable';
 import _ from 'underscore';
+
 import { dummyResume,
          blankBulletBlock,
          blankNoBulletBlock } from 'utils/dummyResume';
@@ -26,7 +27,9 @@ import { ADD_BLOCK,
          WORD_SEARCH } from 'constants/resumeConstants';
 
 
-// resumeState.resumeTitle is what the front end sees; req.body.resumeTitle is what the server sees.
+// resumeState.resumeTitle is what the front end sees
+// req.body.resumeTitle is what the server sees
+
 const initialState = dummyResume;
 
 export default createReducer(initialState, {
@@ -39,7 +42,7 @@ export default createReducer(initialState, {
       newBlock = blankBulletBlock();
     } else if (payload === 'no bullets') {
       newBlock = blankNoBulletBlock();
-    }
+    }  // add additional block types here
 
     newState.blockChildren.push(newBlock);
     return newState;
@@ -59,7 +62,7 @@ export default createReducer(initialState, {
   },
 
   [CLIENT_IS_DIRTY_UPDATE]: (state, payload) => {
-    const newState = Object.assign({}, state);
+    const newState = { ...state };
     newState.clientFormIsDirty = payload;
     return newState;
   },
@@ -84,80 +87,86 @@ export default createReducer(initialState, {
 
   [MOVE_BLOCK]: (state, payload) => {
     const immutableBlockChildren = Immutable.List(state.blockChildren);
-
-    return Object.assign({}, state, {
-      blockChildren: immutableBlockChildren.splice(payload.blockIndex, 1).splice(payload.atIndex, 0, payload.block).toJS()
-    });
+    const newBlockChildren = immutableBlockChildren.splice(payload.blockIndex, 1)
+                                                   .splice(payload.atIndex, 0, payload.block)
+                                                   .toJS();
+    return {
+      ...state,
+      blockChildren: newBlockChildren
+    };
   },
 
   [MOVE_BULLET]: (state, payload) => {
+    const newState = { ...state };
     const parentBlock = payload.blockChildren[payload.parentBlockIndex];
     const immutableBulletChildren = Immutable.List(parentBlock.bulletChildren);
 
-    const newState = Object.assign({}, state);
-    newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1).splice(payload.atIndex, 0, payload.bullet).toJS();
+    newState.blockChildren[payload.parentBlockIndex].bulletChildren = immutableBulletChildren.splice(payload.bulletIndex, 1)
+                                                                                             .splice(payload.atIndex, 0, payload.bullet)
+                                                                                             .toJS();
     return newState;
   },
 
-  [POPULATE_DATA_FROM_LINKEDIN]: (state,payload) => {
+  [POPULATE_DATA_FROM_LINKEDIN]: (state, payload) => {
+    let _companyName, _endYear, _jobTitle, _startYear, _text;
 
-    if(payload.positions._total){
-      var _companyName  = payload.positions.values[0].company.name || '[company name]';
-      var _jobTitle = payload.positions.values[0].company.title || '[job title]';
-      var _text = payload.positions.values[0].summary ||  '[contribution to project]';
-      var _startYear = payload.positions.values[0].startDate.year ||  '[enter start year]';
-      if(payload.positions.values[0].isCurrent) {
-        var _endYear = new Date().getFullYear()
+    if (payload.positions._total) {
+      _companyName = payload.positions.values[0].company.name || '[company name]';
+      _jobTitle = payload.positions.values[0].company.title || '[job title]';
+      _text = payload.positions.values[0].summary ||  '[contribution to project]';
+      _startYear = payload.positions.values[0].startDate.year ||  '[enter start year]';
+      if (payload.positions.values[0].isCurrent) {
+        _endYear = new Date().getFullYear();
       } else {
-        var _endYear = payload.positions.values[0].endDate.year || '[enter end year]';
+        _endYear = payload.positions.values[0].endDate.year || '[enter end year]';
       }
-    }else {
-      var _companyName =  '[company name]';
-      var _jobTitle = '[job title]';
-      var _text = '[contribution to project]';
-      var _startYear = '[enter start year]';
-      var _endYear = '[enter end year]';
+    } else {
+      _companyName =  '[company name]';
+      _jobTitle = '[job title]';
+      _text = '[contribution to project]';
+      _startYear = '[enter start year]';
+      _endYear = '[enter end year]';
     }
 
-
-    const newState = Object.assign({}, state);
+    const newState = { ...state };
     newState.resumeHeader = {
-        name: (payload.firstName || 'Your') + ' ' + (payload.lastName || 'Full Name'),
-        webLinkedin: payload.publicProfileUrl || 'LinkedIn.com/in/YourLinkedIn',
-        displayEmail: payload.emailAddress || 'LinkedIn.com/in/YourLinkedIn',
-        city: payload.location.name || 'Your City'
+      name: (payload.firstName || 'Your') + ' ' + (payload.lastName || 'Full Name'),
+      webLinkedin: payload.publicProfileUrl || 'LinkedIn.com/in/YourLinkedIn',
+      displayEmail: payload.emailAddress || 'LinkedIn.com/in/YourLinkedIn',
+      city: payload.location.name || 'Your City'
     };
-    newState.blockChildren[2]= {
-        blockId: 3,
-        blockType: 'bullets',
+    newState.blockChildren[2] = {
+      blockId: 3,
+      blockType: 'bullets',
+      archived: false,
+      companyName: _companyName,
+      jobTitle: _jobTitle,
+      bulletChildren: [{
+        bulletId: 105,
         archived: false,
-        companyName: _companyName,
-        jobTitle: _jobTitle,
-        bulletChildren: [{
-            bulletId: 105,
-            archived: false,
-            parentBlockId: 3,
-            text: _text
-        }, {
-            bulletId: 106,
-            archived: false,
-            parentBlockId: 3,
-            text: '[contribution to project]'
-        }],
-
-        years: _endYear + '-' + _startYear,
-        location: '[enter location]'
+        parentBlockId: 3,
+        text: _text
+      }, {
+        bulletId: 106,
+        archived: false,
+        parentBlockId: 3,
+        text: '[contribution to project]'
+      }],
+      years: _endYear + '-' + _startYear,
+      location: '[enter location]'
     };
     return newState;
   },
 
-
-  [RESET_RESUME]: (state, payload) => {
-    return Object.assign({}, state, dummyResume);
+  [RESET_RESUME]: (state) => {
+    return {
+      ...state,
+      dummyResume
+    };
   },
 
   [SERVER_IS_SAVING_UPDATE]: (state, payload) => {
-    const newState = Object.assign({}, state);
+    const newState = { ...state };
     newState.serverIsSaving = payload;
     return newState;
   },
@@ -165,24 +174,26 @@ export default createReducer(initialState, {
   [UPDATE_LOCAL_STATE]: (state, payload) => {
     const newProperty = {};
     newProperty[payload.textFieldName] = payload.userInput;
-    return Object.assign({}, state,
-      newProperty);
+    return {
+      ...state,
+      newProperty
+    };
   },
 
   [UPDATE_LOCAL_STATE_BLOCKS]: (state, payload) => {
-    const newState = Object.assign({}, state);
+    const newState = { ...state };
     newState.blockChildren[payload.blockIndex][payload.textFieldName] = payload.userInput;
     return newState;
   },
 
   [UPDATE_LOCAL_STATE_BULLETS]: (state, payload) => {
-    const newState = Object.assign({}, state);
+    const newState = { ...state };
     newState.blockChildren[payload.parentBlockIndex].bulletChildren[payload.bulletIndex][payload.textFieldName] = payload.userInput;
     return newState;
   },
 
   [UPDATE_LOCAL_STATE_FOOTER]: (state, payload) => {
-    const newState = Object.assign({}, state);
+    const newState = { ...state };
     if (payload.textFieldName.slice(0, 6) === 'school') {
       newState.resumeFooter[payload.textFieldName.slice(0, 7)][payload.textFieldName.slice(8)] = payload.userInput;
     } else {
@@ -192,27 +203,34 @@ export default createReducer(initialState, {
   },
 
   [UPDATE_LOCAL_STATE_HEADER]: (state, payload) => {
-    const newState = Object.assign({}, state);
+    const newState = { ...state };
     newState.resumeHeader[payload.textFieldName] = payload.userInput;
     return newState;
   },
 
   [UPDATE_LOCAL_STATE_SAVEPRINT]: (state, payload) => {
-    const newState = Object.assign({}, state);
+    const newState = { ...state };
     newState[payload.textFieldName] = payload.userInput;
     return newState;
   },
 
+  [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
+    return {
+      ...state,
+      ...payload
+    };
+  },
+
   [UPDATE_THESAURUS_RESULTS]: (state, payload) => {
-    let thesaurusResults = {};
+    const thesaurusResults = {};
 
     if (payload.error !== undefined) {
       _.extend(thesaurusResults, payload);
     } else {
       _.each(payload, (type, key) => {
         if (type.syn !== undefined) {
-          if (type.syn.length > 20) {
-            type.syn = _.first(type.syn, 20);
+          if (type.syn.length > 15) {
+            type.syn = _.first(type.syn, 15);
           }
           thesaurusResults[key] = type.syn.join(', ');
         }
@@ -222,13 +240,6 @@ export default createReducer(initialState, {
     return {
       ...state,
       thesaurusResults
-    };
-  },
-
-  [UPDATE_RESUME_WITH_SERVER_RESPONSE]: (state, payload) => {
-    return {
-      ...state,
-      ...payload
     };
   },
 

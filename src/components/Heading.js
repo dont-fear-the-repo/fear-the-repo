@@ -1,12 +1,10 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import { Paper } from 'material-ui/lib';
 import Editor from 'react-medium-editor';
 import Radium from 'radium';
 
-/******************************/
-/*   Begin DnD requirements   */
-/******************************/
+
+/*** Begin DnD requirements ***/
 
 const Types = {
   BLOCK: 'block',
@@ -24,7 +22,6 @@ const headingSource = {
   endDrag(props, monitor) {
     const { blockId: droppedId, originalIndex } = monitor.getItem();
     const didDrop = monitor.didDrop();
-
     if (!didDrop) {
       props.moveBlock(droppedId, originalIndex);
     }
@@ -42,8 +39,6 @@ const headingTarget = {
   hover(props, monitor) {
     const { blockId: draggedId } = monitor.getItem();
     const { blockId: overId } = props;
-
-    console.log('draggedId -- ', draggedId, 'overId -- ', overId )
 
     if (monitor.getItemType() === 'heading' || monitor.getItemType() === 'block') {
       if (draggedId !== overId) {
@@ -63,9 +58,8 @@ const headingTarget = {
   isDragging: monitor.isDragging()
 }))
 
-/****************************/
-/*   End DnD requirements   */
-/****************************/
+/*** End DnD requirements ***/
+
 
 @Radium
 export default class Heading extends React.Component {
@@ -90,13 +84,11 @@ export default class Heading extends React.Component {
   }
 
   render() {
-    const { children,
-            isDragging,
-            connectDragSource,
+    const { connectDragSource,
             connectDropTarget,
             currentTheme,
-            resumeThemes,
-            styles } = this.props;
+            isDragging,
+            resumeThemes } = this.props;
 
     const blockDrag = {
       opacity: isDragging ? 0 : 1,
@@ -133,4 +125,4 @@ export default class Heading extends React.Component {
       </div>
     ));
   }
-};
+}

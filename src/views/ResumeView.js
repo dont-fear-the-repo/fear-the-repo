@@ -8,7 +8,6 @@ import BlockDumbComp from 'components/BlockDumbComp';
 import Bullet from 'components/Bullet';
 import Heading from 'components/Heading';
 import ResumeHeader from 'components/ResumeHeader';
-import ResumeFooter from 'components/ResumeFooter';
 import ResumeSavePrint from 'components/ResumeSavePrint';
 import { addBlock,
          addBullet,
@@ -40,7 +39,7 @@ import { disableSubmit,
 // Styling
 import { styles } from 'styles/ResumeViewStyles';
 import { resumeThemes } from 'styles/resumeThemes';
-import { Paper, LeftNav, IconButton, IconMenu, MoreVertIcon, MenuItem, FlatButton } from 'material-ui/lib';
+import { Paper } from 'material-ui/lib';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin(); // this is some voodoo to make SelectField render correctly,
                         // check the issues on their repo for more information
@@ -89,9 +88,8 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch)
 });
 
-/**********************************/
-/*    React DnD functions below   */
-/**********************************/
+
+/***  React DnD functions below ***/
 
 const Types = {
   BLOCK: 'block',
@@ -103,19 +101,23 @@ const Types = {
   connectDropTarget: connect.dropTarget()
 }))
 
-/*************************************/
-/*   end React DnD functions above   */
-/*************************************/
+/*** end React DnD functions above ***/
 
 
 class ResumeView extends React.Component {
 
   static propTypes = {
     actions: PropTypes.object,
+    city: PropTypes.string,
     connectDropTarget: PropTypes.func.isRequired,
     currentErrorMessage: PropTypes.string,
+    displayEmail: PropTypes.string,
     loggedIn: PropTypes.bool,
-    resumeState: PropTypes.object
+    name: PropTypes.string,
+    phone: PropTypes.string,
+    resumeState: PropTypes.object,
+    webLinkedin: PropTypes.string,
+    webOther: PropTypes.string
   }
 
   constructor(props) {
@@ -131,7 +133,7 @@ class ResumeView extends React.Component {
       name: false,
       email: false,
       city: false,
-      // state: false,  // Using just one location field that includes City, ST will be much easier to format in resumeHeader. We can repurpose 'city' for that
+      // state: false, // Using just one location field that includes City, ST will be much easier to format in resumeHeader. We can repurpose 'city' for that
       phone: false
     }
   }
@@ -140,18 +142,13 @@ class ResumeView extends React.Component {
     this.actions.clientIsDirtyUpdate(true);
     const userInput = event.target.textContent;
     // remember to pass in props from the component
-    //////////////////////////////////////
     // if a user updatesLocalState, flip clientIsDirty to true.
-    ////////////////////////////////////
-
     /*
     To update data on a block, we must access that blockChildren via its index.
-
-    We can grab the block's id in BlockDumbComp and pass it to handleUpdateLocalState, which is where you're reading this from.
-
+    We can grab the block's id in BlockDumbComp and pass it to this method, handleUpdateLocalState.
     We then call findBlock with the id to get the block's index.
-
-    updateLocalStateHeaderBlocks will send blockIndex (optional 4th argument) along with the rest of payload to resumeReducer.
+    updateLocalStateHeaderBlocks will send blockIndex (optional 4th argument)
+    along with the rest of payload to resumeReducer.
     */
     let blockIndex;
     if (whereFrom === 'blocks') {
@@ -165,23 +162,17 @@ class ResumeView extends React.Component {
     }
 
     if (whereFrom === 'header') {
-      console.log('updating from header...');
       this.actions.updateLocalStateHeader({textFieldName, userInput, whereFrom});
       // this.actions.serverIsSavingUpdate({text: 'win'});
     } else if (whereFrom === 'footer') {
-      console.log('updating from footer...');
       this.actions.updateLocalStateFooter({textFieldName, userInput, whereFrom});
     } else if (whereFrom === 'savePrint') {
-      console.log('updating from savePrint...');
       this.actions.updateLocalStateSavePrint({textFieldName, userInput: event.target.value, whereFrom});
     } else if (whereFrom === 'blocks') {
-      console.log('updating from blocks...');
       this.actions.updateLocalStateBlocks({textFieldName, userInput, whereFrom, blockIndex});
     } else if (whereFrom === 'bullets') {
-      console.log('updating from bullets...');
       this.actions.updateLocalStateBullets({textFieldName, userInput, whereFrom, bulletIndex, parentBlockIndex});
     } else {
-      console.log('updating from main...');
       this.props.actions.updateLocalState({textFieldName, userInput});
     }
   }
@@ -199,10 +190,10 @@ class ResumeView extends React.Component {
 
   findBlock(draggedId) {
     // For bullet drag:
-      // First time called is on beginDrag, so that bullet has knowledge of its parent block's index (position on the resume)
+      // First time called is on beginDrag, so that bullet has knowledge
+      // of its parent block's index (position on the resume)
     const blocks = this.props.resumeState.blockChildren;
     const block = blocks.filter(b => b.blockId === draggedId)[0];
-
 
     return {
       block,
@@ -243,9 +234,7 @@ class ResumeView extends React.Component {
     this.props.actions.addBlock(type);
   }
 
-
   render() {
-
     const { connectDropTarget,
             currentErrorMessage } = this.props;
     const { blockChildren } = this.props.resumeState;
@@ -357,7 +346,6 @@ class ResumeView extends React.Component {
                style={styles.AddNewBlockIconImage}
                onClick={e => this.addBlock(e, 'no bullets')} />
 
-
           <div className='marginBottom'
                style={styles.marginBottom} />
 
@@ -370,9 +358,3 @@ class ResumeView extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeView);
-
-// YE OLDE FOOTER:
-// <ResumeFooter {...this.props}
-//               styles={styles}
-//               resumeThemes={resumeThemes}
-//               handleUpdateLocalState={this.handleUpdateLocalState} />

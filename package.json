@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "lint": "eslint ./src/**/*.js",
+    "lint": "eslint ./src/**/*.js*",
     "lint:tests": "eslint ./tests/**/*.spec.js",
     "compile": "node -r dotenv/config --harmony bin/compile",
     "start": "npm run dev",
@@ -57,7 +57,7 @@
     "file-loader": "^0.8.4",
     "formsy-material-ui": "^0.3.2",
     "formsy-react": "^0.17.0",
-    "history": "1.13.0",
+    "history": "^1.9.0",
     "html-pdf": "^1.4.0",
     "html-webpack-plugin": "^1.6.1",
     "immutable": "^3.7.5",

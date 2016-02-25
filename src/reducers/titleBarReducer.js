@@ -1,12 +1,14 @@
 import { createReducer } from '../utils';
-import { LOGIN_USER, SIGNUP_USER, LOGOUT} from 'constants/titleBarConstants';
+import { LOGIN_USER,
+         SIGNUP_USER,
+         LOGOUT} from 'constants/titleBarConstants';
 
 
 const initialState = {
   activePopover: '',
   anchorEl: '',
-  loggedIn: false,
   email: '',
+  loggedIn: false,
   resumeId: '',
   userID: ''
 };
@@ -14,30 +16,32 @@ const initialState = {
 export default createReducer(initialState, {
 
   [LOGIN_USER]: (state, payload) => {
-    return Object.assign({}, state, {
+    return {
+      ...state,
       email: payload.email,
       loggedIn: true,
       resumeId: payload.resumeId,
       userID: payload.id
-    });
-  },
-
-  [SIGNUP_USER]: (state, payload) => {
-    // TODO: signup user!
-    return Object.assign({}, state, {
-      email: payload.email,
-      resumeId: payload.resumeId,
-      userID: payload.id
-    });
+    };
   },
 
   [LOGOUT]: (state) => {
-    return Object.assign({}, state, {
-      loggedIn: false,
+    return {
+      ...state,
       email: 'guest',
+      loggedIn: false,
       resumeId:'',
       userID: ''
-    });
+    };
+  },
+
+  [SIGNUP_USER]: (state, payload) => {
+    return {
+      ...state,
+      email: payload.email,
+      resumeId: payload.resumeId,
+      userID: payload.id
+    };
   }
 
 });

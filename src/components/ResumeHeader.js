@@ -1,15 +1,14 @@
 import React, { PropTypes } from 'react';
 import _ from 'underscore';
 import Editor from 'react-medium-editor';
-import { exactLength,
-         isDefined,
+import { isDefined,
          isValidEmail } from 'utils/validation';
+
 
 export default class ResumeHeader extends React.Component {
 
   static propTypes = {
     actions: PropTypes.object,
-    // currentErrorMessage: PropTypes.string,
     currentTheme: PropTypes.string,
     handleUpdateLocalState: PropTypes.func,
     resumeThemes: PropTypes.object,
@@ -49,18 +48,12 @@ export default class ResumeHeader extends React.Component {
       <div style={resumeThemes[currentTheme].headerDiv}>
 
 
-
-
-
-
-
         <div style={resumeThemes[currentTheme].headerNameDiv}>
           <Editor style={resumeThemes[currentTheme].name}
-                text={resumeHeader.name || 'Your Full Name'}
-                options={{toolbar: false}}
-                onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
+                  text={resumeHeader.name || 'Your Full Name'}
+                  options={{toolbar: false}}
+                  onBlur={e => this.validateField(e, [isDefined], 'name', 'header')} />
         </div>
-
 
 
         <div style={resumeThemes[currentTheme].headerContactDiv}>
@@ -83,9 +76,6 @@ export default class ResumeHeader extends React.Component {
         </div>
 
 
-
-
-
         <div style={resumeThemes[currentTheme].headerLinksDiv}>
           <Editor style={resumeThemes[currentTheme].webLinkedin}
                   text={resumeHeader.webLinkedin || 'LinkedIn.com/in/YourLinkedIn'}
@@ -99,9 +89,6 @@ export default class ResumeHeader extends React.Component {
         </div>
 
 
-
-
-
         <div style={resumeThemes[currentTheme].headerDividerLine}></div>
 
       {/* END OF HEADER DIV */}
@@ -109,8 +96,3 @@ export default class ResumeHeader extends React.Component {
     );
   }
 }
-
- // <Editor style={resumeThemes[currentTheme].profession}
-//         text={resumeHeader.profession || 'Your Profession or Job Title'}
-//         options={{toolbar: false}}
-//         onBlur={e => this.props.handleUpdateLocalState(e, 'profession', 'header')} />

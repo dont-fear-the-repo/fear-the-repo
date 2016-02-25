@@ -16,7 +16,6 @@ const initialState = {
 export default createReducer(initialState, {
 
   [DISABLE_SUBMIT]: (state, payload) => {
-    console.log('disabling');
     const newState = { ...state };
     newState['canSubmit' + payload] = false;
     return newState;
@@ -30,7 +29,6 @@ export default createReducer(initialState, {
   },
 
   [ENABLE_SUBMIT]: (state, payload) => {
-    console.log('enabling');
     const newState = { ...state };
     newState['canSubmit' + payload] = true;
     return newState;
